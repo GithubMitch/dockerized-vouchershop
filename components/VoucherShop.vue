@@ -5,11 +5,11 @@
     <div id="config-window">
       <ul>
         <li>category:</li>
-        <li ref="allbrands">
+        <li>
           brand:
           <Suspense>
             <template #default>
-              <span>
+              <span ref="REF">
                 {{ brands }}
               </span>
             </template>
@@ -35,15 +35,15 @@
         <li>status:</li>
       </ul>
     </div>
-    <!-- <button  @click="getProducts" >scan products</button>
-    <button  @click="getBrands" >scan brands</button> -->
+    <button  @click="getProducts" >scan products</button>
+    <button  @click="getBrands" >scan brands</button>
  </div>
 </template> 
 
 
 <script lang="ts">
 import { state, actions } from '../store/reactives'
-import {defineComponent, ref, toRaw, onMounted} from 'vue';
+import {defineComponent, ref, toRef, toRaw, onMounted, watchEffect, reactive, readonly, isReactive} from 'vue';
 
 export default defineComponent({
   props: {
@@ -57,51 +57,59 @@ export default defineComponent({
     }
   },
   async setup(props) {
+    const products = toRef(state, 'products');
+    const brands = toRef(state, 'brands');
 
-    const allbrands = ref(null)
     onMounted(() => {
       // the DOM element will be assigned to the ref after initial render
-      console.log('mounted')
-      console.log("ZZZZZZZZZZZ", allbrands.value)
+      // Promise.all([
+        // actions.fetchProductList(),
+        // actions.fetchBrandList(),
+      // ])
+      // console.log(isReactive(prodList)) // -> true
+      console.log(products, brands)
+
+    })
+    watchEffect(() => {
+      // works for reactivity tracking
+      // console.log("WatchEffect", state)
+      // console.log("copy", productsCopy.products)
+      // console.log("copy", brandsCopy.brands)
     })
 
-    const products = ref(state.products);
-    const brands = ref(state.brands);
-
-    let fetchedProducts = ref(false);
-    let fetchedBrands = ref(false);
+    // actions.fetchProductList()
+    // actions.fetchBrandList()
 
     // All lists - remote
     await Promise.all([
-      products.value = actions.fetchProductList(props.products),
-      brands.value = actions.fetchBrandList(props.brands),
-    ]).then(values => {
-        // products.value = values[0]
-        // brands.value = values[1]
-        fetchedProducts.value = true
-        fetchedBrands.value = true
-        console.log("values++++++" ,values) 
-    })
+      actions.fetchProductList(),
+      actions.fetchBrandList(),
+    ])
+    // .then(values => {
+    //     // products.value = values[0]
+    //     // brands.value = values[1]
+    //     // fetchedProducts.value = true
+    //     // fetchedBrands.value = true
+
+    //     console.log("values++++++" ,values) 
+    // })
 
     // GetProducts - remote list
     const getProducts = async ()  => {
       await actions.fetchProductList()
-      console.log("BLAH", products.value)
+      console.log("BLAH products", products)
     }
     // GetProducts - remote list
     const getBrands = async ()  => {
       await actions.fetchBrandList()
-      console.log("BLAH", brands.value)
+      console.log("BLAH brands", brands)
     }
-    // console.log(state)
 
     return {
       products,
-      // getProducts,
       brands,
-      // getBrands,
-      fetchedProducts,
-      fetchedBrands,
+      getProducts,
+      getBrands
     }
   },
   

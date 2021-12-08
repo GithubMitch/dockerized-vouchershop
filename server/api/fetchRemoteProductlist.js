@@ -24,11 +24,11 @@ export default async (req, res) => {
       TableName: tableName
   };
 
-  await dynamodb.scan(params, (err, data) => {
+  dynamodb.scan(params, (err, data) => {
     if (err) return;
       //throw { msg: 'Request failed' , data: err };
     items = data.Items
-    console.log('RemoteProductList>>>> Finished dynamoDB SCAN....');
+    console.log('Products >>>> Finished dynamoDB SCAN....');
     return items;
   });
   return items

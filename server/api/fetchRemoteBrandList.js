@@ -15,9 +15,6 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
   endpoint: "https://dynamodb.eu-central-1.amazonaws.com"
 });
 
-
-
-
 let items = []  
 
 export default async (req, res) => {
@@ -31,7 +28,7 @@ export default async (req, res) => {
     if (err) return;
       //throw { msg: 'Request failed' , data: err };
     items = data.Items
-    console.log('RemoteBrandlist: Finished remote brands SCAN.... ');
+    console.log('Brands >>>> Finished dynamoDB SCAN....');
     return items;
   });
   return items 
