@@ -1,38 +1,38 @@
-import {ref, computed} from 'vue';
+import {ref, Ref, computed} from 'vue';
 
+const products = ref([]); 
+// ref<array>([])
+const brands = ref([]);
+const categoryUrl = ref([]);
 
 const state = {
-  count: 0,
-  products: []
+    products,
+    brands,
+    categoryUrl,
 }
 
 let actions = {
-  async fetchProductList(state) {
-    console.log("Fetched product list")
 
-    const products = ref<array>([]);
-
-    const getProducts = async ()  => {
-      products.value = await useAsyncData("products", () => $fetch("/api/rq"));
-      console.log('client side retrieved....', toRaw(products.value) );
-    }
-
-    // products.value = await getProducts();
-
-    // return {products, getProducts}
-
-    state.products = await getProducts();
+  async fetchProductList():Promise<any[]> {
+    products.value  = await $fetch("/api/fetchremoteproductlist", {method: 'GET'});
+      // console.log("Fetched product list")
+    // products.value = response;
+      // console.log('Product list fetched :.... \n', toRaw(products.value) );
+    return toRaw(products.value);
   },
-  incrementCount(state) {
-    console.log('Increment count by', "1")
-    state.count++
+
+  async fetchBrandList():Promise<any[]> {
+    brands.value = await $fetch("/api/fetchremotebrandlist", {method: 'GET'});
+      // console.log("Fetched brand list")
+    // brands.value = response;
+      // console.log('Brand list fetched :....\n', toRaw(brands.value) );
+    return toRaw(brands.value);
+  },
+
+  setCategory(category)  {
+    console.log('Set category: ', category)
   }
+
 }
 
-let setters = {
-  getCount(state) {
-    console.log("Count = ", state.count)
-  }
-}
-
-export  {state, actions, setters }
+export  {state, actions }

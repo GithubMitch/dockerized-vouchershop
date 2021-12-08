@@ -5,85 +5,108 @@
     <div id="config-window">
       <ul>
         <li>category:</li>
-        <li>brand:</li>
-        <li>product:</li>
+        <li ref="allbrands">
+          brand:
+          <Suspense>
+            <template #default>
+              <span>
+                {{ brands }}
+              </span>
+            </template>
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </Suspense>          
+        </li>
+        <li>
+          products:
+          <Suspense >
+            <template #default>
+              <span>
+                {{ products }}
+              </span>              
+            </template>
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </Suspense>
+        </li>
         <li>overview:</li>
         <li>status:</li>
       </ul>
-
-
-      <Suspense>
-        <template #default>
-          <pre>{{ products }}</pre>
-        </template>
-        <template #fallback>
-          <div>Loading...</div>
-
-        </template>
-      </Suspense>
-
-      <!-- <span>{{ sharedState.message }}</span>  -->
     </div>
-    <button  @click="getProducts" >scan products</button>
-    <!-- <button  @click="setMsg" >Set message</button> -->
+    <!-- <button  @click="getProducts" >scan products</button>
+    <button  @click="getBrands" >scan brands</button> -->
  </div>
 </template> 
 
 
 <script lang="ts">
-import { state } from '../store/reactives'
-import {ref, toRaw} from 'vue';
+import { state, actions } from '../store/reactives'
+import {defineComponent, ref, toRaw, onMounted} from 'vue';
 
-export default {
-
-  async setup() {
-    // products
-    const products = ref<array>([]);
-
-    const getProducts = async ()  => {
-      products.value = await useAsyncData("products", () => $fetch("/api/rq"));
-      console.log('client side retrieved....', toRaw(products.value) );
+export default defineComponent({
+  props: {
+    products: {
+      type: [String, Number],
+      required: false
+    },  
+    brands: {
+      type: [String],
+      required: false
     }
+  },
+  async setup(props) {
 
-    products.value = await getProducts();
+    const allbrands = ref(null)
+    onMounted(() => {
+      // the DOM element will be assigned to the ref after initial render
+      console.log('mounted')
+      console.log("ZZZZZZZZZZZ", allbrands.value)
+    })
+
+    const products = ref(state.products);
+    const brands = ref(state.brands);
+
+    let fetchedProducts = ref(false);
+    let fetchedBrands = ref(false);
+
+    // All lists - remote
+    await Promise.all([
+      products.value = actions.fetchProductList(props.products),
+      brands.value = actions.fetchBrandList(props.brands),
+    ]).then(values => {
+        // products.value = values[0]
+        // brands.value = values[1]
+        fetchedProducts.value = true
+        fetchedBrands.value = true
+        console.log("values++++++" ,values) 
+    })
+
+    // GetProducts - remote list
+    const getProducts = async ()  => {
+      await actions.fetchProductList()
+      console.log("BLAH", products.value)
+    }
+    // GetProducts - remote list
+    const getBrands = async ()  => {
+      await actions.fetchBrandList()
+      console.log("BLAH", brands.value)
+    }
     // console.log(state)
 
-    return {products, getProducts}
-  }
-}
-</script>
-<!-- <script>
-  export default {
-    // props: {
-    //   category: String,
-    //   brand: String,
-    //   product: String,
-    //   overview: Boolean,
-    //   status: Boolean,
-    //   data: Object
-    // },
-
-
-
-    methods: {
-      async onclick() {
-        try {
-          
-          console.log('button clicked ')
-          // const data = await fetch('/api/scanproducts')
-  
-          // const data = await $fetch('/api/scanproducts')
-          const { data } = await useAsyncData('scanproducts', () => $fetch('/api/scanproducts'))
-          console.log(data)
-          // return data
-
-        } catch (error) {
-            console.log(error)
-        }
-      }
+    return {
+      products,
+      // getProducts,
+      brands,
+      // getBrands,
+      fetchedProducts,
+      fetchedBrands,
     }
-  }
-</script> -->
+  },
+  
+})
+</script>
 
 <style scoped>
   #config-window {

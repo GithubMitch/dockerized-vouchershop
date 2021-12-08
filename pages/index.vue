@@ -10,24 +10,6 @@
 </template>
 
 <script setup>
-    const title = "home";
-
-    const [{ data: asyncVariable }, { data: asyncVariable2 }] = await Promise.all([
-      useFetch(`https://api.github.com/orgs/nuxt`),
-      useFetch(`https://api.github.com/orgs/nuxt/repos`)
-    ])
-    
-    // const { data } = await useLazyAsyncData(
-    //     'title', () => "home",
-    //     'goof', () => "janus",
-    // )
-
-
-    //   data() {
-//       return {
-//           title: 'world',
-//       }
-//   }.
 </script>
 
 <script>
