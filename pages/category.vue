@@ -1,8 +1,8 @@
 <template>
     <main>
       <HeaderComp/>
-
-      <VoucherShop/>
+        category
+      <NuxtChild/>
 
       <FooterComp/>
     </main>

@@ -3,15 +3,40 @@
    <h1>Vouchershop component</h1> 
 
     <div id="config-window">
+
+      <router-view></router-view>
       <ul>
-        <li>category:</li>
         <li>
-          brand:
+          category:
           <Suspense>
             <template #default>
-              <span ref="REF">
-                {{ brands }}
+              <span>
+                <pre v-if="selectedCategory.length !== 0">Selected: 
+                <!-- {{$route.params.slug[0]}}  -->
+{{ selectedCategory }}</pre>
+                <!-- <pre v-if="categoryUrl.length !== 0">Selected: {{ categoryUrl }}</pre> -->
               </span>
+            </template>
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </Suspense>                
+        </li>
+        <li>
+          brands:
+
+          <Suspense>
+            <template #default>
+              <ul>
+                <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
+                 
+                <li v-show="selectedBrand.length == 0" v-for="brand in brands" :key="brand">
+                  <NuxtLink class="brandLine" :to='`${selectedCategory}` + `/brand/` +brand.key ' @click="setSelectedBrand(brand.key)">{{brand}}</NuxtLink>
+                  <!-- <a class="brandLine" @click="setSelectedBrand(brand.key)">{{brand}}</a> -->
+                </li>
+                <li class="brandLine" @click="deselect(brands)">Deselect</li>
+              </ul>
+                  
             </template>
             <template #fallback>
               <div>Loading...</div>
@@ -22,9 +47,14 @@
           products:
           <Suspense >
             <template #default>
-              <span>
-                {{ products }}
-              </span>              
+              <ul>
+                <pre v-show="selectedProducts">Selected: {{ selectedProducts }}</pre>
+                 
+                <li v-for="product in products" :key="product.key">
+                  <a class="brandLine" @click="setSelectedProducts(product.key)">{{ product }}</a>
+                </li>
+                <li class="brandLine" @click="deselect(products)">Deselect</li>
+              </ul>     
             </template>
             <template #fallback>
               <div>Loading...</div>
@@ -43,22 +73,26 @@
 
 <script lang="ts">
 import { state, actions } from '../store/reactives'
-import {defineComponent, ref, toRef, toRaw, onMounted, watchEffect, reactive, readonly, isReactive} from 'vue';
+import {defineComponent, ref, toRef, toRaw, onMounted, onBeforeUpdate, watchEffect, reactive, readonly, isReactive} from 'vue';
 
 export default defineComponent({
-  props: {
-    products: {
-      type: [String, Number],
-      required: false
-    },  
-    brands: {
-      type: [String],
-      required: false
-    }
-  },
+  // props: {
+  //   products: {
+  //     type: [String, Number],
+  //     required: false
+  //   },  
+  //   brands: {
+  //     type: [String],
+  //     required: false
+  //   }
+  // },
   async setup(props) {
     const products = toRef(state, 'products');
     const brands = toRef(state, 'brands');
+    const categoryUrl = toRef(state, 'categoryUrl');
+    const selectedCategory = toRef(state, 'selectedCategory');
+    const selectedBrand = toRef(state, 'selectedBrand');
+    const selectedProducts = toRef(state, 'selectedProducts');
 
     onMounted(() => {
       // the DOM element will be assigned to the ref after initial render
@@ -77,24 +111,24 @@ export default defineComponent({
       // console.log("copy", brandsCopy.brands)
     })
 
-    // actions.fetchProductList()
-    // actions.fetchBrandList()
 
     // All lists - remote
-    await Promise.all([
-      actions.fetchProductList(),
-      actions.fetchBrandList(),
-    ])
-    // .then(values => {
-    //     // products.value = values[0]
-    //     // brands.value = values[1]
-    //     // fetchedProducts.value = true
-    //     // fetchedBrands.value = true
+    if (products.value.length == 0 && brands.value.length == 0) {
+      await Promise.all([
+        actions.fetchProductList(),
+        actions.fetchBrandList(),
+      ])
+    }
 
-    //     console.log("values++++++" ,values) 
-    // })
+    // Reactive.ts Setters :
+    const setSelectedBrand = async (brand)  => {
+      await actions.setSelectedBrand(brand)
+    }
+    const setSelectedProducts = async (product)  => {
+      await actions.setSelectedProducts(product)
+    }
 
-    // GetProducts - remote list
+    // Reactive.ts Getters :
     const getProducts = async ()  => {
       await actions.fetchProductList()
       console.log("BLAH products", products)
@@ -105,11 +139,40 @@ export default defineComponent({
       console.log("BLAH brands", brands)
     }
 
+
+
+    // METHOD ?
+    const deselect = async (selected)  => {
+      switch (selected) {
+        case (state.brands):
+          state.selectedBrand = []
+          console.log('Deselect Brands');
+          break;
+        case state.products:
+          state.selectedProducts = []
+          console.log('Deselect Products')
+          break;
+        case 'Papayas':
+          console.log('Mangoes and papayas are $2.79 a pound.');
+          // expected output: "Mangoes and papayas are $2.79 a pound."
+          break;
+        default:
+          console.log(`Sorry, we are out of ${selected}.`);
+      }      
+    }
+
     return {
       products,
       brands,
+      categoryUrl,
+      selectedCategory,
+      selectedBrand,
+      selectedProducts,
+      deselect,
       getProducts,
-      getBrands
+      getBrands,
+      setSelectedBrand,
+      setSelectedProducts
     }
   },
   
@@ -122,9 +185,15 @@ export default defineComponent({
     box-sizing:border-box;
     background:#ebebeb;
     height:500px;
-    width:500px;
+    /* width:500px; */
     padding:1em;
     overflow: scroll;
+  }
+  .brandLine {
+    cursor:pointer;
+  }
+  .brandLine:hover {
+    text-decoration: underline;
   }
 </style>
 

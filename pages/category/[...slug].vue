@@ -1,10 +1,8 @@
 <template>
     <main>
-      <HeaderComp/>
-
+      category/[slug]/[...slug].vue
+      <!-- <NuxtChild/> -->
       <VoucherShop/>
-
-      <FooterComp/>
     </main>
 
 </template>
@@ -16,7 +14,7 @@
 
 
 export default {
-  name: 'home',    
+  name: '...slug',    
 }
 </script>
 

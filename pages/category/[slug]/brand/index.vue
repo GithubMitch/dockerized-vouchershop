@@ -1,10 +1,7 @@
 <template>
     <main>
-      <HeaderComp/>
-
+      category/_slug/...slug.vue/brands/index.vue
       <VoucherShop/>
-
-      <FooterComp/>
     </main>
 
 </template>
@@ -16,7 +13,7 @@
 
 
 export default {
-  name: 'home',    
+  name: 'brands-index',    
 }
 </script>
 

@@ -15,7 +15,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
   endpoint: "https://dynamodb.eu-central-1.amazonaws.com"
 });
 
-let items = []  
+let items = {}
 
 export default async (req, res) => {
     

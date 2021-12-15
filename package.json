@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1040.0",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.12"
   }
 }

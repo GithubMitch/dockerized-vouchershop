@@ -1,4 +1,13 @@
 {
-  // https://v3.nuxtjs.org/concepts/typescript
+//   // https://v3.nuxtjs.org/concepts/typescript
   "extends": "./.nuxt/tsconfig.json"
+//   "router": {
+//     "routes": [
+//       {
+//         "name": "index",
+//         "path": "/goof",
+//         "component": "pages/index.vue"
+//       }
+//     ]
+//   }
 }
