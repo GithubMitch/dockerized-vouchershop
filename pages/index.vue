@@ -2,7 +2,7 @@
     <main>
       <HeaderComp/>
 
-      <VoucherShop/>
+      <VoucherShop keep-alive/>
 
       <FooterComp/>
     </main>

@@ -1,10 +1,8 @@
 <template>
     <main>
-      <HeaderComp/>
-        <!-- /category -->
+      <!-- /category/_slug/index.vue -->
+      <!-- <VoucherShop/> -->
       <NuxtChild keep-alive/>
-
-      <FooterComp/>
     </main>
 
 </template>

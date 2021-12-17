@@ -2,14 +2,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 import AWS from 'aws-sdk'
 import config from '../../config.js';
-import {ref, toRaw} from 'vue';
-
-// import {_} from 'lodash';
-
-// import bodyParser from 'body-parser';
 
 AWS.config.update(config.aws_remote_config)
-
 const dynamodb = new AWS.DynamoDB.DocumentClient({
   region: 'eu-central-1',
   endpoint: "https://dynamodb.eu-central-1.amazonaws.com"
@@ -25,10 +19,10 @@ export default async (req, res) => {
   };
 
   dynamodb.scan(params, (err, data) => {
-    if (err) return;
+    // if (err) {console.log(err)};
       //throw { msg: 'Request failed' , data: err };
     items = data.Items
-    console.log('Products >>>> Finished dynamoDB SCAN....');
+    // console.log('Products >>>> Finished dynamoDB SCAN....');
     return items;
   });
   return items

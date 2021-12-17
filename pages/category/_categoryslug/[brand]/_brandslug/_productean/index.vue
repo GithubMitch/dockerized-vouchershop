@@ -1,8 +1,8 @@
 <template>
     <main>
-      category/[slug]/[...slug].vue
-      <!-- <NuxtChild/> -->
+      <!-- /category/_catslug/[brand]/_brandslug/_productean/_productean.vue -->
       <VoucherShop/>
+      <!-- <NuxtChild keep-alive/> -->
     </main>
 
 </template>
@@ -14,7 +14,7 @@
 
 
 export default {
-  name: '...slug',    
+  name: 'home',    
 }
 </script>
 

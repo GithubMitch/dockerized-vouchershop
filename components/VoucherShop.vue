@@ -1,10 +1,8 @@
-<template>
+<template keep-alive>
  <div class="inner"> 
    <h1>Vouchershop component</h1> 
 
     <div id="config-window">
-
-      <router-view></router-view>
       <ul>
         <li>
           category:
@@ -14,7 +12,6 @@
                 <pre v-if="selectedCategory.length !== 0">Selected: 
                 <!-- {{$route.params.slug[0]}}  -->
 {{ selectedCategory }}</pre>
-                <!-- <pre v-if="categoryUrl.length !== 0">Selected: {{ categoryUrl }}</pre> -->
               </span>
             </template>
             <template #fallback>
@@ -65,15 +62,27 @@
         <li>status:</li>
       </ul>
     </div>
-    <button  @click="getProducts" >scan products</button>
-    <button  @click="getBrands" >scan brands</button>
+    <!-- <button  @click="getProducts" >scan products</button>
+    <button  @click="getBrands" >scan brands</button> -->
  </div>
 </template> 
 
 
 <script lang="ts">
 import { state, actions } from '../store/reactives'
-import {defineComponent, ref, toRef, toRaw, onMounted, onBeforeUpdate, watchEffect, reactive, readonly, isReactive} from 'vue';
+import {
+  defineComponent,
+  ref,
+  toRef,
+  toRaw,
+  onMounted,
+  onBeforeUpdate,
+  onBeforeMount,
+  // watchEffect,
+  reactive,
+  readonly,
+  isReactive
+  } from 'vue';
 
 export default defineComponent({
   // props: {
@@ -89,27 +98,30 @@ export default defineComponent({
   async setup(props) {
     const products = toRef(state, 'products');
     const brands = toRef(state, 'brands');
-    const categoryUrl = toRef(state, 'categoryUrl');
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedBrand = toRef(state, 'selectedBrand');
     const selectedProducts = toRef(state, 'selectedProducts');
 
-    onMounted(() => {
-      // the DOM element will be assigned to the ref after initial render
-      // Promise.all([
-        // actions.fetchProductList(),
-        // actions.fetchBrandList(),
-      // ])
-      // console.log(isReactive(prodList)) // -> true
-      console.log(products, brands)
+    // onBeforeMount(() => {
+    //   // the DOM element will be assigned to the ref after initial render
+    //   // if (products.value.length == 0 && brands.value.length == 0) {
+    //   //   Promise.all([
+    //   //     actions.fetchProductList(),
+    //   //     actions.fetchBrandList(),
+    //   //   ]).then(lists => {
+    //   //     console.log(lists)
+    //   //   })
+    //   // }
+    //   // console.log(isReactive(prodList)) // -> true
+    //   // console.log(products, brands)
 
-    })
-    watchEffect(() => {
-      // works for reactivity tracking
-      // console.log("WatchEffect", state)
-      // console.log("copy", productsCopy.products)
-      // console.log("copy", brandsCopy.brands)
-    })
+    // })
+    // watchEffect(() => {
+    //   // works for reactivity tracking
+    //   // console.log("WatchEffect", state)
+    //   // console.log("copy", productsCopy.products)
+    //   // console.log("copy", brandsCopy.brands)
+    // })
 
 
     // All lists - remote
@@ -117,27 +129,31 @@ export default defineComponent({
       await Promise.all([
         actions.fetchProductList(),
         actions.fetchBrandList(),
-      ])
+        Promise.resolve(`Completed Promise`)
+      ]).then(lists => {
+        // return lists
+        console.log(lists)
+      }).catch(error => console.log(error))
     }
 
     // Reactive.ts Setters :
-    const setSelectedBrand = async (brand)  => {
-      await actions.setSelectedBrand(brand)
-    }
     const setSelectedProducts = async (product)  => {
       await actions.setSelectedProducts(product)
     }
+    const setSelectedBrand = async (brand)  => {
+      await actions.setSelectedBrand(brand)
+    }
 
-    // Reactive.ts Getters :
-    const getProducts = async ()  => {
-      await actions.fetchProductList()
-      console.log("BLAH products", products)
-    }
-    // GetProducts - remote list
-    const getBrands = async ()  => {
-      await actions.fetchBrandList()
-      console.log("BLAH brands", brands)
-    }
+    // // Reactive.ts Getters :
+    // const getProducts = async ()  => {
+    //   await actions.fetchProductList()
+    //   console.log("BLAH products", products)
+    // }
+    // // GetProducts - remote list
+    // const getBrands = async ()  => {
+    //   await actions.fetchBrandList()
+    //   console.log("BLAH brands", brands)
+    // }
 
 
 
@@ -157,20 +173,19 @@ export default defineComponent({
           // expected output: "Mangoes and papayas are $2.79 a pound."
           break;
         default:
-          console.log(`Sorry, we are out of ${selected}.`);
+          console.log(`Oops, The selected part = ${selected}.`);
       }      
     }
 
     return {
       products,
       brands,
-      categoryUrl,
       selectedCategory,
       selectedBrand,
       selectedProducts,
       deselect,
-      getProducts,
-      getBrands,
+      // getProducts,
+      // getBrands,
       setSelectedBrand,
       setSelectedProducts
     }

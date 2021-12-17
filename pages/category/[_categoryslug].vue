@@ -1,10 +1,8 @@
 <template>
     <main>
-      <HeaderComp/>
-        <!-- /category -->
+      <!-- /category/[_slug].vue -->
       <NuxtChild keep-alive/>
-
-      <FooterComp/>
+      <!-- <VoucherShop/> -->
     </main>
 
 </template>
@@ -16,7 +14,7 @@
 
 
 export default {
-  name: 'home',    
+  name: '...slug',    
 }
 </script>
 

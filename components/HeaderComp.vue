@@ -5,12 +5,12 @@
       <NuxtLink to="/">Home page</NuxtLink>
       <!-- <NuxtLink to="/category">Category</NuxtLink> -->
       <NuxtLink to="/category/beltegoed">Beltegoed</NuxtLink>
-      <!-- <NuxtLink to="/category/gaming">Gaming</NuxtLink>
+      <NuxtLink to="/category/gaming">Gaming</NuxtLink>
       <NuxtLink to="/category/payment">Payment</NuxtLink>
       <NuxtLink to="/category/giftcards">Giftcards</NuxtLink>
       <NuxtLink to="/category/topups">Topups</NuxtLink>
       <NuxtLink to="/category/coupons">Coupons</NuxtLink>
-      <NuxtLink to="/category/blabla">Blabla</NuxtLink> -->
+      <NuxtLink to="/category/blabla">Blabla</NuxtLink>
     </div>
     <span  match="category" @click="navigateTo($event)" >beltegoed</span>
     <span  match="credit" @click="navigateTo($event)" >credit</span>
