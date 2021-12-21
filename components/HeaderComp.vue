@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { state, actions } from '../store/reactives'
 import { defineComponent, onMounted, toRaw , ref} from 'vue'
 
@@ -29,11 +29,11 @@ export default defineComponent({
     const newPath = ref()
 
     onMounted(() => {
-      newPath.value = toRaw(route.path)
-      if (newPath.value.match(/category/g)) {
-        console.log('---New Query---', newPath.value )
-        actions.setCategory(newPath.value)
-      }
+      // newPath.value = toRaw(route.path)
+      // if (newPath.value.match(/category/g)) {
+      //   console.log('---New Query---', newPath.value )
+      //   actions.setCategory(newPath.value)
+      // }
     })
 
     watch(

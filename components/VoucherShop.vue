@@ -24,11 +24,10 @@
 
           <Suspense>
             <template #default>
-              <ul>
+              <ul v-show="pickedCategory">
                 <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
-                 
-                <li v-show="selectedBrand.length == 0" v-for="brand in brands" :key="brand">
-                  <NuxtLink class="brandLine" :to='`${selectedCategory}` + `/brand/` +brand.key ' @click="setSelectedBrand(brand.key)">{{brand}}</NuxtLink>
+                <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
+                  <NuxtLink class="brandLine" :to='`${selectedCategory}` + `/brand/` +brand.key' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
                   <!-- <a class="brandLine" @click="setSelectedBrand(brand.key)">{{brand}}</a> -->
                 </li>
                 <li class="brandLine" @click="deselect(brands)">Deselect</li>
@@ -42,16 +41,22 @@
         </li>
         <li>
           products:
-          <Suspense >
+
+
+          <Suspense>
             <template #default>
-              <ul>
+              <!-- <Products v-if="pickedBrand" /> -->
+
+              <!-- <ul>
                 <pre v-show="selectedProducts">Selected: {{ selectedProducts }}</pre>
                  
-                <li v-for="product in products" :key="product.key">
-                  <a class="brandLine" @click="setSelectedProducts(product.key)">{{ product }}</a>
+                <li v-for="product in stockProducts" :key="product.key">
+                  <NuxtLink class="brandLine product" :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' :class="{instock : product.inStock}" @click="addProducts(product.key)">{{ product.inStock }}</NuxtLink>
                 </li>
-                <li class="brandLine" @click="deselect(products)">Deselect</li>
-              </ul>     
+              </ul> -->
+                <!-- <ul>
+                  <li class="brandLine" @click="deselect(stockProducts)">Deselect</li>
+                </ul> -->
             </template>
             <template #fallback>
               <div>Loading...</div>
@@ -62,14 +67,12 @@
         <li>status:</li>
       </ul>
     </div>
-    <!-- <button  @click="getProducts" >scan products</button>
-    <button  @click="getBrands" >scan brands</button> -->
  </div>
 </template> 
 
 
 <script lang="ts">
-import { state, actions } from '../store/reactives'
+import { isAbsent, state, actions , methods} from '../store/reactives';
 import {
   defineComponent,
   ref,
@@ -78,29 +81,28 @@ import {
   onMounted,
   onBeforeUpdate,
   onBeforeMount,
-  // watchEffect,
+  watch,
   reactive,
   readonly,
   isReactive
   } from 'vue';
 
 export default defineComponent({
-  // props: {
-  //   products: {
-  //     type: [String, Number],
-  //     required: false
-  //   },  
-  //   brands: {
-  //     type: [String],
-  //     required: false
-  //   }
-  // },
   async setup(props) {
-    const products = toRef(state, 'products');
+    const router = useRouter();
+    const route = useRoute();
+    const stockProducts = toRef(state, 'stockProducts');
     const brands = toRef(state, 'brands');
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedBrand = toRef(state, 'selectedBrand');
     const selectedProducts = toRef(state, 'selectedProducts');
+    const selectableBrands = toRef(state, 'selectableBrands');
+    // const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
+
+  
+    let pickedCategory = (state.selectedCategory === '/' | state.selectedCategory.length == []) === 0; // step1
+    let pickedBrand = (state.selectedBrand.length > 0 || state.selectedBrand !== 0); // step2
+    let pickedProducts = ref('false'); // step3
 
     // onBeforeMount(() => {
     //   // the DOM element will be assigned to the ref after initial render
@@ -114,21 +116,19 @@ export default defineComponent({
     //   // }
     //   // console.log(isReactive(prodList)) // -> true
     //   // console.log(products, brands)
+    // })
 
-    // })
-    // watchEffect(() => {
-    //   // works for reactivity tracking
-    //   // console.log("WatchEffect", state)
-    //   // console.log("copy", productsCopy.products)
-    //   // console.log("copy", brandsCopy.brands)
-    // })
+    watch([pickedCategory, pickedBrand, pickedProducts], (newValues, prevValues) => {
+      console.log('Watch:',newValues, prevValues)
+    })
 
 
     // All lists - remote
-    if (products.value.length == 0 && brands.value.length == 0) {
+    if (stockProducts.value.length == 0 && brands.value.length == 0) {
       await Promise.all([
         actions.fetchProductList(),
         actions.fetchBrandList(),
+        actions.fetchStockList(),
         Promise.resolve(`Completed Promise`)
       ]).then(lists => {
         // return lists
@@ -137,57 +137,66 @@ export default defineComponent({
     }
 
     // Reactive.ts Setters :
-    const setSelectedProducts = async (product)  => {
-      await actions.setSelectedProducts(product)
+    const addProducts = async (product)  => {
+      await actions.addProducts(product)
     }
     const setSelectedBrand = async (brand)  => {
       await actions.setSelectedBrand(brand)
     }
-
-    // // Reactive.ts Getters :
-    // const getProducts = async ()  => {
-    //   await actions.fetchProductList()
-    //   console.log("BLAH products", products)
-    // }
-    // // GetProducts - remote list
-    // const getBrands = async ()  => {
-    //   await actions.fetchBrandList()
-    //   console.log("BLAH brands", brands)
-    // }
-
-
-
-    // METHOD ?
     const deselect = async (selected)  => {
-      switch (selected) {
-        case (state.brands):
-          state.selectedBrand = []
-          console.log('Deselect Brands');
-          break;
-        case state.products:
-          state.selectedProducts = []
-          console.log('Deselect Products')
-          break;
-        case 'Papayas':
-          console.log('Mangoes and papayas are $2.79 a pound.');
-          // expected output: "Mangoes and papayas are $2.79 a pound."
-          break;
-        default:
-          console.log(`Oops, The selected part = ${selected}.`);
-      }      
+      await Promise.all([
+        actions.deselect(selected),
+        router.go(-1),
+        Promise.resolve(`Completed Promise`)
+      ])
+    }
+    // // Reactive.ts Getters :
+    const getProducts = async ()  => {
+      await actions.fetchProductList()
+      // console.log("BLAH products", products)
+    }
+
+    // METHOD 
+    // const deselect = async (selected)  => {
+    //   switch (selected) {
+    //     case (state.brands):
+    //       state.selectedBrand = [];
+    //       // state.selectedBrandProducts = [];
+    //       console.log('Selected Brand', state.selectedBrand);
+    //       console.log('Deselect Brands', state.selectedBrand);
+    //       break;
+    //     case state.stockProducts:
+    //       state.selectedProducts = []
+    //       console.log('Deselect Products')
+    //       break;
+    //     case 'Papayas':
+    //       console.log('Mangoes and papayas are $2.79 a pound.');
+    //       // expected output: "Mangoes and papayas are $2.79 a pound."
+    //       break;
+    //     default:
+    //       console.log(`Oops, The selected part = ${selected}.`);
+    //   }      
+    // }
+    const stock = async ()  => {
+      await actions.fetchStockList()
+      console.log('Update Stock')
     }
 
     return {
-      products,
+      pickedCategory,
+      pickedBrand,
+      pickedProducts,
+      stockProducts,
       brands,
       selectedCategory,
       selectedBrand,
       selectedProducts,
+      selectableBrands,
       deselect,
-      // getProducts,
-      // getBrands,
+      stock,
+      getProducts,
       setSelectedBrand,
-      setSelectedProducts
+      addProducts
     }
   },
   
@@ -199,15 +208,16 @@ export default defineComponent({
     box-shadow: inset 0px 0px 10px -4px #000; 
     box-sizing:border-box;
     background:#ebebeb;
-    height:500px;
+    height:800px;
     /* width:500px; */
     padding:1em;
     overflow: scroll;
   }
+  #config-window :deep() .brandLine ,
   .brandLine {
     cursor:pointer;
   }
-  .brandLine:hover {
+  #config-window :deep() .brandLine:hover {
     text-decoration: underline;
   }
 </style>

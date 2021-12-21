@@ -53,5 +53,14 @@ export default {
   .inner:last-child {
     border:none;
   }
+  .product{
+    text-decoration: line-through;
+    pointer-events: none;
+  }
+  .product.instock {
+    text-decoration: none;
+    pointer-events: all;
+
+  }
 
 </style>

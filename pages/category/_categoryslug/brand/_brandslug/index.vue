@@ -1,6 +1,6 @@
 <template>
     <main>
-      <!-- /category/_slug/index.vue -->
+      <!-- /category/_slug/[brand]/_slug/index.vue -->
       <VoucherShop/>
       <!-- <NuxtChild keep-alive/> -->
     </main>

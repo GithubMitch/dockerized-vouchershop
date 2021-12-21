@@ -1,8 +1,9 @@
 <template>
     <main>
-      <!-- /category/_slug/index.vue -->
-      <VoucherShop/>
-      <!-- <NuxtChild keep-alive/> -->
+      <!-- /category/_slug/[...brand].vue -->
+      <!-- <VoucherShop/> -->
+      <NuxtChild keep-alive/>
+
     </main>
 
 </template>
