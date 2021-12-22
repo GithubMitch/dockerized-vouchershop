@@ -6,10 +6,11 @@
     <ul class="product-list">
       <li v-for="(product) in selectedBrandProducts" :brand="brand"  :key="product.key">
         <NuxtLink class="brandLine product" 
-          :to='`goofy`'
+          :to='brand + `/` + product.actionLabel + `/`  + product.key'
           :class="{instock : product.inStock}" 
+          @click="setdetailPageProduct(product)"
           >
-          <!-- @click="addProducts(product.key)" -->
+          <!-- :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' -->
           {{ product.name }}
         </NuxtLink>
       </li>
@@ -52,8 +53,8 @@ export default defineComponent({
 
 
 
-    const addProducts = async (product)  => {
-      await actions.addProducts(product)
+    const setdetailPageProduct = async (product)  => {
+      await actions.setdetailPageProduct(product)
     }
     const deselect = async (selected)  => {
       await Promise.all([
@@ -77,7 +78,7 @@ export default defineComponent({
     //   stock(props)
     // })
 
-    return {selectedProducts, selectedCategory, stockProducts, selectableBrands, selectedBrandProducts, props, deselect, addProducts }
+    return {selectedProducts, selectedCategory, stockProducts, selectableBrands, selectedBrandProducts, props, deselect,  setdetailPageProduct }
   },
 })
 </script>

@@ -9,9 +9,12 @@
           <Suspense>
             <template #default>
               <span>
-                <pre v-if="selectedCategory.length !== 0">Selected: 
-                <!-- {{$route.params.slug[0]}}  -->
-{{ selectedCategory }}</pre>
+                <pre v-if="selectedCategory.length !== 0">Selected:
+                   
+Category    : {{ $route.params._categoryslug }}
+Brand       :  -{{ $route.params._brandslug }}
+Subcategory :  -{{ $route.params._subcat }}
+                </pre>
               </span>
             </template>
             <template #fallback>
@@ -27,7 +30,7 @@
               <ul v-show="pickedCategory">
                 <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
                 <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
-                  <NuxtLink class="brandLine" :to='`${selectedCategory}` + `/brand/` +brand.key' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
+                  <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
                   <!-- <a class="brandLine" @click="setSelectedBrand(brand.key)">{{brand}}</a> -->
                 </li>
                 <li class="brandLine" @click="deselect(brands)">Deselect</li>
@@ -180,7 +183,7 @@ export default defineComponent({
     const stock = async ()  => {
       await actions.fetchStockList()
       console.log('Update Stock')
-    }
+    }    
 
     return {
       pickedCategory,
@@ -204,21 +207,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  #config-window {
-    box-shadow: inset 0px 0px 10px -4px #000; 
-    box-sizing:border-box;
-    background:#ebebeb;
-    height:800px;
-    /* width:500px; */
-    padding:1em;
-    overflow: scroll;
-  }
-  #config-window :deep() .brandLine ,
-  .brandLine {
-    cursor:pointer;
-  }
-  #config-window :deep() .brandLine:hover {
-    text-decoration: underline;
-  }
+
 </style>
 

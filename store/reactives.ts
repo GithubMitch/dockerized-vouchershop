@@ -8,6 +8,7 @@ const selectedCategory = ref([]);
 // List of selectable products 
 const selectableBrands = ref<[]>([]);
 const selectableProducts = ref<[]>([]);
+const detailPageProduct = ref<[]>([]);
 
 //------------------------------------------------
 // const protocol = window.location.protocol;
@@ -52,6 +53,7 @@ const state = reactive ({
   selectableProducts: ref<[]>([]),
   selectedProducts: ref<[]>([]),
   selectedBrandProducts: ref<[]>([]),
+  detailPageProduct: ref<[]>([]),
 })
 
 const actions = {
@@ -102,6 +104,11 @@ const actions = {
       state.selectedProducts.push(product),
       console.log('Set selectedProducts: ', product)
       ) : console.log('Didnt set selectedProducts', product))
+  },
+  setdetailPageProduct(product) {
+    state.detailPageProduct = product
+    console.log('Set:', state.detailPageProduct)
+    return state.detailPageProduct
   },
   // setStockProducts(products)  {
   //   return (products ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))

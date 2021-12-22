@@ -1,6 +1,6 @@
 <template>
     <main>
-      /category/_slug/[brand]/_slug/_subcat/_product.vue
+      <!-- parent: /category/_slug/[brand]/_slug/_subcat/_product.vue -->
       <!-- <Products/> -->
 
       <!-- <VoucherShop/> -->
@@ -47,9 +47,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style>
-  /* RESET STYLE SHEET */
-
-
-</style>

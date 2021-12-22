@@ -1,6 +1,7 @@
 <template>
     <main>
-      /category/_categoryslug/[brand]/_brandslug/_subcat/_productslug.vue
+      /category/_catslug/[brand]/_brandslug/_subcat/index.vue
+      
       <!-- <Products/> -->
 
       <!-- <ul>
@@ -22,7 +23,7 @@
 </template>
 
 <script lang='ts'>
-import { state, actions, methods } from '../../../../../../../store/reactives';
+import { state, actions, methods } from '../../../../../../store/reactives';
 import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue';
 
 export default defineComponent({
@@ -59,31 +60,3 @@ export default defineComponent({
   },
 })
 </script>
-
-
-
-<style>
-  /* RESET STYLE SHEET */
-  .product-list {
-    display: flex;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    list-style:none;
-    padding:0;
-  }
-  .product-list li {
-    width: 30%;
-    border:1px dashed black;
-    text-align:center;
-    padding:1em;
-    background:#fbfbfb;
-  }
-  .product-list li:hover {
-    background:#dedede;
-  }
-
-
-</style>

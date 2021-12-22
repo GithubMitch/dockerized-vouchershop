@@ -1,7 +1,16 @@
+import { resolve, join } from 'path'
 import { defineNuxtConfig } from 'nuxt3'
-import { join } from 'path'
+import { createCommonJS } from 'mlly'
+const { __dirname } = createCommonJS(import.meta.url)
 
-
-// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  // hooks: {
+  //   'pages:extend' (pages) {
+  //     pages.push({
+  //       name: 'brands',
+  //       path: '*',
+  //       file: resolve('./brand/index.vue')
+  //     })
+  //   }
+  // }
 })

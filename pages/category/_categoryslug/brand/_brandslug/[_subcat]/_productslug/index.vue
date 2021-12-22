@@ -1,20 +1,25 @@
 <template>
     <main>
-      /category/_catslug/[brand]/_brandslug/_subcat/index.vue
-      
+      <!-- /category/_categoryslug/[brand]/_brandslug/_subcat/_productslug/index.vue -->
       <!-- <Products/> -->
+      <div class="inner">
+        <h1>Product detail page</h1>
+        <h2></h2>
+        <ul>
+          <li v-for="(descr, index) in detailPageProduct" :key="descr.key">
+            {{descr}}
+          </li>
+          <li>
+            <span @click="addProducts(detailPageProduct.key)"> add Product () </span>
+          </li>  
+            <!-- <NuxtLink class="brandLine product" 
+              :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' 
+              :class="{instock : product.inStock}" 
+              @click="addProducts(product.key)">{{ product.name }}
+            </NuxtLink> -->
+        </ul>
+      </div>
 
-      <!-- <ul>
-        <li v-for="(product) in stockProducts" :key="product.ean">
-          <NuxtLink class="brandLine product" 
-            :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' 
-            :class="{instock : product.inStock}" 
-            @click="addProducts(product.key)">{{ product.name }}
-          </NuxtLink>
-          
-
-        </li>
-      </ul> -->
       <VoucherShop/>
       <!-- <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product.key)">{{product}}</a> -->
       <!-- <NuxtChild keep-alive/> -->
@@ -23,7 +28,7 @@
 </template>
 
 <script lang='ts'>
-import { state, actions, methods } from '../../../../../../store/reactives';
+import { state, actions, methods } from '../../../../../../../store/reactives';
 import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue';
 
 export default defineComponent({
@@ -34,6 +39,7 @@ export default defineComponent({
     const selectedBrand = toRef(state, 'selectedBrand');
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectableBrands = toRef(state, 'selectableBrands');
+    const detailPageProduct = toRef(state, 'detailPageProduct');
     /// SETUP ROUTING HERE FOR NAVIGATION
     const router = useRouter()
     const route = useRoute()
@@ -55,36 +61,9 @@ export default defineComponent({
       selectedBrand,
       selectedProducts,
       selectableBrands,
+      detailPageProduct,
       addProducts
     }
   },
 })
 </script>
-
-
-
-<style>
-  /* RESET STYLE SHEET */
-  .product-list {
-    display: flex;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    list-style:none;
-    padding:0;
-  }
-  .product-list li {
-    width: 30%;
-    border:1px dashed black;
-    text-align:center;
-    padding:1em;
-    background:#fbfbfb;
-  }
-  .product-list li:hover {
-    background:#dedede;
-  }
-
-
-</style>

@@ -15,6 +15,9 @@
     <span  match="category" @click="navigateTo($event)" >beltegoed</span>
     <span  match="credit" @click="navigateTo($event)" >credit</span>
   </div>
+  <div class="inner">
+    {{$route.params}}
+  </div>
 </template>
 
 <script lang='ts'>

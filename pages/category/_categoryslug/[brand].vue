@@ -18,11 +18,3 @@ export default {
   name: 'home',    
 }
 </script>
-
-
-
-<style>
-  /* RESET STYLE SHEET */
-
-
-</style>

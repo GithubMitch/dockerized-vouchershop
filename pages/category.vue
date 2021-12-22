@@ -1,23 +1,34 @@
 <template>
     <main>
-      <HeaderComp/>
+      <HeaderComp />
         <!-- /category -->
       <NuxtChild keep-alive/>
-
       <FooterComp/>
     </main>
 
 </template>
 
-<script setup>
-</script>
-
 <script lang="ts">
+import { defineComponent, onMounted, toRaw , ref, toRef, watch} from 'vue'
+
+export default defineComponent({
+  setup() {
+    // const router = useRouter();
+    // const route = useRoute();
+
+    // let str = route.path.substring(route.path.indexOf('/'));
+    // let categoryTitle = str.split('/')
+    // // .replace(/^\/+/, '');
+    // console.log(categoryTitle[2])
+    // // console.log(route.path)
+    // // console.log(categoryTitle)
+    // let title = route.path.split('/')
+
+    return {}
+  }
+})
 
 
-export default {
-  name: 'home',    
-}
 </script>
 
 
@@ -42,6 +53,7 @@ export default {
   }
   .inner {
     max-width:990px;
+    box-sizing:border-box;
     width:100%;
     display:block;
     position:relative;

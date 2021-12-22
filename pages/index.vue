@@ -1,9 +1,7 @@
 <template>
     <main>
       <HeaderComp/>
-
-      <VoucherShop keep-alive/>
-
+      <VoucherShop/>
       <FooterComp/>
     </main>
 
@@ -42,6 +40,7 @@ export default {
   }
   .inner {
     max-width:990px;
+    box-sizing:border-box;
     width:100%;
     display:block;
     position:relative;
@@ -60,7 +59,45 @@ export default {
   .product.instock {
     text-decoration: none;
     pointer-events: all;
+  }
 
+  /* Vouchershop component */
+  #config-window {
+    box-shadow: inset 0px 0px 10px -4px #000; 
+    box-sizing:border-box;
+    background:#ebebeb;
+    height:800px;
+    padding:1em;
+    overflow: scroll;
+  }
+  #config-window :deep() .brandLine ,
+  .brandLine {
+    cursor:pointer;
+  }
+  #config-window :deep() .brandLine:hover {
+    text-decoration: underline;
+  }
+
+  /* product.vue */
+  .product-list {
+    display: flex;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    list-style:none;
+    padding:0;
+  }
+  .product-list li {
+    width: 30%;
+    border:1px dashed black;
+    text-align:center;
+    padding:1em;
+    background:#fbfbfb;
+  }
+  .product-list li:hover {
+    background:#dedede;
   }
 
 </style>
