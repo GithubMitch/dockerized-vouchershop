@@ -2,13 +2,8 @@ import {ref, Ref, reactive, toRaw, computed} from 'vue';
 import {_} from 'vue-underscore';
 
 // URL and selected URL for category
-const categoryUrl = ref([]);
-const selectedCategory = ref([]);
-
-// List of selectable products 
-const selectableBrands = ref<[]>([]);
-const selectableProducts = ref<[]>([]);
-const detailPageProduct = ref<[]>([]);
+// const categoryUrl = ref([]);
+// const selectedCategory = ref([]);
 
 //------------------------------------------------
 // const protocol = window.location.protocol;
@@ -35,11 +30,6 @@ const detailPageProduct = ref<[]>([]);
 //     Vue.prototype.$api = 'https://api.prepaidpoint.com/vouchershop';
 //     break;
 // }
-
-// router
-const router = useRouter()
-const route = useRoute()
-const newPath = ref()
 
 const isAbsent = Symbol();
 
@@ -146,6 +136,13 @@ const methods = {
     state.stockProducts = optimizedProductList;
     return toRaw(state.stockProducts)
   }
+}
+const computed = {
+  // activeUsers: function() {
+  //   return users.filter(function(u) {
+  //     return u.active
+  //   })
+  // }
 }
 
 export  {state, actions, methods , isAbsent}

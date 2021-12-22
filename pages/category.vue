@@ -2,7 +2,8 @@
     <main>
       <HeaderComp />
         <!-- /category -->
-      <NuxtChild keep-alive/>
+      <NuxtChild/>
+      <!-- <VoucherShop keep-alive/> -->
       <FooterComp/>
     </main>
 

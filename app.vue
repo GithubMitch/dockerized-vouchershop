@@ -5,7 +5,7 @@
 <template>
   <div>
     
-    <NuxtPage />
+    <Router-View />
     
   </div>
 </template>

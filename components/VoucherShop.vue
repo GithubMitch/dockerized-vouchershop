@@ -75,25 +75,18 @@ Subcategory :  -{{ $route.params._subcat }}
 
 
 <script lang="ts">
-import { isAbsent, state, actions , methods} from '../store/reactives';
+import { state, actions } from '../store/reactives';
 import {
   defineComponent,
   ref,
   toRef,
-  toRaw,
-  onMounted,
-  onBeforeUpdate,
-  onBeforeMount,
   watch,
-  reactive,
-  readonly,
-  isReactive
   } from 'vue';
 
 export default defineComponent({
   async setup(props) {
     const router = useRouter();
-    const route = useRoute();
+    // const route = useRoute();
     const stockProducts = toRef(state, 'stockProducts');
     const brands = toRef(state, 'brands');
     const selectedCategory = toRef(state, 'selectedCategory');
@@ -205,8 +198,3 @@ export default defineComponent({
   
 })
 </script>
-
-<style scoped>
-
-</style>
-

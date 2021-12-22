@@ -99,5 +99,27 @@ export default {
   .product-list li:hover {
     background:#dedede;
   }
+    /* product.vue */
+  .brand-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    justify-content: space-between;
+  }
+  .brand-list li {
+    width: 32%;
+    box-sizing: border-box;
+    border: 1px dashed black;
+    text-align: center;
+    padding: 1em;
+    background: #fbfbfb;
+  }
+  .brand-list li:hover {
+    background:#dedede;
+  }
 
 </style>
