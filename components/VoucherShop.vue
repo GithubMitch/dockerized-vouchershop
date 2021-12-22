@@ -49,9 +49,9 @@ Subcategory :  -{{ $route.params._subcat }}
           <Suspense>
             <template #default>
               <!-- <Products v-if="pickedBrand" /> -->
+              <pre v-show="selectedProducts">Cart: {{ selectedProducts }}</pre>
 
               <!-- <ul>
-                <pre v-show="selectedProducts">Selected: {{ selectedProducts }}</pre>
                  
                 <li v-for="product in stockProducts" :key="product.key">
                   <NuxtLink class="brandLine product" :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' :class="{instock : product.inStock}" @click="addProducts(product.key)">{{ product.inStock }}</NuxtLink>

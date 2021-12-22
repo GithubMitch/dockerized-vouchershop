@@ -20,7 +20,7 @@
         </ul>
       </div>
 
-      <VoucherShop/>
+      <VoucherShop/>123
       <!-- <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product.key)">{{product}}</a> -->
       <!-- <NuxtChild keep-alive/> -->
     </main>

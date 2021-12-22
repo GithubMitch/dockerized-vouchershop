@@ -1,6 +1,7 @@
 <template>
     <main>
       <!-- /category/_slug/[brand]/_slug/index.vue -->
+      index
       <Products/>
       <VoucherShop/>
       <!-- <NuxtChild keep-alive/> -->

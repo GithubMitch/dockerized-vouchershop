@@ -2,7 +2,7 @@
     <main>
       <!-- /category/_slug/[brand]/[_slug].vue -->
 
-      <NuxtChild keep-alive/>
+      <NuxtChild />
       <!-- <VoucherShop/> -->
     </main>
 

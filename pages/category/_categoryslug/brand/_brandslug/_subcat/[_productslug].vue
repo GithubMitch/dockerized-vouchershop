@@ -1,12 +1,7 @@
 <template>
-    <main>
-      <!-- parent: /category/_slug/[brand]/_slug/_subcat/_product.vue -->
-      <!-- <Products/> -->
-
-      <!-- <VoucherShop/> -->
-      <NuxtChild keep-alive/>
-    </main>
-
+  <main>
+    <NuxtChild keep-alive/>
+  </main>
 </template>
 
 <script lang='ts'>
