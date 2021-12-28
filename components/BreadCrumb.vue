@@ -5,7 +5,7 @@
     <span  v-for="(param, index) in $route.params" :key="param">
         <span v-show="index !== '_categoryslug'">
           >    
-        </span>   
+        </span> 
         {{param}} 
     </span>
   </div>
