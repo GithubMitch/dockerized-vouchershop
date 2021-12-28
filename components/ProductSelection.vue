@@ -30,7 +30,7 @@ export default defineComponent({
   props: {
     brand: {
       type: String,
-      default: isAbsent
+      default: [String]
     },
     selectedBrand: {
       type: String,

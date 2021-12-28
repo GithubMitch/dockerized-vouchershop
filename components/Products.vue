@@ -1,10 +1,6 @@
 
 <template>
- <div>
-
-    <ProductSelection class="inner" :brand="selectedBrand" :products="stockProducts" keep-alive/>
-
- </div>
+  <ProductSelection class="inner" :brand="selectedBrand" :products="stockProducts" keep-alive/>
 </template> 
 
 <script>
