@@ -82,31 +82,6 @@ export default defineComponent({
     const selectedBrand = toRef(state, 'selectedBrand');
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectableBrands = toRef(state, 'selectableBrands');
-    // const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
-
-  
-    let pickedCategory = (state.selectedCategory === '/' | state.selectedCategory.length == []) === 0; // step1
-    let pickedBrand = (state.selectedBrand.length > 0 || state.selectedBrand !== 0); // step2
-    let pickedProducts = ref('false'); // step3
-
-    // onBeforeMount(() => {
-    //   // the DOM element will be assigned to the ref after initial render
-    //   // if (products.value.length == 0 && brands.value.length == 0) {
-    //   //   Promise.all([
-    //   //     actions.fetchProductList(),
-    //   //     actions.fetchBrandList(),
-    //   //   ]).then(lists => {
-    //   //     console.log(lists)
-    //   //   })
-    //   // }
-    //   // console.log(isReactive(prodList)) // -> true
-    //   // console.log(products, brands)
-    // })
-
-    // watch([pickedCategory, pickedBrand, pickedProducts], (newValues, prevValues) => {
-    //   console.log('Watch:',newValues, prevValues)
-    // })
-
 
     // All lists - remote
     if (stockProducts.value.length == 0 && brands.value.length == 0) {
@@ -124,9 +99,6 @@ export default defineComponent({
     }
 
     // Reactive.ts Setters :
-    // const addProducts = async (product)  => {
-    //   await actions.addProducts(product)
-    // }
     const setSelectedBrand = async (brand)  => {
       await actions.setSelectedBrand(brand)
     }
@@ -149,9 +121,6 @@ export default defineComponent({
     }    
 
     return {
-      pickedCategory,
-      pickedBrand,
-      pickedProducts,
       stockProducts,
       brands,
       selectedCategory,

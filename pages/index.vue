@@ -1,27 +1,17 @@
 <template>
-    <main>
       <HeaderComp keep-alive/>
       <VoucherShop/>
       <FooterComp keep-alive/>
-    </main>
-
 </template>
 
-<script setup>
-</script>
-
 <script lang="ts">
-
 
 export default {
   name: 'home',    
 }
 </script>
 
-
-
 <style lang="scss">
-
 /* RESET STYLE SHEET */
   html {
     background:repeating-linear-gradient(
@@ -45,13 +35,13 @@ export default {
     width:100%;
     display:block;
     position:relative;
-    margin:auto;
+    margin:0 auto;
     background: #dedede;
     padding:1em;
     border-bottom:1px solid black;
-  }
-  .inner:last-child {
-    border:none;
+    :last-child {
+      border:none;
+    }
   }
   .product{
     text-decoration: line-through;
@@ -70,13 +60,13 @@ export default {
     height:800px;
     padding:1em;
     overflow: scroll;
-  }
-  #config-window :deep() .brandLine ,
-  .brandLine {
-    cursor:pointer;
-  }
-  #config-window :deep() .brandLine:hover {
-    text-decoration: underline;
+    :deep() .brandLine ,
+    .brandLine {
+      cursor:pointer;
+    }
+    :deep() .brandLine:hover {
+      text-decoration: underline;
+    }
   }
 
   /* product.vue */
@@ -89,16 +79,16 @@ export default {
     align-items: center;
     list-style:none;
     padding:0;
-  }
-  .product-list li {
-    width: 30%;
-    border:1px dashed black;
-    text-align:center;
-    padding:1em;
-    background:#fbfbfb;
-  }
-  .product-list li:hover {
-    background:#dedede;
+    li {
+      width: 30%;
+      border:1px dashed black;
+      text-align:center;
+      padding:1em;
+      background:#fbfbfb;
+    }
+    li:hover {
+      background:#dedede;
+    }
   }
     /* product.vue */
   .brand-list {
@@ -110,17 +100,17 @@ export default {
     list-style: none;
     padding: 0;
     justify-content: space-between;
+    li {
+      width: 32%;
+      box-sizing: border-box;
+      border: 1px dashed black;
+      text-align: center;
+      padding: 1em;
+      background: #fbfbfb;
+      margin: 0.5em 0;
+    }
+    li:hover {
+      background:#dedede;
+    }  
   }
-  .brand-list li {
-    width: 32%;
-    box-sizing: border-box;
-    border: 1px dashed black;
-    text-align: center;
-    padding: 1em;
-    background: #fbfbfb;
-  }
-  .brand-list li:hover {
-    background:#dedede;
-  }  
-
 </style>

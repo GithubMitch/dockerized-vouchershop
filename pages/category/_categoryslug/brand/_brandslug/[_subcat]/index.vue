@@ -30,8 +30,6 @@ export default defineComponent({
     /// SETUP ROUTING HERE FOR NAVIGATION
     const router = useRouter()
     const route = useRoute()
-    const newPath = ref()
-
 
     const addProducts = async (product)  => {
       await actions.addProducts(product)

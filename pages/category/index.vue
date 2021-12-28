@@ -1,11 +1,5 @@
 <template>
-    <main>
-      <!-- /category/index.vue -->
-      <!-- <VoucherShop/> -->
-      <NuxtChild keep-alive/>
-
-    </main>
-
+  <NuxtChild keep-alive/>
 </template>
 
 <script setup>

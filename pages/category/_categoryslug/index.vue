@@ -1,19 +1,16 @@
 <template>
-    <main>
-
-      <div class="inner">
-        <h1>Brands view</h1>
-        <ul class="brand-list">
-          <li v-for="brand in selectableBrands" :key="brand.key">
-              <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
-          </li>
-        </ul>
-      </div>
-      <!-- actionLabel -->
-      <!-- {{$route.params._categoryslug}} -->
-      <NuxtChild/>
-      <VoucherShop keep-alive/>
-    </main>
+  <div class="inner">
+    <h1>Brands view</h1>
+    <ul class="brand-list">
+      <li v-for="brand in selectableBrands" :key="brand.key">
+          <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
+      </li>
+    </ul>
+  </div>
+  <!-- actionLabel -->
+  <!-- {{$route.params._categoryslug}} -->
+  <NuxtChild/>
+  <VoucherShop keep-alive/>
 </template>
 
 <script lang="ts">

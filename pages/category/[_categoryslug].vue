@@ -1,7 +1,5 @@
 <template>
-    <main>
-      <NuxtChild/>
-    </main>
+  <NuxtChild/>
 </template>
 
 <script lang="ts">

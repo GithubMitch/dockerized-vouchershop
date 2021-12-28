@@ -2,8 +2,8 @@
     <main>
       <NuxtChild 
       :selectedBrand="selectedBrand" 
+      :products="stockProducts" 
       keep-alive/>
-      <!-- :products="stockProducts"  -->
     </main>
 </template>
 
@@ -25,7 +25,7 @@
       stockProducts.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
       
 
-      return{selectedBrand};
+      return{selectedBrand, stockProducts};
     }
   })
 </script>
