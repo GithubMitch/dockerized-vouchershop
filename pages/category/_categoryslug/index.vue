@@ -12,7 +12,7 @@
       <!-- actionLabel -->
       <!-- {{$route.params._categoryslug}} -->
       <NuxtChild/>
-      <VoucherShop/>
+      <VoucherShop keep-alive/>
     </main>
 </template>
 

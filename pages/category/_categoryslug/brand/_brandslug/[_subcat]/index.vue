@@ -1,6 +1,6 @@
 <template>
     <main>
-      <Products/>
+      <!-- <Products/> -->
       <!-- <ul>
         <li v-for="(product) in stockProducts" :key="product.ean">
           <NuxtLink class="brandLine product" 
@@ -10,7 +10,7 @@
           </NuxtLink>
         </li>
       </ul> -->
-      <VoucherShop/>
+      <VoucherShop keep-alive/>
       <!-- <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product.key)">{{product}}</a> -->
     </main>
 </template>

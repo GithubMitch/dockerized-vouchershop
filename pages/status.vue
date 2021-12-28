@@ -1,24 +1,21 @@
 <template>
     <main>
-      <HeaderComp />
-        <!-- /category -->
-      <NuxtChild/>
-      <!-- <VoucherShop keep-alive/> -->
-      <FooterComp/>
+      <HeaderComp keep-alive/>
+      <VoucherShop/>
+      <FooterComp keep-alive/>
     </main>
 
 </template>
 
+<script setup>
+</script>
+
 <script lang="ts">
-import { defineComponent} from 'vue'
-
-export default defineComponent({
-  setup() {
-    return {}
-  }
-})
 
 
+export default {
+  name: 'overview',    
+}
 </script>
 
 
@@ -124,4 +121,5 @@ export default defineComponent({
   .brand-list li:hover {
     background:#dedede;
   }  
+
 </style>

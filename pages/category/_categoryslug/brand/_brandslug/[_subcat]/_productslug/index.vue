@@ -1,67 +1,50 @@
 <template>
     <main>
-      <!-- /category/_categoryslug/[brand]/_brandslug/_subcat/_productslug/index.vue -->
-      <!-- <Products/> -->
       <div class="inner">
         <h1>Product detail page</h1>
-        <h2></h2>
+        <h2>{{product.name}}</h2>
         <ul>
-          <li v-for="(descr, index) in detailPageProduct" :key="descr.key">
+          <li  v-for="descr in product" :key="descr.key">
             {{descr}}
           </li>
           <li>
-            <span @click="addProducts(detailPageProduct.key)"> add Product () </span>
-          </li>  
-            <!-- <NuxtLink class="brandLine product" 
-              :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' 
-              :class="{instock : product.inStock}" 
-              @click="addProducts(product.key)">{{ product.name }}
-            </NuxtLink> -->
+            <span @click="addProducts(product.key)"> add Product () </span>
+          </li>
+          <li>
+            <span>
+              <NuxtLink to="/overview">Check out</NuxtLink>
+            </span> 
+          </li>
         </ul>
       </div>
-
       <VoucherShop/>
-      <!-- <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product.key)">{{product}}</a> -->
-      <!-- <NuxtChild keep-alive/> -->
+
     </main>
 
 </template>
 
 <script lang='ts'>
-import { state, actions, methods } from '../../../../../../../store/reactives';
-import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue';
+import { state, actions } from '../../../../../../../store/reactives';
+import { defineComponent, toRef} from 'vue';
 
 export default defineComponent({
-  setup() {
-    const stockProducts = toRef(state, 'stockProducts');
-    const brands = toRef(state, 'brands');
-    const selectedCategory = toRef(state, 'selectedCategory');
-    const selectedBrand = toRef(state, 'selectedBrand');
-    const selectedProducts = toRef(state, 'selectedProducts');
-    const selectableBrands = toRef(state, 'selectableBrands');
-    const detailPageProduct = toRef(state, 'detailPageProduct');
-    /// SETUP ROUTING HERE FOR NAVIGATION
-    const router = useRouter()
-    const route = useRoute()
-    const newPath = ref()
-
+  props: {
+    product:{
+      type: Array,
+      default: []
+    }
+  },
+  async setup(props) {
+    console.log(props)
 
     const addProducts = async (product)  => {
       await actions.addProducts(product)
     }
-
-    onMounted(() => {
-
-    })
+    // const getProduct = async (product)  => {
+    //   props.product = await actions.getProduct(route.params._productslug)
+    // }
 
     return {
-      stockProducts,
-      brands,
-      selectedCategory,
-      selectedBrand,
-      selectedProducts,
-      selectableBrands,
-      detailPageProduct,
       addProducts
     }
   },

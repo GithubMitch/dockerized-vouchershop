@@ -1,4 +1,4 @@
-import {ref, Ref, reactive, toRaw, computed} from 'vue';
+import {ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
 // URL and selected URL for category
@@ -36,6 +36,7 @@ const isAbsent = Symbol();
 const state = reactive ({
   categoryUrl: ref<[]>([]),
   selectedCategory: ref<[]>([]),
+  selectedSubCategory: ref<[]>([]),
   brands: ref<[]>([]),
   selectableBrands: ref<[]>([]),
   selectedBrand: ref<[]>([]),
@@ -43,7 +44,7 @@ const state = reactive ({
   selectableProducts: ref<[]>([]),
   selectedProducts: ref<[]>([]),
   selectedBrandProducts: ref<[]>([]),
-  detailPageProduct: ref<[]>([]),
+  productPage: ref<[]>([]),
 })
 
 const actions = {
@@ -78,27 +79,36 @@ const actions = {
       return e
     }      
   },
+  async getProduct(_productslug) { // find product in stockproducts
+    state.productPage = await state.stockProducts.find(element => element.key == _productslug)
+    console.log('Found this product >>>', state.productPage)
+    return state.productPage
+  },
 
 
   // --------------------------------------------SETTERS------------------------------------------------------
   setCategory(category)  {
     return  (category ? (state.selectedCategory = category, console.log('Set category: ', category)) : console.log('Didnt set category', category))
             // (category ? (categoryUrl.value = category, console.log('Set category: ', category)) : console.log('Didnt set category', category)) 
-      
+  },    
+  // SUB category
+  setSelectedSubCategory(category)  {
+    return  (category ? (state.selectedSubCategory = category, console.log('Set subcategory: ', category)) : console.log('Didnt set subcategory', category))
+            // (category ? (categoryUrl.value = category, console.log('Set category: ', category)) : console.log('Didnt set category', category)) 
   },  
   setSelectedBrand(brand)  {
     return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
-  },  
+  },     
   addProducts(product) {
     return (product ? (
       state.selectedProducts.push(product),
       console.log('Set selectedProducts: ', product)
       ) : console.log('Didnt set selectedProducts', product))
   },
-  setdetailPageProduct(product) {
-    state.detailPageProduct = product
-    console.log('Set:', state.detailPageProduct)
-    return state.detailPageProduct
+  setProductPage(product) {
+    state.productPage = product
+    console.log('Set:', state.productPage)
+    return state.productPage
   },
   // setStockProducts(products)  {
   //   return (products ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))

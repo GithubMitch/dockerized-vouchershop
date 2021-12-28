@@ -1,18 +1,25 @@
 <template>
     <main>
-      <Products/>
+      <!-- <ClientOnly> -->
+      <Products :selectedBrand="selectedBrand" /> 
+      <!-- </ClientOnly> -->
       <!-- <NuxtChild keep-alive/> -->
-      <VoucherShop/>
+      <VoucherShop keep-alive/>
     </main>
 </template>
 
-<script setup>
-</script>
-
 <script lang="ts">
+  import { state, actions } from '../../../../../store/reactives';
+  import {
+    defineComponent,
+    toRef,
+  } from 'vue';
 
-
-export default {
-  name: 'home',    
-}
+  export default defineComponent({
+    async setup(props) {
+      const selectedBrand = toRef(state, 'selectedBrand');
+      // console.log('selectedBrand',selectedBrand.value)
+      return{selectedBrand};
+    }
+  })
 </script>

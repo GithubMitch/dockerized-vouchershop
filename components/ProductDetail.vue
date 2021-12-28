@@ -22,6 +22,7 @@ export default defineComponent({
     const selectableBrands = toRef(state, 'selectableBrands');
 
     console.log(stockProducts.value)
+    console.log('')
     return {stockProducts, selectableBrands, selectedBrand}
   },
 })

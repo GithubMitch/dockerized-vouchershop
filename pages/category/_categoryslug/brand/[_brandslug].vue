@@ -1,18 +1,9 @@
 <template>
     <main>
-
-      <!-- <div class="inner">
-        <h1>Brands view</h1>
-        <ul class="brand-list">
-          <li v-for="brand in selectableBrands" :key="brand.key">
-              <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
-          </li>
-        </ul>
-      </div> -->
-      <!-- actionLabel -->
-      <!-- {{$route.params._categoryslug}} -->
-      <!-- <VoucherShop/> -->
-      <NuxtChild/>
+      <NuxtChild 
+      :selectedBrand="selectedBrand" 
+      keep-alive/>
+      <!-- :products="stockProducts"  -->
     </main>
 </template>
 
@@ -20,24 +11,21 @@
   import { state, actions } from '../../../../store/reactives';
   import {
     defineComponent,
-    ref,
     toRef,
-    watch,
-    } from 'vue';
+  } from 'vue';
 
   export default defineComponent({
-
     async setup(props) {
-
-      const brands = toRef(state, 'brands');
+      const route = useRoute()
       const selectedBrand = toRef(state, 'selectedBrand');
-      const selectableBrands = toRef(state, 'selectableBrands');
+      const stockProducts = toRef(state, 'stockProducts');
 
-      const setSelectedBrand = async (brand)  => {
-        await actions.setSelectedBrand(brand)
-      }
 
-      return{selectableBrands, setSelectedBrand}
+      selectedBrand.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
+      stockProducts.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
+      
+
+      return{selectedBrand};
     }
   })
 </script>

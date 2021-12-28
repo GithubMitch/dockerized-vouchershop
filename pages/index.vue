@@ -1,8 +1,8 @@
 <template>
     <main>
-      <HeaderComp/>
+      <HeaderComp keep-alive/>
       <VoucherShop/>
-      <FooterComp/>
+      <FooterComp keep-alive/>
     </main>
 
 </template>
@@ -20,8 +20,9 @@ export default {
 
 
 
-<style>
-  /* RESET STYLE SHEET */
+<style lang="scss">
+
+/* RESET STYLE SHEET */
   html {
     background:repeating-linear-gradient(
       -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200
@@ -120,6 +121,6 @@ export default {
   }
   .brand-list li:hover {
     background:#dedede;
-  }
+  }  
 
 </style>

@@ -9,7 +9,6 @@
       <NuxtLink to="/category/giftcards">Giftcards</NuxtLink>
       <NuxtLink to="/category/topups">Topups</NuxtLink>
       <NuxtLink to="/category/coupons">Coupons</NuxtLink>
-      <NuxtLink to="/category/blabla">Blabla</NuxtLink>
     </div>
     <!-- <span  match="category" @click="navigateTo($event)" >beltegoed</span>
     <span  match="credit" @click="navigateTo($event)" >credit</span> -->
@@ -31,19 +30,16 @@ export default defineComponent({
     const newPath = ref()
 
     onMounted(() => {
-      // newPath.value = toRaw(route.path)
-      // if (newPath.value.match(/category/g)) {
-      //   console.log('---New Query---', newPath.value )
-      //   actions.setCategory(newPath.value)
-      // }
+        route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
+        route.params._brandslug ? actions.setSelectedBrand(route.params._brandslug) : console.log('No brand');
+        route.params._subcat ? actions.setSelectedSubCategory(route.params._subcat) : console.log('No _subcat');
     })
 
     watch(
       () => route.query,
       async getQuery => {
-        newPath.value = toRaw(route.path)
-        // console.log('---New Query---', newPath )
-        actions.setCategory(newPath.value)
+        console.log('---New Query---', route.params._categoryslug )
+        actions.setCategory(route.params._categoryslug)
       }
     )
 
