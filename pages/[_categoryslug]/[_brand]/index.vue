@@ -1,10 +1,5 @@
 <template>
-  <ClientOnly>
-    <Products :selectedBrand="selectedBrand" /> 
-
-  </ClientOnly>
-
-  <VoucherShop keep-alive/>
+  <Products :selectedBrand="selectedBrand" :products="products"/> 
 </template>
 
 <script lang="ts">
@@ -12,18 +7,23 @@
   import {
     defineComponent,
     toRef,
+    onMounted
   } from 'vue';
 
   export default defineComponent({
+    layout: 'productlist',
     props: {
       selectedBrand:{
         type: String,
         default: ''
+      },
+      products:{
+        type: Array,
+        default: []
       }
     },
-    async setup(props) {
+    async setup(props) {     
       const selectedBrand = toRef(state, 'selectedBrand');
-      console.log(props.selectedBrand)
       return{selectedBrand};
     }
   })

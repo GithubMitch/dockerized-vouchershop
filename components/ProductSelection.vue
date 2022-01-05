@@ -2,19 +2,18 @@
 <template>
  <div>
    <h1>{{brand}}</h1>  
-    <!-- <pre v-if="selectedProducts.length > 0">Selected: {{ selectedProducts }}</pre> -->
+    
     <ul class="product-list">
-      <li v-for="(product) in selectedBrandProducts" :brand="selectedBrand"  :key="product.key">
+      <li v-for="(product) in selectedBrandProducts" :brand="brand"  :key="product.key">
         <NuxtLink class="brandLine product" 
           :to='brand + `/` + product.actionLabel + `/`  + product.key'
           :class="{instock : product.inStock}" 
           @click="setProductPage(product)"
           >
-          <!-- :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' -->
           {{ product.name }}
         </NuxtLink>
       </li>
-      <li class="brandLine" @click="deselect(stockProducts)">
+      <li class="brandLine deselect" @click="deselect(stockProducts)">
         Deselect
       </li>
     </ul> 
@@ -30,10 +29,6 @@ export default defineComponent({
   props: {
     brand: {
       type: String,
-      default: [String]
-    },
-    selectedBrand: {
-      type: String,
       default: ''
     },
     products:{
@@ -48,10 +43,7 @@ export default defineComponent({
     const stockProducts = toRef(state, 'stockProducts');
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedProducts = toRef(state, 'selectedProducts');
-    const selectableBrands = toRef(state, 'selectableBrands');
     const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
-
-    // working selectedBrandProducts.value = _(props.products).filter({ brand: props.brand, inStock: true // })
 
     const setProductPage = async (product)  => {
       await actions.setProductPage(product)
@@ -63,25 +55,22 @@ export default defineComponent({
         Promise.resolve(`Completed Promise`)
       ])
     }
-    const stock = async (props)  => {
-      console.log(props.products)
-      selectedBrandProducts.value = _(props.products).filter({brand: props.brand, inStock: true})
 
-      console.log('Update brand Products', selectedBrandProducts)
-    }
-    // initiate selected brand : product list
-    onMounted(() => {
-      // if not mounted it will fire before there is any data
-      stock(props)
-    })
+      // const stock = async (stockProducts)  => {
+      //   selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value, inStock: true})
+      // }
+      // // watcher
+      // watch([stockProducts], (newValues, prevValues) => {
+      //   stock(stockProducts)
+      // })
 
     return {
       selectedProducts, 
       selectedCategory, 
       stockProducts, 
-      selectableBrands, 
       selectedBrandProducts, 
-      props, setProductPage,
+      props, 
+      setProductPage, 
       deselect 
     }
   },

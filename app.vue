@@ -1,6 +1,21 @@
 <template>
-  <Router-View/>
+  <HeaderComp keep-alive/><Router-View/><FooterComp/> 
 </template>
+
+<script lang="ts">
+export default {
+  setup () {
+    const route = useRoute();
+    useMeta({
+      // title: `goofy`,
+      title: `Vouchershop ${JSON.stringify(route.params)}`,
+      meta: [
+        { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+      ]
+    })
+  }
+}
+</script>
 
 <style lang="scss">
   /* RESET STYLE SHEET */
@@ -46,6 +61,19 @@
     background: #dedede;
     padding:1em;
     border-bottom:1px solid black;
+    &.breadcrumb {
+      background:silver;
+      color:#308ac3;
+      font-weight:500;
+      padding:.25em 1em ;
+      a {
+        color:#308ac3;
+        transition: .3s ease color;
+        &:hover {
+          color:darkblue;
+        }
+      }
+    }
     &:last-child {
       border:none;
     }
@@ -74,6 +102,9 @@
     height:800px;
     padding:1em;
     overflow: scroll;
+    .brandLine.deselect {
+      border:1px solid white;
+    }
     :deep() .brandLine ,
     .brandLine {
       cursor:pointer;

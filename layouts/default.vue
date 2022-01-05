@@ -1,0 +1,38 @@
+<template>
+  <div class="inner">
+    DEFAULT
+  </div>
+  <slot name="content"></slot>
+  <slot/>
+</template>
+
+<script lang="ts">
+
+  export default {
+    layout: `default`,
+    head() {
+      // console.log(this.$content.article)
+      // let title = this.getTitle();
+      return {
+        title: 'default',
+        meta: [
+          {
+            hid: 'ABOUT-HID',
+            name: `About page`,
+            content: 'Website about page'
+          }
+        ]
+      }
+    },
+  }
+// export default {
+//   setup () {
+//     useMeta({
+//       title: 'Home',
+//       meta: [
+//         { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+//       ]
+//     })
+//   }
+// }
+</script>

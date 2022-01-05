@@ -1,18 +1,14 @@
 <template>
-    <main>
-      <NuxtChild/>
-    </main>
+  <NuxtChild/>
 </template>
 
 <script lang='ts'>
-import { state, actions, methods } from '../../../../store/reactives';
-import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue';
+  import { state, actions, methods } from './store/reactives';
+  import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue';
 
-export default defineComponent({
-  setup() {
-
-
-    return {}
-  },
-})
+  export default defineComponent({
+    setup() {
+      return {}
+    },
+  })
 </script>

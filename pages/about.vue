@@ -1,22 +1,22 @@
 <template>
-  <NuxtLayout name="category">
+  <NuxtLayout name="default">
     <template #content>
-      <NuxtChild keep-alive/> 
-    </template>
-    <template #vouchershopcomponent>
-      <VoucherShop keep-alive/>
+      <div class="inner">
+        Default layout
+      </div>
     </template>
   </NuxtLayout>
 </template>
-
 <script lang="ts">
-  export default {
-    // layout: "category",
-    layout: false
-  }
+
+
+export default {
+  name: 'about',    
+}
 </script>
 
-<style lang="scss">
+
+<style>
 /* RESET STYLE SHEET */
   html {
     background:repeating-linear-gradient(
@@ -38,15 +38,16 @@
     max-width:990px;
     box-sizing:border-box;
     width:100%;
-    display:block;
+    display: flex;
+    flex-direction: column;
     position:relative;
-    margin:0 auto;
+    margin:auto;
     background: #dedede;
     padding:1em;
     border-bottom:1px solid black;
-    &:last-of-type {
-      border:none;
-    }
+  }
+  .inner:last-child {
+    border:none;
   }
   .product{
     text-decoration: line-through;
@@ -65,13 +66,13 @@
     height:800px;
     padding:1em;
     overflow: scroll;
-    :deep() .brandLine ,
-    .brandLine {
-      cursor:pointer;
-    }
-    :deep() .brandLine:hover {
-      text-decoration: underline;
-    }
+  }
+  #config-window :deep() .brandLine ,
+  .brandLine {
+    cursor:pointer;
+  }
+  #config-window :deep() .brandLine:hover {
+    text-decoration: underline;
   }
 
   /* product.vue */
@@ -84,16 +85,16 @@
     align-items: center;
     list-style:none;
     padding:0;
-    li {
-      width: 30%;
-      border:1px dashed black;
-      text-align:center;
-      padding:1em;
-      background:#fbfbfb;
-    }
-    li:hover {
-      background:#dedede;
-    }
+  }
+  .product-list li {
+    width: 30%;
+    border:1px dashed black;
+    text-align:center;
+    padding:1em;
+    background:#fbfbfb;
+  }
+  .product-list li:hover {
+    background:#dedede;
   }
     /* product.vue */
   .brand-list {
@@ -105,17 +106,17 @@
     list-style: none;
     padding: 0;
     justify-content: space-between;
-    li {
-      width: 32%;
-      box-sizing: border-box;
-      border: 1px dashed black;
-      text-align: center;
-      padding: 1em;
-      background: #fbfbfb;
-      margin: 0.5em 0;
-    }
-    li:hover {
-      background:#dedede;
-    }  
   }
+  .brand-list li {
+    width: 32%;
+    box-sizing: border-box;
+    border: 1px dashed black;
+    text-align: center;
+    padding: 1em;
+    background: #fbfbfb;
+  }
+  .brand-list li:hover {
+    background:#dedede;
+  }  
+
 </style>

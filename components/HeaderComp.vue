@@ -6,7 +6,11 @@
     </div>
     <div id="HeaderContent">
         <div id="HeaderNav">
-            <div id="Links"><a href="/about" class="">Over Vouchershop</a><a href="/contact" class="">Contact</a></div>
+
+            <div id="Links">
+              <a href="/about" class="">Over Vouchershop</a>
+              <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
+            </div>
         </div>
         <div id="HeaderSpace">
             <div id="Cart" class=""><p>€0,00</p></div>
@@ -16,7 +20,7 @@
   <div id="PageMenu">
     <div id="PageMenuContent">
       <div id="Categories">
-        <div mode="out-in">
+        <div>
             <NuxtLink class="category" to="/">Home</NuxtLink>
             <NuxtLink class="category" to="/beltegoed">Beltegoed</NuxtLink>
             <NuxtLink class="category" to="/gaming">Gaming</NuxtLink>
@@ -24,8 +28,6 @@
             <NuxtLink class="category" to="/giftcards">Giftcards</NuxtLink>
             <NuxtLink class="category" to="/topups">Topups</NuxtLink>
             <NuxtLink class="category" to="/coupons">Coupons</NuxtLink>
-          <!-- <a href="#/category/topups" class="category btg"><img src="@/assets/btg.svg" />Beltegoed</a><span class="sep">|</span>
-          <a href="#/category/giftcards" class="category credit"><img src="@/assets/credit.svg" />Giftcards &amp; Credit</a> -->
         </div>
       </div>
     </div>
@@ -47,14 +49,13 @@ export default defineComponent({
     onMounted(() => {
         route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
         route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
-        console.log(route.params._brand)
-        route.params._subcat ? actions.setSelectedSubCategory(route.params._subcat) : console.log('No _subcat');
+        route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
+        route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No _products for (_productslug)');
     })
 
     watch(
       () => route.query,
       async getQuery => {
-        console.log('---New Query---', route.params._categoryslug )
         actions.setCategory(route.params._categoryslug)
       }
     )

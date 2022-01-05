@@ -7,8 +7,6 @@
       </li>
     </ul>
   </div>
-  <!-- actionLabel -->
-  <!-- {{$route.params._categoryslug}} -->
   <NuxtChild/>
   <VoucherShop keep-alive/>
 </template>
@@ -25,7 +23,6 @@
   export default defineComponent({
 
     async setup(props) {
-      console.log()
       const brands = toRef(state, 'brands');
       const selectedBrand = toRef(state, 'selectedBrand');
       const selectableBrands = toRef(state, 'selectableBrands');

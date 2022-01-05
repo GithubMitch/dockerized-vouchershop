@@ -1,6 +1,5 @@
-
 <template>
-  <ProductSelection class="inner" :brand="selectedBrand" :products="stockProducts" keep-alive/>
+  <ProductSelection class="inner" :brand="selectedBrand" :products="products" keep-alive/>
 </template> 
 
 <script>
@@ -11,22 +10,21 @@ export default defineComponent({
   props: {
     selectedBrand:{
       type: String,
-      default: [String]
+      default: ''
+    },
+    products:{
+      type: Array,
+      default: []
     }
   },
   async setup(props) {
-    console.log('Products.vue props:', props)
     const stockProducts = toRef(state, 'stockProducts');
-    // const selectedBrand = toRef(state, 'selectedBrand');
     const selectableBrands = toRef(state, 'selectableBrands');
       
-    console.log('stockProducts', stockProducts.value)
 
-    // watcher
-    watch([props], (newValues, prevValues) => {
-      console.log('Watch:',prevValues, newValues)
-      // stock(props)
-    })
+    // // watcher
+    // watch([props], (newValues, prevValues) => {
+    // })
 
     return {
       stockProducts, 

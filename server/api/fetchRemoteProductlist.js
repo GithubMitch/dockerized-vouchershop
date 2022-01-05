@@ -19,10 +19,7 @@ export default async (req, res) => {
   };
 
   dynamodb.scan(params, (err, data) => {
-    // if (err) {console.log(err)};
-      //throw { msg: 'Request failed' , data: err };
     items = data.Items
-    // console.log('Products >>>> Finished dynamoDB SCAN....');
     return items;
   });
   return items

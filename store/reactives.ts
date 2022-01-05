@@ -34,12 +34,12 @@ import {_} from 'vue-underscore';
 const isAbsent = Symbol();
 
 const state = reactive ({
-  categoryUrl: ref<[]>([]),
+  categoryUrl: ref(''),
   selectedCategory: ref<[]>([]),
   selectedSubCategory: ref<[]>([]),
   brands: ref<[]>([]),
   selectableBrands: ref<[]>([]),
-  selectedBrand: ref<[]>([]),
+  selectedBrand: ref(''),
   stockProducts: ref<[]>([]),
   selectableProducts: ref<[]>([]),
   selectedProducts: ref<[]>([]),
@@ -74,7 +74,7 @@ const actions = {
       // methods.validateStock(productsRequest.products);
       return methods.validateStock(productsRequest.products);
     }catch(e){
-      console.log('Initiate gracefull shutdown');
+      console.log('Fetchstocklist has following error:');
       console.log(e);
       return e
     }      
@@ -97,6 +97,9 @@ const actions = {
             // (category ? (categoryUrl.value = category, console.log('Set category: ', category)) : console.log('Didnt set category', category)) 
   },  
   setSelectedBrand(brand)  {
+    
+    // state.selectedBrandProducts = _(state.stockProducts).filter({brand: brand, inStock: true});
+     // console.trace()
     return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
   },     
   addProducts(product) {
@@ -105,8 +108,13 @@ const actions = {
       console.log('Set selectedProducts: ', product)
       ) : console.log('Didnt set selectedProducts', product))
   },
-  setProductPage(product) {
-    state.productPage = product
+  async setProductPage(product) {
+    if (product.key) {
+      state.productPage = product
+    } else {
+      let product = await state.stockProducts.find(element => element.key == product)
+      state.productPage = product
+    }
     console.log('Set:', state.productPage)
     return state.productPage
   },

@@ -1,10 +1,7 @@
 <template>
-    <main>
-      <HeaderComp keep-alive/>
-      <VoucherShop/>
-      <FooterComp keep-alive/>
-    </main>
-
+  <HeaderComp keep-alive/>
+  <VoucherShop/>
+  <FooterComp keep-alive/>
 </template>
 
 <script setup>

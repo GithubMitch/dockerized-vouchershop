@@ -1,18 +1,5 @@
 <template>
-    <main>
-      <!-- <Products/> -->
-      <!-- <ul>
-        <li v-for="(product) in stockProducts" :key="product.ean">
-          <NuxtLink class="brandLine product" 
-            :to='`${selectedCategory}` + `/` + product.actionLabel + `/` + product.key' 
-            :class="{instock : product.inStock}" 
-            @click="addProducts(product.key)">{{ product.name }}
-          </NuxtLink>
-        </li>
-      </ul> -->
-      <VoucherShop keep-alive/>
-      <!-- <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product.key)">{{product}}</a> -->
-    </main>
+>456
 </template>
 
 <script lang='ts'>
@@ -20,6 +7,8 @@ import { state, actions } from '../../../../store/reactives';
 import { defineComponent, ref, toRef } from 'vue';
 
 export default defineComponent({
+  layout: false,
+
   setup() {
     const stockProducts = toRef(state, 'stockProducts');
     const brands = toRef(state, 'brands');

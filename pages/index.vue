@@ -1,14 +1,31 @@
 <template>
-      <HeaderComp keep-alive/>
-      <VoucherShop/>
-      <FooterComp keep-alive/>
+  <NuxtLayout name="home">
+    <template #content>
+      <div class="inner">
+        Home Content
+      </div>
+    </template>
+
+    <template #vouchershopcomponent>
+      <VoucherShop keep-alive/>
+    </template>
+  </NuxtLayout>
 </template>
 
 <script lang="ts">
 
-export default {
-  name: 'home',    
-}
+  export default {
+    layout: `home`,
+    setup () {
+      useMeta({
+        title: 'Home',
+        meta: [
+          { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+        ]
+      })
+    }
+  }
+
 </script>
 
 <style lang="scss">

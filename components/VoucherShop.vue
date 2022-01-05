@@ -1,59 +1,31 @@
-<template keep-alive>
+<template>
  <div class="inner"> 
    <h1>Vouchershop component</h1> 
-
     <div id="config-window">
       <ul>
         <li>
           category:
-          <Suspense>
-            <template #default>
               <span>
                 <pre v-if="$route.params._categoryslug">Selected:
-                   
 Category    : {{ $route.params._categoryslug }}
-Brand       :  -{{ $route.params._brandslug }}
-Subcategory :  -{{ $route.params._subcat }}
+Brand       :  -{{ $route.params._brand }}
+Subcategory :  -{{ $route.params._for }}
                 </pre>
               </span>
-            </template>
-            <template #fallback>
-              <div>Loading...</div>
-            </template>
-          </Suspense>                
         </li>
         <li>
           brands:
-
-          <Suspense>
-            <template #default>
               <ul v-show="$route.params._categoryslug">
                 <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
                 <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
                   <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
-                  <!-- <a class="brandLine" @click="setSelectedBrand(brand.key)">{{brand}}</a> -->
                 </li>
                 <li class="brandLine" @click="deselect(brands)">Deselect</li>
               </ul>
-                  
-            </template>
-            <template #fallback>
-              <div>Loading...</div>
-            </template>
-          </Suspense>          
         </li>
         <li>
           products:
-
-
-          <Suspense>
-            <template #default>
               <pre v-show="selectedProducts">Cart: {{ selectedProducts }}</pre>
-            </template>
-            <template #fallback>
-              <div>Loading...</div>
-            </template>
-          </Suspense>
         </li>
         <li>overview:</li>
         <li>status:</li>
@@ -63,17 +35,15 @@ Subcategory :  -{{ $route.params._subcat }}
 </template> 
 
 
-<script lang="ts">
+<script >
 import { state, actions } from '../store/reactives';
 import {
   defineComponent,
-  ref,
   toRef,
-  watch,
   } from 'vue';
 
 export default defineComponent({
-  async setup(props) {
+  async setup() {
     const router = useRouter();
     // const route = useRoute();
     const stockProducts = toRef(state, 'stockProducts');

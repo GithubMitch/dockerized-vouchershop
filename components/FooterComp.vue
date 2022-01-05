@@ -1,19 +1,12 @@
-<script>
- export default {}
-</script>
-
 <template>
- <footer >
-   <h1>A footer !</h1> 
+ <footer>
+   <h1>A footer !</h1>
  </footer>
-</template> 
-
+</template>
 <style lang="scss">
-
   footer{
     flex: 0 1 10%;
     border-top: 1px solid #bb5215;
-    // background: #f37126 repeating-linear-gradient(45deg, #ff7514, transparent 100px);
     background: #ff7514 repeating-linear-gradient(45deg, #ff7514, #f36000a1 100px);
     color: #FFF;
     box-shadow: -3px -4px 1px #00000030;
