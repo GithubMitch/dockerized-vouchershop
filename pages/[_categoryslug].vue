@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout name="category">
     <template #content>
-      <ClientOnly>
+      <!-- <ClientOnly> -->
         <NuxtChild/> 
-      </ClientOnly>
+      <!-- </ClientOnly> -->
 
     </template>
     <template #vouchershopcomponent>
@@ -20,6 +20,9 @@
 </script>
 
 <style lang="scss">
+#voucherShop {
+  display:none;
+}
 /* RESET STYLE SHEET */
   html {
     background:repeating-linear-gradient(
@@ -77,48 +80,4 @@
     }
   }
 
-  /* product.vue */
-  .product-list {
-    display: flex;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    list-style:none;
-    padding:0;
-    li {
-      width: 30%;
-      border:1px dashed black;
-      text-align:center;
-      padding:1em;
-      background:#fbfbfb;
-    }
-    li:hover {
-      background:#dedede;
-    }
-  }
-    /* product.vue */
-  .brand-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    justify-content: space-between;
-    li {
-      width: 32%;
-      box-sizing: border-box;
-      border: 1px dashed black;
-      text-align: center;
-      padding: 1em;
-      background: #fbfbfb;
-      margin: 0.5em 0;
-    }
-    li:hover {
-      background:#dedede;
-    }  
-  }
 </style>

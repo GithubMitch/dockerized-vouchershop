@@ -1,22 +1,33 @@
 
 <template>
  <div>
-   <h1>{{brand}}</h1>  
-    
-    <ul class="product-list">
-      <li v-for="(product) in selectedBrandProducts" :brand="brand"  :key="product.key">
-        <NuxtLink class="brandLine product" 
-          :to='brand + `/` + product.actionLabel + `/`  + product.key'
-          :class="{instock : product.inStock}" 
-          @click="setProductPage(product)"
-          >
-          {{ product.name }}
-        </NuxtLink>
-      </li>
-      <li class="brandLine deselect" @click="deselect(stockProducts)">
-        Deselect
-      </li>
-    </ul> 
+  <h1>{{brand}}</h1>  
+  <ul class="styled-list product-list">
+    <li class="item" v-for="(product) in selectedBrandProducts" :brand="brand"  :key="product.key">
+      <NuxtLink class="brandLine product" 
+        :to='brand + `/` + product.actionLabel + `/`  + product.key'
+        :class="{instock : product.inStock}" 
+        @click="setProductPage(product)"
+        >
+          <img :src="`../../assets/logos/${product.brand}.png`" />
+          <span class="price" for="">€ {{product.value / 100}}</span>
+          <span class="name">{{ product.name }}</span>
+          <span class="action" for="">{{product.actionLabel}}</span>
+
+          <Fold
+              width="45" 
+              height="45"
+              :class="'MyGradient_'+index"           
+              :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+              :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+              :MyGradient="'MyGradient'"
+              />
+      </NuxtLink>
+    </li>
+    <li class="item brandLine deselect" @click="deselect(stockProducts)">
+      Deselect
+    </li>
+  </ul> 
  </div>
 </template>
 

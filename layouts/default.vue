@@ -1,6 +1,7 @@
 <template>
   <div class="inner">
     DEFAULT
+
   </div>
   <slot name="content"></slot>
   <slot/>
@@ -15,6 +16,12 @@
       // let title = this.getTitle();
       return {
         title: 'default',
+        link: [
+          {
+            rel: "stylesheet",
+            href: "/assets/iconfont/iconfont.css"
+          }
+        ],
         meta: [
           {
             hid: 'ABOUT-HID',

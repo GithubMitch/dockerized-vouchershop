@@ -1,20 +1,25 @@
 <template #content>
-    <div class="inner">
-      <h1>Product detail page</h1>
-      <h2>{{product.name}}</h2>
+    <div class="inner productpage">
+      <!-- <h1>Product detail page</h1> -->
+      <h1>{{product.name}}</h1>
+      <div class="description">
+        <p>
+          Suspendisse quis dui et ipsum sagittis feugiat. Etiam ac justo auctor nunc pellentesque molestie nec pulvinar odio. 
+          Vivamus malesuada, metus ac feugiat fermentum, mi odio consequat justo, ac ultricies orci massa vitae risus. Vestibulum sollicitudin lorem augue, 
+          quis lacinia felis finibus vitae. Mauris id blandit dolor. In lacinia laoreet neque et aliquam. Nam vitae fringilla ex. Donec dictum pellentesque arcu id malesuada.  
+        </p> 
+      </div>
       <ul>
-        <li  v-for="descr in product" :key="descr.key">
+        <li>
+          <span>Prijs = {{product.value}}</span>
+        </li>  
+        <!-- <li  v-for="descr in product" :key="descr.key">
           {{descr}}
-        </li>
-        <li>
-          <span @click="addProducts(product.key)"> add Product () </span>
-        </li>
-        <li>
-          <span>
-            <NuxtLink to="/overview">Check out</NuxtLink>
-          </span> 
-        </li>
+        </li> -->
       </ul>
+      <button class="cta" @click="addProducts(product.key)"> Add to cart </button>
+      <hr>
+      <NuxtLink class="cta" to="/overview">To cart</NuxtLink>
     </div>
 </template>
 

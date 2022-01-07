@@ -20,5 +20,4 @@
 </script>
 
 <style scoped>
-  /* .brand-list {} */
 </style>

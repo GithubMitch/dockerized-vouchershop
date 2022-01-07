@@ -1,5 +1,5 @@
 <template>
- <div class="inner"> 
+ <div id="voucherShop" class="inner"> 
    <h1>Vouchershop component</h1> 
     <div id="config-window">
       <ul>

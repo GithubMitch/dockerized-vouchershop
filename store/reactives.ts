@@ -56,7 +56,7 @@ const actions = {
     // products.value = await $fetch("/api/fetchremoteproductlist");
       // console.log("Fetched product list")
     // products.value = response;
-      // console.log('Product list fetched :.... \n', state.selectableProducts );
+      console.log('Product list fetched :.... \n', state.selectableProducts );
       // console.trace()
 
     return toRaw(state.selectableProducts);
@@ -72,7 +72,7 @@ const actions = {
   async fetchStockList() {
     try{
       let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
-      // console.log('productsRequest',productsRequest.products)
+      console.log('productsRequest',productsRequest.products);
       // methods.validateStock(productsRequest.products);
       return methods.validateStock(productsRequest.products);
     }catch(e){
@@ -85,8 +85,7 @@ const actions = {
     state.productPage = await state.stockProducts.find(element => element.key == _productslug)
     console.log('Found this product >>>', state.productPage)
     return state.productPage
-  },
-
+  },    
 
   // --------------------------------------------SETTERS------------------------------------------------------
   setCategory(category)  {

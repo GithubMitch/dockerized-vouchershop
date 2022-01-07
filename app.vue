@@ -1,5 +1,6 @@
 <template>
   <LazyHeaderComp/>
+  <SalesProps/>
   <Router-View/>
   <LazyFooterComp/> 
 </template>
@@ -9,7 +10,6 @@ export default {
   setup () {
     const route = useRoute();
     useMeta({
-      // title: `goofy`,
       title: `Vouchershop ${JSON.stringify(route.params)}`,
       meta: [
         { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
@@ -63,6 +63,11 @@ export default {
     background: #dedede;
     padding:1em;
     border-bottom:1px solid black;
+    &.productpage {
+      background:none;
+      border:0;
+      padding:0;
+    }
     &.breadcrumb {
       background:silver;
       color:#308ac3;
@@ -115,69 +120,134 @@ export default {
       text-decoration: underline;
     }
   }
-
-  /* product.vue */
-  .product-list {
-    display: flex;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+  .styled-list {
+    display:flex;
+    padding-left:0;
+    flex-wrap:wrap;
     list-style:none;
-    padding:0;
-    li {
-      width: 32%;
-      box-sizing: border-box;
-      border: 1px dashed black;
-      text-align: center;
-      padding: 1em;
-      background: #fbfbfb;
-      margin: 0.5em 0;
-      transition:.3s ease all;
-      a {
-        transition:.3s ease all;
-      }
-    }
-    li:hover {
-      // background:#dedede;
-      border:1px solid black;
-      a {
-        text-decoration: none;
-        font-weight:500;
-      }
-    }  
-  }
-    /* product.vue */
-  .brand-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
     justify-content: space-between;
-    li {
-      width: 32%;
-      box-sizing: border-box;
-      border: 1px dashed black;
-      text-align: center;
-      padding: 1em;
-      background: #fbfbfb;
-      margin: 0.5em 0;
-      transition:.3s ease all;
+
+    .item {
+      display:flex;
+      min-width:162px;
+      min-height:162px;
+      max-width:162px;
+      margin-bottom: 2rem;
+      margin-top: 2rem;
+      text-align:center;
+      border-radius:7px;
+      overflow:hidden;
+      box-shadow: 0 0 3px rgb(0 0 0 / 19%);
+      color: #2c3e50;
       a {
-        transition:.3s ease all;
+        background:#fff;
+        color:inherit;
+        display:block;
+        padding: 10px;
+        width: 100%;
+        height: 100%;    
+        box-sizing: border-box;
+        position:relative;
+        text-decoration: none;
+        
+        span {
+          text-transform: uppercase;
+          display:block;
+          &.price {
+            font-size:40px;
+            line-height:1em;
+          }
+          &.name {
+            font-weight:bold;
+            opacity:.7;
+            font-size:1em;
+          }
+          &.action {
+            font-weight:light;
+            font-size:.888em;
+            opacity:.6;
+          }
+        }
+        img {
+          max-width:100%;
+          + span {
+            font-weight:bold;
+            display:block;
+            margin-bottom:.25em;
+          }
+        }
       }
     }
-    li:hover {
-      // background:#dedede;
-      border:1px solid black;
-      a {
-        text-decoration: none;
-        font-weight:500;
-      }
-    }  
+  }
+
+  #SalesProps{
+    position:relative;
+    max-width:990px;
+    min-width:990px;
+    margin:0 auto
+  }
+  #SalesProps,#SalesProps #SalesPropsContent{
+      display:-webkit-box;
+      display:-ms-flexbox;
+      display:flex;
+      -webkit-box-pack:justify;
+      -ms-flex-pack:justify;
+      justify-content:space-between
+  }
+  #SalesProps div{
+      -webkit-box-flex:1;
+      -ms-flex:1 1 33%;
+      flex:1 1 33%;
+      border-right:1px solid #ddd;
+      min-height:100px;
+      padding-right:1em;
+      margin-top:1em;
+      text-align:left
+  }
+  #SalesProps div img{
+      float:left;
+      margin:1em;
+      max-height:70px;
+      max-width:100px
+  }
+  #SalesProps div h1{
+      font-size:18px;
+      margin-bottom:5px;
+      color:#105a8a;
+      font-weight:900
+  }
+  #SalesProps div p.desc{
+      margin-top:0;
+      font-size:.85em
+  }
+  #SalesProps div:last-child{
+      margin-right:0;
+      border:none
+  }
+  #SalesProps div#NoRegistration img{
+      margin-top:1.5em
+  }
+
+//buttons
+  .cta {
+    margin: 0;
+    left: 0;
+    background: linear-gradient(186deg,#28c475,#15734c);
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 7px;
+    min-height: 50px;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    line-height:1em;
+    padding:.777em;
+    box-sizing:border-box;
+    font-weight:500;
   }
 </style>
