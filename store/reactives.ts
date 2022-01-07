@@ -44,7 +44,9 @@ const state = reactive ({
   selectableProducts: ref<[]>([]),
   selectedProducts: ref<[]>([]),
   selectedBrandProducts: ref<[]>([]),
+  productFilter: ref<[]>([]),
   productPage: ref<[]>([]),
+  
 })
 
 const actions = {
@@ -54,7 +56,7 @@ const actions = {
     // products.value = await $fetch("/api/fetchremoteproductlist");
       // console.log("Fetched product list")
     // products.value = response;
-      // console.log('Product list fetched :.... \n', state.products );
+      // console.log('Product list fetched :.... \n', state.selectableProducts );
       // console.trace()
 
     return toRaw(state.selectableProducts);
@@ -141,6 +143,25 @@ const actions = {
 }
 
 const methods = {
+
+  async filterProducts(stockProducts){
+    // console.log('handling products...');
+    const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
+    
+      return filteredProduct.brand == 'tmobile'; 
+    });
+    console.log(filteredProductList)
+    // const filteredProductList = await _(state.stockProducts).map( (filteredProduct) => {
+    //   return {
+    //     ...filteredProduct,
+    //     actionLabel : _(stockProducts).findIndex({ean: filteredProduct.ean }) != -1
+    //   }
+    // });
+    state.productFilter = filteredProductList;
+    console.log(filteredProductList)
+    return toRaw(state.productFilter)
+  },
+
   async validateStock(stockProducts){
     // console.log('handling products...');
     const optimizedProductList = await _(state.selectableProducts).map( (stockItem) => {

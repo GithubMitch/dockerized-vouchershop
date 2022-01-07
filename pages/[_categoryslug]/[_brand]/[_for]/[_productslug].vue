@@ -30,13 +30,11 @@ export default defineComponent({
     })
 
     const getProduct = async (productslug)  => {
-      console.log('productslug', productslug)
       await actions.getProduct(productslug)
     }
     
     return {
       pickedProduct,
-      getProduct
     }
   },
 })

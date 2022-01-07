@@ -1,7 +1,6 @@
 <template>
   <NuxtLayout name="category">
     <template #content>
-    123
       <NuxtChild 
       :selectedBrand="selectedBrand" 
       :products="stockProducts" 

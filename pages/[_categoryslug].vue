@@ -1,18 +1,21 @@
 <template>
   <NuxtLayout name="category">
     <template #content>
-      <NuxtChild keep-alive/> 
+      <ClientOnly>
+        <NuxtChild/> 
+      </ClientOnly>
+
     </template>
     <template #vouchershopcomponent>
-      <VoucherShop keep-alive/>
+        <LazyVoucherShop/>
     </template>
   </NuxtLayout>
 </template>
 
 <script lang="ts">
   export default {
-    // layout: "category",
-    layout: false
+    layout: "category",
+    // layout: false
   }
 </script>
 

@@ -18,7 +18,7 @@ Subcategory :  -{{ $route.params._for }}
               <ul v-show="$route.params._categoryslug">
                 <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
                 <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
-                  <NuxtLink class="brandLine" :to='`/category/${$route.params._categoryslug}` + `/brand/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
+                  <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
                 </li>
                 <li class="brandLine" @click="deselect(brands)">Deselect</li>
               </ul>

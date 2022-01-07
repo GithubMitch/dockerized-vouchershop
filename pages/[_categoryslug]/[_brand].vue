@@ -24,7 +24,8 @@
   } from 'vue';
 
   export default defineComponent({
-    layout: 'productlist',
+    layout: false,
+    inheritAttrs: false,
     async setup(props) {
       const route = useRoute()
       const selectedBrand = toRef(state, 'selectedBrand');

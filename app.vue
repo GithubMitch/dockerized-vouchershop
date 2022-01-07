@@ -1,5 +1,7 @@
 <template>
-  <HeaderComp keep-alive/><Router-View/><FooterComp/> 
+  <LazyHeaderComp/>
+  <Router-View/>
+  <LazyFooterComp/> 
 </template>
 
 <script lang="ts">

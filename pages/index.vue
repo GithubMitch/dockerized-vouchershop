@@ -1,13 +1,15 @@
 <template>
   <NuxtLayout name="home">
     <template #content>
+      <client-only>
       <div class="inner">
         Home Content
       </div>
+      </client-only>
     </template>
 
     <template #vouchershopcomponent>
-      <VoucherShop keep-alive/>
+        <LazyVoucherShop keep-alive/>
     </template>
   </NuxtLayout>
 </template>
@@ -15,7 +17,9 @@
 <script lang="ts">
 
   export default {
-    layout: `home`,
+    layout: false,
+    inheritAttrs: false,
+    name:'home',
     setup () {
       useMeta({
         title: 'Home',

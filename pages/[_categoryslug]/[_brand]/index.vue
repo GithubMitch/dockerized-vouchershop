@@ -1,5 +1,5 @@
 <template>
-  <Products :selectedBrand="selectedBrand" :products="products"/> 
+  <LazyProducts :selectedBrand="selectedBrand" :products="products"/> 
 </template>
 
 <script lang="ts">
