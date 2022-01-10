@@ -46,7 +46,18 @@ const state = reactive ({
   selectedBrandProducts: ref<[]>([]),
   productFilter: ref<[]>([]),
   productPage: ref<[]>([]),
-  
+  cart: ref<[]>([]),
+  order: ref({
+    selectedCategory: null,
+    selectedBrand: null,
+    orderItems: ref<[]>([]),
+    name: null,
+    mobile: null,
+    email: null,
+    confirmed: null,
+    }
+  )
+
 })
 
 const actions = {
@@ -103,18 +114,23 @@ const actions = {
      // console.trace()
     return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
   },     
-  addProducts(product) {
-    return (product ? (
-      state.selectedProducts.push(product),
-      console.log('Set selectedProducts: ', product)
-      ) : console.log('Didnt set selectedProducts', product))
+  addProducts(product, counter) {
+    if (state.order.orderItems.find(element => element.key == product.key)) {
+        console.log('Found product in orderItems,  qnt ++')
+        product.qnt = counter
+        state.order.orderItems.push(product);
+    } else {
+        state.order.orderItems.push(product);
+        console.log('Nothing found in orderItems ')
+    }
+    return 
   },
   async setProductPage(product) {
     if (product.key) {
       state.productPage = product
     } else {
-      let product = await state.stockProducts.find(element => element.key == product)
-      state.productPage = product
+      let thisProduct = await state.stockProducts.find(element => element.key == product)
+      state.productPage = thisProduct
     }
     console.log('Set:', state.productPage)
     return state.productPage

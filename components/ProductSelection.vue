@@ -22,6 +22,11 @@
               :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :MyGradient="'MyGradient'"
               />
+              <template #icon>
+                <template>
+                  <!-- v-icon(name="x") -->
+                </template>
+              </template>
       </NuxtLink>
     </li>
     <li class="item brandLine deselect" @click="deselect(stockProducts)">

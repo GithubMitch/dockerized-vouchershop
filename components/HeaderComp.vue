@@ -13,6 +13,8 @@
             </div>
         </div>
         <div id="HeaderSpace">
+            <NuxtLink class="category" to="/status">status</NuxtLink>
+
             <div id="Cart" class=""><p>€0,00</p></div>
         </div>
     </div>
@@ -33,6 +35,7 @@
     </div>
   </div>
   <BreadCrumb/>
+  <PageSubMenu/>
 </template>
 
 <script lang='ts'>
@@ -302,13 +305,13 @@ export default defineComponent({
   }
   #PageSubMenu {
     nav {
-      background: #DDDDDD50;
+      // background: #DDDDDD50;
     }
     ul {
       list-style:none;
       padding:0;
       width: 100%;
-      max-width: 1100px;
+      max-width: 990px;
       margin:0 auto;
       display:flex;
       background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
@@ -334,6 +337,7 @@ export default defineComponent({
         -ms-flex: 0 1 25%;
         flex: 0 1 25%;
         transition: .3s ease opacity;
+        text-align:center;
         &:hover {
           opacity: .7;
         }

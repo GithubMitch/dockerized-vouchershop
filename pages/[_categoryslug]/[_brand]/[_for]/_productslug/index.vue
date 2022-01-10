@@ -2,6 +2,7 @@
     <div class="inner productpage">
       <!-- <h1>Product detail page</h1> -->
       <h1>{{product.name}}</h1>
+      <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
       <div class="description">
         <p>
           Suspendisse quis dui et ipsum sagittis feugiat. Etiam ac justo auctor nunc pellentesque molestie nec pulvinar odio. 
@@ -17,7 +18,7 @@
           {{descr}}
         </li> -->
       </ul>
-      <button class="cta" @click="addProducts(product.key)"> Add to cart </button>
+      <button class="cta" @click="addProducts(product, counter++)"> Add to cart </button>
       <hr>
       <NuxtLink class="cta" to="/overview">To cart</NuxtLink>
     </div>
@@ -25,7 +26,7 @@
 
 <script lang='ts'>
 import { state, actions } from '../../../../../store/reactives';
-import { defineComponent, toRef} from 'vue';
+import { defineComponent, toRef, ref} from 'vue';
 
 export default defineComponent({
   layout: false,
@@ -37,12 +38,14 @@ export default defineComponent({
   },
   async setup(props) {
     // console.log(props.product)
-    const addProducts = async (product)  => {
-      await actions.addProducts(product)
+    const counter = useState('counter', () => 0)
+    const addProducts = async (product, counter )  => {
+      await actions.addProducts(product, counter)
     }
 
     return {
-      addProducts
+      addProducts, 
+      counter
     }
   },
 })

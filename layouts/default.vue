@@ -1,8 +1,4 @@
 <template>
-  <div class="inner">
-    DEFAULT
-
-  </div>
   <slot name="content"></slot>
   <slot/>
 </template>

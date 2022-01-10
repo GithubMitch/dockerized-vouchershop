@@ -12,10 +12,16 @@
         </linearGradient>
       </defs>  
     </svg>
-    <div class="tip" :style="adjustedTextStyle">
+    <div class="tip" 
+    >
+      <!-- :style="adjustedTextStyle" -->
       <span v-if="text != ''">{{text}}</span>
       <div class="tipContent" v-else>
-        <i class="i simple-line-icons:info"></i>
+          <slot name="icon"></slot>
+          <slot/>
+          <!-- <template>
+            <i class="i simple-line-icons:info"></i>
+          </template> -->
       </div>
     </div>
   </div>  

@@ -1,6 +1,6 @@
 <template>
   <div class="inner">
-    <h1>{{$route.params._categoryslug}}</h1>
+    <h1 class="page-title">{{$route.params._categoryslug}}</h1>
     <ul class="styled-list brand-list">
       <li class="item" v-for="(brand, index) in selectableBrands" :key="brand.key">
         <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/${brand.key}`' 
@@ -18,6 +18,9 @@
               :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :MyGradient="'MyGradient'"
               />
+              <template name="icon">
+                <i class="i simple-line-icons:info"></i>
+              </template>
         </NuxtLink>
       </li>
     </ul>

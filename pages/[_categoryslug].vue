@@ -47,9 +47,7 @@
     display:block;
     position:relative;
     margin:0 auto;
-    background: #dedede;
     padding:1em;
-    border-bottom:1px solid black;
     &:last-of-type {
       border:none;
     }

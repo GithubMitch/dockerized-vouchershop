@@ -1,10 +1,22 @@
 <template>
   <NuxtLayout name="home">
+    
+    <template #slider>
+      <client-only>
+        <Carousel/>
+      </client-only>
+    </template>
+
+
+    <template #salesprops>
+      <SalesProps/>
+    </template>
+
     <template #content>
       <client-only>
-      <div class="inner">
-        Home Content
-      </div>
+        <div class="inner">
+          Home Content
+        </div>
       </client-only>
     </template>
 
@@ -60,9 +72,7 @@
     display:block;
     position:relative;
     margin:0 auto;
-    background: #dedede;
     padding:1em;
-    border-bottom:1px solid black;
     :last-child {
       border:none;
     }

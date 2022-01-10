@@ -1,6 +1,5 @@
 <template>
   <LazyHeaderComp/>
-  <SalesProps/>
   <Router-View/>
   <LazyFooterComp/> 
 </template>
@@ -26,17 +25,12 @@ export default {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #2c3e50;
-      display: -webkit-box;
-      display: -ms-flexbox;
+      color: #2c3e50;
       display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-flow: column;
       flex-flow: column;
       min-height: 100vh;
-      -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
   }
   html {
     background:repeating-linear-gradient(
@@ -60,9 +54,7 @@ export default {
     display:block;
     position:relative;
     margin:auto;
-    background: #dedede;
     padding:1em;
-    border-bottom:1px solid black;
     &.productpage {
       background:none;
       border:0;
@@ -76,6 +68,7 @@ export default {
       a {
         color:#308ac3;
         transition: .3s ease color;
+        text-transform: capitalize ;
         &:hover {
           color:darkblue;
         }
@@ -91,6 +84,13 @@ export default {
     background: repeating-linear-gradient(
     -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200px);
     min-height: 100vh;
+  }
+  .page-title {
+    text-transform: capitalize;
+    color: #0c4971;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size:2em;
   }
   .product{
     text-decoration: line-through;
@@ -126,17 +126,23 @@ export default {
     flex-wrap:wrap;
     list-style:none;
     justify-content: space-between;
+    justify-content: flex-start;
+    margin-left: -1rem;
+    margin-right: -2rem;
 
     .item {
       min-width:162px;
       min-height:162px;
       max-width:162px;
-      margin-bottom: 2rem;
+      // margin-bottom: 2rem;
+      // margin-right: 1em;
+      margin: 1.225rem;
       text-align:center;
       border-radius:7px;
       overflow:hidden;
       box-shadow: 0 0 3px rgb(0 0 0 / 19%);
       color: #2c3e50;
+
       a {
         background:#fff;
         color:inherit;
@@ -153,7 +159,7 @@ export default {
           text-transform: uppercase;
           display:block;
           &.price {
-            font-size:40px;
+            font-size:32px;
             line-height:1em;
           }
           &.name {
@@ -168,7 +174,10 @@ export default {
           }
         }
         img {
-          max-width:100%;
+          max-width: 80%;
+          display: block;
+          margin: auto;
+
           + span {
             font-weight:bold;
             display:block;
@@ -227,6 +236,10 @@ export default {
       margin-top:1.5em
   }
 
+
+  .product-img {
+    float:right;
+  }
 //buttons
   .cta {
     margin: 0;
