@@ -93,7 +93,7 @@
 .fold{
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: -1px;
   transition: all 0.3s ease-in-out;
   svg.foldHolder{
     position: absolute;

@@ -3,7 +3,7 @@
  <div>
   <h1>{{brand}}</h1>  
   <ul class="styled-list product-list">
-    <li class="item" v-for="(product) in selectedBrandProducts" :brand="brand"  :key="product.key">
+    <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
       <NuxtLink class="brandLine product" 
         :to='brand + `/` + product.actionLabel + `/`  + product.key'
         :class="{instock : product.inStock}" 
@@ -45,6 +45,26 @@ export default defineComponent({
     products:{
       type: Array,
       default: []
+    }
+  },
+  head() {
+    // console.log(this.$content.article)
+    // let title = this.getTitle();
+    return {
+      title: 'default',
+      link: [
+        {
+          rel: "stylesheet",
+          href: "/assets/iconfont/iconfont.css"
+        }
+      ],
+      // meta: [
+      //   {
+      //     hid: 'ABOUT-HID',
+      //     name: `About page`,
+      //     content: 'Website about page'
+      //   }
+      // ]
     }
   },
   setup(props) {

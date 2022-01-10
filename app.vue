@@ -128,12 +128,10 @@ export default {
     justify-content: space-between;
 
     .item {
-      display:flex;
       min-width:162px;
       min-height:162px;
       max-width:162px;
       margin-bottom: 2rem;
-      margin-top: 2rem;
       text-align:center;
       border-radius:7px;
       overflow:hidden;
@@ -142,7 +140,8 @@ export default {
       a {
         background:#fff;
         color:inherit;
-        display:block;
+        display:inline-flex;
+        flex-direction: column;
         padding: 10px;
         width: 100%;
         height: 100%;    
