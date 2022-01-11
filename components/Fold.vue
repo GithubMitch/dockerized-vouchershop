@@ -17,10 +17,13 @@
       <!-- :style="adjustedTextStyle" -->
       <span v-if="text != ''">{{text}}</span>
       <div class="tipContent" v-else>
-          <slot name="icon"></slot>
-          <slot/>
+        <NuxtLayout name="fold">
+          <template #foldIcon>
+            <i v-if="$route.params._categoryslug" class="i simple-line-icons:info"></i>
+            <i v-else class="i simple-line-icons:close"></i>
+          </template>
+        </NuxtLayout>
           <!-- <template>
-            <i class="i simple-line-icons:info"></i>
           </template> -->
       </div>
     </div>
@@ -36,7 +39,7 @@
     } from 'vue';
 
   export default defineComponent({
-    layout: false,
+    layout: 'false',
     props: {
       width: {
         type: String,
@@ -68,6 +71,8 @@
     },
 
     async setup(props) {
+      const router = useRouter()
+      const route = useRoute()
       onMounted(() => {
         // let triangles = document.querySelectorAll('.fold .foldHolder');
         // let i = 0;
@@ -89,6 +94,7 @@
         //   })
         // }
       })
+      return {router, route}
     }
 
   })

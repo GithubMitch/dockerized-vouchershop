@@ -1,0 +1,274 @@
+
+@font-face {
+  font-family: "Iconify Explorer Font";
+  src: url("./iconfont.eot");
+  src: url("./iconfont.eot") format("embedded-opentype"),
+       url("./iconfont.ttf") format("truetype"),
+       url("./iconfont.woff") format("woff"),
+       url("./iconfont.woff2") format("woff2"),
+       url("./iconfont.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.i {
+  font-family: "Iconify Explorer Font" !important;
+  font-size: 1em;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.i.simple-line-icons\:action-redo:before {
+content: "\e001";
+}
+
+.i.simple-line-icons\:action-undo:before {
+content: "\e002";
+}
+
+.i.simple-line-icons\:arrow-down:before {
+content: "\e003";
+}
+
+.i.simple-line-icons\:arrow-down-circle:before {
+content: "\e004";
+}
+
+.i.simple-line-icons\:arrow-left:before {
+content: "\e005";
+}
+
+.i.simple-line-icons\:arrow-left-circle:before {
+content: "\e006";
+}
+
+.i.simple-line-icons\:arrow-right:before {
+content: "\e007";
+}
+
+.i.simple-line-icons\:arrow-right-circle:before {
+content: "\e008";
+}
+
+.i.simple-line-icons\:arrow-up:before {
+content: "\e009";
+}
+
+.i.simple-line-icons\:arrow-up-circle:before {
+content: "\e00a";
+}
+
+.i.simple-line-icons\:basket:before {
+content: "\e00b";
+}
+
+.i.simple-line-icons\:basket-loaded:before {
+content: "\e00c";
+}
+
+.i.simple-line-icons\:briefcase:before {
+content: "\e00d";
+}
+
+.i.simple-line-icons\:bubble:before {
+content: "\e00e";
+}
+
+.i.simple-line-icons\:bubbles:before {
+content: "\e00f";
+}
+
+.i.simple-line-icons\:bulb:before {
+content: "\e010";
+}
+
+.i.simple-line-icons\:call-end:before {
+content: "\e011";
+}
+
+.i.simple-line-icons\:call-in:before {
+content: "\e012";
+}
+
+.i.simple-line-icons\:call-out:before {
+content: "\e013";
+}
+
+.i.simple-line-icons\:check:before {
+content: "\e014";
+}
+
+.i.simple-line-icons\:close:before {
+content: "\e015";
+}
+
+.i.simple-line-icons\:credit-card:before {
+content: "\e016";
+}
+
+.i.simple-line-icons\:cup:before {
+content: "\e017";
+}
+
+.i.simple-line-icons\:doc:before {
+content: "\e018";
+}
+
+.i.simple-line-icons\:docs:before {
+content: "\e019";
+}
+
+.i.simple-line-icons\:earphones:before {
+content: "\e01a";
+}
+
+.i.simple-line-icons\:earphones-alt:before {
+content: "\e01b";
+}
+
+.i.simple-line-icons\:envelope:before {
+content: "\e01c";
+}
+
+.i.simple-line-icons\:envelope-letter:before {
+content: "\e01d";
+}
+
+.i.simple-line-icons\:envelope-open:before {
+content: "\e01e";
+}
+
+.i.simple-line-icons\:eye:before {
+content: "\e01f";
+}
+
+.i.simple-line-icons\:game-controller:before {
+content: "\e020";
+}
+
+.i.simple-line-icons\:home:before {
+content: "\e021";
+}
+
+.i.simple-line-icons\:info:before {
+content: "\e022";
+}
+
+.i.simple-line-icons\:key:before {
+content: "\e023";
+}
+
+.i.simple-line-icons\:lock:before {
+content: "\e024";
+}
+
+.i.simple-line-icons\:lock-open:before {
+content: "\e025";
+}
+
+.i.simple-line-icons\:login:before {
+content: "\e026";
+}
+
+.i.simple-line-icons\:logout:before {
+content: "\e027";
+}
+
+.i.simple-line-icons\:magnifier-add:before {
+content: "\e028";
+}
+
+.i.simple-line-icons\:magnifier-remove:before {
+content: "\e029";
+}
+
+.i.simple-line-icons\:menu:before {
+content: "\e02a";
+}
+
+.i.simple-line-icons\:microphone:before {
+content: "\e02b";
+}
+
+.i.simple-line-icons\:minus:before {
+content: "\e02c";
+}
+
+.i.simple-line-icons\:music-tone:before {
+content: "\e02d";
+}
+
+.i.simple-line-icons\:music-tone-alt:before {
+content: "\e02e";
+}
+
+.i.simple-line-icons\:options:before {
+content: "\e02f";
+}
+
+.i.simple-line-icons\:options-vertical:before {
+content: "\e030";
+}
+
+.i.simple-line-icons\:paper-clip:before {
+content: "\e031";
+}
+
+.i.simple-line-icons\:paper-plane:before {
+content: "\e032";
+}
+
+.i.simple-line-icons\:pencil:before {
+content: "\e033";
+}
+
+.i.simple-line-icons\:people:before {
+content: "\e034";
+}
+
+.i.simple-line-icons\:phone:before {
+content: "\e035";
+}
+
+.i.simple-line-icons\:picture:before {
+content: "\e036";
+}
+
+.i.simple-line-icons\:plus:before {
+content: "\e037";
+}
+
+.i.simple-line-icons\:question:before {
+content: "\e038";
+}
+
+.i.simple-line-icons\:star:before {
+content: "\e039";
+}
+
+.i.simple-line-icons\:symbol-female:before {
+content: "\e03a";
+}
+
+.i.simple-line-icons\:symbol-male:before {
+content: "\e03b";
+}
+
+.i.simple-line-icons\:tag:before {
+content: "\e03c";
+}
+
+.i.simple-line-icons\:trash:before {
+content: "\e03d";
+}
+
+.i.simple-line-icons\:trophy:before {
+content: "\e03e";
+}
+
+.i.simple-line-icons\:wrench:before {
+content: "\e03f";
+}
+

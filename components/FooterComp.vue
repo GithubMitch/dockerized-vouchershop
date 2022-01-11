@@ -18,10 +18,9 @@
        <h3>Contact</h3>
       <li><NuxtLink to="/">Contactforumulier</NuxtLink></li>
      </ul>
-    <div id="logo">
-      <img src="" alt="">
+    <div id="FooterLogo">
       powered by
-      prepaidpoint
+      <img style="max-width:200px; display:block;" src="../assets/logos/ppp.svg" alt="">
       2020
     </div>
    </div>
@@ -45,6 +44,7 @@
       text-align: left;
       ul {
         list-style:none;
+        margin:0;
       }
       a{
         display: block;
@@ -78,6 +78,8 @@
     }
 
     #FooterLogo{
+      text-align: center;
+      padding-top:1em;
       h3{
         margin-top: 1.5em;
         padding-left: 7px;

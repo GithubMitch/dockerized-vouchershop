@@ -13,7 +13,7 @@
             </div>
         </div>
         <div id="HeaderSpace">
-            <NuxtLink class="category" to="/status">status</NuxtLink>
+            <NuxtLink class="category" to="/checkout">cart</NuxtLink>
 
             <div id="Cart" class=""><p>€0,00</p></div>
         </div>

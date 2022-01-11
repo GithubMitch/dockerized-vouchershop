@@ -42,7 +42,6 @@ export default {
     flex-direction: column;
     position:relative;
     margin:auto;
-    background: #dedede;
     padding:1em;
     border-bottom:1px solid black;
   }

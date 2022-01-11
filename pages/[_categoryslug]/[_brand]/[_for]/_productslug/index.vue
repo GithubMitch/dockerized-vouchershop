@@ -18,9 +18,11 @@
           {{descr}}
         </li> -->
       </ul>
-      <button class="cta" @click="addProducts(product, counter++)"> Add to cart </button>
+      
+      <!-- <button class="cta" @click="addProducts(product, (counter < 4 ? counter++ : counter) )"> Add to cart </button> -->
+      <!-- <button class="cta" @click="checkoutWith(product)"> Add & go to cart </button> -->
       <hr>
-      <NuxtLink class="cta" to="/overview">To cart</NuxtLink>
+      <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink>
     </div>
 </template>
 
@@ -39,12 +41,22 @@ export default defineComponent({
   async setup(props) {
     // console.log(props.product)
     const counter = useState('counter', () => 0)
+
     const addProducts = async (product, counter )  => {
       await actions.addProducts(product, counter)
     }
 
+    const checkoutWith = async (product)  => {
+      // product.color = this.brandColor;
+      // if(!product.inStock)
+        console.log(product.inStock)
+        // return false;
+      // this.$emit('productSelect');
+      addProducts(product, counter);
+    }
+
     return {
-      addProducts, 
+      checkoutWith, 
       counter
     }
   },

@@ -19,14 +19,14 @@
               height="45"
               :class="'MyGradient_'+index"           
               :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-              :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :MyGradient="'MyGradient'"
+              :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               />
-              <template #icon>
-                <template>
-                  <!-- v-icon(name="x") -->
+              <!-- <NuxtLayout name="fold">
+                <template #foldIcon>
+                  <i class="i simple-line-icons:info"></i>
                 </template>
-              </template>
+              </NuxtLayout> -->
       </NuxtLink>
     </li>
     <li class="item brandLine deselect" @click="deselect(stockProducts)">
@@ -56,7 +56,6 @@ export default defineComponent({
     // console.log(this.$content.article)
     // let title = this.getTitle();
     return {
-      title: 'default',
       link: [
         {
           rel: "stylesheet",

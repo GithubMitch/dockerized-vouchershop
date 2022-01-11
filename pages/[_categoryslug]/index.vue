@@ -18,9 +18,12 @@
               :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :MyGradient="'MyGradient'"
               />
-              <template name="icon">
-                <i class="i simple-line-icons:info"></i>
-              </template>
+              <!-- <NuxtLayout name="fold">
+                <template #foldIcon>
+                  <i class="i simple-line-icons:info"></i>
+                  categoryslug>index.vue
+                </template>
+              </NuxtLayout> -->
         </NuxtLink>
       </li>
     </ul>

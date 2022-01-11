@@ -1,4 +1,4 @@
-import {ref, Ref, reactive, toRaw } from 'vue';
+import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
 // URL and selected URL for category
@@ -50,13 +50,12 @@ const state = reactive ({
   order: ref({
     selectedCategory: null,
     selectedBrand: null,
-    orderItems: ref<[]>([]),
+    orderItems: [],
     name: null,
     mobile: null,
     email: null,
     confirmed: null,
-    }
-  )
+  })
 
 })
 
@@ -114,16 +113,13 @@ const actions = {
      // console.trace()
     return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
   },     
-  addProducts(product, counter) {
-    if (state.order.orderItems.find(element => element.key == product.key)) {
-        console.log('Found product in orderItems,  qnt ++')
-        product.qnt = counter
-        state.order.orderItems.push(product);
-    } else {
-        state.order.orderItems.push(product);
-        console.log('Nothing found in orderItems ')
-    }
-    return 
+  addProducts(product) {
+    // product.qnt = 1;
+    // product.new = true
+    // state.order.orderItems.push({product});
+    let orderItem = { product, qnt: product.qnt ?? 1 , new: true };
+    console.log(state.order.orderItems)
+    return state.order.orderItems.push(orderItem);
   },
   async setProductPage(product) {
     if (product.key) {
@@ -138,6 +134,26 @@ const actions = {
   // setStockProducts(products)  {
   //   return (products ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
   // },
+  reinstateOrder(orderItems){
+    // console.log(state.order.orderItems, '->', orderItems);
+    state.order.orderItems = orderItems ?? [];                                                                    
+  },
+  removeCartItem(index){
+    state.order.orderItems.splice(index, 1)
+    // state.order.orderItems[index]  
+    // Vue.delete(state.order.orderItems,index);
+  },
+  increaseQnt(index){
+    if(state.order.orderItems[index].qnt < 4)
+      state.order.orderItems[index].qnt++;
+  },
+  decreaseQnt(index){
+    if(state.order.orderItems[index].qnt > 1)
+      state.order.orderItems[index].qnt--;
+  },
+  emptyCart(state){
+    state.order.orderItems = [];
+  },
   deselect(selected) {
     switch (selected) {
       case (state.brands):
