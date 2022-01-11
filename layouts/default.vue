@@ -1,5 +1,4 @@
 <template>
-  <slot name="foldIcon"></slot>
   <slot name="content"></slot>
   <slot/>
 </template>

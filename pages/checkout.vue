@@ -63,12 +63,12 @@
             <p id="NoItems" v-else>
               Geen producten geselecteerd
               <br>
-              <a @click="backToStart" class="backToStart">Kies een product</a>
+              <!-- <a @click="backToStart" class="backToStart">Kies een product</a> -->
             </p>
           </div>
 
 
-
+          
 
 
         </div>
@@ -141,87 +141,86 @@
         await actions.decreaseQnt(index)
       }
 
-      const storeSettings = () => {
-        let data = {
-          name: pageData.name,
-          tel: pageData.tel,
-          email: pageData.email,
-          payment: pageData.selectedPaymethod ? pageData.selectedPaymethod.key : null,
-          paymentId: pageData.selectedPaymethod.id,
-          subPayment: pageData.selectedSubPaymethod ? pageData.selectedSubPaymethod.key : null,
-        }
-        var cypher = CryptoJS.AES.encrypt( JSON.stringify(data), 'xxxstatixxx' ).toString();
-        localStorage.setItem('paymem', cypher );
 
-      }
-      const storeLastTrxData = async (qid, payUrl, orderItems) => {
-        let data = { qid, payUrl , orderItems};
-        var cypher = CryptoJS.AES.encrypt( JSON.stringify(data), 'trx_ez_obscure' ).toString();
-        localStorage.setItem('trxmem', cypher );
-
-      }
-      const prepare = () => {
-        pageData.loading = true;
-      }
-
-      // RELOAD USERDATA //
-      let storedDataString = localStorage.getItem('paymem');
-      let userData;
-
-      if(storedDataString != undefined && bytes != '' ){
-        var bytes  = CryptoJS.AES.decrypt(storedDataString, 'xxxstatixxx');
-        if(bytes != undefined && bytes != '' ){
-          userData = bytes.toString(CryptoJS.enc.Utf8);
-          userData = JSON.parse(userData);  
-          pageData.name = userData.name;
-          pageData.tel = userData.tel;
-          pageData.email = userData.email;
-        }
-        if(pageData.name != null && pageData.tel != null && pageData.email != null)
-          pageData.preFilled = true;
-      }
-
-      // if(this.getPaymentOptions){
-      //   if(this.getPaymentOptions[0].id == undefined )
-      //     try{
-      //       let paymentListReq = await this.$http({
-      //           method: 'POST',
-      //           url: '/paymentoptions',
-      //         });
-      //       this.handlePaymethods(paymentListReq.data);
-      //     }catch(e){
-      //       console.log('Initiate gracefull shutdown');
-      //       console.log(e);
-      //     }
-      // }
-
-      // RELOAD PAYMENT //
-
-      // if(storedDataString != undefined && bytes != '' ){
-      //   this.selectedPaymethod = userData.payment ? this.getPaymethodWithKey(userData.payment): null;
-      //   if(this.selectedPaymethod.subSelect != undefined)
-      //     this.subSelection = this.selectedPaymethod.subSelect;
-      // }
-
-
-      if( state.order.orderItems.length == 0 ){
-        let storedTrxString = localStorage.getItem('trxmem');
-        if(storedTrxString != undefined && bytes != '' ){
-          var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
-          if(bytes != undefined && bytes != '' ){
-            let data = bytes.toString(CryptoJS.enc.Utf8);
-            data = JSON.parse(data);
-            console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
-            console.log(data)
-            actions.reinstateOrder(data.orderItems);
-          }
-        }
-      }
 
       onMounted(() => {
-        // console.log(state.order)
-        console.log(toRaw(orderItems) , 'Yeshh')
-        // carouselState.show ? startAutoSlide() : stopAutoSlide()     
+          // console.log(state.order)
+          console.log(toRaw(orderItems) , 'Yeshh')
+          const storeSettings = () => {
+            let data = {
+              name: pageData.name,
+              tel: pageData.tel,
+              email: pageData.email,
+              payment: pageData.selectedPaymethod ? pageData.selectedPaymethod.key : null,
+              paymentId: pageData.selectedPaymethod.id,
+              subPayment: pageData.selectedSubPaymethod ? pageData.selectedSubPaymethod.key : null,
+            }
+            var cypher = CryptoJS.AES.encrypt( JSON.stringify(data), 'xxxstatixxx' ).toString();
+            localStorage.setItem('paymem', cypher );
+
+          }
+          const storeLastTrxData = async (qid, payUrl, orderItems) => {
+            let data = { qid, payUrl , orderItems};
+            var cypher = CryptoJS.AES.encrypt( JSON.stringify(data), 'trx_ez_obscure' ).toString();
+            localStorage.setItem('trxmem', cypher );
+          }
+          const prepare = () => {
+            pageData.loading = true;
+          }
+
+          // RELOAD USERDATA //
+          let storedDataString = localStorage.getItem('paymem');
+          let userData;
+
+          if(storedDataString != undefined  &&  bytes != '' ){
+            var bytes  = CryptoJS.AES.decrypt(storedDataString, 'xxxstatixxx');
+            if(bytes != undefined  &&  bytes != '' ){
+              userData = bytes.toString(CryptoJS.enc.Utf8);
+              userData = JSON.parse(userData);  
+              pageData.name = userData.name;
+              pageData.tel = userData.tel;
+              pageData.email = userData.email;
+            }
+            if(pageData.name != null  &&  pageData.tel != null  &&  pageData.email != null)
+              pageData.preFilled = true;
+          }
+
+          // if(this.getPaymentOptions){
+          //   if(this.getPaymentOptions[0].id == undefined )
+          //     try{
+          //       let paymentListReq = await this.$http({
+          //           method: 'POST',
+          //           url: '/paymentoptions',
+          //         });
+          //       this.handlePaymethods(paymentListReq.data);
+          //     }catch(e){
+          //       console.log('Initiate gracefull shutdown');
+          //       console.log(e);
+          //     }
+          // }
+
+          // RELOAD PAYMENT //
+
+          // if(storedDataString != undefined  &&  bytes != '' ){
+          //   this.selectedPaymethod = userData.payment ? this.getPaymethodWithKey(userData.payment): null;
+          //   if(this.selectedPaymethod.subSelect != undefined)
+          //     this.subSelection = this.selectedPaymethod.subSelect;
+          // }
+
+
+          if( state.order.orderItems.length == 0 ){
+            let storedTrxString = localStorage.getItem('trxmem');
+            if(storedTrxString != undefined  &&  bytes != '' ){
+              var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+              if(bytes != undefined  &&  bytes != '' ){
+                let data = bytes.toString(CryptoJS.enc.Utf8);
+                data = JSON.parse(data);
+                console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
+                console.log(data)
+                actions.reinstateOrder(data.orderItems);
+              }
+            }
+          }
       }) 
 
 

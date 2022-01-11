@@ -4,19 +4,19 @@
      <ul>
       <h3>Vouchershop</h3>
       <li><NuxtLink to="/">Home</NuxtLink></li>
-      <li><NuxtLink to="/">Over Vouchershop</NuxtLink></li>
-      <li><NuxtLink to="/">Beltegoed</NuxtLink></li>
-      <li><NuxtLink to="/">Giftcards & Credit</NuxtLink></li>
+      <li><NuxtLink to="/over">Over Vouchershop</NuxtLink></li>
+      <li><NuxtLink to="/beltegoed">Beltegoed</NuxtLink></li>
+      <li><NuxtLink to="/giftcards">Giftcards & Credit</NuxtLink></li>
      </ul>
      <ul>
       <h3>Legal</h3>
-      <li><NuxtLink to="/">Algemene voorwaarden</NuxtLink></li>
-      <li><NuxtLink to="/">Disclaimer</NuxtLink></li>
-      <li><NuxtLink to="/">Cookies</NuxtLink></li>
+      <li><NuxtLink to="/algemenevoorwaarden">Algemene voorwaarden</NuxtLink></li>
+      <li><NuxtLink to="/disclaimer">Disclaimer</NuxtLink></li>
+      <li><NuxtLink to="/cookies">Cookies</NuxtLink></li>
      </ul>
      <ul>
        <h3>Contact</h3>
-      <li><NuxtLink to="/">Contactforumulier</NuxtLink></li>
+      <li><NuxtLink to="/contact">Contactforumulier</NuxtLink></li>
      </ul>
     <div id="FooterLogo">
       powered by

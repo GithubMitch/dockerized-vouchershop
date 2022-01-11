@@ -13,9 +13,9 @@
             </div>
         </div>
         <div id="HeaderSpace">
-            <NuxtLink class="category" to="/checkout">cart</NuxtLink>
+            <NuxtLink id="Cart"  to="/checkout"><p>€0,00</p></NuxtLink>
 
-            <div id="Cart" class=""><p>€0,00</p></div>
+            <!-- <div id="Cart" class=""><p>€0,00</p></div> -->
         </div>
     </div>
   </header>
@@ -137,10 +137,11 @@ export default defineComponent({
       display: flex;
       justify-content: flex-end;
       #Cart{
-        background: #DDD url('./assets/cart.png') no-repeat left;
+        background: #FFF url('./assets/cart.png') no-repeat left;
+        border: 2.5px solid #ffa502;
+        // background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAhCAYAAABTERJSAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAcVJREFUeNrEV8ttg0AQxYgCtgPbHZAOcAUmV19MKnBcQUQFIRU4OeQcqMCkgpAKsiWQAixnkQZpNdnZD6xhpCdjM2afZt58WFzfw2BGSwW28MmiGQjEAoeegHxjDjIfAivVjalzlCiINAJHgfXUkXmSrrnAJthd+ByRWUFkesuB0CxpkqPSCpTYoUtTJrCfSC+9vQChf2ROM1RUQVVTOzGRV+rMCHKXIda/Hg9foudXlGMEqpadv4G9L8vQ80vKMYTyqgnV+7CtDRG5tHPUD1LPw9CYIplMjRrQ4QZEApQB7WzKDTNkbIoa3HF1ZEpUcj60k9imCJNpoTPKVcBG7i0rW/GqZhMu6UdPeuGQJicyHBHae9JLbfMH1dR+Q2WeDVwXYhe9UGtnDSGNpTJ3rawl+l4OJdOP+JMkxHhEukpbx1AzWbmnxlfZOup24HuB55FEGpehGxketJly0THtwJ1WzgJXwJkQM0N+X0N0ttC83nYH/Ci6cBexO/Sb6vCuo6+Nm+TuYhWZlBgHMZo5CREF5tqjQkPjGmvMFxldf+DEdeCyv7iQocqyUJApiF7lRMb0rv0g8CkNvYogeJT8mMZPa38CDACfqGAQb8UHLgAAAABJRU5ErkJggg==) no-repeat 0;
         background-position: top 4px left 5px;
         background-size: 24px;
-        border-radius: 7px;
         text-align: center;
         display: inline-block;
         padding: 5px;
@@ -150,6 +151,9 @@ export default defineComponent({
         color: #626262;
         cursor: pointer;
         border: 2.5px solid #DDD;
+        text-decoration: none;
+        overflow:hidden;
+        border-radius:5px;
 
         &.filled{
           border: 2.5px solid #ffa502;

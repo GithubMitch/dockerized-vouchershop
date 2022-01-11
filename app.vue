@@ -25,7 +25,6 @@ export default {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #2c3e50;
-      color: #2c3e50;
       display: flex;
       flex-flow: column;
       min-height: 100vh;
@@ -36,8 +35,11 @@ export default {
     background:repeating-linear-gradient(
       -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200px
     );
+    display: flex;
+    align-content: space-around;
+    flex-direction: column;
   }
-  HTML >* , 
+  HTML > * , 
   body > * {
     box-sizing: border-box;
     margin:0;

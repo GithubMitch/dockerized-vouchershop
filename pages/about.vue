@@ -18,7 +18,7 @@ export default {
 
 <style>
 /* RESET STYLE SHEET */
-  html {
+  /* html {
     background:repeating-linear-gradient(
       -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200
       px
@@ -57,7 +57,6 @@ export default {
     pointer-events: all;
   }
 
-  /* Vouchershop component */
   #config-window {
     box-shadow: inset 0px 0px 10px -4px #000; 
     box-sizing:border-box;
@@ -72,5 +71,5 @@ export default {
   }
   #config-window :deep() .brandLine:hover {
     text-decoration: underline;
-  }
+  } */
 </style>
