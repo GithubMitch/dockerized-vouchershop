@@ -2,9 +2,10 @@
 <template>
  <div>
   <h1>{{brand}}</h1>  
-  <transition-group tag="ul" name="card" appear      
+  <transition-group tag="li" name="card" appear      
     @before-enter="beforeEnter"
-    @enter="enter" class="styled-list product-list">
+    @enter="enter" 
+    class="styled-list product-list">
       <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
         <NuxtLink class="brandLine product" 
           :to='brand + `/` + product.actionLabel + `/`  + product.key'

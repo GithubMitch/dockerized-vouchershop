@@ -1,7 +1,9 @@
 <template>
-  <LazyHeaderComp/>
-  <Router-View/>
-  <LazyFooterComp/> 
+  <div id="wrapper">
+    <LazyHeaderComp/>
+    <Router-View/>
+    <LazyFooterComp/> 
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,11 +27,11 @@ export default {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #2c3e50;
-      display: flex;
-      flex-flow: column;
-      min-height: 100vh;
-      justify-content: flex-start;
-      flex-wrap: nowrap;
+      // display: flex;
+      // flex-flow: column;
+      // min-height: 100vh;
+      // justify-content: space-between;
+      // flex-wrap: nowrap;
   }
   html {
     background:repeating-linear-gradient(
@@ -49,6 +51,28 @@ export default {
     margin-block-end: 0;
     font-family: Avenir,Helvetica,Arial,sans-serif;
   }
+  .breadcrumb {
+    clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
+  }
+  .breadcrumb > .inner {
+    // background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
+    clip-path: polygon(0% 0%, 100% 0%, 98% 45%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 3% 65%);
+    color:#308ac3;
+    font-weight:500;
+    padding: 0.25em 4em;
+    text-align: center;
+    max-width:1100px;
+    background:silver;
+    a {
+      &:visited {
+        color:#308ac3;
+      }
+      &:hover {
+        color:darkblue;
+        text-decoration: none;
+      }
+    }
+  }
   .inner {
     max-width:990px;
     box-sizing:border-box;
@@ -63,8 +87,11 @@ export default {
       padding:0;
     }
     &.breadcrumb {
-      background:silver;
-      color:#308ac3;
+      // background:silver;
+      // // background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
+      // clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
+
+      // color:#308ac3;
       font-weight:500;
       padding:.25em 1em ;
       a {
@@ -72,7 +99,10 @@ export default {
         transition: .3s ease color;
         text-transform: capitalize ;
         &:hover {
-          color:darkblue;
+          // color:darkblue;
+        }
+        &:visited {
+          // color:#308ac3;
         }
       }
     }
@@ -103,6 +133,8 @@ export default {
     pointer-events: all;
   }
 
+  // temp button style remove later
+  .deselect {color:#ddd !important;}
   /* Vouchershop component */
   #config-window {
     box-shadow: inset 0px 0px 10px -4px #000; 
@@ -263,5 +295,10 @@ export default {
     padding:.777em;
     box-sizing:border-box;
     font-weight:500;
+    transition:.3s ease opacity;
+
+    &:hover {
+      opacity:.9;
+    }
   }
 </style>

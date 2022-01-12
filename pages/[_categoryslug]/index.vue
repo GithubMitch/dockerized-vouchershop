@@ -4,7 +4,8 @@
     <transition-group tag="ul" name="card" appear      
       @before-enter="beforeEnter"
       @enter="enter" 
-      class="styled-list product-list">
+      class="styled-list product-list"
+      >
         <li class="item" v-for="(brand, index) in selectableBrands" :key="brand.key">
           <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/${brand.key}`' 
           @click="setSelectedBrand(brand.key)"
@@ -41,7 +42,8 @@
   import {
     defineComponent,
     toRef,
-    onMounted
+    onMounted,
+    ref
     } from 'vue';
 
   export default defineComponent({
@@ -62,7 +64,7 @@
           {
             hid: 'ABOUT-HID',
             name: `About page`,
-            content: 'Website about page'
+            content: 'Over ons'
           }
         ]
       }
@@ -71,6 +73,7 @@
       const brands = toRef(state, 'brands');
       const selectedBrand = toRef(state, 'selectedBrand');
       const selectableBrands = toRef(state, 'selectableBrands');
+      // const showCategories = ref(false)
 
       const setSelectedBrand = async (brand)  => {
         await actions.setSelectedBrand(brand)
@@ -117,7 +120,10 @@
         })
       }
 
-      // onMounted(() => {
+      onMounted(() => {
+        // const showCategories = true
+
+
       //   let isFilled = document.querySelector('.'+this.MyGradient+' .foldHolder').getAttribute("style");
     
       //   if (!isFilled) {
@@ -128,7 +134,7 @@
       //       triangle.style.fill = ('url(#'+ this.MyGradient +')')
       //     })
       //   }
-      // })    
+      })    
 
       return{
         selectableBrands, 

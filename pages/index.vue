@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="home">
-    
+
     <template #slider>
       <client-only>
         <Carousel/>
@@ -14,8 +14,9 @@
 
     <template #content>
       <client-only>
-        <div class="inner">
-          Home Content
+        <div class="inner sales">
+          <RecentOrders/>
+          <TopThree/>
         </div>
       </client-only>
     </template>
@@ -45,6 +46,16 @@
 </script>
 
 <style lang="scss">
+.inner.sales {
+  display:flex;
+}
+#recentorders {
+  width:35%;
+  margin-right:2%;
+}
+#topthree {
+  // width:30%;
+}
 #voucherShop {
   display:none;
 }
@@ -84,6 +95,9 @@
   .product.instock {
     text-decoration: none;
     pointer-events: all;
+  }
+  .sales {
+    display:flex;
   }
 
   /* Vouchershop component */

@@ -4,10 +4,10 @@
         <div class="inner">
           <h1>Checkout</h1>
           <p>
-            A list with all products that reside in your cart.
+            A list with all products that reside within your cart.
           </p>
         </div>
-        <div class="inner">
+        <div class="inner checkout">
           <h2>Products</h2>
 
           <div id="ProductSelection" :ref="state">
@@ -66,12 +66,70 @@
               <!-- <a @click="backToStart" class="backToStart">Kies een product</a> -->
             </p>
           </div>
-
-
-          
-
-
         </div>
+        <form :style="inputFormStyle" autocomplete="on" @submit.prevent="submit">
+          <div id="ContactDelivery">
+              <h1>Contactgegevens <span class="edit" v-if="preFilled&!editMode" @click="editMode = true">aanpassen</span></h1>
+              <div class="formControl"><label>Naam</label><span class="input"><input type="text" name="name" placeholder="Naam" v-model="name" :disabled="loading||(!editMode && preFilled)" :class="[{static : preFilled && !editMode}, {errored: errors.name.length > 0}]" @change="checkName" maxLength="30" /><span class="indicator" v-if="validated.name == true"> <img src="@/assets/ok.svg" /></span><span class="indicator" v-else-if="errors.name.length > 0"> <img src="../../../assets/warn.svg" /></span>
+                      <div class="error" v-if="errors.name.length > 0">{{errors.name[0]}}</div>
+                  </span></div>
+              <div class="formControl"> <label>Mobiel</label><span class="input"><input type="tel" autocomplete="tel" name="tel-local" placeholder="Mobiele nummer" v-model="tel" :disabled="loading||(!editMode && preFilled)" :class="[{static : preFilled  &&  !editMode}, {errored: errors.tel.length > 0}]" @change="checkMobile" maxLength="" /><span class="indicator" v-if="validated.tel == true"> <img src="../../../assets/ok.svg" /></span><span class="indicator" v-else-if="errors.tel.length > 0"> <img src="../../../assets/warn.svg" /></span>
+                      <div class="error" v-if="errors.tel.length > 0">{{errors.tel[0]}}</div>
+                  </span></div>
+              <div class="formControl"> <label>E-mail</label><span class="input"><input type="email" name="email" placeholder="E-mail address" v-model="email" :disabled="loading||(!editMode && preFilled)" :class="[{static : preFilled && !editMode}, {errored: errors.email.length > 0}]" @change="checkEmail" maxLength="55" /><span class="indicator" v-if="validated.email == true"> <img src="../../../assets/ok.svg" /></span><span class="indicator" v-else-if="errors.email.length > 0"> <img src="../../../assets/warn.svg" /></span>
+                      <div class="error" v-if="errors.email.length > 0">{{errors.email[0]}}</div>
+                  </span></div>
+          </div>
+          <div id="Payment" ref="subSelect">
+              <h1>Betalen</h1>
+              <div class="formControl" id="PaySelect"> 
+                <label>Kies betaalmethode</label>
+                <span class="input">
+                  <v-select v-model="selectedPaymethod" :components="{Deselect: null}" :options="getPaymentOptions" :searchable="false" :placeholder="'Maak een keuze'" :disabled="loading" @input="setPaymethod"><template #selected-option-container="{ option, multiple, disabled }">
+                      <div class="option selected">
+                          <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
+                          <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+                      </div>
+                      </template><template #option="option">
+                          <div class="option">
+                              <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
+                              <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+                          </div>
+                      </template>
+                      <!-- <template #no-options="#no-options"><span>Geen betaalmogelijkheden beschikbaar.</span></template> -->
+                      <template ><span>Geen betaalmogelijkheden beschikbaar.</span></template>
+                  </v-select>
+                </span>
+              </div>
+              <div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
+                <span class="input" v-if="selectedPaymethod.subSelect != undefined  &&  selectedPaymethod.subSelect.length > 0">
+                  <label>Kies bank</label>
+                  <v-select id="SubSelector" v-model="selectedSubPaymethod" :components="{Deselect: null}" :options="subSelection" :searchable="false" :placeholder="'Kies een bank'" :disabled="loading" @input="setSubPaymethod"><template #selected-option-container="{ option, multiple, disabled }">
+                    <div class="option selected">
+                            <div class="visual"><img  :src="`../../../assets/logos/banks/${option.key}.png`" /></div>
+                            <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+                        </div>
+                    </template><template #option="option">
+                        <div class="option subSelect">
+                            <div class="visual"><img :src="`../../../assets/logos/banks/${option.key}.png`" /></div>
+                            <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+                        </div>
+                    <!-- </template><template #no-options="#no-options"><span>Geen banken beschikbaar.</span></template> -->
+                    </template><template ><span>Geen banken beschikbaar.</span></template>
+                  </v-select>
+                </span>
+              </div>
+              <div class="formControl"> <label class="terms"><input type="checkbox" :disabled="loading" name="agreed2Terms" v-model="agreed2Terms" />Ik bevestig dat mijn gegevens correct zijn ingevuld en ga akkoord met de <a class="terms" @click="conditions">algemene voorwaarden.</a><span class="indicator" v-if="errors.agreed2Terms.length > 0"> <img src="@/assets/warn.svg" /></span>
+                      <div class="error" v-if="errors.agreed2Terms.length > 0">{{errors.agreed2Terms[0]}}</div>
+                  </label><span class="input">
+                      <div id="Loader" v-if="loading">
+                          <vue-loaders-ball-beat></vue-loaders-ball-beat>
+                      </div>
+                      <invisible-recaptcha id="Submit" name="orderRequest" v-show="!loading" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" :callback="submit" type="submit" :disabled="loading" :class="{loading}">Betalen</invisible-recaptcha>
+                      <div class="error" v-if="errors.form.length > 0">{{errors.form[0]}}</div>
+                  </span></div>
+          </div>
+        </form>
     </template>
   </NuxtLayout>
 </template>
@@ -118,7 +176,6 @@
           email: [],
           agreed2Terms: [],
           form: [],
-
         },
         validated: {
           name: false,
@@ -130,6 +187,27 @@
         qid: null,
         payUrl: null,
       })
+      
+      const hover = toRef(pageData, 'hover');
+      const selectedPaymethod = toRef(pageData, 'selectedPaymethod');
+      const selectedSubPaymethod = toRef(pageData, 'selectedSubPaymethod');
+      const subSelection = toRef(pageData, 'subSelection');
+      const loading = toRef(pageData, 'loading');
+      const color = toRef(pageData, 'color');
+
+      const editMode = toRef(pageData, 'editMode');
+      const preFilled = toRef(pageData, 'preFilled');
+      const name = toRef(pageData, 'name');
+      const tel = toRef(pageData, 'tel');
+      const email = toRef(pageData, 'email');
+      const emailSuggestion = toRef(pageData, 'emailSuggestion');
+      const agreed2Terms = toRef(pageData, 'agreed2Terms');
+      const errors = toRef(pageData, 'errors');
+
+      const validated = toRef(pageData, 'validated');
+      const qid = toRef(pageData, 'qid');
+      const payUrl = toRef(pageData, 'payUrl');
+
 
       const removeCartItem = async (index)  => {
         await actions.removeCartItem(index)
@@ -141,6 +219,11 @@
         await actions.decreaseQnt(index)
       }
 
+    const inputFormStyle = () => {
+      return {
+        opacity: orderItems.length > 0 ? 1: 0.1,
+      }
+    }
 
 
       onMounted(() => {
@@ -228,9 +311,27 @@
         removeCartItem,
         increaseQnt,
         decreaseQnt,
+        inputFormStyle,
         orderItems,
         cart,
-        selectedProducts
+        selectedProducts,
+        hover,
+        selectedPaymethod,
+        selectedSubPaymethod,
+        subSelection,
+        loading,
+        color,
+        editMode,
+        preFilled,
+        name,
+        tel,
+        email,
+        emailSuggestion,
+        agreed2Terms,
+        errors,
+        validated,
+        qid,
+        payUrl
       }
     }
   })
@@ -240,9 +341,9 @@
 
 
 <style lang="scss">
-.orderItemHolder {
-  margin-bottom:1em;
-}
+  .orderItemHolder {
+    margin-bottom:1em;
+  }
   .orderItem{
   position: relative;
   overflow: hidden;
@@ -347,26 +448,29 @@
     }
   }
 }
-  #Total {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    max-width:170px;
-    margin: 0px auto;
-    min-height: 97px;
-    justify-content: space-between;
-    flex-flow: row;
-    vertical-align: top;
-    background: #DDDDDD;
-    padding: 1em;
-    box-sizing: border-box;
-    border-radius: 9px;
-    background: radial-gradient(#cccccc, #fbfbfb);
-    border: 1px solid #DDD !important;
-    background-position: 0px -92px;
-    background-repeat: no-repeat;
-    box-shadow: 0px 2px 3px #00000020;
-    transition: transform box-shadow 0.2s;
-    float:right;
-  }
+#Total {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  max-width:170px;
+  margin: 0px auto;
+  min-height: 97px;
+  justify-content: space-between;
+  flex-flow: row;
+  vertical-align: top;
+  background: #DDDDDD;
+  padding: 1em;
+  box-sizing: border-box;
+  border-radius: 9px;
+  background: radial-gradient(#cccccc, #fbfbfb);
+  border: 1px solid #DDD !important;
+  background-position: 0px -92px;
+  background-repeat: no-repeat;
+  box-shadow: 0px 2px 3px #00000020;
+  transition: transform box-shadow 0.2s;
+  float:right;
+}
+.checkout .fold .tip {
+  right:-21px;
+}
 </style>

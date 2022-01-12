@@ -58,6 +58,7 @@
       background: #FFF;
       border-radius: 7px;
       min-height: 3.5em;
+      margin-bottom:1em;
       &:active{
         transform: scale(0.99);
         opacity: 0.99;
