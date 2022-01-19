@@ -1,10 +1,7 @@
 <template>
   <NuxtLayout name="category">
     <template #content>
-      <!-- <ClientOnly> -->
         <NuxtChild/> 
-      <!-- </ClientOnly> -->
-
     </template>
     <template #vouchershopcomponent>
         <LazyVoucherShop/>

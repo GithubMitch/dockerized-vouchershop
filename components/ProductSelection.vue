@@ -2,7 +2,7 @@
 <template>
  <div>
   <h1>{{brand}}</h1>  
-  <transition-group tag="li" name="card" appear      
+  <transition-group tag="ul" name="card" appear      
     @before-enter="beforeEnter"
     @enter="enter" 
     class="styled-list product-list">
@@ -35,7 +35,7 @@
       <li class="item brandLine deselect" @click="deselect(stockProducts)">
         Deselect
       </li>
-  </transition-group >
+  </transition-group>
  </div>
 </template>
 

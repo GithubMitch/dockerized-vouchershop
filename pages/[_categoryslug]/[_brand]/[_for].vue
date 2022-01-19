@@ -26,7 +26,7 @@
 
     onMounted(() => {
       /* do something before Vue calls this component's render function */
-      selectedBrand.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
+      selectedBrand.value === '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
       // stockProducts.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
     }) 
 

@@ -2,14 +2,12 @@
   <NuxtLayout name="default">
     <template #content>
         <div class="inner">
-          <h1>Checkout</h1>
-          <p>
+          <h1 style="text-align:center">Checkout</h1>
+          <!-- <p>
             A list with all products that reside within your cart.
-          </p>
+          </p> -->
         </div>
         <div class="inner checkout">
-          <h2>Products</h2>
-
           <div id="ProductSelection" :ref="state">
             <div v-if="orderItems.length > 0">
               <div class="orderItemHolder" v-for="(item, index) in orderItems" :key="index">
@@ -37,7 +35,7 @@
 
                   <Fold 
                     @click="removeCartItem(index)" @mouseover.native="hover = true" @mouseleave.native="hover = false" 
-                    width="45" height="45"
+                    width="35" height="35"
                     :class="'MyGradient_'+index"
                     :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
                     :MyGradient="'MyGradient'" 
@@ -82,54 +80,78 @@
           </div>
           <div id="Payment" ref="subSelect">
               <h1>Betalen</h1>
+
               <div class="formControl" id="PaySelect"> 
                 <label>Kies betaalmethode</label>
                 <span class="input">
-                  <v-select v-model="selectedPaymethod" :components="{Deselect: null}" :options="getPaymentOptions" :searchable="false" :placeholder="'Maak een keuze'" :disabled="loading" @input="setPaymethod"><template #selected-option-container="{ option, multiple, disabled }">
-                      <div class="option selected">
+                  <MySelect ref="mySelect"
+                    :tabindex="0"
+                    v-model="selectedPaymethod" 
+                    :components="{Deselect: null}" 
+                    :options="paymentOptions" 
+                    :searchable="false" 
+                    :placeholder="'Maak een keuze'" 
+                    :disabled="loading"
+                    @changeCustom="setPaymethod"
+                    >
+                    <!-- @change="setPaymethod"
+                    @sending-start="setPaymethod" -->
+                    
+                    <!-- <NuxtLayout> -->
+                      <!-- <template #selected-option-container="{ option, multiple, disabled }">
+                        <div class="option selected">
                           <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
                           <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
-                      </div>
-                      </template><template #option="option">
-                          <div class="option">
-                              <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
-                              <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
-                          </div>
-                      </template>
-                      <!-- <template #no-options="#no-options"><span>Geen betaalmogelijkheden beschikbaar.</span></template> -->
-                      <template ><span>Geen betaalmogelijkheden beschikbaar.</span></template>
-                  </v-select>
+                        </div>
+                      </template> -->
+                    <!-- </NuxtLayout> -->
+                    <!-- <NuxtLayout> -->
+                      <!-- <template #option="option">
+                        <div class="option">
+                            <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
+                            <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+                        </div>
+                      </template> -->
+                        <!-- <template #no-options="#no-options"><span>Geen betaalmogelijkheden beschikbaar.</span></template> -->
+                      <!-- <template ><span>Geen betaalmogelijkheden beschikbaar.</span></template> -->
+                    <!-- </NuxtLayout> -->
+                  </MySelect>
                 </span>
               </div>
+
               <div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
                 <span class="input" v-if="selectedPaymethod.subSelect != undefined  &&  selectedPaymethod.subSelect.length > 0">
                   <label>Kies bank</label>
-                  <v-select id="SubSelector" v-model="selectedSubPaymethod" :components="{Deselect: null}" :options="subSelection" :searchable="false" :placeholder="'Kies een bank'" :disabled="loading" @input="setSubPaymethod"><template #selected-option-container="{ option, multiple, disabled }">
+                  <MySelect id="SubSelector" 
+                    :tabindex="1"
+                    v-model="selectedSubPaymethod" 
+                    :components="{Deselect: null}" 
+                    :options="subSelection" 
+                    :searchable="false" 
+                    :placeholder="'Kies een bank'" 
+                    disabled="loading" 
+                    @input="setSubPaymethod">
+
+                    <!-- <template #selected-option-container="{ option, multiple, disabled }">
                     <div class="option selected">
                             <div class="visual"><img  :src="`../../../assets/logos/banks/${option.key}.png`" /></div>
                             <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
                         </div>
-                    </template><template #option="option">
+                    </template>
+                    <template #option="option">
                         <div class="option subSelect">
                             <div class="visual"><img :src="`../../../assets/logos/banks/${option.key}.png`" /></div>
                             <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
                         </div>
-                    <!-- </template><template #no-options="#no-options"><span>Geen banken beschikbaar.</span></template> -->
-                    </template><template ><span>Geen banken beschikbaar.</span></template>
-                  </v-select>
+                    </template><template #no-options="#no-options"><span>Geen banken beschikbaar.</span></template>
+                    </template><template ><span>Geen banken beschikbaar.</span></template> -->
+                  </MySelect>
                 </span>
               </div>
-              <div class="formControl"> <label class="terms"><input type="checkbox" :disabled="loading" name="agreed2Terms" v-model="agreed2Terms" />Ik bevestig dat mijn gegevens correct zijn ingevuld en ga akkoord met de <a class="terms" @click="conditions">algemene voorwaarden.</a><span class="indicator" v-if="errors.agreed2Terms.length > 0"> <img src="@/assets/warn.svg" /></span>
-                      <div class="error" v-if="errors.agreed2Terms.length > 0">{{errors.agreed2Terms[0]}}</div>
-                  </label><span class="input">
-                      <div id="Loader" v-if="loading">
-                          <vue-loaders-ball-beat></vue-loaders-ball-beat>
-                      </div>
-                      <invisible-recaptcha id="Submit" name="orderRequest" v-show="!loading" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" :callback="submit" type="submit" :disabled="loading" :class="{loading}">Betalen</invisible-recaptcha>
-                      <div class="error" v-if="errors.form.length > 0">{{errors.form[0]}}</div>
-                  </span></div>
+
           </div>
         </form>
+        
     </template>
   </NuxtLayout>
 </template>
@@ -139,14 +161,36 @@
 
 <script lang="ts">
 
+  import MySelect from '../components/MySelect.vue'
   import { state , actions } from '../store/reactives'
-  import { defineComponent, reactive, onMounted, toRef , ref, toRaw} from 'vue'
+  import { defineComponent, reactive, onMounted, toRef , ref, toRaw, watch} from 'vue'
   import { CryptoJS } from "crypto-js";
-
 
   export default defineComponent({
     layout: false,
     name: 'status',
+    components: {
+      MySelect
+    },
+    // head() {
+    //   // console.log(this.$content.article)
+    //   // let title = this.getTitle();
+    //   return {
+    //     title: 'default',
+    //     link: [
+    //       {
+    //         type: "text/css",
+    //         rel: "stylesheet",
+    //         href: "https://unpkg.com/vue-next-select/dist/index.min.css"
+    //       }
+    //     ],
+    //     script: [
+    //       {
+    //         src: "https://unpkg.com/vue-next-select/dist/vue-next-select.iife.prod.js"
+    //       }
+    //     ]
+    //   }
+    // },
     async setup(props) {
       const cart = toRef(state, 'cart');
       const selectedProducts = toRef(state, 'selectedProducts');
@@ -155,60 +199,39 @@
       const orderItems = toRef(state.order, 'orderItems');
       // console.log(toRaw(orderItems))
 
-      const pageData = reactive ({
-        hover: false, 
-        selectedPaymethod: null,
-        selectedSubPaymethod: null,
-        subSelection: [],
-        loading:  false,
-        color: 'string',
+      const hover = ref( false,)
+      const selectedPaymethod = ref(null)
+      const selectedSubPaymethod = ref(null)
+      const subSelection = ref(null)
+      const loading = ref(false)
+      const color = ref('string')
 
-        editMode: false,
-        preFilled: false,
-        name: null,
-        tel: null,
-        email: null,
-        emailSuggestion:'',
-        agreed2Terms: false,
-        errors: {
-          name: [],
-          tel: [],
-          email: [],
-          agreed2Terms: [],
-          form: [],
-        },
-        validated: {
-          name: false,
-          tel: false,
-          email: false,
-          agreed2Terms: false,
-          form: false,
-        },
-        qid: null,
-        payUrl: null,
+      const editMode = ref(false)
+      const preFilled = ref(false)
+      const name = ref(null)
+      const tel = ref(null)
+      const email = ref(null)
+      const emailSuggestion = ref('')
+      const agreed2Terms = ref( false)
+      const errors = ref({ 
+        name: [],
+        tel: [],
+        email: [],
+        agreed2Terms: [],
+        form: [],
       })
-      
-      const hover = toRef(pageData, 'hover');
-      const selectedPaymethod = toRef(pageData, 'selectedPaymethod');
-      const selectedSubPaymethod = toRef(pageData, 'selectedSubPaymethod');
-      const subSelection = toRef(pageData, 'subSelection');
-      const loading = toRef(pageData, 'loading');
-      const color = toRef(pageData, 'color');
-
-      const editMode = toRef(pageData, 'editMode');
-      const preFilled = toRef(pageData, 'preFilled');
-      const name = toRef(pageData, 'name');
-      const tel = toRef(pageData, 'tel');
-      const email = toRef(pageData, 'email');
-      const emailSuggestion = toRef(pageData, 'emailSuggestion');
-      const agreed2Terms = toRef(pageData, 'agreed2Terms');
-      const errors = toRef(pageData, 'errors');
-
-      const validated = toRef(pageData, 'validated');
-      const qid = toRef(pageData, 'qid');
-      const payUrl = toRef(pageData, 'payUrl');
-
-
+      const validated = ref({ 
+        name: false,
+        tel: false,
+        email: false,
+        agreed2Terms: false,
+        form: false,
+      })
+      const qid = ref(null)
+      const payUrl = ref(null)
+  
+      //STATES
+      const paymentOptions = toRef(state, 'paymentOptions');
       const removeCartItem = async (index)  => {
         await actions.removeCartItem(index)
       }
@@ -218,25 +241,43 @@
       const decreaseQnt = async (index)  => {
         await actions.decreaseQnt(index)
       }
-
-    const inputFormStyle = () => {
-      return {
-        opacity: orderItems.length > 0 ? 1: 0.1,
+      const inputFormStyle = () => {
+        return {
+          opacity: orderItems.length > 0 ? 1: 0.1,
+        }
       }
-    }
+      const getCartTotal = async ()  => {
+        await actions.getCartTotal()
+      }
+      const getPaymentOptions = async ()  => {
+        await actions.getPaymentOptions()
+      }
+      const setPaymethod = async (option) => {
+        let opt = option ? option : option.option;
+        opt.subSelect ? subSelection.value = opt.subSelect : null;
+        console.log('setPaymethod - Subselection', subSelection.value)
+      }
+      const setSubPaymethod = () => {
+        // console.log('selected', this.selectedSubPaymethod.key, this.selectedSubPaymethod.id);
+      }
+
+      watch([selectedPaymethod], (newValues, prevValues) => {
+        console.log("selectedPaymethod=",prevValues, newValues)
+        // let container = selectedPaymethod.value
+        // container.subSelect ? subSelection.value = container.subSelect : null;
+      })
 
 
       onMounted(() => {
           // console.log(state.order)
-          console.log(toRaw(orderItems) , 'Yeshh')
           const storeSettings = () => {
             let data = {
-              name: pageData.name,
-              tel: pageData.tel,
-              email: pageData.email,
-              payment: pageData.selectedPaymethod ? pageData.selectedPaymethod.key : null,
-              paymentId: pageData.selectedPaymethod.id,
-              subPayment: pageData.selectedSubPaymethod ? pageData.selectedSubPaymethod.key : null,
+              name: name,
+              tel: tel,
+              email: email,
+              payment: selectedPaymethod ? selectedPaymethod.key : null,
+              paymentId: selectedPaymethod.id,
+              subPayment: selectedSubPaymethod ? selectedSubPaymethod.key : null,
             }
             var cypher = CryptoJS.AES.encrypt( JSON.stringify(data), 'xxxstatixxx' ).toString();
             localStorage.setItem('paymem', cypher );
@@ -248,7 +289,7 @@
             localStorage.setItem('trxmem', cypher );
           }
           const prepare = () => {
-            pageData.loading = true;
+            loading.value = true;
           }
 
           // RELOAD USERDATA //
@@ -260,12 +301,12 @@
             if(bytes != undefined  &&  bytes != '' ){
               userData = bytes.toString(CryptoJS.enc.Utf8);
               userData = JSON.parse(userData);  
-              pageData.name = userData.name;
-              pageData.tel = userData.tel;
-              pageData.email = userData.email;
+              name.value = userData.name;
+              tel.value = userData.tel;
+              email.value = userData.email;
             }
-            if(pageData.name != null  &&  pageData.tel != null  &&  pageData.email != null)
-              pageData.preFilled = true;
+            if(name != null  &&  tel != null  &&  email != null)
+              preFilled.value = true;
           }
 
           // if(this.getPaymentOptions){
@@ -308,10 +349,15 @@
 
 
       return {
+        getPaymentOptions,
+        getCartTotal,
         removeCartItem,
         increaseQnt,
         decreaseQnt,
         inputFormStyle,
+        setPaymethod,
+        setSubPaymethod,
+        paymentOptions,
         orderItems,
         cart,
         selectedProducts,
@@ -471,6 +517,487 @@
   float:right;
 }
 .checkout .fold .tip {
-  right:-21px;
+  right:-2px;
+  font-size:10px;
+}
+
+#Checkout{
+  // margin-top: -4.5em;
+}
+form{
+  display: flex;
+  max-width: 900px;
+  margin: 2em auto;
+  justify-content: space-between;
+  transition: opacity 0.84s ease-in-out;
+
+  h1{
+    font-size: 22px;
+  }
+}
+#ContactDelivery{
+  text-align: left;
+  flex: 1 1 50%;
+}
+
+#ProductSelection{
+  box-sizing: border-box;
+}
+#Payment{
+  text-align: left;
+  flex: 1 1 50%;
+  padding-left: 1em;
+  border-left: 2px solid #DDD;
+  .formControl{
+    flex-flow: wrap;
+    margin: 1em 0px;
+    .input{
+      flex: 1 0 100%;
+      left: 0px;
+      text-align: left;
+      input, button{
+        margin: 0px;
+        left: 0px;
+        //background: linear-gradient(45deg, #2888c4, #6bb1de);
+        background: linear-gradient(186deg, #28c475, #15734c);
+        color: #FFF;
+        width: 100%;
+        border: none;
+        border-radius: 7px;
+        min-height: 50px;
+        font-size: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
+        &:hover{
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+  label{
+    flex: 1 0 100%;
+  }
+  select{
+    font-size: 18px;
+    min-width: 100%;
+  }
+
+  &:hover{
+    overflow: visible;
+  }
+
+
+}
+
+.terms{
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover{
+    color: #16679c;
+  }
+}
+.formControl{
+  display: flex;
+  justify-content: space-between;
+  margin: 1em;
+  // max-width: 400px;
+  // background: #DDD;
+
+  label{
+    display: inline-block;
+    vertical-align: top;
+    min-width: 75px;
+    text-align: left;
+    // padding-left: 1em;
+    margin-right: 2em;
+    margin-bottom: 0.3em;
+    flex: 1 1 10%;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 5px;
+  }
+  span.input{
+    text-align: left;
+    vertical-align: top;
+    flex: 1 1 90%;
+
+  }
+
+  input[type=text], input[type=email], input[type=tel], textarea{
+    border-radius: 7px;
+    border: 1px solid #DDD;
+    outline: none;
+    padding: 0.15em 1em 0.09em;
+    line-height: 2em;
+    background: linear-gradient(145deg, #d6eeff, #e9f6ff);
+    box-shadow: inset 2px 2px 1px #0000005e;
+    color: #2c3e51;
+    font-size: 18px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    min-width: 210px;
+    font-weight: normal;
+
+    &.static{
+      border: 1px solid transparent;
+      background: none;
+      box-shadow: none;
+    }
+
+    &::placeholder{
+      color: #00000060;
+    }
+  }
+
+  input[type=submit], button#Submit{
+    min-width: 225px;
+    margin: 0px auto;
+    display: block;
+    position: relative;
+    left: 3.5em;
+    height: 2em;
+    min-width: 100%;
+    &.loading{
+      background: grey !important;
+      opacity: 0.7;
+
+    }
+    &:disabled{
+      background: grey;
+      opacity: 0.5;
+    }
+  }
+
+}
+.orderItemHolder{
+  padding: 5px 0px;
+}
+.orderItem{
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  max-width: 900px;
+  margin: 0px auto;
+  min-height: 97px;
+  justify-content: space-between;
+  flex-flow: row;
+  vertical-align: top;
+  background: #DDDDDD;
+  padding: 1em;
+  box-sizing: border-box;
+  border-radius: 9px;
+  background: radial-gradient(#cccccc, #fbfbfb);
+  border: 1px solid #DDD;
+  background-position: 0px -92px;
+  background-repeat: no-repeat;
+  box-shadow: 0px 2px 3px #00000020;
+  transition: transform box-shadow 0.2s;
+
+  &:active.onButton{
+    perspective: 130px;
+    
+    transform-origin: 10% 90%;
+    transform: rotate3d(2, 10, 0, 3.5deg);
+    box-shadow: -3px 2px 3px #00000020;
+  }
+
+  .productInfo{
+    flex: 1 1 80%;
+    text-align: left;
+    vertical-align: top;
+    img{
+      float: left;
+      border: 1px solid #DDD;
+      padding: 2px;
+      max-height: 50px;
+      margin-right: 2em;
+      vertical-align: top;
+    }
+    p.name{
+      margin-top: 0.5em;
+      margin-bottom: 0px;
+      font-weight: bold;
+    }
+    p.desc{
+      font-size: 90%;
+      color: #818181;
+      margin-top: 0px;
+    }
+  }
+  .productControls{
+    flex: 1 1 20%;
+    align-self: center;
+    user-select: none;
+    span{
+      min-width: 45px;
+      text-align: center;
+      display: inline-block;
+    }
+    em{
+      opacity: 0.7;
+      cursor: pointer;
+      display: inline-block;
+      &:hover{
+        opacity: 0.5;
+      }
+      &:active{
+        transform: translateY(1px);
+      }
+    }
+  }
+  .productPrice{
+    display: inline-flex;
+    justify-content: flex-end;
+    flex-flow: column;
+    vertical-align: top;
+    align-self: center;
+    flex: 1 1 20%;
+    text-align: right;
+    font-size: 20px;
+
+    .itemTotal{
+      display: inline-block;
+      transform-origin: 90% 50%;
+    }
+
+    .addedCost{
+      font-size: 65%;
+      color: #929292;
+      transform-origin: 90% 50%;
+    }
+  }
+  .close{
+    cursor: pointer;
+    &:active{
+      transform: translateY(0.5px);
+      opacity: 0.99;
+    }
+    &:hover{
+      opacity: 0.8;
+    }
+  }
+  
+}
+#NoItems{
+  padding: 0px;
+  margin: 0px auto;
+  .backToStart{
+    cursor: pointer;
+    display: inline-block;
+    background: #DDDDDD70;
+    padding: 2px 10px;
+    border-radius: 10px;
+    border: 1px solid #DDD;
+    margin: 3px;
+    text-transform: uppercase;
+    color: #525252;
+    font-size: 14px;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    &:hover{
+      background: #DDDDDD30;
+    }
+    &:active{
+      transform: translateY(1px);
+      opacity: 0.9;
+    }
+  }
+}
+
+.v-select.vs--single{
+  position: relative;
+  z-index: 99;
+  cursor: pointer !important;
+  transition: box-shadow 1s;
+  margin-bottom: 10px;
+
+  &:hover{
+    z-index: 199;
+  }
+
+  &.vs--open{
+    z-index: 1000;
+  }
+
+  input.vs__search{
+    display: none;
+  }
+
+  .option{
+    display: flex;
+    justify-content: flex-start;
+    min-width: 100px;
+    // max-width: 300px;
+    z-index: 100;
+    flex: 100;
+  }
+
+  img{
+    float: left;
+    margin-right: 15px;
+    max-height: 50px;
+    max-width: 50px;
+    vertical-align: center;
+  }
+  strong, em{
+    display: block;
+    flex: 1 1 100%;
+  }
+
+  &:hover{
+    box-shadow: 0px 0px 10px #00000050;
+  }
+
+  .visual{
+    display: flex;
+    flex-flow: vertical;
+    flex: 0 0 70px;
+    img{
+      align-self: center;
+    }
+  }
+  .info{
+    flex: 1 1 100px;
+  }
+
+}
+.option.selected{
+    padding: 3px 10px;
+    position: relative;
+    top: 2px;
+
+}
+#Payment #PaySelect{
+  margin-bottom: 0em;
+}
+#Payment #SubSelect{
+  position: relative;
+  z-index: 99;
+  margin-top: 0px; 
+
+  #SubSelector .option{
+    display: inline-flex;
+
+    .visual{
+      flex: 0 0 55px;
+    }
+  }
+}
+
+#TotalHolder{
+  max-width: 900px;
+  margin: 0px auto;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 5px;
+  #TotalLabel{
+    flex: 1 1 100%;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px 30px;
+    color: #929292;
+  }
+  #TotalAmount{
+    flex: 0 1 30%;
+    background: #DDDDDD;
+    padding: 1em;
+    box-sizing: border-box;
+    border-radius: 9px;
+    background: radial-gradient(#cccccc, #fbfbfb);
+    border: 1px solid #DDD;
+    background-position: 0px -92px;
+    background-repeat: no-repeat;
+    box-shadow: 0px 2px 3px #00000020;  
+    text-align: right;
+    font-weight: bold;
+    font-size: 18px;
+    #TotalAmountText{
+      display: inline-block;
+    }
+  }
+  
+}
+
+#Loader{
+  background: #d4d4d4;
+  width: 100%;
+  min-height: 30px;
+  border-radius: 7px;
+  border: 1px solid #DDD;
+  outline: none;
+  padding: 0.5em 1em 0em 1em;
+  line-height: 2em;
+  color: #2c3e51;
+  font-size: 18px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 4px 4px 1px #00000010;
+  opacity: 0.6;
+  &:active{
+    transform: translateY(1px);
+
+  }
+}
+
+// .vs--unsearchable .vs__search {
+//     opacity: 1;
+//     display: none;
+// }
+
+
+.orderItem .disable{
+  opacity: 0.11 !important;
+  pointer-events: none;
+  -moz-user-input: disabled;
+  -webkit-user-input: disabled;
+}
+label.terms{
+  font-size: 15px;
+  text-decoration: none;
+  input{
+    float: left;
+    margin-bottom: 2.5em;
+    margin-right: 0.5em;
+  }
+}
+
+span.edit{
+  position: relative;
+  left: 5px;
+  top: -2px;
+  cursor:pointer;
+  font-size: 10px;
+  display: inline-block;
+  padding: 2px 7px;
+  background: #EDEDED;
+  border: 1px solid #929292;
+  vertical-align: middle;
+  border-radius: 15px;
+  color: #828282;
+  opacity: 0.73;
+  &:hover{
+    background: #DDD;
+  }
+  &:active{
+    opacity: 0.63;
+    transform: translatey(1px);
+  }
+}
+
+.error{
+  color: #dc311f;
+  font-size: 12px;
+  padding-left: 5px;
+  font-weight: bold;
+}
+.indicator{
+  margin-left: 0.5em;
+  opacity: 0.7;
+  img{
+    max-width: 1.25em;
+  }
 }
 </style>

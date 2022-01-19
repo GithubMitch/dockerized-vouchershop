@@ -1,17 +1,13 @@
 <template>
   <NuxtLayout name="home">
-
     <template #slider>
       <client-only>
         <Carousel/>
       </client-only>
     </template>
-
-
     <template #salesprops>
       <SalesProps/>
     </template>
-
     <template #content>
       <client-only>
         <div class="inner sales">
@@ -20,7 +16,6 @@
         </div>
       </client-only>
     </template>
-
     <template #vouchershopcomponent>
         <LazyVoucherShop keep-alive/>
     </template>

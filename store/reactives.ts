@@ -47,6 +47,32 @@ const state = reactive ({
   productFilter: ref<[]>([]),
   productPage: ref<[]>([]),
   cart: ref<[]>([]),
+  paymentOptions: ref([
+    { name: 'iDEAL', 
+      label: 'iDEAL', 
+      img: '@/assets/logos/paymethods/ideal.png' , 
+      key: 'ideal', 
+      desc: 'internet bankieren',
+      subSelect: [
+        {name: 'ING',       label: 'ING', key: 'ing', order: 1},
+        {name: 'ABN AMRO',  label: 'ABN AMRO', key: 'abn_amro', order: 2},
+        {name: 'Rabobank',  label: 'Rabobank', key: 'rabobank', order: 3},
+        {name: 'Knab',      label: 'Knab', key: 'knab', order: 4},
+        {name: 'Bunq',      label: 'Bunq', key: 'bunq', order: 5},
+        {name: 'ASN Bank',  label: 'ASN Bank', key: 'asn_bank',order: 6},
+        {name: 'Moneyou',   label: 'Moneyou', key: 'moneyou', order: 7},
+        {name: 'Regio Bank',label: 'Regio Bank', key: 'regiobank', order: 8},
+        {name: 'SNS',       label: 'SNS', key: 'sns', order: 9},
+        {name: 'Triodos Bank',  label: 'Triodos Bank', key: 'triodos_bank', order: 10},
+        {name: 'van Lanschot',  label: 'van Lanschot', key: 'van_lanschot', order: 11},
+        {name: 'Frysche Bank',  label: 'Frysche Bank', key: 'frysche_bank', order: 12},
+        {name: 'Handels Banken',label: 'Handels Banken', key: 'handels_banken', order: 13},
+      ]
+    },
+    {name: 'Sofort', label: 'Sofort', img: '@/assets/logos/paymethods/sofort.png'  , key: 'sofort', desc: 'internet bankieren'},
+    // {name: 'Klarna', img:'' , key: 'klarna', id: '8711', desc: 'Betalen waneer jij wilt.'},
+    {name: 'Paypal', label: 'Paypal', img: '@/assets/logos/paymethods/paypal.png'  , key: 'paypal', desc: 'online payments'},
+  ]),
   order: ref({
     selectedCategory: null,
     selectedBrand: null,
@@ -134,6 +160,30 @@ const actions = {
   // setStockProducts(products)  {
   //   return (products ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
   // },
+
+
+  getTotalAmountOfAddedCosts() {
+    return _(state.order.orderItems).reduce( (sum, i)=>{
+      let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
+      return sum + (i.qnt * ( addedCost ));
+    } , 0);
+  },
+  getCartTotal() {
+    return _(state.order.orderItems).reduce( (sum, i)=>{
+      let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
+      return sum + (i.qnt * (i.product.price + addedCost ));
+    } , 0);
+  },
+  getPaymentOptions() {
+    return state.paymentOptions;
+  },
+  getPaymethodWithKey(key) {
+    return _(state.paymentOptions).findWhere({ key });
+  },
+  getSubPaymethodWithKey(mainPaymethodKey,key) {
+    return _(state.paymentOptions).findWhere({ key });
+  },
+
   reinstateOrder(orderItems){
     // console.log(state.order.orderItems, '->', orderItems);
     state.order.orderItems = orderItems ?? [];                                                                    
@@ -175,21 +225,13 @@ const actions = {
 
 const methods = {
 
-  async filterProducts(stockProducts){
-    // console.log('handling products...');
+  async filterProducts(stockProducts , brand){
+    console.log('filterProducts', stockProducts, brand);
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
-    
-      return filteredProduct.brand == 'tmobile'; 
+      return filteredProduct.brand == brand; 
     });
     console.log(filteredProductList)
-    // const filteredProductList = await _(state.stockProducts).map( (filteredProduct) => {
-    //   return {
-    //     ...filteredProduct,
-    //     actionLabel : _(stockProducts).findIndex({ean: filteredProduct.ean }) != -1
-    //   }
-    // });
     state.productFilter = filteredProductList;
-    console.log(filteredProductList)
     return toRaw(state.productFilter)
   },
 
@@ -200,9 +242,8 @@ const methods = {
         ...stockItem,
         inStock : _(stockProducts).findIndex({ean: stockItem.ean }) != -1
       }
-      
     });
-    // console.log('optimizedProductList >>>>',optimizedProductList)
+    console.log('optimizedProductList >>>>',optimizedProductList)
     state.stockProducts = optimizedProductList;
     return toRaw(state.stockProducts)
   }

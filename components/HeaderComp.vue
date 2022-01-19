@@ -6,7 +6,6 @@
     </div>
     <div id="HeaderContent">
         <div id="HeaderNav">
-
             <div id="Links">
               <a href="/about" class="">Over Vouchershop</a>
               <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
@@ -16,8 +15,8 @@
             <NuxtLink id="Cart"  to="/checkout" :class="{filled: orderItems.length > 0 }" >
               <p>€0,00</p>
               <!-- {filled: orderItems.length > 0 } -->
+            {{ getCartTotal/100 | currency }}
             </NuxtLink>
-            <!-- p {{ getCartTotal/100 | currency }} -->
         </div>
     </div>
   </header>
@@ -52,6 +51,10 @@ export default defineComponent({
     const newPath = ref()
     const orderItems = toRef(state.order, 'orderItems');
 
+    const getCartTotal = async ()  => {
+      await actions.getCartTotal()
+    }
+
 
     onMounted(() => {
         route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
@@ -66,7 +69,10 @@ export default defineComponent({
         actions.setCategory(route.params._categoryslug)
       }
     )
-    return {orderItems}
+    return {
+      orderItems,
+      getCartTotal, 
+    }
   },
 })
 </script>

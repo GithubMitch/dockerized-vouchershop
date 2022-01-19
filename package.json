@@ -13,8 +13,10 @@
     "aws-sdk": "^2.1040.0",
     "crypto-js": "^4.1.1",
     "gsap": "^3.9.1",
+    "nuxt-vue-select": "^0.1.4",
     "sass": "^1.45.1",
     "vue-icon": "^2.2.0",
+    "vue-next-select": "^2.10.2",
     "vue-underscore": "^0.1.4"
   }
 }

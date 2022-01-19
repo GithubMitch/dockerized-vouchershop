@@ -21,9 +21,6 @@
       </span>
     </div>
   </div>
-<!-- <div class="inner">
-  {{$route.params}}
-</div> -->
 </template> 
 <script>
 import { defineComponent } from '@vue/composition-api'

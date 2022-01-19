@@ -1,8 +1,8 @@
 <template>
   <div id="wrapper">
-    <LazyHeaderComp/>
+    <HeaderComp/>
     <Router-View/>
-    <LazyFooterComp/> 
+    <FooterComp/> 
   </div>
 </template>
 
@@ -16,8 +16,9 @@ export default {
         { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
       ]
     })
-  }
+  },
 }
+
 </script>
 
 <style lang="scss">

@@ -36,11 +36,11 @@
           <img src="../assets/logos/banks/triodos_bank.png" alt="bank-logo">
 
         </div>
-          <div>
-            powered by
-            <img style="max-width:200px; display:block;" src="../assets/logos/ppp.svg" alt="">
-            2020
-          </div>
+        <div>
+          powered by
+          <img style="max-width:200px; display:block;" src="../assets/logos/ppp.svg" alt="">
+          2020
+        </div>
       </div>
     </div>
   </footer>
@@ -53,7 +53,7 @@
     color: #FFF;
     box-shadow: -0px -4px 1px #00000030;
     margin-top: 3em;
-        position: absolute;
+    position: relative;
     width: 100%;
     bottom: 0;
 
