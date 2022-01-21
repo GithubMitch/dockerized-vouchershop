@@ -8,7 +8,7 @@
           </p> -->
         </div>
         <div class="inner checkout">
-          <div id="ProductSelection" :ref="state">
+          <div id="ProductSelection">
             <div v-if="orderItems.length > 0">
               <div class="orderItemHolder" v-for="(item, index) in orderItems" :key="index">
                 <div class="orderItem" :class="{onButton:hover}">
@@ -29,8 +29,12 @@
                       @mouseover="hover = true" @mouseleave="hover = false">&#9658;</em>
                   </div>
                   <div class="productPrice">
-                    <span :class="[ 'itemTotal' ,'total_'+index]"> {{item.product.value/100*item.qnt | currency}}</span>
-                    <div class="addedCost" v-if="item.product.addedCost != undefined"  :class="[ 'itemAdded' ,'total_'+index]">{{item.product.addedCost/100*item.qnt | currency}}</div>
+                    <span :class="[ 'itemTotal' ,'total_'+index]"> 
+                      <!-- {{item.product.value/100*item.qnt | currency}} -->
+                    </span>
+                    <div class="addedCost" v-if="item.product.addedCost != undefined"  :class="[ 'itemAdded' ,'total_'+index]">
+                      <!-- {{item.product.addedCost/100*item.qnt | currency}} -->
+                    </div>
                   </div>
 
                   <Fold 
@@ -52,7 +56,7 @@
                     Totaal:
                   </div>
                   <div id="TotalAmount">
-                    <div id="TotalAmountText">{{getCartTotal/100 | currency}}</div>
+                    <!-- <div id="TotalAmountText">{{getCartTotal/100 | currency}}</div> -->
                   </div>
                 </div>
               </div>
@@ -84,18 +88,15 @@
               <div class="formControl" id="PaySelect"> 
                 <label>Kies betaalmethode</label>
                 <span class="input">
-                  <MySelect ref="mySelect"
-                    :tabindex="0"
-                    v-model="selectedPaymethod" 
-                    :components="{Deselect: null}" 
+                  <MySelect
+                    v-model="selectedPaymethod"
+                    :elementIndex="0"
                     :options="paymentOptions" 
                     :searchable="false" 
-                    :placeholder="'Maak een keuze'" 
                     :disabled="loading"
-                    @changeCustom="setPaymethod"
+                    :default="`Betaalmethodes`"
+                    @selectChange="setPaymethod"
                     >
-                    <!-- @change="setPaymethod"
-                    @sending-start="setPaymethod" -->
                     
                     <!-- <NuxtLayout> -->
                       <!-- <template #selected-option-container="{ option, multiple, disabled }">
@@ -122,13 +123,13 @@
               <div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
                 <span class="input" v-if="selectedPaymethod.subSelect != undefined  &&  selectedPaymethod.subSelect.length > 0">
                   <label>Kies bank</label>
-                  <MySelect id="SubSelector" 
-                    :tabindex="1"
+                  <MySelect
+                    :elementIndex="1"
                     v-model="selectedSubPaymethod" 
-                    :components="{Deselect: null}" 
                     :options="subSelection" 
                     :searchable="false" 
-                    :placeholder="'Kies een bank'" 
+                    :placeholder="'Kies een bank'"
+                    :default="`Banken`"
                     disabled="loading" 
                     @input="setSubPaymethod">
 
@@ -199,7 +200,7 @@
       const orderItems = toRef(state.order, 'orderItems');
       // console.log(toRaw(orderItems))
 
-      const hover = ref( false,)
+      const hover = ref( false )
       const selectedPaymethod = ref(null)
       const selectedSubPaymethod = ref(null)
       const subSelection = ref(null)
@@ -232,6 +233,7 @@
   
       //STATES
       const paymentOptions = toRef(state, 'paymentOptions');
+      
       const removeCartItem = async (index)  => {
         await actions.removeCartItem(index)
       }
@@ -252,10 +254,12 @@
       const getPaymentOptions = async ()  => {
         await actions.getPaymentOptions()
       }
-      const setPaymethod = async (option) => {
+      const setPaymethod = (option) => {
         let opt = option ? option : option.option;
         opt.subSelect ? subSelection.value = opt.subSelect : null;
         console.log('setPaymethod - Subselection', subSelection.value)
+        selectedPaymethod.value = option;
+         
       }
       const setSubPaymethod = () => {
         // console.log('selected', this.selectedSubPaymethod.key, this.selectedSubPaymethod.id);
@@ -577,6 +581,7 @@ form{
   }
   label{
     flex: 1 0 100%;
+    display:block;
   }
   select{
     font-size: 18px;
@@ -805,68 +810,26 @@ form{
   }
 }
 
-.v-select.vs--single{
-  position: relative;
-  z-index: 99;
-  cursor: pointer !important;
-  transition: box-shadow 1s;
-  margin-bottom: 10px;
-
-  &:hover{
-    z-index: 199;
-  }
-
-  &.vs--open{
-    z-index: 1000;
-  }
-
-  input.vs__search{
-    display: none;
-  }
-
-  .option{
-    display: flex;
-    justify-content: flex-start;
-    min-width: 100px;
-    // max-width: 300px;
-    z-index: 100;
-    flex: 100;
-  }
-
+.visual{
+  display: flex;
+  flex-flow: vertical;
+  flex: 0 0 70px;
   img{
-    float: left;
-    margin-right: 15px;
-    max-height: 50px;
-    max-width: 50px;
-    vertical-align: center;
+    align-self: center;
   }
-  strong, em{
-    display: block;
-    flex: 1 1 100%;
-  }
-
-  &:hover{
-    box-shadow: 0px 0px 10px #00000050;
-  }
-
-  .visual{
-    display: flex;
-    flex-flow: vertical;
-    flex: 0 0 70px;
-    img{
-      align-self: center;
-    }
-  }
-  .info{
-    flex: 1 1 100px;
-  }
-
 }
+.info{
+  flex: 1 1 100px;
+  strong, em {
+    display:block;
+  }
+}
+
 .option.selected{
     padding: 3px 10px;
     position: relative;
     top: 2px;
-
+    display:flex;
 }
 #Payment #PaySelect{
   margin-bottom: 0em;

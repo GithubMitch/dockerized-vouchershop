@@ -1,53 +1,51 @@
 <template>
-  <div class="select" :tabindex="tabindex">
+  <div class="select" :id="elementIndex">
       
-    <select class="custom-select" 
-      v-model="select" 
-      @change="changeCustom(select)"
-    >
+    <select class="custom-select" v-model="select">      
       <option v-for="(option, i) of options" :ref="`option_` + i" :class="`option_` + i"
-        :key="i" :value="option" :index="i"
+        :key="i" :value="option" :tabindex="i"
         > {{option.name}}
       </option>
-      <!-- <options class="items" :class="{ selectHide: !open }">
-        <div
-          v-for="(option, i) of options"
-          :key="i"
-          @click="
-            selected = option;
-            open = false;
-            $emit('input', option);
-          "
-        >
-          {{ option }}
-        </div> -->
-        <!-- <slot name="selected-option-container">
-        </slot>
-        <slot name="option">
-        </slot> -->
     </select>
 
-    <div class="select-styled" :class="{active:isActive}" @click="toggleActive($event);">{{select.name}}</div>
+    <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
+      {{ !select.name ? select : select.name }}
+      
+      <!-- <div class="option selected">
+        <div class="visual">
+            <i v-if="!select.name" style="margin-left: 4px;font-size: 2.5em;" class="i simple-line-icons:credit-card"></i>
+            <img v-else :src="`../../../assets/logos/paymethods/${select.key}.png`" />
+        </div>
+        <div class="info">
+          <strong>
+            {{ !select.name ? select : select.name }}
+          </strong>
+          <em class="desc">{{ !select.name ? select : select.name }}</em>
+        </div>
+      </div> -->
+    </div>
     <ul class="select-options"  :class="{active:isActive}">
       <li v-for="(option, i) of options"
           :key="i"
-          :rel="(option)"
+          :index="i"
           :value="option"
-
           @click="
             toggleActive($event);
-            selectOption(`option_` + i);
             {select = option};
           ">
-            <!-- sendData(option); -->
-          {{option.name}}
+            <!-- selectOption; -->
+
+          <div class="option selected">
+              <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
+              <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+          </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import { defineComponent, reactive, onMounted, toRef , ref, toRaw } from 'vue'
+  import { defineComponent , ref, toRaw } from 'vue'
   export default defineComponent({
     props: {
       options: {
@@ -56,7 +54,7 @@
       },
       default: {
         type: String,
-        required: false,
+        required: true,
         default: null,
       },
       tabindex: {
@@ -64,35 +62,39 @@
         required: false,
         default: 0,
       },
+      elementIndex: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
     },
     emits: {
-      'sending-start' (payload) {
-        if (payload.option) {
-          console.log("Valid Payload", payload.option)
+      'selectChange' (payload) {
+        if (payload.name && payload.key) {
+          console.log("Valid Payload", payload)
           return true
         } else {
           console.error('Not a valid payload')
-          console.log("false")
           return false 
         }
       },
     },
     methods: {
-      sendData(option) {
-        this.$emit('sending-start', {option})
-      },
-      selectOption(index) {
-        let allRefs = this.$refs
-        let opt = this.$refs[index];
-        for (const key in allRefs) {
-          if (allRefs.hasOwnProperty.call(allRefs, key)) {
-            const element = allRefs[key];
-            element.removeAttribute("selected")
-          }
-        }
-        console.log(opt);
-        opt.setAttribute("selected", "selected");
-      },
+      // sendData(option) {
+      //   this.$emit('sending-start', {option})
+      // },
+      // selectOption(index) {
+      //   let allRefs = this.$refs
+      //   let opt = this.$refs[index];
+      //   for (const key in allRefs) {
+      //     if (allRefs.hasOwnProperty.call(allRefs, key)) {
+      //       const element = allRefs[key];
+      //       element.removeAttribute("selected")
+      //     }
+      //   }
+      //   console.log(opt);
+      //   opt.setAttribute("selected", "selected");
+      // },
 
     },
     async setup(props, {emit}) {
@@ -104,25 +106,24 @@
         isActive.value == false ? isActive.value = true : isActive.value = false;
       }
 
-      // const changeCustom = (event) => {
-      //   emit("changeCustom", event.target.value)
+      // const selectChange = (event) => {
+      //   emit("selectChange", event.target.value)
       // }
-      const changeCustom = (iets) => {
-        console.log(iets)
-        emit("changeCustom", iets)
-
+      const selectChange = (iets) => {
+        console.log('IETS',iets)
+        emit("selectChange", iets)
       }
 
       watch([select], (newValues, prevValues) => {
-        // console.log("OPEN & SELECTED=",prevValues, newValues)
+        emit("selectChange", select.value)
+        console.log("OPEN & SELECTED=",prevValues, newValues)
       })
 
       return {
         select, 
         isActive,
         toggleActive,
-        changeCustom
-        // selectOption
+        selectChange,
       }
     }
 
@@ -134,15 +135,18 @@
   top:4em;
   position:relative;
 }
+  .custom-select {
+    display:none;
+  }
   .selected.open {
     display:none;
   }
 
   $background: #e74c3c;
   $select-color: #fff;
-  $select-background: #c0392b;
-  $select-width: 220px;
-  $select-height: 40px; 
+  $select-background: #ff7514;
+  $select-width: 100%;
+  $select-height: 71px; 
 
   // body { 
   //   font-family: Lato, Arial;
@@ -198,8 +202,11 @@
     bottom: 0;
     left: 0;
     background-color: $select-background;
-    padding: 8px 15px;
+    padding: 8px 0px;
     // @include transition(all 0.2s ease-in);
+    .visual {
+      margin-right:1em;
+    }
     &:after {
       content:"";
       width: 0;
@@ -207,7 +214,7 @@
       border: 7px solid transparent;
       border-color: $select-color transparent transparent transparent;
       position: absolute;
-      top: 16px;
+      top: 2em;
       right: 10px;
     }
     &:hover {
@@ -216,7 +223,7 @@
     &:active, &.active {
       background-color: darken($select-background, 5);
       &:after {
-        top: 9px;
+        top: calc(2em - 7px);
         border-color: transparent transparent $select-color transparent;
       }
     }

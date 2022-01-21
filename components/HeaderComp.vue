@@ -15,7 +15,7 @@
             <NuxtLink id="Cart"  to="/checkout" :class="{filled: orderItems.length > 0 }" >
               <p>€0,00</p>
               <!-- {filled: orderItems.length > 0 } -->
-            {{ getCartTotal/100 | currency }}
+            <!-- {{ getCartTotal/100 | currency }} -->
             </NuxtLink>
         </div>
     </div>
