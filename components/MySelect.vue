@@ -1,10 +1,11 @@
 <template>
-  <div class="select" :id="elementIndex">
+  <div class="select" >
       
     <select class="custom-select" v-model="select">      
       <option v-for="(option, i) of options" :ref="`option_` + i" :class="`option_` + i"
-        :key="i" :value="option" :tabindex="i"
+        :key="i" :value="option"  :tabindex="i"
         > {{option.name}}
+        <!-- @change="selectChange(select)" -->
       </option>
     </select>
 
@@ -27,13 +28,12 @@
     <ul class="select-options"  :class="{active:isActive}">
       <li v-for="(option, i) of options"
           :key="i"
-          :index="i"
-          :value="option"
           @click="
             toggleActive($event);
             {select = option};
+            selectOption(`option_` + i , select);
           ">
-            <!-- selectOption; -->
+
 
           <div class="option selected">
               <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
@@ -54,7 +54,7 @@
       },
       default: {
         type: String,
-        required: true,
+        required: false,
         default: null,
       },
       tabindex: {
@@ -70,7 +70,8 @@
     },
     emits: {
       'selectChange' (payload) {
-        if (payload.name && payload.key) {
+        // if (payload.name && payload.key) {
+        if (payload) {
           console.log("Valid Payload", payload)
           return true
         } else {
@@ -83,18 +84,21 @@
       // sendData(option) {
       //   this.$emit('sending-start', {option})
       // },
-      // selectOption(index) {
-      //   let allRefs = this.$refs
-      //   let opt = this.$refs[index];
-      //   for (const key in allRefs) {
-      //     if (allRefs.hasOwnProperty.call(allRefs, key)) {
-      //       const element = allRefs[key];
-      //       element.removeAttribute("selected")
-      //     }
-      //   }
-      //   console.log(opt);
-      //   opt.setAttribute("selected", "selected");
-      // },
+      selectOption(index, selected) {
+        let allRefs = this.$refs
+        let opt = this.$refs[index];
+        for (const key in allRefs) {
+          if (allRefs.hasOwnProperty.call(allRefs, key)) {
+            const element = allRefs[key];
+            element.removeAttribute("selected")
+          }
+        }
+        console.log('OPT', opt);
+        opt.setAttribute("selected", "selected");
+        
+        return this.$emit("selectChange", selected)
+
+      },
 
     },
     async setup(props, {emit}) {
@@ -104,26 +108,27 @@
 
       const toggleActive = (e) => {
         isActive.value == false ? isActive.value = true : isActive.value = false;
+        return
       }
 
       // const selectChange = (event) => {
       //   emit("selectChange", event.target.value)
       // }
-      const selectChange = (iets) => {
-        console.log('IETS',iets)
-        emit("selectChange", iets)
-      }
+      // const selectChange = (iets) => {
+      //   console.log('IETS',iets)
+      //   emit("selectChange", iets)
+      // }
 
       watch([select], (newValues, prevValues) => {
-        emit("selectChange", select.value)
         console.log("OPEN & SELECTED=",prevValues, newValues)
+        // emit("selectChange", select.value)
       })
 
       return {
         select, 
         isActive,
         toggleActive,
-        selectChange,
+        // selectChange,
       }
     }
 

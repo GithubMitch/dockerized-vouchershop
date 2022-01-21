@@ -56,24 +56,24 @@ export default defineComponent({
     // All lists - remote
     if (stockProducts.value.length == 0 && brands.value.length == 0) {
       await Promise.all([
-        actions.fetchProductList(),
-        actions.fetchBrandList(),
-        actions.fetchStockList(),
+        // actions.fetchProductList(),
+        // actions.fetchBrandList(),
+        // actions.fetchStockList(),
         Promise.resolve(`Completed Promise`)
       ])
       // .then(lists => {
       //   // return lists
       //   console.log(lists)
       // })
-      .catch(error => console.log(error))
+      .catch(error => console.log('vcshop 68',error))
     }
 
     // Reactive.ts Setters :
     const setSelectedBrand = async (brand)  => {
-      await actions.setSelectedBrand(brand)
+      actions.setSelectedBrand(brand)
     }
     const deselect = async (selected)  => {
-      await Promise.all([
+      Promise.all([
         actions.deselect(selected),
         router.go(-1),
         Promise.resolve(`Completed Promise`)
@@ -81,12 +81,12 @@ export default defineComponent({
     }
     // // Reactive.ts Getters :
     const getProducts = async ()  => {
-      await actions.fetchProductList()
+      // await actions.fetchProductList()
       // console.log("BLAH products", products)
     }
 
     const stock = async ()  => {
-      await actions.fetchStockList()
+      // await actions.fetchStockList()
       console.log('Update Stock')
     }    
 
