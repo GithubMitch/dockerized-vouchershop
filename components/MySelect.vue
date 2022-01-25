@@ -3,14 +3,18 @@
       
     <select class="custom-select" v-model="select">      
       <option v-for="(option, i) of options" :ref="`option_` + i" :class="`option_` + i"
-        :key="i" :value="option"  :tabindex="i"
+        :key="i" :value="option"  :tabindex="i"  :selected=" i === 0 ? true : false"
         > {{option.name}}
         <!-- @change="selectChange(select)" -->
       </option>
     </select>
 
     <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
-      {{ !select.name ? select : select.name }}
+      <div class="option selected">
+          <div class="visual"><img :src="`../../assets/logos/${optionType}${ !select.name ? options[0].key : select.key }.png`" /></div>
+          <div class="info"><strong>{{ !select.name ? options[0].name : select.name }}</strong><em class="desc">{{ !select.name ? options[0].desc : select.desc }}</em></div>
+      </div>
+      <!-- {{ !select.name ? options[0].name : select.name }} -->
       
       <!-- <div class="option selected">
         <div class="visual">
@@ -32,11 +36,11 @@
             toggleActive($event);
             {select = option};
             selectOption(`option_` + i , select);
+            selectChange(select)
           ">
 
-
           <div class="option selected">
-              <div class="visual"><img :src="`../../../assets/logos/paymethods/${option.key}.png`" /></div>
+              <div class="visual"><img :src="`../../assets/logos/${optionType}${option.key}.png`" /></div>
               <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
           </div>
       </li>
@@ -67,6 +71,11 @@
         required: true,
         default: 0,
       },
+      optionType: {
+        type: String,
+        required: false,
+        default: `paymethods/`,
+      },
     },
     emits: {
       'selectChange' (payload) {
@@ -96,7 +105,7 @@
         console.log('OPT', opt);
         opt.setAttribute("selected", "selected");
         
-        return this.$emit("selectChange", selected)
+        // return this.$emit("selectChange", selected)
 
       },
 
@@ -114,10 +123,10 @@
       // const selectChange = (event) => {
       //   emit("selectChange", event.target.value)
       // }
-      // const selectChange = (iets) => {
-      //   console.log('IETS',iets)
-      //   emit("selectChange", iets)
-      // }
+      const selectChange = (iets) => {
+        console.log('IETS',iets)
+        emit("selectChange", iets)
+      }
 
       watch([select], (newValues, prevValues) => {
         console.log("OPEN & SELECTED=",prevValues, newValues)
@@ -128,7 +137,7 @@
         select, 
         isActive,
         toggleActive,
-        // selectChange,
+        selectChange,
       }
     }
 
@@ -207,7 +216,7 @@
     bottom: 0;
     left: 0;
     background-color: $select-background;
-    padding: 8px 0px;
+    padding: 4px 0px;
     // @include transition(all 0.2s ease-in);
     .visual {
       margin-right:1em;
@@ -247,7 +256,7 @@
     background-color: darken($select-background, 5);
     li {
       margin: 0;
-      padding: 12px 0;
+      padding: .25em 0;
       text-indent: 15px;
       border-top: 1px solid darken($select-background, 10);
       // @include transition(all 0.15s ease-in);
