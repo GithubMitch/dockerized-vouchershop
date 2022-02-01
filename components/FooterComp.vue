@@ -53,9 +53,9 @@
     color: #FFF;
     box-shadow: -0px -4px 1px #00000030;
     margin-top: 3em;
-    position: relative;
+    position: sticky;
     width: 100%;
-    bottom: 0;
+    top: 100%;
 
     #FooterContent{
       padding: 1em;

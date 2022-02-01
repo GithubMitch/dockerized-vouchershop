@@ -15,26 +15,26 @@
           <TopThree/>
         </div>
       </client-only>
+
     </template>
     <template #vouchershopcomponent>
-        <LazyVoucherShop keep-alive/>
+        <VoucherShop/>
     </template>
   </NuxtLayout>
 </template>
 
-<script lang="ts">
+<script>
 
   export default {
-    layout: false,
-    inheritAttrs: false,
+    layout: 'false',
     name:'home',
     setup () {
-      useMeta({
-        title: 'Home',
-        meta: [
-          { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-        ]
-      })
+      // useMeta({
+      //   title: 'Home',
+      //   meta: [
+      //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+      //   ]
+      // })
     }
   }
 
@@ -54,13 +54,6 @@
 #voucherShop {
   display:none;
 }
-/* RESET STYLE SHEET */
-  html {
-    background:repeating-linear-gradient(
-      -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200
-      px
-      );
-  }
   HTML >* , 
   body > * {
     box-sizing: border-box;

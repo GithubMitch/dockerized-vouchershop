@@ -1,21 +1,48 @@
 <template>
-  <div id="wrapper">
-    <HeaderComp/>
-    <Router-View/>
-    <FooterComp/> 
-  </div>
+  <HeaderComp/>
+  <Router-View/>
+  <FooterComp/> 
 </template>
 
-<script lang="ts">
+<script>
+import { state , actions } from './store/reactives';
+
 export default {
-  setup () {
-    const route = useRoute();
-    useMeta({
-      title: `Vouchershop ${JSON.stringify(route.params)}`,
+  head() {
+    // console.log(this.$content.article)
+    // let title = this.getTitle();
+    return {
+      title: 'VoucherShop',
+      link: [
+        {
+          rel: "stylesheet",
+          href: "/assets/iconfont/iconfont.css"
+        }
+      ],
       meta: [
-        { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+        // {
+        //   hid: 'ABOUT-HID',
+        //   name: `About page`,
+        //   content: 'Website about page'
+        // }
       ]
-    })
+    }
+  },
+  // useMeta({
+  //   title: `Vouchershop ${JSON.stringify(route.params._categoryslug)}`,
+  //   meta: [
+  //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+  //   ]
+  // }),
+  setup (context) {
+    const route = useRoute();
+    const { $currency } = useNuxtApp()
+
+    const getCartTotal = ()  => {
+      actions.getCartTotal()
+    }
+    // console.log(context)
+    return {getCartTotal}
   },
 }
 
@@ -28,11 +55,9 @@ export default {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       color: #2c3e50;
-      // display: flex;
-      // flex-flow: column;
-      // min-height: 100vh;
-      // justify-content: space-between;
-      // flex-wrap: nowrap;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
   }
   html {
     background:repeating-linear-gradient(
@@ -65,6 +90,7 @@ export default {
     max-width:1100px;
     background:silver;
     a {
+      &.router-link-active,
       &:visited {
         color:#308ac3;
       }

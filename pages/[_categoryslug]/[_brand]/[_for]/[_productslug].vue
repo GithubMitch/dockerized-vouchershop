@@ -1,7 +1,7 @@
 <template>
-  <NuxtLayout name="category">
+  <NuxtLayout name="default">
     <template #content>
-      <NuxtChild :product="pickedProduct" keep-alive/>
+      <NuxtChild :product="pickedProduct"/>
     </template>
   </NuxtLayout>
 </template>
@@ -11,7 +11,25 @@ import { state, actions } from '../../../../store/reactives';
 import { defineComponent, onMounted, toRef, watch} from 'vue';
 
 export default defineComponent({
-  layout: false,
+  layout: 'default',
+  head() {
+    return {
+      title: 'VoucherShop - Product-page',
+      link: [
+        {
+          rel: "stylesheet",
+          href: "/assets/iconfont/iconfont.css"
+        }
+      ],
+      meta: [
+        {
+          hid: 'ABOUT-HID',
+          name: `About page`,
+          content: 'Website about page'
+        }
+      ]
+    }
+  },
   async setup(props) {
     /// SETUP ROUTING HERE FOR NAVIGATION
     const router = useRouter()

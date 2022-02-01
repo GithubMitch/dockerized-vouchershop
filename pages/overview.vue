@@ -10,13 +10,6 @@
 
 
 <style>
-/* RESET STYLE SHEET */
-  html {
-    background:repeating-linear-gradient(
-      -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200
-      px
-      );
-  }
   HTML >* , 
   body > * {
     box-sizing: border-box;

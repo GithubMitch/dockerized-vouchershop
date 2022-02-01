@@ -1,6 +1,8 @@
 <template>
-  <slot name="foldIcon"></slot>
-  <slot/>
+  <div>
+    <slot name="foldIcon"></slot>
+    <slot/>
+  </div>
 </template>
 
 <script lang="ts">

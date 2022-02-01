@@ -6,6 +6,7 @@
       :selectedBrand="selectedBrand" 
       :products="stockProducts"
       />
+      <!-- :keep-alive="{stockProducts , selectedBrand}" -->
 
     </template>
 

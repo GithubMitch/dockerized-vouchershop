@@ -40,6 +40,7 @@ const state = reactive ({
   brands: ref<[]>([]),
   selectableBrands: ref<[]>([]),
   selectedBrand: ref(''),
+  selectedActionLabel: ref(''),
   stockProducts: ref<[]>([]),
   selectableProducts: ref<[]>([]),
   selectedProducts: ref<[]>([]),
@@ -48,11 +49,7 @@ const state = reactive ({
   productPage: ref<[]>([]),
   cart: ref<[]>([]),
   paymentOptions: ref([
-    { name: 'iDEAL', 
-      label: 'iDEAL', 
-      img: '@/assets/logos/paymethods/ideal.png' , 
-      key: 'ideal', 
-      desc: 'internet bankieren',
+    { name: 'iDEAL', label: 'iDEAL', img: '@/assets/logos/paymethods/ideal.png' , key: 'ideal', desc: 'internet bankieren',
       subSelect: [
         {name: 'ING',       label: 'ING', key: 'ing', order: 1},
         {name: 'ABN AMRO',  label: 'ABN AMRO', key: 'abn_amro', order: 2},
@@ -138,7 +135,11 @@ const actions = {
     // state.selectedBrandProducts = _(state.stockProducts).filter({brand: brand, inStock: true});
      // console.trace()
     return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
-  },     
+  }, 
+  setActionLabel(actionLabel)  {
+    return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : console.log('Didnt set actionLabel', actionLabel))
+            // (category ? (categoryUrl.value = category, console.log('Set category: ', category)) : console.log('Didnt set category', category)) 
+  },       
   addProducts(product) {
     // product.qnt = 1;
     // product.new = true
@@ -169,9 +170,14 @@ const actions = {
     } , 0);
   },
   getCartTotal() {
-    return _(state.order.orderItems).reduce( (sum, i)=>{
+    if (state.order.orderItems[0]) {
+      console.log('orderitems',state.order.orderItems)
+
+    }
+    return  _(state.order.orderItems).reduce( (sum, i)=>{
       let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
-      return sum + (i.qnt * (i.product.price + addedCost ));
+      console.log(sum + (i.qnt * (i.product.price + addedCost )))
+      return sum + (i.qnt * (i.product.price + addedCost ) );
     } , 0);
   },
   getPaymentOptions() {
@@ -182,6 +188,12 @@ const actions = {
   },
   getSubPaymethodWithKey(mainPaymethodKey,key) {
     return _(state.paymentOptions).findWhere({ key });
+  },
+  getKey(name) {
+    // console.log('converting...', name , '->', name.toLowerCase().replace(' ', '').replace('-', '').replace('_', '') );
+
+    if(name != undefined)
+      return name.toLowerCase().replace(' ', '_').replace('-', '_');
   },
 
   reinstateOrder(orderItems){
@@ -207,7 +219,7 @@ const actions = {
   deselect(selected) {
     switch (selected) {
       case (state.brands):
-        state.selectedBrand = [];
+        // state.selectedBrand = [];
         break;
       case state.stockProducts:
         state.selectedProducts = []
@@ -225,19 +237,19 @@ const actions = {
 
 const methods = {
 
-  async filterProducts(stockProducts , brand){
-    console.log('filterProducts', stockProducts, brand);
+  async filterActionLabel(stockProducts , actionLabel){
+    console.log('Filter ' + actionLabel + 'products in ', stockProducts, );
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
-      return filteredProduct.brand == brand; 
+      return filteredProduct.actionLabel == actionLabel; 
     });
     console.log(filteredProductList)
     state.productFilter = filteredProductList;
     return toRaw(state.productFilter)
   },
 
-  async validateStock(stockProducts){
+  validateStock(stockProducts){
     // console.log('handling products...');
-    const optimizedProductList = await _(state.selectableProducts).map( (stockItem) => {
+    const optimizedProductList = _(state.selectableProducts).map( (stockItem) => {
       return {
         ...stockItem,
         inStock : _(stockProducts).findIndex({ean: stockItem.ean }) != -1
@@ -246,7 +258,39 @@ const methods = {
     console.log('optimizedProductList >>>>',optimizedProductList)
     state.stockProducts = optimizedProductList;
     return toRaw(state.stockProducts)
-  }
+  },
+
+  handlePaymethods(paymethods){
+    // improve ... use existing structure and 
+    let optimizedPaymethodList = _(paymethods).map( (listedPaymethod) => {
+      // console.log(listedPaymethod);
+      let key = actions.getKey(listedPaymethod.pmname);
+      return {
+        name: listedPaymethod.pmname,
+        label: listedPaymethod.pmname,
+        key,
+        id: listedPaymethod.portalPmId,
+        desc: 'betaal online',
+        subSelect: _.chain(listedPaymethod.pmsublist)
+                    .map( subPayment => {
+                      let subKey = actions.getKey(subPayment.pmsubName);
+                      return {
+                        name: subPayment.pmsubName, 
+                        label: subPayment.pmsubName,
+                        key: subKey, 
+                        id: subPayment.pmsubId,
+                        sort: parseInt(subPayment.pmsubId),
+                      }
+                    })
+                    .sortBy('sort')
+                    .value()
+        ,
+      } // return 
+    });
+    // SET STATE PAYMETHODS
+    // commit('SET_PAYMETHODS', optimizedPaymethodList);
+    state.paymentOptions = optimizedPaymethodList.value
+  },
 }
 const computed = {
   // activeUsers: function() {

@@ -1,37 +1,45 @@
 <template>
+
  <div id="voucherShop" class="inner"> 
    <h1>Vouchershop component</h1> 
     <div id="config-window">
       <ul>
         <li>
           category:
-              <span>
-                <pre v-if="$route.params._categoryslug">Selected:
+          <span>
+            <ClientOnly>
+
+              <pre v-if="$route.params._categoryslug">Selected:
 Category    : {{ $route.params._categoryslug }}
 Brand       :  -{{ $route.params._brand }}
 Subcategory :  -{{ $route.params._for }}
-                </pre>
-              </span>
+              </pre>
+            </ClientOnly>
+          </span>
         </li>
         <li>
           brands:
-              <ul v-show="$route.params._categoryslug">
-                <pre v-show="selectedBrand">Selected: {{ selectedBrand }}</pre>
-                <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
-                  <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
-                </li>
-                <li class="brandLine" @click="deselect(brands)">Deselect</li>
-              </ul>
+          <ClientOnly>
+            <ul v-if="$route.params._categoryslug">
+              <pre v-if="selectedBrand">Selected: {{ selectedBrand }}</pre>
+              <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
+                <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
+              </li>
+            </ul>
+          </ClientOnly>
         </li>
         <li>
           products:
-              <pre v-show="selectedProducts">Cart: {{ selectedProducts }}</pre>
+            <ClientOnly>
+              <pre v-if="selectedProducts">Cart: {{ selectedProducts }}</pre>
+            </ClientOnly>
         </li>
         <li>overview:</li>
         <li>status:</li>
       </ul>
     </div>
  </div>
+
 </template> 
 
 
@@ -56,9 +64,9 @@ export default defineComponent({
     // All lists - remote
     if (stockProducts.value.length == 0 && brands.value.length == 0) {
       await Promise.all([
-        // actions.fetchProductList(),
-        // actions.fetchBrandList(),
-        // actions.fetchStockList(),
+        actions.fetchProductList(),
+        actions.fetchBrandList(),
+        actions.fetchStockList(),
         Promise.resolve(`Completed Promise`)
       ])
       // .then(lists => {
@@ -81,7 +89,7 @@ export default defineComponent({
     }
     // // Reactive.ts Getters :
     const getProducts = async ()  => {
-      // await actions.fetchProductList()
+      await actions.fetchProductList()
       // console.log("BLAH products", products)
     }
 

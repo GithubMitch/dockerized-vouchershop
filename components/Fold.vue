@@ -19,7 +19,8 @@
       <div class="tipContent" v-else>
         <NuxtLayout name="fold">
           <template #foldIcon>
-            <i v-if="$route.params._categoryslug" class="i simple-line-icons:info"></i>
+            <i v-if="$route.path !== '/checkout'" class="i simple-line-icons:info"></i>
+            <!-- <i  class="i simple-line-icons:info"></i> -->
             <i v-else class="i simple-line-icons:close"></i>
           </template>
         </NuxtLayout>

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <main>
     <slot name="content"></slot>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -12,7 +12,7 @@
       // console.log(this.$content.article)
       // let title = this.getTitle();
       return {
-        title: 'default',
+        title: 'VoucherShop',
         link: [
           {
             rel: "stylesheet",
@@ -21,9 +21,9 @@
         ],
         meta: [
           {
-            hid: 'ABOUT-HID',
-            name: `About page`,
-            content: 'Website about page'
+            // hid: 'ABOUT-HID',
+            // name: `About page`,
+            // content: 'Website about page'
           }
         ]
       }

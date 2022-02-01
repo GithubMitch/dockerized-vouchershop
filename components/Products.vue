@@ -1,5 +1,5 @@
 <template>
-  <ProductSelection class="inner" :brand="selectedBrand" :products="products" keep-alive/>
+  <ProductSelection class="inner" :brand="selectedBrand" :products="products"/>
 </template> 
 
 <script>
@@ -13,15 +13,17 @@ export default defineComponent({
       default: ''
     },
     products:{
-      type: Array,
-      default: []
+      type: Object,
+      default: {}
+    },
+    filter:{
+      type: String,
+      default: null
     }
   },
   async setup(props) {
     const stockProducts = toRef(state, 'stockProducts');
     const selectableBrands = toRef(state, 'selectableBrands');
-      
-
     // // watcher
     // watch([props], (newValues, prevValues) => {
     // })

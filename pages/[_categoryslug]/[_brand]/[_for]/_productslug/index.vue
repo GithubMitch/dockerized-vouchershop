@@ -37,7 +37,7 @@ export default defineComponent({
   layout: false,
   props: {
     product:{
-      type: Array,
+      type: Object,
       default: []
     }
   },

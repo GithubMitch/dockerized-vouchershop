@@ -1,5 +1,5 @@
 <template>
-  <LazyProducts :selectedBrand="selectedBrand" :products="products"/> 
+  <Products :selectedBrand="selectedBrand" :products="products"/> 
 </template>
 
 <script lang="ts">
@@ -9,6 +9,8 @@
     toRef,
     onMounted
   } from 'vue';
+  import gsap from "gsap";
+  
 
   export default defineComponent({
     layout: 'productlist',
@@ -18,8 +20,8 @@
         default: ''
       },
       products:{
-        type: Array,
-        default: []
+        type: Object,
+        default: {}
       }
     },
     async setup(props) {     

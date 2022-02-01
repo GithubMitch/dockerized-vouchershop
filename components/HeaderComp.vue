@@ -13,9 +13,7 @@
         </div>
         <div id="HeaderSpace">
             <NuxtLink id="Cart"  to="/checkout" :class="{filled: orderItems.length > 0 }" >
-              <p>€0,00</p>
-              <!-- {filled: orderItems.length > 0 } -->
-            <!-- {{ getCartTotal/100 | currency }} -->
+            {{ $currency(getCartTotal() )}}
             </NuxtLink>
         </div>
     </div>
@@ -44,17 +42,16 @@ import { state, actions } from '../store/reactives'
 import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue'
 
 export default defineComponent({
-  setup() {
+  setup(props) {
     /// SETUP ROUTING HERE FOR NAVIGATION
     // const router = useRouter()
     const route = useRoute()
     const newPath = ref()
     const orderItems = toRef(state.order, 'orderItems');
 
-    const getCartTotal = async ()  => {
-      await actions.getCartTotal()
+    const getCartTotal = () => {
+      return actions.getCartTotal()
     }
-
 
     onMounted(() => {
         route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');

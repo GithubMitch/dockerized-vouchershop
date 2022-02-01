@@ -1,18 +1,22 @@
 <template>
-  <div id="PageSubMenu">
+  <div id="PageSubMenu" v-if="$route.params._categoryslug">
     <nav>
       <ul>
         <li>
-            <NuxtLink to="/category/him" key="him">Him</NuxtLink> 
+          <NuxtLink @click="setActionLabel('kids')" 
+          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-him`' value="him" key="him">Him</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/category/her" key="her">Her</NuxtLink>
+          <NuxtLink @click="setActionLabel('kids')" 
+          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-her`' value="her" key="her">Her</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/category/kids" key="kids">Kids</NuxtLink>
+          <NuxtLink @click="setActionLabel('kids')" 
+          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-kids`' value="kids" key="kids">Kids</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/category/couples" key="couples">Couples</NuxtLink>
+          <NuxtLink @click="setActionLabel('opwaarderen')" 
+          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-opwaarderen`' value="opwaarderen" key="opwaarderen">Opwaarderen</NuxtLink>
         </li>
       </ul>
     </nav>
@@ -22,10 +26,18 @@
 <script>
 import { defineComponent } from '@vue/composition-api'
 import {_} from 'vue-underscore';
+import { state , actions } from '../store/reactives';
 
 export default defineComponent({
-  setup() {
-    
+  
+  async setup() {
+    const selectedBrand = toRef(state, 'selectedBrand');
+
+    const setActionLabel = (value)  => {
+      console.log(value)
+      actions.setActionLabel(value)
+    }
+    return {setActionLabel, selectedBrand}
   },
 })
 </script>

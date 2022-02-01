@@ -5,11 +5,11 @@ import { defineComponent, onMounted, toRaw , ref, watch} from 'vue'
 export default defineComponent({
   props: {
     product:{
-      type: Array,
-      default: []
+      type: Object,
+      default: {}
     }
   },
-  setup(props) {
+  setup() {
     const stockProducts = toRef(state, 'stockProducts');
     const selectedBrand = toRef(state, 'selectedBrand');
     const selectableBrands = toRef(state, 'selectableBrands');

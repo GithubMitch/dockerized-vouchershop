@@ -1,8 +1,10 @@
 <template>
-  <slot name="slider"></slot>
-  <slot name="salesprops"></slot>
-  <slot name="content"></slot>
-  <slot name="vouchershopcomponent"></slot> 
+  <main>
+    <slot name="slider"></slot>
+    <slot name="salesprops"></slot>
+    <slot name="content"></slot>
+    <slot name="vouchershopcomponent"></slot> 
+  </main>
 </template>
 
 <script lang="ts">
@@ -10,10 +12,8 @@
   export default {
     layout: `home`,
     head() {
-      // console.log(this.$content.article)
-      // let title = this.getTitle();
       return {
-        title: 'default',
+        title: 'VoucherShop Home',
         link: [
           {
             rel: "stylesheet",
@@ -22,22 +22,12 @@
         ],
         meta: [
           {
-            hid: 'ABOUT-HID',
-            name: `About page`,
-            content: 'Website about page'
+            // hid: 'ABOUT-HID',
+            // name: `About page`,
+            // content: 'Website about page'
           }
         ]
       }
     },
   }
-// export default {
-//   setup () {
-//     useMeta({
-//       title: 'Home',
-//       meta: [
-//         { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-//       ]
-//     })
-//   }
-// }
 </script>

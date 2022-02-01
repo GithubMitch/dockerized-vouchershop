@@ -1,17 +1,36 @@
 <template>
-  <!-- if actionlabel : show actionLabel_Products -->
   <div class="inner">
-    <!-- {{productFilter}} -->
-      <li class="item" v-for="(product, index) in productFilter" :key="index">  
-        {{product}}
-      </li>
-      <!-- <select name="" id="">
-        <option v-for="(product, index) in products" v-bind:value="product.key" v-bind:selected="index === 0">
-          {{product.key}}
-          {{index}}
-        </option>    
-      </select> -->
-    <!-- {{products}} -->
+
+      <!-- {{productFilter}} -->
+      <transition-group tag="ul" name="card" appear
+        @before-enter="beforeEnter"
+        @enter="enter" 
+        class="styled-list product-list">
+        <!-- <ul v-if="actionLabel !== '' ? true : false"> -->
+          <li class="item" v-for="(product, index) in productFilter" :key="index"> 
+
+            <NuxtLink class="brandLine product" 
+              :to='brand + `/` + product.actionLabel + `/`  + product.key'
+              :class="{instock : product.inStock}" 
+              @click="setProductPage(product)"
+              >
+                <img :src="`../../../assets/logos/${product.brand}.png`" />
+                <span class="price" for="">€ {{product.value / 100}}</span>
+                <span class="name">{{ product.name }}</span>
+                <span class="action" for="">{{product.actionLabel}}</span>
+
+                <Fold
+                    width="45" 
+                    height="45"
+                    :class="'MyGradient_'+index"           
+                    :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+                    :MyGradient="'MyGradient'"
+                    :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+                    />
+            </NuxtLink>
+          </li>
+        <!-- </ul> -->
+      </transition-group>
   </div>
 </template>
 
@@ -28,8 +47,12 @@ export default defineComponent({
         default: ''
       },
       products:{
-        type: Array,
-        default: []
+        type: Object,
+        default: {}
+      },
+      actionLabel:{
+        type: String,
+        default: ''
       }
     },
   setup(props) {
@@ -37,6 +60,7 @@ export default defineComponent({
     const brands = toRef(state, 'brands');
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedBrand = toRef(state, 'selectedBrand');
+    const selectedActionLabel = toRef(state, 'selectedActionLabel');
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectableBrands = toRef(state, 'selectableBrands');
     const productFilter = toRef(state, 'productFilter');
@@ -55,11 +79,12 @@ export default defineComponent({
       props.selectedBrand == '' ? console.log(props.selectedBrand) : console.log(props.selectedBrand)
       console.log("   PRODUCTS", props.products)
       console.log("   BRAND", props.selectedBrand)
+      console.log("   ACTIONLABEL", props.actionLabel)
+      methods.filterActionLabel(stockProducts.value, selectedActionLabel.value);
     })
 
     watch([selectedBrand, stockProducts], (newValues, prevValues) => {
       console.log('WATCHER', prevValues, newValues)
-      methods.filterProducts(stockProducts.value, selectedBrand.value);
     })
 
 

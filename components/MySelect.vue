@@ -157,17 +157,11 @@
   }
 
   $background: #e74c3c;
-  $select-color: #fff;
-  $select-background: #ff7514;
+  $select-color: #333;
+  $select-background: #fff;
   $select-width: 100%;
   $select-height: 71px; 
 
-  // body { 
-  //   font-family: Lato, Arial;
-  //   color: $select-color;
-  //   padding: 20px;
-  //   background-color: $background;
-  // }
   h1 {
     font-weight: normal;
     font-size: 40px;
@@ -208,6 +202,7 @@
     color: $select-color;
     width: $select-width;
     height: $select-height;
+
   }
   .select-styled {
     position: absolute; 
@@ -217,6 +212,9 @@
     left: 0;
     background-color: $select-background;
     padding: 4px 0px;
+    border-radius:5px;
+    border:1px solid #333;
+    border: 1px solid rgba(60,60,60,.26);
     // @include transition(all 0.2s ease-in);
     .visual {
       margin-right:1em;
@@ -254,6 +252,11 @@
     padding: 0;
     list-style: none;
     background-color: darken($select-background, 5);
+    margin-top: -2px;
+    border: 1px solid rgba(60, 60, 60, 0.26);
+    border-top: 0;
+    border-radius:0 0 4px 4px;
+    overflow:hidden;
     li {
       margin: 0;
       padding: .25em 0;
