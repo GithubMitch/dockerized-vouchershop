@@ -12,8 +12,10 @@
             </div>
         </div>
         <div id="HeaderSpace">
-            <NuxtLink id="Cart"  to="/checkout" :class="{filled: orderItems.length > 0 }" >
-            {{ $currency(getCartTotal() )}}
+            <NuxtLink id="Cart" to="/checkout" :class="{filled: orderItems.length > 0 }" >
+              <ClientOnly>
+                {{ $currency(getCartTotal() )}}
+              </ClientOnly>
             </NuxtLink>
         </div>
     </div>

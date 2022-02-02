@@ -73,11 +73,11 @@ const state = reactive ({
   order: ref({
     selectedCategory: null,
     selectedBrand: null,
-    orderItems: [],
     name: null,
     mobile: null,
     email: null,
     confirmed: null,
+    orderItems: [],
   })
 
 })
@@ -170,10 +170,9 @@ const actions = {
     } , 0);
   },
   getCartTotal() {
-    if (state.order.orderItems[0]) {
-      console.log('orderitems',state.order.orderItems)
+    if (state.order.orderItems[0]) { console.log('orderitems',state.order.orderItems) }
+  
 
-    }
     return  _(state.order.orderItems).reduce( (sum, i)=>{
       let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
       console.log(sum + (i.qnt * (i.product.price + addedCost )))

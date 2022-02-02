@@ -36,7 +36,7 @@ export default {
   // }),
   setup (context) {
     const route = useRoute();
-    const { $currency } = useNuxtApp()
+    // const { $currency } = useNuxtApp()
 
     const getCartTotal = ()  => {
       actions.getCartTotal()

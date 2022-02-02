@@ -13,7 +13,9 @@
 						<div class="orderItemHolder" v-for="(item, index) in orderItems" :key="index" >
 							<div class="orderItem" :class="{ onButton: hover }">
 								<div class="productInfo">
-									<img class="thumbnail" :src="`../../../assets/logos/${item.product.brand}.png`"/>
+                  <ClientOnly>
+									  <img class="thumbnail" :src="`../../../assets/logos/${item.product.brand}.png`"/>
+                  </ClientOnly>
 									<p class="name">{{ item.product.name }}</p>
 									<p class="desc">opwaardeercode</p>
 								</div>
@@ -21,15 +23,17 @@
 								<div class="productControls">
 									<em @click="() => {decreaseQnt(index);}"
 										:class="{ disable: loading }"
-										@mouseover="hover = true"
-										@mouseleave="hover = false">
+                    >
+										<!-- @mouseover="hover = true"
+										@mouseleave="hover = false" -->
                       &#9668;
                   </em>
 									<span :class="'qnt_' + index">{{ item.qnt }}&#10005; </span>
 									<em @click="() => {increaseQnt(index);}"
 										:class="{ disable: loading }"
-										@mouseover="hover = true"
-										@mouseleave="hover = false">
+                    >
+										<!-- @mouseover="hover = true"
+										@mouseleave="hover = false" -->
                     &#9658;
                   </em>
 								</div>
@@ -57,7 +61,9 @@
 								<div id="TotalLabel">Totaal:</div>
 								<div id="TotalAmount">
 									<div id="TotalAmountText">
-										{{ $currency(getCartTotal()) }}
+                    <ClientOnly>
+										  {{ $currency(getCartTotal())  }}
+                    </ClientOnly>
 									</div>
 								</div>
 							</div>
@@ -227,11 +233,11 @@
 								:validate="prepare"
 								:callback="submit"
 								type="submit"
-								:disabled="!agreed2Terms"
+								:disabled="!validated.form"
 								:class="{ loading }"
 								id="submit"
 							/>
-							<!-- <div v-if="errors.form.length > 0" {{errors.form[0]}} class="error"> -->
+							<div v-if="errors.form.length > 0" class="error">{{errors.form[0]}}</div>
 						</span>
 					</div>
 				</div>
@@ -268,25 +274,6 @@ export default defineComponent({
 	components: {
 		MySelect,
 	},
-	// head() {
-	//   // console.log(this.$content.article)
-	//   // let title = this.getTitle();
-	//   return {
-	//     title: 'default',
-	//     link: [
-	//       {
-	//         type: "text/css",
-	//         rel: "stylesheet",
-	//         href: "https://unpkg.com/vue-next-select/dist/index.min.css"
-	//       }
-	//     ],
-	//     script: [
-	//       {
-	//         src: "https://unpkg.com/vue-next-select/dist/vue-next-select.iife.prod.js"
-	//       }
-	//     ]
-	//   }
-	// },
 	async setup(props, context) {
 		const cart = toRef(state, "cart");
 		const selectedProducts = toRef(state, "selectedProducts");
@@ -294,7 +281,7 @@ export default defineComponent({
 		// const orderItems = state.order.orderItems;
 		const orderItems = toRef(state.order, "orderItems");
 
-		console.log(toRaw(orderItems));
+		// console.log(toRaw(orderItems));
 
 		const hover = ref(false);
 		const unselected = ref(true);
@@ -306,9 +293,9 @@ export default defineComponent({
 
 		const editMode = ref(false);
 		const preFilled = ref(false);
-		const name = ref(null);
-		const tel = ref(null);
-		const email = ref(null);
+		const name = toRef(state.order, "name");
+		const tel = toRef(state.order, "mobile");
+		const email = toRef(state.order, "email");
 		const emailSuggestion = ref("");
 		const agreed2Terms = ref(false);
 		const errors = reactive({
@@ -327,7 +314,10 @@ export default defineComponent({
 			agreed2Terms: agreed2Terms,
       paymethod: !selectedPaymethod,
       subpaymethod: !selectedSubPaymethod,
-			form: false,
+      form: false,
+      get validateForm() {
+        return (this.name && this.tel && this.email && this.agreed2Terms && this.paymethod && this.subpaymethod) ? this.form = true : this.form = false ;
+      }
 		});
 		const qid = ref(null);
 		const payUrl = ref(null);
@@ -358,7 +348,7 @@ export default defineComponent({
       if( paymentOptions[0] == undefined ){
         console.log('POST Request for payment opts ! ^^^^^')
         // try{
-                                          // http://api.prepaidpoint.test/vouchershop/products
+        // http://api.prepaidpoint.test/vouchershop/products
           let paymentListReq = await $fetch('http://api.prepaidpoint.test/vouchershop/paymentoptions', { method: 'POST'});
           console.log('paymentListReq', paymentListReq)
           // methods.handlePaymethods(paymentListReq);
@@ -370,17 +360,20 @@ export default defineComponent({
       }
 		};
 		const setPaymethod = (option) => {
+      console.log(orderItems)
 			let opt = option ? option : option.option;
 			opt.subSelect ? (subSelection.value = opt.subSelect) : null;
 			console.log("setPaymethod - Subselection", subSelection.value);
 			selectedPaymethod.value = option;
-      validated.paymethod = true;
+      checkPaymethods(option);
+      // validated.paymethod = true;
 		};
 		const setSubPaymethod = (option) => {
       let opt = option ? option : option.option;
 			selectedSubPaymethod.value = option;
 			console.log('setSubPaymethod - Subselection', selectedSubPaymethod.value);
-      validated.subpaymethod = true;
+      checkPaymethods(option);
+      // validated.subpaymethod = true;
 		};
 
 		// watch([selectedPaymethod], (newValues, prevValues) => {
@@ -390,21 +383,24 @@ export default defineComponent({
 		// })
 
     const checkName = () => {
-      validated.name = null;
+      validated.name = false;
       errors.name = []; // reset
       console.log('checkName...');
       if (!name)
         errors.name.push("Naam ontbreekt");
-      
+        validated.name = false;
       if(errors.name.length == 0)
         validated.name = true;
-      
     }
     const checkMobile = () => {
-      validated.tel = null;
+      // validated.tel = false;
       errors.tel = []; // reset
       console.log('checkMobile...');
-      if(!tel) errors.tel.push("Mobiel ontbreekt");
+      if(!tel) 
+        errors.tel.push("Mobiel ontbreekt");
+        validated.tel = false;
+      if(tel.value.length <= 8 || tel.value.length >= 13) 
+        errors.tel.push("Mobiel is ongeldig");
       if(tel.value.startsWith('06')){if(tel.value.length != 10) errors.tel.push("Mobiel is ongeldig");}
       if(tel.value.startsWith('+316')){if(tel.value.length != 12 ) errors.tel.push("Mobiel is ongeldig");}
       if(tel.value.startsWith('00316')){if( tel.value.length != 13 ) errors.tel.push("Mobiel is ongeldig");}
@@ -421,24 +417,21 @@ export default defineComponent({
       if(!emailCheck.test(email.value))errors.email.push("E-mail is ongeldig");
       if(errors.email.length == 0) validated.email = true;
     };
-    const checkPaymethods = () => {
-      console.log(selectedPaymethod.value)
-      if(!selectedPaymethod.subSelect) {
-        selectedPaymethod.subSelect = []
-      }
-      validated.paymethod = null;
-      errors.paymethod = []; // reset      
-      validated.subpaymethod = null;
-      errors.subpaymethod = []; // reset
-      console.log('checkPaymethods...');
+    const checkPaymethods = (option) => {
       // validate
-      if(selectedPaymethod.value == null) errors.paymethod.push("Geen betaalmethode geselecteerd");
-      if(selectedPaymethod.subSelect !== null && selectedSubPaymethod.value == null) errors.subpaymethod.push("Geen bank geselecteerd");
-      if(selectedPaymethod.value !== null && errors.paymethod.length == 0 ) validated.paymethod = true;
-      // console.log(selectedSubPaymethod);
-      // console.log('= null : ', selectedSubPaymethod.value == null);
-      // console.log('!= null :',selectedSubPaymethod.value !== null);
-      if(selectedPaymethod.subSelect !== null && selectedSubPaymethod.value !== null && errors.subpaymethod.length == 0 ) validated.subpaymethod = true;
+      if(option.subSelect == undefined) {
+        errors.subpaymethod = []; // reset
+        validated.subpaymethod = true
+      } else {
+        if(selectedPaymethod.value == null) errors.paymethod.push("Geen betaalmethode geselecteerd");
+        if(option.subSelect !== undefined && selectedSubPaymethod.value == null) errors.subpaymethod.push("Geen bank geselecteerd");
+          errors.subpaymethod = []; // reset
+          validated.subpaymethod = false
+      }
+      errors.paymethod = []; // reset      
+      validated.paymethod = true;
+      console.log('checkPaymethods...');
+
     };
 
 		const prepare = () => {
@@ -457,38 +450,31 @@ export default defineComponent({
       if (errors["agreed2Terms"].length > 0) return false;
       if (!selectedPaymethod.value) return false;
       if (errors["form"].length > 0) return false;
+      // validated.validateForm(validated.validateFields)
+      // console.log(validated.validateForm(validated.validateFields))
       return true;
     };
 
     const getOrder = () => {
       let subPaymethodId;
-      subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null;
-      orderItems.value = formatOrderItems(state.order.orderItems);
+      // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
+      subPaymethodId = selectedSubPaymethod != undefined ? selectedSubPaymethod.key : null;
+      // orderItems.value = formatOrderItems(state.order.orderItems);
 
       return {
         ref: "ref_" + Date.now() + "_VS",
         lang: "nl",
         // -----------
-        mobile: tel,
-        email: email,
-        desc:
-          orderItems.length > 1
-            ? orderItems.length + " voucher producten."
-            : "Voucheraankoop",
-        orderItems,
-        paymethodId: selectedPaymethod.id,
-        subPaymethodId,
+        mobile: tel.value,
+        email: email.value,
+        desc: orderItems.length > 1 ? orderItems.length + " voucher producten." : "Voucheraankoop", 
+        orderItems:  orderItems.value,
+        paymethodId: selectedPaymethod.key, 
+        subPaymethodId: subPaymethodId, 
         totalPriceCents: getCartTotal,
         extraAmount: getTotalAmountOfAddedCosts,
-        returnUrl:
-          window.location.protocol +
-          "//" +
-          window.location.hostname +
-          (window.location.port != undefined
-            ? ":" + window.location.port
-            : "") +
-          "/#" +
-          "/status", // '/#'+ #HASHMODE NOT ENABLED //
+        returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/#" + "/status", 
+        // '/#'+ #HASHMODE NOT ENABLED //
         // orderConfig: null
       };
       /*      
@@ -514,16 +500,16 @@ export default defineComponent({
         */
     };
 
-    const formatOrderItems = (cart) => {
-      return _(cart).map((orderItem) => {
-        return {
-          ean: orderItem.product.ean,
-          priceCents: orderItem.product.price,
-          qty: orderItem.qnt,
-          desc: orderItem.product.name,
-        };
-      });
-    };
+    // const formatOrderItems = (cart) => {
+    //   return _(cart).map((orderItem) => {
+    //     return {
+    //       ean: orderItem.product.ean,
+    //       priceCents: orderItem.product.price,
+    //       qty: orderItem.qnt,
+    //       desc: orderItem.product.name,
+    //     };
+    //   });
+    // };
 
 			// const storeLastTrxData = async (qid, payUrl, orderItems) => {
 			// 	let data = { qid, payUrl, orderItems };
@@ -555,9 +541,9 @@ export default defineComponent({
         name: name.value,
         tel: tel.value,
         email: email.value,
-        payment: selectedPaymethod.value ? toRaw(selectedPaymethod.value) : null,
-        paymentId: toRaw(selectedPaymethod.value),
-        subPayment: selectedSubPaymethod.value ? toRaw(selectedSubPaymethod.value) : null,
+        payment: selectedPaymethod.value ? selectedPaymethod.value : null,
+        paymentId: selectedPaymethod.key,
+        subPayment: selectedSubPaymethod.value ? selectedSubPaymethod.value : null,
       }
       const cypher = CryptoJS.AES.encrypt(
         JSON.stringify(data),
@@ -568,17 +554,16 @@ export default defineComponent({
       // console.log('DATA',data)
       // console.log('DATA',dataValue)
       if (process.client) {
-        console.log(localStorage);
-        // localStorage.setItem("Test", 'testItem');
+        // console.log(localStorage);
+        localStorage.setItem("StoreSettings", dataValue);
         // localStorage.setItem("paymem", dataValue);
       }
     };
 
 		const submit = async () => {
 				// console.log("SUBMIT");
-				// storeSettings();
+				storeSettings();
 				// unsetErrorsFor("form");
-
 				// store selected in localstorage (maybe move this to onChange)
 				try {
 					if (!validate()) throw "Fout in een van de invoervelden";
@@ -587,11 +572,11 @@ export default defineComponent({
 							target: "agreed2Terms",
 							msg: "Je moet akkoord geven op de algemene voorwaarden.",
 						};
-					let order = getOrder();
-					let orderItems = JSON.stringify(order);
+					let formatOrder = getOrder();
+					let JSONorderItems = JSON.stringify(formatOrder);
           if (process.client) {
-            console.log(localStorage);
-					  localStorage.setItem("orderItems", orderItems);
+            console.log(JSONorderItems);
+					  localStorage.setItem("TEST orderItems", JSONorderItems);
           }
 
 					// let submitReq = await $fetch("/submitorder", {
@@ -627,7 +612,7 @@ export default defineComponent({
 						errors["form"].push(e);
 						return;
 					}
-					console.log("form error....");
+					console.log("form error....", e);
 					errors["form"].push(e);
 				}
     };
@@ -968,6 +953,10 @@ export default defineComponent({
 		// max-width: 400px;
 		// background: #DDD;
 
+    .select {
+      width: calc(100% - 30px);
+    }
+
 		label {
 			display: inline-block;
 			vertical-align: top;
@@ -986,7 +975,7 @@ export default defineComponent({
 			vertical-align: top;
 			flex: 1 1 90%;
 		}
-
+    
 		input[type="text"],
 		input[type="email"],
 		input[type="tel"],
@@ -1178,51 +1167,7 @@ export default defineComponent({
 			}
 		}
 	}
-	.select1 {
-		position: relative;
-		z-index: 99;
-		cursor: pointer !important;
-		transition: box-shadow 1s;
-		margin-bottom: 10px;
-
-		.option {
-			display: flex;
-			justify-content: flex-start;
-			min-width: 100px;
-			// max-width: 300px;
-			z-index: 100;
-			flex: 100;
-		}
-
-		img {
-			float: left;
-			margin-right: 15px;
-			max-height: 50px;
-			max-width: 50px;
-			vertical-align: center;
-		}
-		strong,
-		em {
-			display: block;
-			flex: 1 1 100%;
-		}
-
-		&:hover {
-			box-shadow: 0px 0px 10px #00000050;
-		}
-
-		.visual {
-			display: flex;
-			flex-flow: vertical;
-			flex: 0 0 70px;
-			img {
-				align-self: center;
-			}
-		}
-		.info {
-			flex: 1 1 100px;
-		}
-	}
+	
 	.option.selected {
 		padding: 3px 10px;
 		position: relative;
@@ -1230,6 +1175,13 @@ export default defineComponent({
 	}
 	#Payment #PaySelect {
 		margin-bottom: 0em;
+    .input {
+      position:relative;
+      .indicator {
+        position:relative;
+        bottom:1.5em;
+      }
+    }
 	}
 	#Payment #SubSelect {
 		position: relative;
