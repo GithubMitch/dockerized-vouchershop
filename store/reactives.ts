@@ -35,6 +35,7 @@ const isAbsent = Symbol();
 
 const state = reactive ({
   categoryUrl: ref(''),
+  selectableCategories: ref<[]>([]),
   selectedCategory: ref<[]>([]),
   selectedSubCategory: ref<[]>([]),
   brands: ref<[]>([]),
@@ -48,27 +49,134 @@ const state = reactive ({
   productFilter: ref<[]>([]),
   productPage: ref<[]>([]),
   cart: ref<[]>([]),
+  // PAYMENTID = 110
+  // SHOPID = 14
+  // ISSUERID
+
   paymentOptions: ref([
-    { name: 'iDEAL', label: 'iDEAL', img: '@/assets/logos/paymethods/ideal.png' , key: 'ideal', desc: 'internet bankieren',
-      subSelect: [
-        {name: 'ING',       label: 'ING', key: 'ing', order: 1},
-        {name: 'ABN AMRO',  label: 'ABN AMRO', key: 'abn_amro', order: 2},
-        {name: 'Rabobank',  label: 'Rabobank', key: 'rabobank', order: 3},
-        {name: 'Knab',      label: 'Knab', key: 'knab', order: 4},
-        {name: 'Bunq',      label: 'Bunq', key: 'bunq', order: 5},
-        {name: 'ASN Bank',  label: 'ASN Bank', key: 'asn_bank',order: 6},
-        {name: 'Moneyou',   label: 'Moneyou', key: 'moneyou', order: 7},
-        {name: 'Regio Bank',label: 'Regio Bank', key: 'regiobank', order: 8},
-        {name: 'SNS',       label: 'SNS', key: 'sns', order: 9},
-        {name: 'Triodos Bank',  label: 'Triodos Bank', key: 'triodos_bank', order: 10},
-        {name: 'van Lanschot',  label: 'van Lanschot', key: 'van_lanschot', order: 11},
-        {name: 'Frysche Bank',  label: 'Frysche Bank', key: 'frysche_bank', order: 12},
-        {name: 'Handels Banken',label: 'Handels Banken', key: 'handels_banken', order: 13},
-      ]
+  
+    {
+        "portalPmId": 1,
+        "clientid": 1,
+        "txPercentageCustomer": 0.001,
+        "txAmountClient": 0.4,
+        "active": 1,
+        "pmsublist": [],
+        "pmname": "BanContact",
+        "id": 1,
+        "validcountry": "NL",
+        "txPercentageClient": 0.022,
+        "txAmountCustomer": 0.5
     },
-    {name: 'Sofort', label: 'Sofort', img: '@/assets/logos/paymethods/sofort.png'  , key: 'sofort', desc: 'internet bankieren'},
-    // {name: 'Klarna', img:'' , key: 'klarna', id: '8711', desc: 'Betalen waneer jij wilt.'},
-    {name: 'Paypal', label: 'Paypal', img: '@/assets/logos/paymethods/paypal.png'  , key: 'paypal', desc: 'online payments'},
+    {
+        "portalPmId": 2,
+        "clientid": 1,
+        "txPercentageCustomer": 0.0031,
+        "txAmountClient": 0.15,
+        "active": 1,
+        "pmsublist": [
+            {
+                "pmsubName": "Van Lanschot",
+                "pmsubId": "11"
+            },
+            {
+                "pmsubName": "ABN Amro",
+                "pmsubId": "1"
+            },
+            {
+                "pmsubName": "Knab",
+                "pmsubId": "12"
+            },
+            {
+                "pmsubName": "Rabobank",
+                "pmsubId": "2"
+            },
+            {
+                "pmsubName": "ING",
+                "pmsubId": "4"
+            },
+            {
+                "pmsubName": "SNS",
+                "pmsubId": "5"
+            },
+            {
+                "pmsubName": "ASN Bank",
+                "pmsubId": "8"
+            },
+            {
+                "pmsubName": "RegioBank",
+                "pmsubId": "9"
+            },
+            {
+                "pmsubName": "Bunq",
+                "pmsubId": "5080"
+            },
+            {
+                "pmsubName": "Svenska Handelsbanken",
+                "pmsubId": "5082"
+            },
+            {
+                "pmsubName": "Revolut",
+                "pmsubId": "5084"
+            },
+            {
+                "pmsubName": "Triodos Bank",
+                "pmsubId": "10"
+            }
+        ],
+        "pmname": "iDeal",
+        "id": 2,
+        "validcountry": "NL",
+        "txPercentageClient": 0.0021,
+        "txAmountCustomer": 0.23
+    },
+    {
+        "portalPmId": 3,
+        "clientid": 1,
+        "txPercentageCustomer": 0,
+        "txAmountClient": 0,
+        "active": 1,
+        "pmsublist": [],
+        "pmname": "iDealX",
+        "id": 3,
+        "validcountry": "NL",
+        "txPercentageClient": 0,
+        "txAmountCustomer": 0
+    },
+    {
+        "portalPmId": 4,
+        "clientid": 1,
+        "txPercentageCustomer": 0,
+        "txAmountClient": 0,
+        "active": 1,
+        "pmsublist": [],
+        "pmname": "PaySafeCard",
+        "id": 4,
+        "validcountry": "NL*BE",
+        "txPercentageClient": 0,
+        "txAmountCustomer": 0
+    }
+    
+    // { name: 'iDEAL', label: 'iDEAL', img: '@/assets/logos/paymethods/ideal.png' , key: 'ideal', desc: 'internet bankieren',
+    //   subSelect: [
+    //     {name: 'ING',       label: 'ING', key: 'ing', order: 1},
+    //     {name: 'ABN AMRO',  label: 'ABN AMRO', key: 'abn_amro', order: 2},
+    //     {name: 'Rabobank',  label: 'Rabobank', key: 'rabobank', order: 3},
+    //     {name: 'Knab',      label: 'Knab', key: 'knab', order: 4},
+    //     {name: 'Bunq',      label: 'Bunq', key: 'bunq', order: 5},
+    //     {name: 'ASN Bank',  label: 'ASN Bank', key: 'asn_bank',order: 6},
+    //     {name: 'Moneyou',   label: 'Moneyou', key: 'moneyou', order: 7},
+    //     {name: 'Regio Bank',label: 'Regio Bank', key: 'regiobank', order: 8},
+    //     {name: 'SNS',       label: 'SNS', key: 'sns', order: 9},
+    //     {name: 'Triodos Bank',  label: 'Triodos Bank', key: 'triodos_bank', order: 10},
+    //     {name: 'van Lanschot',  label: 'van Lanschot', key: 'van_lanschot', order: 11},
+    //     {name: 'Frysche Bank',  label: 'Frysche Bank', key: 'frysche_bank', order: 12},
+    //     {name: 'Handels Banken',label: 'Handels Banken', key: 'handels_banken', order: 13},
+    //   ]
+    // },
+    // {name: 'Sofort', label: 'Sofort', img: '@/assets/logos/paymethods/sofort.png'  , key: 'sofort', desc: 'internet bankieren'},
+    // // {name: 'Klarna', img:'' , key: 'klarna', id: '8711', desc: 'Betalen waneer jij wilt.'},
+    // {name: 'Paypal', label: 'Paypal', img: '@/assets/logos/paymethods/paypal.png'  , key: 'paypal', desc: 'online payments'},
   ]),
   order: ref({
     selectedCategory: null,
@@ -86,9 +194,21 @@ const actions = {
   // ----------------------------------------FETCH EXTERNALS - handled by server/api (directory in root)--------------------------------------------------
   async fetchProductList():Promise<any[]> {
     state.selectableProducts = await $fetch("/api/fetchremoteproductlist");
-    // products.value = await $fetch("/api/fetchremoteproductlist");
+      // products.value = await $fetch("/api/fetchremoteproductlist");
       // console.log("Fetched product list")
-    // products.value = response;
+      // products.value = response;
+      // const nintendo = {
+      //   "ean": "8712421040666",
+      //   "value": 5000,
+      //   "brand": "nintendo",
+      //   "price": 5000,
+      //   "inStock": true,
+      //   "key": "nintendo50",
+      //   "name": "NINTENDO €50",
+      //   "actionLabel": "kids",
+      //   "cat": "gaming"
+      // }
+      // state.selectableProducts.push(nintendo)
       console.log('Product list fetched :.... \n', state.selectableProducts );
       // console.trace()
 
@@ -99,20 +219,42 @@ const actions = {
     // brands.value = await $fetch("/api/fetchremotebrandlist");
       // console.log("Fetched brand list")
     // brands.value = response;
-      // console.log('Brand list fetched :....\n', state.brands ); // Gives non reactive-data instead of proxy : toRaw(brands.value) 
+      // console.log('Brand list fetched :....\n', state.brands ); // Gives non reactive-data instead of proxy : toRaw(brands.value)
+      // const nintendo = {
+      //   "key": 'nintendo',
+      //   "label": "Nintendo",
+      // }
+      // state.selectableBrands.push(nintendo)
+      console.log('Brands list fetched :.... \n', state.selectableBrands );
+
     return toRaw(state.selectableBrands);
   },
   async fetchStockList() {
-    try{
-      let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
-      console.log('productsRequest',productsRequest.products);
+    // try{
+      console.log('productsRequest ');
+
+      let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/productlist', { method: 'POST'});
+      console.log('productsRequest ',productsRequest);
+      // const nintendo = {
+      //   "ean": "8712421040666",
+      //   "value": 5000,
+      //   "brand": "nintendo",
+      //   "price": 5000,
+      //   "inStock": true,
+      //   "key": "nintendo50",
+      //   "name": "NINTENDO €50",
+      //   "actionLabel": "kids",
+      //   "cat": "gaming"
+      // }
+
+      // productsRequest.products.push(nintendo)
       // methods.validateStock(productsRequest.products);
       return methods.validateStock(productsRequest.products);
-    }catch(e){
-      console.log('Fetchstocklist has following error:');
-      console.log(e);
-      return e
-    }      
+    // }catch(e){
+    //   console.log('Fetchstocklist has following error:');
+    //   console.log(e);
+    //   return e
+    // }      
   },
   async getProduct(_productslug) { // find product in stockproducts
     state.productPage = await state.stockProducts.find(element => element.key == _productslug)
@@ -165,21 +307,31 @@ const actions = {
 
   getTotalAmountOfAddedCosts() {
     return _(state.order.orderItems).reduce( (sum, i)=>{
-      let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
+      // let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
+      let addedCost = 0;
       return sum + (i.qnt * ( addedCost ));
     } , 0);
   },
   getCartTotal() {
-    if (state.order.orderItems[0]) { console.log('orderitems',state.order.orderItems) }
+    // if (state.order.orderItems[0]) { console.log('orderitems',state.order.orderItems) }
   
 
     return  _(state.order.orderItems).reduce( (sum, i)=>{
-      let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
-      console.log(sum + (i.qnt * (i.product.price + addedCost )))
+      // let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
+      let addedCost = 0;
+      // console.log(sum + (i.qnt * (i.product.price + addedCost )))
       return sum + (i.qnt * (i.product.price + addedCost ) );
     } , 0);
   },
-  getPaymentOptions() {
+  
+  async getPaymentOptions() {
+      // let paymentOpts = await $fetch('http://10.226.80.105:8080/handpay/rest/client/pm?clientid=1&onlyactive=true', {
+      let paymentOpts = await $fetch('http://api.prepaidpoint.test/vouchershop/paymentoptions', {
+        method: 'POST',
+      })
+      console.log('PAYMENT METHODS',paymentOpts)
+      state.paymentOptions = paymentOpts;
+
     return state.paymentOptions;
   },
   getPaymethodWithKey(key) {
@@ -247,11 +399,12 @@ const methods = {
   },
 
   validateStock(stockProducts){
-    // console.log('handling products...');
+    console.log('handling products...');
+    // console.trace();
     const optimizedProductList = _(state.selectableProducts).map( (stockItem) => {
       return {
         ...stockItem,
-        inStock : _(stockProducts).findIndex({ean: stockItem.ean }) != -1
+        inStock : _.chain(stockProducts).findIndex({ean: stockItem.ean }) != -1
       }
     });
     console.log('optimizedProductList >>>>',optimizedProductList)
@@ -284,11 +437,11 @@ const methods = {
                     .sortBy('sort')
                     .value()
         ,
-      } // return 
+      } // return
     });
     // SET STATE PAYMETHODS
     // commit('SET_PAYMETHODS', optimizedPaymethodList);
-    state.paymentOptions = optimizedPaymethodList.value
+    state.paymentOptions = optimizedPaymethodList
   },
 }
 const computed = {

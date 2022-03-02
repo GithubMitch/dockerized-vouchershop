@@ -1,11 +1,11 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-
-      <NuxtChild 
+      <Router-View/>
+      <!-- <NuxtChild 
       :selectedBrand="selectedBrand" 
       :products="stockProducts"
-      />
+      /> -->
       <!-- :keep-alive="{stockProducts , selectedBrand}" -->
 
     </template>
@@ -34,7 +34,8 @@
       const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
 
       const stock = async (stockProducts)  => {
-        selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value, inStock: true})
+        // selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value, inStock: true})   // USE THIS ONE BOTTOM ONE IS ONLY FOR DEMO WITH NINTENTO PRODUCT & BRAND
+        selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value})
         // console.log('selectedBrand', selectedBrand.value)
         // console.log(selectedBrandProducts.value, stockProducts.value)
       }

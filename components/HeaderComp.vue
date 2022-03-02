@@ -1,4 +1,3 @@
-
 <template>
   <header>
     <div id="Logo">
@@ -7,7 +6,7 @@
     <div id="HeaderContent">
         <div id="HeaderNav">
             <div id="Links">
-              <a href="/about" class="">Over Vouchershop</a>
+              <a href="/404" class="">Over Vouchershop</a>
               <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
             </div>
         </div>
@@ -23,7 +22,7 @@
   <div id="PageMenu">
     <div id="PageMenuContent">
       <div id="Categories">
-        <div>
+        <div ref="navMenu">
             <NuxtLink class="category" to="/">Home</NuxtLink>
             <NuxtLink class="category" to="/beltegoed">Beltegoed</NuxtLink>
             <NuxtLink class="category" to="/gaming">Gaming</NuxtLink>
@@ -41,13 +40,21 @@
 
 <script lang='ts'>
 import { state, actions } from '../store/reactives'
-import { defineComponent, onMounted, toRaw , ref, toRef} from 'vue'
+import { defineComponent, onMounted, toRaw, watch, ref, toRef} from 'vue'
 
 export default defineComponent({
-  setup(props) {
+  methods: {
+    addCategories(){
+      console.log(this.$refs.Categories.children)
+      
+    }
+  },
+  setup() {
     /// SETUP ROUTING HERE FOR NAVIGATION
     // const router = useRouter()
+    const navMenu = ref(null)
     const route = useRoute()
+    const router = useRouter()
     const newPath = ref()
     const orderItems = toRef(state.order, 'orderItems');
 
@@ -55,28 +62,50 @@ export default defineComponent({
       return actions.getCartTotal()
     }
 
+
+
     onMounted(() => {
-        route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
-        route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
-        route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
-        route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No _products for (_productslug)');
+      const selectableCategories = toRef(state, 'selectableCategories');
+
+      let navLinks = navMenu.value.children
+      for (let i = 0; i < navLinks.length; i++) {
+        let element = ref(navLinks[i]);
+        let formatted = element.value.outerText;
+        state.selectableCategories.push(formatted.toLowerCase())
+        console.log(element.value.outerText)
+      }      
+      console.log(selectableCategories.value)
     })
 
     watch(
-      () => route.query,
-      async getQuery => {
-        actions.setCategory(route.params._categoryslug)
+      () => route.params,
+      async getParams => {
+        const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
+
+        if (route.params._categoryslug == undefined) {
+          validateRoute.value = true
+        }
+        if (validateRoute.value == false)
+          router.push('404')
+          // alert(false)
+
+        console.log(route.params._categoryslug)
+        console.log(validateRoute.value)
+        // hasRoute ? console.log(true) : alert(false)
+        // route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
+        // route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
+        // route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
+        // route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
       }
     )
     return {
       orderItems,
+      navMenu,
       getCartTotal, 
     }
   },
 })
 </script>
-
-
 
 <style lang="scss">  
   header{
@@ -317,9 +346,6 @@ export default defineComponent({
     }
   }
   #PageSubMenu {
-    nav {
-      // background: #DDDDDD50;
-    }
     ul {
       list-style:none;
       padding:0;

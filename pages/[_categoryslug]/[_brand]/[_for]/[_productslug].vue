@@ -1,7 +1,12 @@
 <template>
   <NuxtLayout name="default">
     <template #content>
-      <NuxtChild :product="pickedProduct"/>
+      <div class="modal">
+        
+        <Router-View :product="pickedProduct"/>
+
+        <!-- <NuxtChild /> -->
+      </div>
     </template>
   </NuxtLayout>
 </template>
@@ -57,3 +62,18 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+ .modal {
+   padding-top:10em;
+   display:block;
+   opacity:.9;
+   position:absolute;
+   z-index:9999;
+   top:0;
+   left:0;
+   width:100%;
+   height:100%;
+   background:#fff;
+ }
+</style>

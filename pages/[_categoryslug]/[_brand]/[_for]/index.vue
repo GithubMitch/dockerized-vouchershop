@@ -2,18 +2,22 @@
   <div class="inner">
 
       <!-- {{productFilter}} -->
+        <!-- @before-enter="beforeEnter"
+        @enter="enter"  -->
       <transition-group tag="ul" name="card" appear
-        @before-enter="beforeEnter"
-        @enter="enter" 
         class="styled-list product-list">
         <!-- <ul v-if="actionLabel !== '' ? true : false"> -->
           <li class="item" v-for="(product, index) in productFilter" :key="index"> 
 
             <NuxtLink class="brandLine product" 
-              :to='brand + `/` + product.actionLabel + `/`  + product.key'
+              :to='product.brand + `/` + product.actionLabel + `/`  + product.key'
               :class="{instock : product.inStock}" 
               @click="setProductPage(product)"
               >
+                <!-- {{product.brand }}
+                {{product.actionLabel }}
+                {{product.key }} -->
+
                 <img :src="`../../../assets/logos/${product.brand}.png`" />
                 <span class="price" for="">€ {{product.value / 100}}</span>
                 <span class="name">{{ product.name }}</span>

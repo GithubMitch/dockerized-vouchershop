@@ -153,7 +153,7 @@
 								:tabindex="0"
 								v-model="selectedPaymethod"
 								:components="{ Deselect: null }"
-								:options="paymentOptions ? paymentOptions : getPaymentOptions"
+								:options="getPaymentOptions ? paymentOptions : paymentOptions"
 								:searchable="false"
 								:placeholder="'Maak een keuze'"
 								:disabled="loading"
@@ -175,8 +175,10 @@
 						</span>
 					</div>
 
+					<!-- {{selectedPaymethod}} -->
 					<div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
-						<span	class="input" v-if="selectedPaymethod.subSelect != undefined && selectedPaymethod.subSelect.length > 0">
+						{{selectedPaymethod.subSelect}}
+						<span	class="input" v-if="selectedPaymethod.pmsublist != undefined && selectedPaymethod.pmsublist.length > 0">
 							<label>Kies bank</label> 
 							<MySelect
 								id="SubSelector"
@@ -244,6 +246,7 @@
 			</form>
         <div :style="`display:block;`">
           <pre>
+						{{selectedSubPaymethod}}
             {{validated}}
           </pre> 
         </div>
@@ -274,15 +277,10 @@ export default defineComponent({
 	components: {
 		MySelect,
 	},
-	async setup(props, context) {
+	async setup() {
 		const cart = toRef(state, "cart");
 		const selectedProducts = toRef(state, "selectedProducts");
-		// const order = toRef(state, 'order');
-		// const orderItems = state.order.orderItems;
-		const orderItems = toRef(state.order, "orderItems");
-
 		// console.log(toRaw(orderItems));
-
 		const hover = ref(false);
 		const unselected = ref(true);
 		const selectedPaymethod = ref(null);
@@ -322,7 +320,10 @@ export default defineComponent({
 		const qid = ref(null);
 		const payUrl = ref(null);
 
+
 		//STATES
+		const order = toRef(state, 'order');
+		const orderItems = toRef(state.order , 'orderItems');
 		const paymentOptions = toRef(state, "paymentOptions");
 		const removeCartItem = (index) => {
 			actions.removeCartItem(index);
@@ -344,25 +345,15 @@ export default defineComponent({
 		const getCartTotal = () => {
 			return actions.getCartTotal();
 		};
+
+    
 		const getPaymentOptions = async () => {
-      if( paymentOptions[0] == undefined ){
-        console.log('POST Request for payment opts ! ^^^^^')
-        // try{
-        // http://api.prepaidpoint.test/vouchershop/products
-          let paymentListReq = await $fetch('http://api.prepaidpoint.test/vouchershop/paymentoptions', { method: 'POST'});
-          console.log('paymentListReq', paymentListReq)
-          // methods.handlePaymethods(paymentListReq);
-          return paymentListReq
-        // }catch(e){
-        //   console.log('Initiate gracefull shutdown');
-        //   console.log(e);
-        // }
-      }
+      return actions.getPaymentOptions;
 		};
+
 		const setPaymethod = (option) => {
-      console.log(orderItems)
 			let opt = option ? option : option.option;
-			opt.subSelect ? (subSelection.value = opt.subSelect) : null;
+			opt.pmsublist ? (subSelection.value = opt.pmsublist) : null;
 			console.log("setPaymethod - Subselection", subSelection.value);
 			selectedPaymethod.value = option;
       checkPaymethods(option);
@@ -371,7 +362,7 @@ export default defineComponent({
 		const setSubPaymethod = (option) => {
       let opt = option ? option : option.option;
 			selectedSubPaymethod.value = option;
-			console.log('setSubPaymethod - Subselection', selectedSubPaymethod.value);
+			console.log('setSubPaymethod - Subselection', option, selectedSubPaymethod.value);
       checkPaymethods(option);
       // validated.subpaymethod = true;
 		};
@@ -404,6 +395,7 @@ export default defineComponent({
       if(tel.value.startsWith('06')){if(tel.value.length != 10) errors.tel.push("Mobiel is ongeldig");}
       if(tel.value.startsWith('+316')){if(tel.value.length != 12 ) errors.tel.push("Mobiel is ongeldig");}
       if(tel.value.startsWith('00316')){if( tel.value.length != 13 ) errors.tel.push("Mobiel is ongeldig");}
+
       if(errors.tel.length == 0) validated.tel = true;
     };
 
@@ -419,19 +411,21 @@ export default defineComponent({
     };
     const checkPaymethods = (option) => {
       // validate
+      console.log('checkPaymethods...');
+
       if(option.subSelect == undefined) {
-        errors.subpaymethod = []; // reset
+				errors.subpaymethod = []; // reset
         validated.subpaymethod = true
       } else {
-        if(selectedPaymethod.value == null) errors.paymethod.push("Geen betaalmethode geselecteerd");
-        if(option.subSelect !== undefined && selectedSubPaymethod.value == null) errors.subpaymethod.push("Geen bank geselecteerd");
+				if(selectedPaymethod.value == null) 
+					errors.paymethod.push("Geen betaalmethode geselecteerd");
+        if(option.subSelect !== undefined && selectedSubPaymethod.value == null) 
+					errors.subpaymethod.push("Geen bank geselecteerd");
           errors.subpaymethod = []; // reset
           validated.subpaymethod = false
       }
       errors.paymethod = []; // reset      
       validated.paymethod = true;
-      console.log('checkPaymethods...');
-
     };
 
 		const prepare = () => {
@@ -444,22 +438,29 @@ export default defineComponent({
 		};
 
     const validate = () => {
+      console.log(errors)
       if (errors["name"].length > 0) return false;
       if (errors["tel"].length > 0) return false;
       if (errors["email"].length > 0) return false;
       if (errors["agreed2Terms"].length > 0) return false;
       if (!selectedPaymethod.value) return false;
       if (errors["form"].length > 0) return false;
+			// if no product return false
       // validated.validateForm(validated.validateFields)
       // console.log(validated.validateForm(validated.validateFields))
       return true;
     };
 
     const getOrder = () => {
-      let subPaymethodId;
-      // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
-      subPaymethodId = selectedSubPaymethod != undefined ? selectedSubPaymethod.key : null;
-      // orderItems.value = formatOrderItems(state.order.orderItems);
+      let pmId = selectedPaymethod.value.id;
+      let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
+			console.log('selectedSubPaymethod',selectedSubPaymethod)
+      // // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
+      // subPaymethodId.value = selectedSubPaymethod != undefined ? selectedSubPaymethod.pmsubId : null;
+      // let formattedOrderItems = formatOrderItems(state.order.orderItems);
+
+			console.log("paymethodId/selectedPaymethod.id = ", pmId)
+			console.log("subPaymethodId/selectedSubPaymethod.pmsubId = ", pmsubId)
 
       return {
         ref: "ref_" + Date.now() + "_VS",
@@ -467,13 +468,13 @@ export default defineComponent({
         // -----------
         mobile: tel.value,
         email: email.value,
-        desc: orderItems.length > 1 ? orderItems.length + " voucher producten." : "Voucheraankoop", 
-        orderItems:  orderItems.value,
-        paymethodId: selectedPaymethod.key, 
-        subPaymethodId: subPaymethodId, 
-        totalPriceCents: getCartTotal,
-        extraAmount: getTotalAmountOfAddedCosts,
-        returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/#" + "/status", 
+        desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
+        orderItems,
+        paymethodId: pmId, 
+        subPaymethodId: pmsubId, 
+        totalPriceCents: getCartTotal(),
+        extraAmount: getTotalAmountOfAddedCosts(),
+        returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
         // '/#'+ #HASHMODE NOT ENABLED //
         // orderConfig: null
       };
@@ -500,41 +501,27 @@ export default defineComponent({
         */
     };
 
-    // const formatOrderItems = (cart) => {
-    //   return _(cart).map((orderItem) => {
-    //     return {
-    //       ean: orderItem.product.ean,
-    //       priceCents: orderItem.product.price,
-    //       qty: orderItem.qnt,
-    //       desc: orderItem.product.name,
-    //     };
-    //   });
-    // };
+    const formatOrderItems = (cart) => {
+      return _(cart).map((orderItem) => {
+        return {
+          ean: orderItem.product.ean,
+          priceCents: orderItem.product.price,
+          qty: orderItem.qnt,
+          desc: orderItem.product.name,
+        };
+      });
+    };
 
-			// const storeLastTrxData = async (qid, payUrl, orderItems) => {
-			// 	let data = { qid, payUrl, orderItems };
-			// 	var cypher = CryptoJS.AES.encrypt(
-			// 		JSON.stringify(data),
-			// 		"trx_ez_obscure"
-			// 	).toString();
-			// 	localStorage.setItem("trxmem", cypher);
-			// };
-			// RELOAD USERDATA //
-			// let storedDataString = localStorage.getItem("paymem");
-			// let userData;
-
-			// if (storedDataString != undefined && bytes != "") {
-			// 	var bytes = CryptoJS.AES.decrypt(storedDataString, "xxxstatixxx");
-			// 	if (bytes != undefined && bytes != "") {
-			// 		userData = bytes.toString(CryptoJS.enc.Utf8);
-			// 		userData = JSON.parse(userData);
-			// 		name.value = userData.name;
-			// 		tel.value = userData.tel;
-			// 		email.value = userData.email;
-			// 	}
-			// 	if (name != null && tel != null && email != null)
-			// 		preFilled.value = true;
-			// }
+		const storeLastTrxData = async (qid, payUrl, orderItems) => {
+			let data = { qid, payUrl, orderItems };
+			var cypher = CryptoJS.AES.encrypt(
+				JSON.stringify(data),
+				"trx_ez_obscure"
+			).toString();
+			if (process.client) {
+				localStorage.setItem("trxmem", cypher);
+			}
+		};
 
     const storeSettings = () => {
       const data = {
@@ -551,12 +538,8 @@ export default defineComponent({
       ).toString();
       let dataValue = JSON.stringify(data);
       console.log('CYPHER',cypher)
-      // console.log('DATA',data)
-      // console.log('DATA',dataValue)
       if (process.client) {
-        // console.log(localStorage);
-        localStorage.setItem("StoreSettings", dataValue);
-        // localStorage.setItem("paymem", dataValue);
+        localStorage.setItem("paymem", dataValue);
       }
     };
 
@@ -564,7 +547,6 @@ export default defineComponent({
 				// console.log("SUBMIT");
 				storeSettings();
 				// unsetErrorsFor("form");
-				// store selected in localstorage (maybe move this to onChange)
 				try {
 					if (!validate()) throw "Fout in een van de invoervelden";
 					if (!agreed2Terms)
@@ -574,30 +556,73 @@ export default defineComponent({
 						};
 					let formatOrder = getOrder();
 					let JSONorderItems = JSON.stringify(formatOrder);
-          if (process.client) {
-            console.log(JSONorderItems);
-					  localStorage.setItem("TEST orderItems", JSONorderItems);
+
+
+
+          const protocol = window.location.protocol;
+          const domain = window.location.hostname;
+          const port = window.location.port;
+
+
+        let $origin = protocol + domain + port;
+        let $api = protocol + domain + port;
+
+        switch (domain) {
+          case 'localhost':
+          case '127.0.0.1':
+          case 'vouchershop.prepaidpoint.devv':
+            $api = 'http://api.prepaidpoint.test/vouchershop';
+            break;
+          case 'vouchershop.prepaidpoint.test':
+            $api = 'http://api.prepaidpoint.test/vouchershop';
+            break;
+          case 'vouchershop.prepaidpoint-preprod.com':
+            $api = 'http://api.prepaidpoint-preprod.com/vouchershop';
+            $origin = 'https://vouchershop.prepaidpoint-preprod.nl/vouchershop'
+            break;
+          default:
+            $api = 'https://api.prepaidpoint.com/vouchershop';
+            break;
+        }
+
+          if (window.fetch) {
+            // run my fetch request here
+            // let submitReq = await $fetch($api + '/submitorder', { 
+            //   method: "POST", 
+            //   body: JSONorderItems,
+            //   headers: {
+            //     // 'Access-Control-Allow-Origin': '*', 
+            //     'Content-Type' : 'application/json' 
+            //   }
+            // })
+						let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
+							method: "POST",
+							body: JSONorderItems,
+						});
+						console.log('submitReq', submitReq)
+  					if(submitReq) {
+							if(submitReq.resultCode > 50000)
+							throw 'Error in request';
+		
+							qid.value = submitReq.paymentQueueId;
+							payUrl.value = submitReq.paymentUrl;
+		
+							console.log('QID', submitReq.paymentQueueId, 'PAYURL', submitReq.paymentUrl, 'ORDERITEMS', orderItems )
+		
+							storeLastTrxData(qid, payUrl, orderItems);
+							if (submitReq.paymentUrl)
+								console.log(submitReq.paymentUrl)
+								// window.location.href = `${submitReq.paymentUrl}`;
+						}
+
+            if(!submitReq)
+            throw 'Error in request';
+          } else {
+            // do something with XMLHttpRequest?
           }
 
-					// let submitReq = await $fetch("/submitorder", {
-					// 	method: "POST",
-					// 	body: order,
-					// });
 
-					// console.log(submitReq);
-
-					// if(!submitReq)
-					// throw 'Error in request';
-					//
-					// if(submitReq.data.resultCode > 50000)
-					// throw 'Error in request';
-
-					// qid.value = submitReq.data.paymentQueueId;
-					// payUrl.value = submitReq.data.paymentUrl;
-
-					// console.log('QID', submitReq.data.paymentQueueId, 'PAYURL', submitReq.data.paymentUrl, 'ORDERITEMS', orderItems )
-
-					// storeLastTrxData(qid, payUrl, orderItems);
+					
 				} catch (e) {
 					// console.log('Error in form submission::', 'Initiate gracefull shutdown');
 					// console.log(e);
@@ -612,48 +637,115 @@ export default defineComponent({
 						errors["form"].push(e);
 						return;
 					}
-					console.log("form error....", e);
+					console.log("form error....\n", e);
 					errors["form"].push(e);
 				}
     };
 
-		onMounted(() => {
+			const reinstateOrder = (orderItems) => {
+        orderItems = orderItems ?? [];
+      }
+      const emptyOrder = (orderItems) => {
+        state.order.orderItems = [];
+      }
 
-
-			// console.log(localStorage)
-			// if(getPaymentOptions){
-			//   if(this.getPaymentOptions[0].id == undefined )
-			//     try{
-			//       let paymentListReq = await this.$http({
-			//           method: 'POST',
-			//           url: '/paymentoptions',
-			//         });
-			//       this.handlePaymethods(paymentListReq.data);
-			//     }catch(e){
-			//       console.log('Initiate gracefull shutdown');
-			//       console.log(e);
-			//     }
-			// }
+      if (process.client){
+        if (localStorage.getItem('trxmem')) {
+          let storedTrxString = localStorage.getItem('trxmem');
+          if(storedTrxString != undefined && bytes != '' ){
+            var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+            if(bytes != undefined && bytes != '' ){
+              let data = bytes.toString(CryptoJS.enc.Utf8);
+              data = JSON.parse(data);
+              console.log({data});
+              reinstateOrder(data.orderItems);
+            }
+          }
+          //////////////////////////
+          let storedDataString = localStorage.getItem('paymem');
+          let userData;
+          // RELOAD USERDATA //
+          if(storedDataString != undefined && bytes != '' ){
+            var bytes  = CryptoJS.AES.decrypt(storedDataString, 'xxxstatixxx');
+            if(bytes != undefined && bytes != '' ){
+              userData = bytes.toString(CryptoJS.enc.Utf8);
+              userData = JSON.parse(userData);  
+              name.value = userData.name;
+              tel.value = userData.tel;
+              email.value = userData.email;
+            }
+            if(name != null && tel != null && email != null){
+              preFilled.value = true;
+            }
+          }
+        } 
 			// RELOAD PAYMENT //
 			// if(storedDataString != undefined  &&  bytes != '' ){
-			//   this.selectedPaymethod = userData.payment ? this.getPaymethodWithKey(userData.payment): null;
-			//   if(this.selectedPaymethod.subSelect != undefined)
-			//     this.subSelection = this.selectedPaymethod.subSelect;
+			//   selectedPaymethod = userData.payment ? getPaymethodWithKey(userData.payment): null;
+			//   if(selectedPaymethod.subSelect != undefined)
+			//     subSelection = selectedPaymethod.subSelect;
 			// }
-			// if( state.order.orderItems.length == 0 ){
-			//   let storedTrxString = localStorage.getItem('trxmem');
-			//   if(storedTrxString != undefined  &&  bytes != '' ){
-			//     var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
-			//     if(bytes != undefined  &&  bytes != '' ){
-			//       let data = bytes.toString(CryptoJS.enc.Utf8);
-			//       data = JSON.parse(data);
-			//       console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
-			//       console.log(data)
-			//       actions.reinstateOrder(data.orderItems);
-			//     }
-			//   }
-			// }
+			if( state.order.orderItems.length == 0 ){
+			  let storedTrxString = localStorage.getItem('trxmem');
+			  if(storedTrxString != undefined  &&  bytes != '' ){
+			    var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+			    if(bytes != undefined  &&  bytes != '' ){
+			      let data = bytes.toString(CryptoJS.enc.Utf8);
+			      data = JSON.parse(data);
+			      console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
+			      console.log(data)
+			      reinstateOrder(data.orderItems);
+			    }
+			  }
+			}
+		}
+
+		onMounted(() => {
+      actions.getPaymentOptions()
+
+    
 		});
+
+              // original submitOrder example
+              /*
+                desc: "Voucheraankoop"
+                email: "mitchell@hand-ebs.com"
+                extraAmount: 0
+                lang: "nl"
+                mobile: "0612345678"
+                orderItems: [{ean: "8715872000578", priceCents: 2000, qty: 4, desc: "T-mobile €20"}]
+                  0: {ean: "8715872000578", priceCents: 2000, qty: 4, desc: "T-mobile €20"}
+                    desc: "T-mobile €20"
+                    ean: "8715872000578"
+                    priceCents: 2000
+                    qty: 4
+                ref: "ref_1644327216886_VS"
+                returnUrl: "http://localhost:8080/#/status"
+                subPaymethodId: null
+                totalPriceCents: 8000
+              */
+              // My own submitorder  TODO :change to example's format
+              /*               
+                desc: "Voucheraankoop"
+                email: "mitchell@hand-ebs.com"
+                lang: "nl"
+                mobile: "0612345678"
+                orderItems: [{,…}]
+                  0: {,…}
+                    new: true
+                    product: {ean: "8715872000578", value: 2000, brand: "tmobile", price: 2000, inStock: true, key: "tmobile20",…}
+                      actionLabel: "opwaarderen"
+                      brand: "tmobile"
+                      ean: "8715872000578"
+                      inStock: true
+                      key: "tmobile20"
+                      name: "T-mobile €20"
+                      price: 2000
+                      value: 2000
+                    qnt: 4
+                ref: "ref_1644327567283_VS"
+                returnUrl: "http://localhost:3000/status"                             
+              */
 
 		return {
 			getPaymentOptions,
@@ -693,8 +785,8 @@ export default defineComponent({
       checkMobile,
       checkEmail,
       checkPaymethods
-		};
-	},
+		}
+	}
 });
 </script>
 

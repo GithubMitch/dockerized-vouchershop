@@ -26,6 +26,7 @@ Duis dictum egestas augue ut tristique. Vestibulum vel felis ut ligula porttitor
       <!-- <button class="cta" @click="checkoutWith(product)"> Add & go to cart </button> -->
       <hr>
       <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink>
+      <!-- <div class="close"  @click="$router.go(-1)">X</div> -->
     </div>
 </template>
 

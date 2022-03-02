@@ -4,15 +4,16 @@
     <select class="custom-select" v-model="select">      
       <option v-for="(option, i) of options" :ref="`option_` + i" :class="`option_` + i"
         :key="i" :value="option"  :tabindex="i"  :selected=" i === 0 ? true : false"
-        > {{option.name}}
+        > {{option.pmname}}
         <!-- @change="selectChange(select)" -->
       </option>
     </select>
 
     <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
       <div class="option selected">
-          <div class="visual"><img :src="`../../assets/logos/${optionType}${ !select.name ? options[0].key : select.key }.png`" /></div>
-          <div class="info"><strong>{{ !select.name ? options[0].name : select.name }}</strong><em class="desc">{{ !select.name ? options[0].desc : select.desc }}</em></div>
+          <div class="visual"><img :src="`../../assets/logos/${optionType}${ !select.pmname ? options[0].key : select.key }.png`" /></div>
+          <div class="info"><strong>{{ select.pmname || select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div>
+          <!-- <div class="info"><strong>{{ !select.pmname ? options[0].pmname : select.pmname || !select.pmsubName ? options[0].pmsubName : select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div> -->
       </div>
       <!-- {{ !select.name ? options[0].name : select.name }} -->
       
@@ -29,9 +30,17 @@
         </div>
       </div> -->
     </div>
-    <ul class="select-options"  :class="{active:isActive}">
+    <!-- v-if="!option.pmsubName" -->
+    <ul  class="select-options"  :class="{active:isActive}">
       <li v-for="(option, i) of options"
-          :key="i"
+          :key="option.id || option.pmsubId"
+          :id="option.id || option.pmsubId"
+          :portalPmId="option.portalPmId"
+          :txAmountClient="option.txAmountClient"
+          :txAmountCustomer="option.txAmountCustomer"
+          :txPercentageClient="option.txPercentageClient"
+          :txPercentageCustomer="option.txPercentageCustomer"
+          :validcountry="option.validcountry"
           @click="
             toggleActive($event);
             {select = option};
@@ -41,7 +50,7 @@
 
           <div class="option selected">
               <div class="visual"><img :src="`../../assets/logos/${optionType}${option.key}.png`" /></div>
-              <div class="info"><strong>{{ option.name }}</strong><em class="desc">{{ option.desc }}</em></div>
+              <div class="info"><strong>{{ option.pmname || option.pmsubName }}</strong><em class="desc">{{ option.desc }}</em></div>
           </div>
       </li>
     </ul>
@@ -218,6 +227,9 @@
     // @include transition(all 0.2s ease-in);
     .visual {
       margin-right:1em;
+      background:red;
+      width:50px;
+      height:50px;
     }
     &:after {
       content:"";

@@ -27,7 +27,7 @@
       const selectedBrand = toRef(state, 'selectedBrand');
       const stockProducts = toRef(state, 'stockProducts');
       const selectedActionLabel = toRef(state, 'selectedActionLabel');
-      console.log("selectedActionLabel", selectedActionLabel.value);
+      // console.log("selectedActionLabel", selectedActionLabel.value);
 
       const beforeEnter = (el) => {
         el.style.opacity = 0;
