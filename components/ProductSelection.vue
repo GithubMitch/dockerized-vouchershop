@@ -1,15 +1,20 @@
 
 <template>
   <NuxtLayout name="productlist">
+    <!-- <router-link :to="{path: 'pages/_categoryslug]/[_brand]/[_for]/_productslug/', params: {id: item.id}}">See item 1</router-link> -->
+
     <ClientOnly>
     <h1>{{brand}}</h1>  
+      <!-- <button @click="open = true">
+        test
+      </button> -->
       <transition-group tag="ul" name="card" appear
         @before-enter="beforeEnter"
         @enter="enter" 
         class="styled-list product-list">
           <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
-            <NuxtLink class="brandLine product" 
-              :to='brand + `/` + product.actionLabel + `/`  + product.key'
+            <router-link class="brandLine product" 
+              :to='product.brand + `/` + product.actionLabel + `/`  + product.key'
               :class="{instock : product.inStock}" 
               @click="setProductPage(product)"
               >
@@ -26,11 +31,11 @@
                     :MyGradient="'MyGradient'"
                     :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
                     />
-            </NuxtLink>
+            </router-link>
           </li>
       </transition-group>
     </ClientOnly>
-  </NuxtLayout>
+  </NuxtLayout> 
 </template>
 
 <script>
@@ -63,6 +68,7 @@ export default defineComponent({
   setup(props) {
     const router = useRouter()
     const route = useRoute()
+    const open = ref(false)
 
     const stockProducts = toRef(state, 'stockProducts');
     const selectedCategory = toRef(state, 'selectedCategory');
@@ -122,6 +128,7 @@ export default defineComponent({
       // })
 
     return {
+      open,
       selectedProducts, 
       selectedCategory, 
       stockProducts, 

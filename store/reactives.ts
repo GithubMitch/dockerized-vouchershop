@@ -286,7 +286,9 @@ const actions = {
     // product.qnt = 1;
     // product.new = true
     // state.order.orderItems.push({product});
-    let orderItem = { product, qnt: product.qnt ?? 1 , new: true };
+    product.qnt = product.qnt ?? 1
+    product.new = true;
+    let orderItem = product;
     console.log(state.order.orderItems)
     return state.order.orderItems.push(orderItem);
   },
@@ -320,7 +322,7 @@ const actions = {
       // let addedCost = i.product.addedCost != undefined ? i.product.addedCost : 0;
       let addedCost = 0;
       // console.log(sum + (i.qnt * (i.product.price + addedCost )))
-      return sum + (i.qnt * (i.product.price + addedCost ) );
+      return sum + (i.qnt * (i.price + addedCost ) );
     } , 0);
   },
   

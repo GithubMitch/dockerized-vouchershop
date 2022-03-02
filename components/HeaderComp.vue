@@ -72,9 +72,9 @@ export default defineComponent({
         let element = ref(navLinks[i]);
         let formatted = element.value.outerText;
         state.selectableCategories.push(formatted.toLowerCase())
-        console.log(element.value.outerText)
+        // console.log(element.value.outerText)
       }      
-      console.log(selectableCategories.value)
+      // console.log(selectableCategories.value)
     })
 
     watch(

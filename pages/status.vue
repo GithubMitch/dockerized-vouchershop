@@ -73,151 +73,25 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent,toRef,onMounted} from 'vue';
+  import {defineComponent,toRef,onMounted, watch} from 'vue';
   import { state, actions } from '../store/reactives';
   import CryptoJS from "crypto-js";
   import { _ } from "vue-underscore";
   import { useIntervalFn } from '@vueuse/core';
-  // import timer, {time, action} from '../composables/useIntervalFn'
+
 
   export default defineComponent({
     layout: 'false',
-    methods: {
-      async checkStatus(){
-        console.log('Check transaction status: ' )
-
-        if(this.checkThreshold <= 0) {
-          this.initiateSaveMode();
-          //pause
-          console.log(this)
-          // this.$timer.stop('checkStatus');
-          return;
-        }
-
-        if(this.reactiveData.currentCounter <= this.reactiveData.progressCounter)
-          this.reactiveData.currentCounter++;
-
-        if(this.reactiveData.progressCounter < 2 && this.reactiveData.status != 'result'){
-          try{
-              let data = {
-                pay_qid: reactiveData.qid,
-              }
-
-
-              let statusReq = await this.$http({
-                method: 'POST',
-                url: '/orderstatus',
-                data,
-              });
-              console.log('REQ=>',statusReq.data);
-
-
-            if(statusReq.data.result_code != 1000)
-              throw 'Failure in request for orderstatus';
-
-            if(statusReq.data.status == 'OPEN'){
-              this.reactiveData.progressCounter = 0;
-            }
-
-            if(statusReq.data.status == 'PAID'){
-              this.reactiveData.progressCounter = 1;
-            }
-
-            if(statusReq.data.status == 'CONFIRMED'){
-              // 2 -- vouchercode
-              // 3 -- transmit
-              this.reactiveData.progressCounter = 4;
-              localStorage.setItem('trxmem', {} );
-              // TODO -- delete trx data (qid, payment url.)
-              // this.status = 'result';
-              // this.result = 'success';
-            }
-
-            if(statusReq.data.status == 'CHECK'){
-              this.reactiveData.progressCounter = 1;
-              console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
-              this.reactiveData.checkThreshold--;
-            }
-
-            if(statusReq.data.status == 'FAILURE'){
-              this.reactiveData.progressCounter = -1;
-              console.log('FAILURE');
-              this.$timer.stop('checkStatus');
-
-              this.reactiveData.status = 'result';
-              this.reactiveData.result = 'failure';
-            }
-
-            if(statusReq.data.status == 'CANCELED'){
-              this.reactiveData.progressCounter = -1;
-              console.log('CANCELED');
-              this.$timer.stop('checkStatus');
-
-              this.reactiveData.status = 'result';
-              this.reactiveData.result = 'canceled';
-            }
-
-          }catch(e){
-            console.log(e);
-          }
-        }
-        
-      },
-
-    },
-    watch: {
-      currentCounter(value){
-        let randTime = Math.random();
-        // if(value == -1){
-        //   this.$timer.stop('checkStatus');
-        //   this.status = 'result';
-        //   this.result = 'failure';
-        //   return ;
-        // }
-        if(value > 0){
-          this.reactiveData.progress.paid = true;
-          this.reactiveData.progress.vouchercode ='inprogress';
-        }
-
-        if(value > 1){
-          this.reactiveData.progress.vouchercode = true;
-          this.reactiveData.progress.transmit ='inprogress';
-        }
-
-        if(value > 2){
-          this.reactiveData.progress.transmit = true;
-          this.reactiveData.progress.done ='inprogress';
-        }
-
-        if(value > 3){
-          this.reactiveData.progress.done = true;
-          this.reactiveData.progressCounter = 5;
-        }
-
-        if(value == 5){
-          this.reactiveData.status = 'result';
-          this.reactiveData.result = 'success';
-        }
-
-        this.timers.checkStatus.time = ((randTime*2000) + 500) - (value*(randTime*200));
-        // pause
-        this.$timer.stop('checkStatus');
-        // resume
-        this.$timer.start('checkStatus');
-
-      }
-    },
     async setup() {
       const order = toRef(state, "order");
 		  const orderItems = toRef(state.order, "orderItems");
-
       const reactiveData = reactive({
         support_ticket_sending: false,
         status: 'checking', // checking|result
         result: null,
         resolved: false,
         checkThreshold: 3,
-        qid: 93,
+        qid: null,
         currentCounter: 0,
         progressCounter: 0,
         progress: {
@@ -237,15 +111,10 @@
           tel: null,
           email: null,
         },
-        timers: {
-          checkStatus: { 
-            time: 300, 
-            repeat: true, 
-            immediate: false , 
-            autostart: true
-          }
-        }
+
       })
+      const watchCount = ref({watchCount: reactiveData.progressCounter})
+
       const intervalData = reactive({
         greetings: ['Hello', 'Hi', 'Yo!', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut!', '你好'],
         word: 'Hello',
@@ -254,9 +123,11 @@
         }
       })
 
-      const interval = ref(500)
+      const interval = ref(20000)
       const { pause, resume, isActive } = useIntervalFn(() => {
         intervalData.action()
+        checkStatus()
+
       }, interval)
     
       const checkStatus = async () => {
@@ -275,24 +146,25 @@
 
         if(reactiveData.progressCounter < 2 && reactiveData.status != 'result'){
           try{
-              let data = {
-                pay_qid: reactiveData.qid,
-              }
-              // let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
-              // console.log('productsRequest',productsRequest.products);
+            let data = {
+              pay_qid: reactiveData.qid,
+            }
+            // let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
+            // console.log('productsRequest',productsRequest.products);
 
-              let statusReq = await $fetch('http://api.prepaidpoint.test/vouchershop/orderstatus' , {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                  // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: data,
-              })
-              console.log('REQ=>',statusReq);
+            let statusReq = await $fetch('http://api.prepaidpoint.test/vouchershop/orderstatus' , {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: data,
+            })
+            console.log('Status Req =>',statusReq);
 
 
             if(statusReq.result_code != 1000)
+              // console.log(statusReq)
               throw 'Failure in request for orderstatus';
 
             if(statusReq.status == 'OPEN'){
@@ -315,6 +187,7 @@
 
             if(statusReq.status == 'CHECK'){
               reactiveData.progressCounter = 1;
+              // console.log(watchCount.value)
               console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
               reactiveData.checkThreshold--;
             }
@@ -324,6 +197,7 @@
               console.log('FAILURE');
               // PAUSE
               // this.$timer.stop('checkStatus');
+              // pause()
 
               reactiveData.status = 'result';
               reactiveData.result = 'failure';
@@ -421,12 +295,6 @@
         // store ticket, with qid in localstorage with status inprogress, include order, amount and more;
       }
 
-      // ...mapMutations({
-      //   reinstateOrder: 'REINSTATE_ORDER',
-      // }),
-      // ...mapActions({
-      //   emptyOrder: 'emptyOrder'
-      // })    
       const reinstateOrder = (orderItems) => {
         state.order.orderItems = orderItems ?? [];
       }
@@ -467,7 +335,62 @@
         } 
       }
 
-      checkStatus();
+      watch(() => reactiveData.progressCounter, (currentValue, oldValue) => {
+          console.log(oldValue);
+          console.log(currentValue);
+          
+          // let randTime = Math.random();
+          // if(currentValue == -1){
+          //   this.$timer.stop('checkStatus');
+          //   this.status = 'result';
+          //   this.result = 'failure';
+          //   return ;
+          // }
+            // console.log('reactiveData.progress.paid',reactiveData)
+
+          if(currentValue > 0){
+            reactiveData.progress.paid = true;
+            reactiveData.progress.vouchercode ='inprogress';
+          }
+
+          if(currentValue > 1){
+            reactiveData.progress.vouchercode = true;
+            reactiveData.progress.transmit ='inprogress';
+          }
+
+          if(currentValue > 2){
+            reactiveData.progress.transmit = true;
+            reactiveData.progress.done ='inprogress';
+          }
+
+          if(currentValue > 3){
+            reactiveData.progress.done = true;
+            reactiveData.progressCounter = 5;
+          }
+
+          if(currentValue == 5){
+            reactiveData.status = 'result';
+            reactiveData.result = 'success';
+          }
+
+          //interval
+          // interval = ((randTime*2000) + 500) - (currentValue*(randTime*200));
+          // pause
+          // $timer.stop('checkStatus');
+          pause()
+          // resume
+          // $timer.start('checkStatus');
+          resume()
+          // emit("selectChange", select.value)
+        // })
+
+
+        },
+        { deep: true }
+      )
+
+
+
       return {
         reactiveData,
         intervalData,
@@ -487,60 +410,6 @@
       }
     }
   })
-
-// import VueTimers from 'vue-timers'
-//   Vue.use(VueTimers)
-// import CryptoJS from "crypto-js";
-// import CheckIt from '@/components/CheckIt.vue';
-
-// export default {
-
-//   name: 'Status',
-//   components: {CheckIt},
-//   data () {
-//     return {
-//       support_ticket_sending: false,
-//       status: 'checking', // checking|result
-//       result: null,
-//       resolved: false,
-//       checkThreshold: 3,
-//       qid: null,
-//       currentCounter: 0,
-//       progressCounter: 0,
-//       progress: {
-//         paid: false,
-//         vouchercode: false,
-//         transmit: false,
-//         done: false,
-//       },
-//       name: '',
-//       tel: '',
-//       email: '',
-//       errors: { 
-//         tel: [],
-//         email: [],
-//       },
-//       validated: {  // false / true are actual statuses
-//         tel: null,
-//         email: null,
-//       },
-
-      
-//     }
-//   },
-
-
-//   async mounted(){
-//     let recaptchaEl = document.querySelector('[id^="vue-invisible-recaptcha-"]');
-//     recaptchaEl.style = 'display: none';
-
-//     await this.sleep(2000);
-//   },
-
-//   timers: {
-//     checkStatus: { time: 300, repeat: true, immediate: false , autostart: true}
-//   }
-// }
 </script>
 
 <style lang="scss" scoped>

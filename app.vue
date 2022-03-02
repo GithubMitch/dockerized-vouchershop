@@ -300,6 +300,13 @@ export default {
 
   .product-img {
     float:right;
+    max-width: 40%;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    border: 1px solid lightgray;
+    border-radius: 1em;
+    padding: 2em;
+    box-sizing: border-box;
   }
 //buttons
   .cta {

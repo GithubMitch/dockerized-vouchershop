@@ -14,9 +14,9 @@
 							<div class="orderItem" :class="{ onButton: hover }">
 								<div class="productInfo">
                   <ClientOnly>
-									  <img class="thumbnail" :src="`../../../assets/logos/${item.product.brand}.png`"/>
+									  <img class="thumbnail" :src="`../../../assets/logos/${item.brand}.png`"/>
                   </ClientOnly>
-									<p class="name">{{ item.product.name }}</p>
+									<p class="name">{{ item.name }}</p>
 									<p class="desc">opwaardeercode</p>
 								</div>
 
@@ -39,9 +39,9 @@
 								</div>
 
 								<div class="productPrice">
-									<span :class="['itemTotal', 'total_' + index]">{{ $currency(item.product.value * item.qnt) }}</span>
-									<div class="addedCost" v-if="item.product.addedCost != undefined" :class="['itemAdded', 'total_' + index]">
-										{{ $currency(item.product.addedCost * item.qnt) }}
+									<span :class="['itemTotal', 'total_' + index]">{{ $currency(item.value * item.qnt) }}</span>
+									<div class="addedCost" v-if="item.addedCost != undefined" :class="['itemAdded', 'total_' + index]">
+										{{ $currency(item.addedCost * item.qnt) }}
 									</div>
 								</div>
 
@@ -327,29 +327,29 @@ export default defineComponent({
 		const paymentOptions = toRef(state, "paymentOptions");
 		const removeCartItem = (index) => {
 			actions.removeCartItem(index);
-		};
+		}
 		const increaseQnt = (index) => {
 			actions.increaseQnt(index);
-		};
+		}
 		const decreaseQnt = (index) => {
 			actions.decreaseQnt(index);
-		};
+		}
 		const inputFormStyle = () => {
 			return {
 				// opacity: orderItems.length > 0 ? 1: 0.1,
-			};
-		};
+			}
+		}
 		const getTotalAmountOfAddedCosts = () => {
 			return actions.getTotalAmountOfAddedCosts();
-		};
+		}
 		const getCartTotal = () => {
 			return actions.getCartTotal();
-		};
+		}
 
     
 		const getPaymentOptions = async () => {
       return actions.getPaymentOptions;
-		};
+		}
 
 		const setPaymethod = (option) => {
 			let opt = option ? option : option.option;
@@ -358,14 +358,14 @@ export default defineComponent({
 			selectedPaymethod.value = option;
       checkPaymethods(option);
       // validated.paymethod = true;
-		};
+		}
 		const setSubPaymethod = (option) => {
       let opt = option ? option : option.option;
 			selectedSubPaymethod.value = option;
 			console.log('setSubPaymethod - Subselection', option, selectedSubPaymethod.value);
       checkPaymethods(option);
       // validated.subpaymethod = true;
-		};
+		}
 
 		// watch([selectedPaymethod], (newValues, prevValues) => {
 		//   console.log("selectedPaymethod=",prevValues, newValues)
@@ -397,7 +397,7 @@ export default defineComponent({
       if(tel.value.startsWith('00316')){if( tel.value.length != 13 ) errors.tel.push("Mobiel is ongeldig");}
 
       if(errors.tel.length == 0) validated.tel = true;
-    };
+    }
 
     const checkEmail = () => {
       validated.email = null;
@@ -408,7 +408,7 @@ export default defineComponent({
       if(!email)errors.email.push("E-mail ontbreekt");
       if(!emailCheck.test(email.value))errors.email.push("E-mail is ongeldig");
       if(errors.email.length == 0) validated.email = true;
-    };
+    }
     const checkPaymethods = (option) => {
       // validate
       console.log('checkPaymethods...');
@@ -426,16 +426,16 @@ export default defineComponent({
       }
       errors.paymethod = []; // reset      
       validated.paymethod = true;
-    };
+    }
 
 		const prepare = () => {
 			loading.value = true;
-		};
+		}
 
 		const unsetErrorsFor = (target) => {
 			console.log("UNSET", target);
 			errors[`${target}`].value = [];
-		};
+		}
 
     const validate = () => {
       console.log(errors)
@@ -449,15 +449,17 @@ export default defineComponent({
       // validated.validateForm(validated.validateFields)
       // console.log(validated.validateForm(validated.validateFields))
       return true;
-    };
+    }
 
     const getOrder = () => {
       let pmId = selectedPaymethod.value.id;
-      let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
+			console.log(selectedSubPaymethod)
+      // let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
+      let pmsubId = null;
 			console.log('selectedSubPaymethod',selectedSubPaymethod)
       // // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
       // subPaymethodId.value = selectedSubPaymethod != undefined ? selectedSubPaymethod.pmsubId : null;
-      // let formattedOrderItems = formatOrderItems(state.order.orderItems);
+      let formattedOrderItems = formatOrderItems(state.order.orderItems);
 
 			console.log("paymethodId/selectedPaymethod.id = ", pmId)
 			console.log("subPaymethodId/selectedSubPaymethod.pmsubId = ", pmsubId)
@@ -469,7 +471,7 @@ export default defineComponent({
         mobile: tel.value,
         email: email.value,
         desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
-        orderItems,
+        orderItems: formattedOrderItems,
         paymethodId: pmId, 
         subPaymethodId: pmsubId, 
         totalPriceCents: getCartTotal(),
@@ -477,7 +479,7 @@ export default defineComponent({
         returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
         // '/#'+ #HASHMODE NOT ENABLED //
         // orderConfig: null
-      };
+      }
       /*      
             [REQUEST - TEMPLATE]
             lang: 'XX'
@@ -499,21 +501,21 @@ export default defineComponent({
             ----------------------
             returnUrl: 'httpX://XXXX.prepaidpoint.com',
         */
-    };
+    }
 
     const formatOrderItems = (cart) => {
       return _(cart).map((orderItem) => {
         return {
-          ean: orderItem.product.ean,
-          priceCents: orderItem.product.price,
+          ean: orderItem.ean,
+          priceCents: orderItem.price,
           qty: orderItem.qnt,
-          desc: orderItem.product.name,
-        };
+          desc: orderItem.name,
+        }
       });
-    };
+    }
 
 		const storeLastTrxData = async (qid, payUrl, orderItems) => {
-			let data = { qid, payUrl, orderItems };
+			let data = { qid, payUrl, orderItems }
 			var cypher = CryptoJS.AES.encrypt(
 				JSON.stringify(data),
 				"trx_ez_obscure"
@@ -521,7 +523,7 @@ export default defineComponent({
 			if (process.client) {
 				localStorage.setItem("trxmem", cypher);
 			}
-		};
+		}
 
     const storeSettings = () => {
       const data = {
@@ -539,9 +541,9 @@ export default defineComponent({
       let dataValue = JSON.stringify(data);
       console.log('CYPHER',cypher)
       if (process.client) {
-        localStorage.setItem("paymem", dataValue);
+        localStorage.setItem("paymem", cypher);
       }
-    };
+    }
 
 		const submit = async () => {
 				// console.log("SUBMIT");
@@ -553,7 +555,7 @@ export default defineComponent({
 						throw {
 							target: "agreed2Terms",
 							msg: "Je moet akkoord geven op de algemene voorwaarden.",
-						};
+						}
 					let formatOrder = getOrder();
 					let JSONorderItems = JSON.stringify(formatOrder);
 
@@ -587,18 +589,18 @@ export default defineComponent({
 
           if (window.fetch) {
             // run my fetch request here
-            // let submitReq = await $fetch($api + '/submitorder', { 
-            //   method: "POST", 
-            //   body: JSONorderItems,
-            //   headers: {
-            //     // 'Access-Control-Allow-Origin': '*', 
-            //     'Content-Type' : 'application/json' 
-            //   }
-            // })
-						let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
-							method: "POST",
-							body: JSONorderItems,
-						});
+            let submitReq = await $fetch('http://api.prepaidpoint.test/vouchershop/submitorder', { 
+              method: "POST", 
+              body: JSONorderItems,
+              headers: {
+                // 'Access-Control-Allow-Origin': '*', 
+                'Content-Type' : 'application/json' 
+              }
+            })
+						// let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
+						// 	method: "POST",
+						// 	body: formatOrder,
+						// });
 						console.log('submitReq', submitReq)
   					if(submitReq) {
 							if(submitReq.resultCode > 50000)
@@ -609,10 +611,10 @@ export default defineComponent({
 		
 							console.log('QID', submitReq.paymentQueueId, 'PAYURL', submitReq.paymentUrl, 'ORDERITEMS', orderItems )
 		
-							storeLastTrxData(qid, payUrl, orderItems);
+							storeLastTrxData(qid.value, payUrl.value, orderItems.value);
 							if (submitReq.paymentUrl)
 								console.log(submitReq.paymentUrl)
-								// window.location.href = `${submitReq.paymentUrl}`;
+								window.location.href = `${submitReq.paymentUrl}`
 						}
 
             if(!submitReq)
@@ -626,28 +628,28 @@ export default defineComponent({
 				} catch (e) {
 					// console.log('Error in form submission::', 'Initiate gracefull shutdown');
 					// console.log(e);
-					loading.value = false;
-					if (typeof e === "object") {
-						if (e.target != undefined) {
-							errors[e.target].push(e.msg);
-							return;
-						}
-					}
-					if (typeof e === "string") {
-						errors["form"].push(e);
-						return;
-					}
-					console.log("form error....\n", e);
-					errors["form"].push(e);
+					// loading.value = false;
+					// if (typeof e === "object") {
+					// 	if (e.target != undefined) {
+					// 		errors[e.target].push(e.msg);
+					// 		return;
+					// 	}
+					// }
+					// if (typeof e === "string") {
+					// 	errors["form"].push(e);
+					// 	return;
+					// }
+					// console.log("form error....\n", e);
+					// errors["form"].push(e);
 				}
-    };
+    }
 
 			const reinstateOrder = (orderItems) => {
-        orderItems = orderItems ?? [];
-      }
-      const emptyOrder = (orderItems) => {
-        state.order.orderItems = [];
-      }
+				orderItems = orderItems ?? [];
+			}
+			const emptyOrder = (orderItems) => {
+				state.order.orderItems = [];
+			}
 
       if (process.client){
         if (localStorage.getItem('trxmem')) {
