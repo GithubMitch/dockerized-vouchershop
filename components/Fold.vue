@@ -1,5 +1,37 @@
 <template>
-  <div class="fold">
+  <div v-if="$props.productPage" class="fold">
+    <a :href="$props.productPage" id="productPageprop">
+      <svg class="foldHolder" :height="height" :width="width">
+        <polygon :points="'0,0 '+ height+ ',0 '+ width + ',' + width"  
+          class="triangle">
+          <!-- REMOVE THIS AND STYLE IN PARENT from and to  -->
+        </polygon>
+        <defs> 
+          <linearGradient :id="MyGradient">
+            <stop :offset="gradient.from[1]+'%'" :stop-color="gradient.from[0]"></stop>
+            <stop :offset="gradient.to[1]+'%'" :stop-color="gradient.to[0]"></stop>
+          </linearGradient>
+        </defs>  
+      </svg>
+      <div class="tip" 
+      >
+        <!-- :style="adjustedTextStyle" -->
+        <span v-if="text != ''">{{text}}</span>
+        <div class="tipContent" v-else>
+          <NuxtLayout name="fold">
+            <template #foldIcon>
+              <i v-if="$route.path !== '/checkout'" class="i simple-line-icons:info"></i>
+              <!-- <i  class="i simple-line-icons:info"></i> -->
+              <i v-else class="i simple-line-icons:close"></i>
+            </template>
+          </NuxtLayout>
+            <!-- <template>
+            </template> -->
+        </div>
+      </div>
+    </a>
+  </div> 
+  <div v-else class="fold">
     <svg class="foldHolder" :height="height" :width="width">
       <polygon :points="'0,0 '+ height+ ',0 '+ width + ',' + width"  
         class="triangle">
@@ -68,12 +100,25 @@
       MyGradient: {
         type: String,
         default: "MyGradient"
+      },
+      productPage: {
+        type: String,
+        default: '',
+        required: false
       }
     },
 
     async setup(props) {
       const router = useRouter()
       const route = useRoute()
+
+      if (props.productPage != '')
+        console.log("props.productPage", props.productPage)
+
+      const setProductPage = async (product)  => {
+        await actions.setProductPage(product)
+      }
+
       onMounted(() => {
         // let triangles = document.querySelectorAll('.fold .foldHolder');
         // let i = 0;
@@ -95,7 +140,10 @@
         //   })
         // }
       })
-      return {router, route}
+      return {
+        router, route, 
+        setProductPage
+      }
     }
 
   })
@@ -138,6 +186,9 @@
         font-size:1.3em;
       }
     }
+  }
+  #productPageprop {
+    padding:0;
   }
 }
 </style>

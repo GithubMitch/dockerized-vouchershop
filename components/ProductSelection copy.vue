@@ -7,6 +7,9 @@
         @before-enter="beforeEnter"
         @enter="enter" 
         class="styled-list product-list">
+          <div>
+            {{$route}}
+          </div>
           <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
             <NuxtLink class="brandLine product" 
               :to='product.brand + `/` + product.actionLabel + `/`  + product.key'

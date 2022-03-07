@@ -1,16 +1,36 @@
 
 <template>
   <NuxtLayout name="productlist">
-    <!-- <router-link :to="{path: 'pages/_categoryslug]/[_brand]/[_for]/_productslug/', params: {id: item.id}}">See item 1</router-link> -->
-
     <ClientOnly>
-    <h1>{{brand}}</h1>  
-      <!-- <button @click="open = true">
-        test
-      </button> -->
+      <h1>{{brand}}</h1>  
       <transition-group tag="ul" name="card" appear
         @before-enter="beforeEnter"
-        @enter="enter" 
+        @enter="enter"
+        v-if="$route.params._brand"
+        class="styled-list product-list">
+        <li  class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
+          <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product)">
+            <img :src="`../../assets/logos/${product.brand}.png`" />
+            <span class="price" for="">€ {{product.value / 100}}</span>
+            <span class="name">{{ product.name }}</span>
+            <span class="action" for="">{{product.actionLabel}}</span>
+
+            <Fold
+              width="45" 
+              height="45"
+              :productPage="`${product.brand}/${product.actionLabel}/${product.key}`"
+              :class="'MyGradient_'+index"           
+              :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+              :MyGradient="'MyGradient'"
+              :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+              />
+          </a>
+        </li>
+      </transition-group>
+      <transition-group tag="ul" name="card" appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+        v-else
         class="styled-list product-list">
           <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
             <router-link class="brandLine product" 
@@ -40,8 +60,8 @@
 
 <script>
 import gsap from "gsap";
-import { state, actions, methods } from '../store/reactives'
-import { defineComponent, onMounted, toRaw , ref, toRef, watch} from 'vue'
+import { state, actions } from '../store/reactives'
+import { defineComponent, ref, toRef } from 'vue'
 import {_} from 'vue-underscore';
 
 export default defineComponent({
@@ -74,6 +94,10 @@ export default defineComponent({
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
+
+    const addProducts = async (product)  => {
+      await actions.addProducts(product)
+    }
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -139,6 +163,7 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
+      addProducts,
     }
   },
 })

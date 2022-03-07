@@ -192,6 +192,7 @@ export default {
     margin-right: -2rem;
 
     .item {
+      cursor:pointer;
       min-width:162px;
       min-height:162px;
       max-width:162px;
@@ -335,4 +336,7 @@ export default {
       opacity:.9;
     }
   }
+
+  .foldHoder, 
+  .tip {cursor:pointer;}
 </style>

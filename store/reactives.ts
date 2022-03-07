@@ -282,15 +282,44 @@ const actions = {
     return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : console.log('Didnt set actionLabel', actionLabel))
             // (category ? (categoryUrl.value = category, console.log('Set category: ', category)) : console.log('Didnt set category', category)) 
   },       
-  addProducts(product) {
-    // product.qnt = 1;
-    // product.new = true
-    // state.order.orderItems.push({product});
-    product.qnt = product.qnt ?? 1
-    product.new = true;
+  async addProducts(product) {
+    let foundProduct = await state.order.orderItems.find(element => element.ean == product.ean)
+    let windowAlertMsg;
+    let maxQnt;
+    if(foundProduct) {
+      console.log("FN FOUND =>", foundProduct)
+      if (foundProduct.qnt < 4 ) {
+        product.new = false
+        foundProduct.qnt++
+        console.log(foundProduct.qnt) 
+      } else {
+        console.log('4 is max !!!!')
+        maxQnt = 4
+        let windowAlertMsg = window.alert('Max 4 of the same product')
+        product.new = false
+        console.log(foundProduct.qnt) 
+      }
+    }else {
+      product.new = true;
+      product.qnt = product.qnt ?? 1;
+      console.log("FN NOT FOUND ->", foundProduct)
+    }
+
     let orderItem = product;
-    console.log(state.order.orderItems)
-    return state.order.orderItems.push(orderItem);
+    
+    console.log(product.new == true )
+    if (product.new == true) {
+      console.log('Adding product')
+      state.order.orderItems.push(orderItem)
+      console.log('Products added', state.order.orderItems)
+    }
+
+    if (maxQnt = 4) {
+      return windowAlertMsg
+    } else {
+      return
+    }
+
   },
   async setProductPage(product) {
     if (product.key) {

@@ -11,7 +11,7 @@
             </div>
         </div>
         <div id="HeaderSpace">
-            <NuxtLink id="Cart" to="/checkout" :class="{filled: orderItems.length > 0 }" >
+            <NuxtLink id="Cart" to="/checkout"  :class="{filled: orderItems.length > 0 }" >
               <ClientOnly>
                 {{ $currency(getCartTotal() )}}
               </ClientOnly>
@@ -41,6 +41,9 @@
 <script lang='ts'>
 import { state, actions } from '../store/reactives'
 import { defineComponent, onMounted, toRaw, watch, ref, toRef} from 'vue'
+import { useIntervalFn } from '@vueuse/core';
+
+
 
 export default defineComponent({
   methods: {
@@ -58,10 +61,27 @@ export default defineComponent({
     const newPath = ref()
     const orderItems = toRef(state.order, 'orderItems');
 
+    const interval = ref(300)
+    const { pause, resume, isActive } = useIntervalFn(() => {
+      test()
+    }, interval)
+
     const getCartTotal = () => {
+      let element = document.getElementById("Cart");
+      element.classList.add("pulse");
+      resume()
       return actions.getCartTotal()
     }
 
+
+    const test = () => {
+      console.log('test')
+      let element = document.getElementById("Cart");
+      // element.classList.add("pulse");
+      element.classList.remove("pulse");
+      pause()
+      // Cart get element by id
+    }
 
 
     onMounted(() => {
@@ -101,7 +121,8 @@ export default defineComponent({
     return {
       orderItems,
       navMenu,
-      getCartTotal, 
+      getCartTotal,
+      test
     }
   },
 })
@@ -193,12 +214,16 @@ export default defineComponent({
         text-decoration: none;
         overflow:hidden;
         border-radius:5px;
+        transition:.3s ease background;
 
         &.filled{
           border: 2.5px solid #ffa502;
           background: #FFF url('./assets/cart_hl.png') no-repeat left;
           background-position: top 4px left 5px;
           background-size: 24px;
+          &.pulse {
+            background:orange;
+          }
         }
         p{
           margin: 0px;

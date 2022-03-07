@@ -926,8 +926,9 @@ export default defineComponent({
 	}
 
 	.checkout .fold .tip {
-		right: -2px;
+		right: -1px;
 		font-size: 10px;
+		position:absolute;
 	}
 
 	#Checkout {
@@ -1254,7 +1255,7 @@ export default defineComponent({
 				position: relative;
 				&:after,
 				&:active:after {
-					top: 1em;
+					// top: 1em;
 				}
 			}
 		}

@@ -222,7 +222,7 @@
       border: 7px solid transparent;
       border-color: $select-color transparent transparent transparent;
       position: absolute;
-      top: 1.444em;
+      top: 1.2em;
       right: 10px;
     }
     &:hover {
@@ -231,7 +231,7 @@
     &:active, &.active {
       background-color: darken($select-background, 5);
       &:after {
-        top: calc(2em - 7px);
+        top: calc(1.2em - 7px);
         border-color: transparent transparent $select-color transparent;
       }
     }
