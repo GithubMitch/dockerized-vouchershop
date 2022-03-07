@@ -2,43 +2,13 @@
   <div id="topthree">
     <h1>Top 3 populair</h1>
     <div class="popular">
-      <div class="select">
+      <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
         <a href="">
           <div class="brand">
             <div class="visual">
-              <img :src="`../assets/logos/kpn.png`" />
+              <img :src="`../assets/logos/${brand.key}.png`" />
             </div>
-            <label for="brand-name">brand name</label>
-            <span class="type">Beltegoed</span>
-            <Fold
-              width="45" 
-              height="45"
-              />
-          </div>
-        </a>
-      </div>
-      <div class="select">
-        <a href="">
-          <div class="brand">
-            <div class="visual">
-              <img :src="`../assets/logos/voda.png`" />
-            </div>
-            <label for="brand-name">Vodafone</label>
-            <span class="type">Beltegoed</span>
-            <Fold
-              width="45" 
-              height="45"
-              />
-          </div>
-        </a>
-      </div>
-      <div class="select">
-        <a href="">
-          <div class="brand">
-            <div class="visual">
-              <img :src="`../assets/logos/tmobile.png`" />
-            </div>
-            <label for="brand-name">brand name</label>
+            <label for="brand-name">{{brand.name}}</label>
             <span class="type">Beltegoed</span>
             <Fold
               width="45" 
@@ -52,13 +22,46 @@
 </template>
 
 <script>
-import {_} from 'vue-underscore';
-import Fold  from '@/components/Fold';
+import { state } from '../store/reactives.ts'
+import {_} from 'vue-underscore'
+import Fold  from '@/components/Fold'
 // import Inform from '@/components/Inform';
 // import {isDark, isLight, darken, lighten, brighten, mix} from 'khroma';
 
-export default {
-}
+
+export default defineComponent({
+  async setup(props) {
+    const isLoading = ref(true)
+    const selectableBrands = toRef(state, 'selectableBrands');
+    const topThree = ref([])
+    // Math.floor(Math.random() * 10);
+    const randomizeBrands = () => {
+      for (let i = 0; i < 3; i++) {
+        let randIndex = Math.floor(Math.random() * 10)
+        let randBrand = selectableBrands.value[randIndex]
+        console.log('meh', randIndex)
+        console.log('randBrand', randBrand)
+        console.log(topThree[0] , topThree[1] , topThree[2])       
+        if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
+          console.log('Duplicate')
+          i--;
+        } else {
+          console.log('PUSH BRAND')
+          topThree.value.push(randBrand)
+        }
+      }
+      return
+    }
+
+    watch([selectableBrands], (newValues, prevValues) => {
+      console.log("old / new values =",prevValues, newValues)
+      randomizeBrands();
+      isLoading.value = false
+    })
+    
+    return {topThree}
+  }
+})
 </script>
 
 <style lang="scss">

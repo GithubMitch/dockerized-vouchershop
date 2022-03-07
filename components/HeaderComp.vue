@@ -53,17 +53,14 @@ export default defineComponent({
     }
   },
   setup() {
-    /// SETUP ROUTING HERE FOR NAVIGATION
-    // const router = useRouter()
     const navMenu = ref(null)
     const route = useRoute()
     const router = useRouter()
-    const newPath = ref()
     const orderItems = toRef(state.order, 'orderItems');
 
     const interval = ref(300)
     const { pause, resume, isActive } = useIntervalFn(() => {
-      test()
+      pulseEffect()
     }, interval)
 
     const getCartTotal = () => {
@@ -74,13 +71,10 @@ export default defineComponent({
     }
 
 
-    const test = () => {
-      console.log('test')
+    const pulseEffect = () => {
       let element = document.getElementById("Cart");
-      // element.classList.add("pulse");
       element.classList.remove("pulse");
       pause()
-      // Cart get element by id
     }
 
 
@@ -107,10 +101,9 @@ export default defineComponent({
         }
         if (validateRoute.value == false)
           router.push('404')
-          // alert(false)
 
-        console.log(route.params._categoryslug)
-        console.log(validateRoute.value)
+        // console.log(route.params._categoryslug)
+        // console.log(validateRoute.value)
         // hasRoute ? console.log(true) : alert(false)
         // route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
         // route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
@@ -122,7 +115,7 @@ export default defineComponent({
       orderItems,
       navMenu,
       getCartTotal,
-      test
+      pulseEffect
     }
   },
 })
