@@ -150,6 +150,7 @@
 						<span class="input">
 							<MySelect
 								ref="mySelect"
+								:default="paymentOptions"
 								:tabindex="0"
 								v-model="selectedPaymethod"
 								:components="{ Deselect: null }"
@@ -182,6 +183,7 @@
 							<label>Kies bank</label> 
 							<MySelect
 								id="SubSelector"
+								:default="subSelection"
 								:tabindex="1"
 								v-model="selectedSubPaymethod"
 								:components="{ Deselect: null }"
@@ -280,9 +282,7 @@ export default defineComponent({
 	async setup() {
 		const cart = toRef(state, "cart");
 		const selectedProducts = toRef(state, "selectedProducts");
-		// console.log(toRaw(orderItems));
 		const hover = ref(false);
-		const unselected = ref(true);
 		const selectedPaymethod = ref(null);
 		const selectedSubPaymethod = ref(null);
 		const subSelection = ref(null);
@@ -320,7 +320,6 @@ export default defineComponent({
 		const qid = ref(null);
 		const payUrl = ref(null);
 
-
 		//STATES
 		const order = toRef(state, 'order');
 		const orderItems = toRef(state.order , 'orderItems');
@@ -352,6 +351,7 @@ export default defineComponent({
 		}
 
 		const setPaymethod = (option) => {
+			console.log('setPaymethod',option)
 			let opt = option ? option : option.option;
 			opt.pmsublist ? (subSelection.value = opt.pmsublist) : null;
 			console.log("setPaymethod - Subselection", subSelection.value);
@@ -412,6 +412,8 @@ export default defineComponent({
     const checkPaymethods = (option) => {
       // validate
       console.log('checkPaymethods...');
+      console.log(selectedPaymethod.value);
+      console.log(selectedSubPaymethod.value);
 
       if(option.subSelect == undefined) {
 				errors.subpaymethod = []; // reset
@@ -546,102 +548,105 @@ export default defineComponent({
     }
 
 		const submit = async () => {
-				// console.log("SUBMIT");
-				storeSettings();
-				// unsetErrorsFor("form");
-				try {
-					if (!validate()) throw "Fout in een van de invoervelden";
-					if (!agreed2Terms)
-						throw {
-							target: "agreed2Terms",
-							msg: "Je moet akkoord geven op de algemene voorwaarden.",
-						}
-					let formatOrder = getOrder();
-					let JSONorderItems = JSON.stringify(formatOrder);
+			// console.log("SUBMIT");
+			storeSettings();
+			// unsetErrorsFor("form");
+			try {
+				if (!validate()) 
+					// console.log('selectedPaymethod', selectedPaymethod)
+					// console.log('selectedSubPaymethod', selectedSubPaymethod)
+					throw "Fout in een van de invoervelden";
+				if (!agreed2Terms)
+					throw {
+						target: "agreed2Terms",
+						msg: "Je moet akkoord geven op de algemene voorwaarden.",
+					}
+				let formatOrder = getOrder();
+				let JSONorderItems = JSON.stringify(formatOrder);
 
 
 
-          const protocol = window.location.protocol;
-          const domain = window.location.hostname;
-          const port = window.location.port;
+				const protocol = window.location.protocol;
+				const domain = window.location.hostname;
+				const port = window.location.port;
 
 
-        let $origin = protocol + domain + port;
-        let $api = protocol + domain + port;
+				let $origin = protocol + domain + port;
+				let $api = protocol + domain + port;
 
-        switch (domain) {
-          case 'localhost':
-          case '127.0.0.1':
-          case 'vouchershop.prepaidpoint.devv':
-            $api = 'http://api.prepaidpoint.test/vouchershop';
-            break;
-          case 'vouchershop.prepaidpoint.test':
-            $api = 'http://api.prepaidpoint.test/vouchershop';
-            break;
-          case 'vouchershop.prepaidpoint-preprod.com':
-            $api = 'http://api.prepaidpoint-preprod.com/vouchershop';
-            $origin = 'https://vouchershop.prepaidpoint-preprod.nl/vouchershop'
-            break;
-          default:
-            $api = 'https://api.prepaidpoint.com/vouchershop';
-            break;
-        }
-
-          if (window.fetch) {
-            // run my fetch request here
-            let submitReq = await $fetch('http://api.prepaidpoint.test/vouchershop/submitorder', { 
-              method: "POST", 
-              body: JSONorderItems,
-              headers: {
-                // 'Access-Control-Allow-Origin': '*', 
-                'Content-Type' : 'application/json' 
-              }
-            })
-						// let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
-						// 	method: "POST",
-						// 	body: formatOrder,
-						// });
-						console.log('submitReq', submitReq)
-  					if(submitReq) {
-							if(submitReq.resultCode > 50000)
-							throw 'Error in request';
-		
-							qid.value = submitReq.paymentQueueId;
-							payUrl.value = submitReq.paymentUrl;
-		
-							console.log('QID', submitReq.paymentQueueId, 'PAYURL', submitReq.paymentUrl, 'ORDERITEMS', orderItems )
-		
-							storeLastTrxData(qid.value, payUrl.value, orderItems.value);
-							if (submitReq.paymentUrl)
-								console.log(submitReq.paymentUrl)
-								window.location.href = `${submitReq.paymentUrl}`
-						}
-
-            if(!submitReq)
-            throw 'Error in request';
-          } else {
-            // do something with XMLHttpRequest?
-          }
-
-
-					
-				} catch (e) {
-					// console.log('Error in form submission::', 'Initiate gracefull shutdown');
-					// console.log(e);
-					// loading.value = false;
-					// if (typeof e === "object") {
-					// 	if (e.target != undefined) {
-					// 		errors[e.target].push(e.msg);
-					// 		return;
-					// 	}
-					// }
-					// if (typeof e === "string") {
-					// 	errors["form"].push(e);
-					// 	return;
-					// }
-					// console.log("form error....\n", e);
-					// errors["form"].push(e);
+				switch (domain) {
+					case 'localhost':
+					case '127.0.0.1':
+					case 'vouchershop.prepaidpoint.devv':
+						$api = 'http://api.prepaidpoint.test/vouchershop';
+						break;
+					case 'vouchershop.prepaidpoint.test':
+						$api = 'http://api.prepaidpoint.test/vouchershop';
+						break;
+					case 'vouchershop.prepaidpoint-preprod.com':
+						$api = 'http://api.prepaidpoint-preprod.com/vouchershop';
+						$origin = 'https://vouchershop.prepaidpoint-preprod.nl/vouchershop'
+						break;
+					default:
+						$api = 'https://api.prepaidpoint.com/vouchershop';
+						break;
 				}
+
+				if (window.fetch) {
+					// run my fetch request here
+					let submitReq = await $fetch('http://api.prepaidpoint.test/vouchershop/submitorder', { 
+						method: "POST", 
+						body: JSONorderItems,
+						headers: {
+							// 'Access-Control-Allow-Origin': '*', 
+							'Content-Type' : 'application/json' 
+						}
+					})
+					// let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
+					// 	method: "POST",
+					// 	body: formatOrder,
+					// });
+					console.log('submitReq', submitReq)
+					if(submitReq) {
+						if(submitReq.resultCode > 50000)
+						throw 'Error in request';
+	
+						qid.value = submitReq.paymentQueueId;
+						payUrl.value = submitReq.paymentUrl;
+	
+						console.log('QID', submitReq.paymentQueueId, 'PAYURL', submitReq.paymentUrl, 'ORDERITEMS', orderItems )
+	
+						storeLastTrxData(qid.value, payUrl.value, orderItems.value);
+						if (submitReq.paymentUrl)
+							console.log(submitReq.paymentUrl)
+							window.location.href = `${submitReq.paymentUrl}`
+					}
+
+					if(!submitReq)
+					throw 'Error in request';
+				} else {
+					// do something with XMLHttpRequest?
+				}
+
+
+				
+			} catch (e) {
+				console.log('Error in form submission::', 'Initiate gracefull shutdown');
+				console.log(e);
+				loading.value = false;
+				if (typeof e === "object") {
+					if (e.target != undefined) {
+						errors[e.target].push(e.msg);
+						return;
+					}
+				}
+				if (typeof e === "string") {
+					errors["form"].push(e);
+					return;
+				}
+				console.log("form error....\n", e);
+				errors["form"].push(e);
+			}
     }
 
 			const reinstateOrder = (orderItems) => {
@@ -677,6 +682,9 @@ export default defineComponent({
               email.value = userData.email;
             }
             if(name != null && tel != null && email != null){
+							checkName()
+							checkMobile()
+							checkEmail()
               preFilled.value = true;
             }
           }
@@ -707,47 +715,6 @@ export default defineComponent({
 
     
 		});
-
-              // original submitOrder example
-              /*
-                desc: "Voucheraankoop"
-                email: "mitchell@hand-ebs.com"
-                extraAmount: 0
-                lang: "nl"
-                mobile: "0612345678"
-                orderItems: [{ean: "8715872000578", priceCents: 2000, qty: 4, desc: "T-mobile €20"}]
-                  0: {ean: "8715872000578", priceCents: 2000, qty: 4, desc: "T-mobile €20"}
-                    desc: "T-mobile €20"
-                    ean: "8715872000578"
-                    priceCents: 2000
-                    qty: 4
-                ref: "ref_1644327216886_VS"
-                returnUrl: "http://localhost:8080/#/status"
-                subPaymethodId: null
-                totalPriceCents: 8000
-              */
-              // My own submitorder  TODO :change to example's format
-              /*               
-                desc: "Voucheraankoop"
-                email: "mitchell@hand-ebs.com"
-                lang: "nl"
-                mobile: "0612345678"
-                orderItems: [{,…}]
-                  0: {,…}
-                    new: true
-                    product: {ean: "8715872000578", value: 2000, brand: "tmobile", price: 2000, inStock: true, key: "tmobile20",…}
-                      actionLabel: "opwaarderen"
-                      brand: "tmobile"
-                      ean: "8715872000578"
-                      inStock: true
-                      key: "tmobile20"
-                      name: "T-mobile €20"
-                      price: 2000
-                      value: 2000
-                    qnt: 4
-                ref: "ref_1644327567283_VS"
-                returnUrl: "http://localhost:3000/status"                             
-              */
 
 		return {
 			getPaymentOptions,

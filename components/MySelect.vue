@@ -1,36 +1,21 @@
 <template>
   <div class="select" >
-      
+    
     <select class="custom-select" v-model="select">      
       <option v-for="(option, i) of options" :ref="`option_` + i" :class="`option_` + i"
-        :key="i" :value="option"  :tabindex="i"  :selected=" i === 0 ? true : false"
+        :key="i" :value="i.option"  :tabindex="i"  :selected=" i === 0 ? true : false"
         > {{option.pmname}}
-        <!-- @change="selectChange(select)" -->
       </option>
     </select>
-
+    <!-- <pre>{{options[0].pmsubName}}</pre> -->
+  
     <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
       <div class="option selected">
-          <div class="visual"><img :src="`../../assets/logos/${optionType}${ !select.pmname ? options[0].key : select.key }.png`" /></div>
+          <div class="visual"><img :src="`../../assets/logos/${optionType}${ !select.pmname && !options[0].pmname ? options[0].pmsubName.replace(/ /g, '_') : !select.pmname && !options[0].pmsubName ? options[0].pmname : select.pmname}.png`" /></div>
           <div class="info"><strong>{{ select.pmname || select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div>
-          <!-- <div class="info"><strong>{{ !select.pmname ? options[0].pmname : select.pmname || !select.pmsubName ? options[0].pmsubName : select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div> -->
       </div>
-      <!-- {{ !select.name ? options[0].name : select.name }} -->
-      
-      <!-- <div class="option selected">
-        <div class="visual">
-            <i v-if="!select.name" style="margin-left: 4px;font-size: 2.5em;" class="i simple-line-icons:credit-card"></i>
-            <img v-else :src="`../../../assets/logos/paymethods/${select.key}.png`" />
-        </div>
-        <div class="info">
-          <strong>
-            {{ !select.name ? select : select.name }}
-          </strong>
-          <em class="desc">{{ !select.name ? select : select.name }}</em>
-        </div>
-      </div> -->
     </div>
-    <!-- v-if="!option.pmsubName" -->
+
     <ul  class="select-options"  :class="{active:isActive}">
       <li v-for="(option, i) of options"
           :key="option.id || option.pmsubId"
@@ -49,7 +34,7 @@
           ">
 
           <div class="option selected">
-              <div class="visual"><img :src="`../../assets/logos/${optionType}${option.key}.png`" /></div>
+              <div class="visual"><img :src="`../../assets/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_')}.png`" /></div>
               <div class="info"><strong>{{ option.pmname || option.pmsubName }}</strong><em class="desc">{{ option.desc }}</em></div>
           </div>
       </li>
@@ -88,20 +73,16 @@
     },
     emits: {
       'selectChange' (payload) {
-        // if (payload.name && payload.key) {
         if (payload) {
-          console.log("Valid Payload", payload)
+          console.log("selectChange : Valid Payload", payload)
           return true
         } else {
-          console.error('Not a valid payload')
+          console.error('selectChange: Not a valid payload')
           return false 
         }
       },
     },
     methods: {
-      // sendData(option) {
-      //   this.$emit('sending-start', {option})
-      // },
       selectOption(index, selected) {
         let allRefs = this.$refs
         let opt = this.$refs[index];
@@ -111,36 +92,27 @@
             element.removeAttribute("selected")
           }
         }
-        console.log('OPT', opt);
         opt.setAttribute("selected", "selected");
-        
-        // return this.$emit("selectChange", selected)
-
       },
 
     },
     async setup(props, {emit}) {
       const options = ref(toRaw(props.options))
-      const select = ref(props.default ? props.default : props.options.length ? props.options[0]  : null);
+      const select = ref(props.default ? props.default[0] : null);
       const isActive = ref(false);
-
       const toggleActive = (e) => {
         isActive.value == false ? isActive.value = true : isActive.value = false;
         return
       }
-
-      // const selectChange = (event) => {
-      //   emit("selectChange", event.target.value)
-      // }
       const selectChange = (iets) => {
-        console.log('IETS',iets)
         emit("selectChange", iets)
       }
-
       watch([select], (newValues, prevValues) => {
         console.log("OPEN & SELECTED=",prevValues, newValues)
         // emit("selectChange", select.value)
       })
+      // STANDARD EMIT  () => SELECT FIRST OPTION
+      emit("selectChange", select.value)
 
       return {
         select, 
@@ -169,7 +141,7 @@
   $select-color: #333;
   $select-background: #fff;
   $select-width: 100%;
-  $select-height: 71px; 
+  $select-height: 50px; 
 
   h1 {
     font-weight: normal;
@@ -213,6 +185,23 @@
     height: $select-height;
 
   }
+  #SubSelect .select-options {
+    .visual {
+      margin-left:0;
+      margin-right:0;
+    }
+    .option.selected  {
+      padding:0;
+    }
+  }
+  .visual {
+    margin-left:1em;
+    margin-right:1em;
+    // background:red;
+    // width:50px;
+    // height:50px;
+    img {max-height:50px;max-width:30px;}
+  }
   .select-styled {
     position: absolute; 
     top: 0;
@@ -225,12 +214,7 @@
     border:1px solid #333;
     border: 1px solid rgba(60,60,60,.26);
     // @include transition(all 0.2s ease-in);
-    .visual {
-      margin-right:1em;
-      background:red;
-      width:50px;
-      height:50px;
-    }
+
     &:after {
       content:"";
       width: 0;
@@ -238,7 +222,7 @@
       border: 7px solid transparent;
       border-color: $select-color transparent transparent transparent;
       position: absolute;
-      top: 2em;
+      top: 1.444em;
       right: 10px;
     }
     &:hover {

@@ -3,7 +3,8 @@
     <transition class="slides-group" tag="div" name="slide-fade">
       <div :key="current" class="slide" :class="slides[current].className">
         <p>
-          I am {{slides[current].className}}! 
+          Get your giftcards in 4 clicks ! 
+          <!-- I am {{slides[current].className}}!  -->
         </p>
       </div>
     </transition>

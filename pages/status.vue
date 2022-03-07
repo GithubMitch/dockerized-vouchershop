@@ -111,6 +111,7 @@
           tel: null,
           email: null,
         },
+        preFilled: false
 
       })
       const watchCount = ref({watchCount: reactiveData.progressCounter})
@@ -123,7 +124,7 @@
         }
       })
 
-      const interval = ref(20000)
+      const interval = ref(3000)
       const { pause, resume, isActive } = useIntervalFn(() => {
         intervalData.action()
         checkStatus()
@@ -136,7 +137,9 @@
         if(reactiveData.checkThreshold <= 0) {
           initiateSaveMode();
           //pause
-          console.log(this)
+          // console.log(this)
+          console.log('Stopped timer')
+          pause()
           // this.$timer.stop('checkStatus');
           return;
         }
@@ -253,10 +256,9 @@
             qid: reactiveData.qid,
           }
 
-          let contactReq = await this.$http({
+          let contactReq = await $fetch('http://api.prepaidpoint.test/vouchershop/createsupportticket', {
             method: 'POST',
-            url: '/createsupportticket',
-            data,
+            body: JSON.stringify(data),
           });
 
           console.log(contactReq);
@@ -340,12 +342,13 @@
           console.log(currentValue);
           
           // let randTime = Math.random();
-          // if(currentValue == -1){
+          if(currentValue == -1){
           //   this.$timer.stop('checkStatus');
-          //   this.status = 'result';
-          //   this.result = 'failure';
-          //   return ;
-          // }
+            pause()
+            reactiveData.status = 'result';
+            reactiveData.result = 'failure';
+            return ;
+          }
             // console.log('reactiveData.progress.paid',reactiveData)
 
           if(currentValue > 0){

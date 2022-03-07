@@ -1,5 +1,5 @@
 <template>
-  <div id="PageSubMenu" v-if="$route.params._categoryslug">
+  <div id="PageSubMenu" v-if="$route.params._categoryslug && $route.params._brand">
     <nav>
       <ul>
         <li>
