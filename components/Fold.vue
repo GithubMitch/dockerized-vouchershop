@@ -189,6 +189,8 @@
   }
   #productPageprop {
     padding:0;
+    position:relative;
+    z-index:999;
   }
 }
 </style>

@@ -25,7 +25,8 @@ Duis dictum egestas augue ut tristique. Vestibulum vel felis ut ligula porttitor
       <!-- <button class="cta" @click="addProducts(product, (counter < 4 ? counter++ : counter) )"> Add to cart </button> -->
       <!-- <button class="cta" @click="checkoutWith(product)"> Add & go to cart </button> -->
       <hr>
-      <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink>
+      <NuxtLink class="cta" @click="addProduct(product)" to="/checkout">Add & go to cart</NuxtLink>
+      <!-- <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink> -->
       <hr>
       <div class="close"  @click="$router.go(-1)">X</div>
     </div>
@@ -47,21 +48,12 @@ export default defineComponent({
     // console.log(props.product)
     const counter = useState('counter', () => 0)
 
-    const addProducts = async (product, counter )  => {
-      await actions.addProducts(product, counter)
-    }
-
-    const checkoutWith = async (product)  => {
-      // product.color = this.brandColor;
-      // if(!product.inStock)
-        console.log(product.inStock)
-        // return false;
-      // this.$emit('productSelect');
-      addProducts(product, counter);
+    const addProduct = async (product)  => {
+      await actions.addProducts(product)
     }
 
     return {
-      checkoutWith, 
+      addProduct, 
       counter
     }
   },

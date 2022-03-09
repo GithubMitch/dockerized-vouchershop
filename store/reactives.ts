@@ -49,6 +49,7 @@ const state = reactive ({
   productFilter: ref<[]>([]),
   productPage: ref<[]>([]),
   cart: ref<[]>([]),
+  topThree: ref<[]>([]),
   // PAYMENTID = 110
   // SHOPID = 14
   // ISSUERID

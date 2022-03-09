@@ -10,7 +10,7 @@
           <li class="item" v-for="(product, index) in productFilter" :key="index"> 
 
             <NuxtLink class="brandLine product" 
-              :to='product.brand + `/` + product.actionLabel + `/`  + product.key'
+              :to='`/` + product.brand + `/` + product.actionLabel + `/`  + product.key'
               :class="{instock : product.inStock}" 
               @click="setProductPage(product)"
               >

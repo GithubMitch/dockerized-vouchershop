@@ -9,7 +9,10 @@
         v-if="$route.params._brand"
         class="styled-list product-list">
         <li  class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
-          <a class="brandLine product" :class="{instock : product.inStock}" @click="addProducts(product)">
+          <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
+          >
+          <!-- @click.prevent="click" 
+          @click="addProducts(e)" -->
             <img :src="`../../assets/logos/${product.brand}.png`" />
             <span class="price" for="">€ {{product.value / 100}}</span>
             <span class="name">{{ product.name }}</span>
@@ -85,6 +88,13 @@ export default defineComponent({
       ],
     }
   },
+  methods: {
+    addProducts = async (e)  => {
+      // e.preventDefault()
+      console.log(e.target)
+      // await actions.addProducts(product)
+    }
+  },
   setup(props) {
     const router = useRouter()
     const route = useRoute()
@@ -95,9 +105,7 @@ export default defineComponent({
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
 
-    const addProducts = async (product)  => {
-      await actions.addProducts(product)
-    }
+
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -163,7 +171,6 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
-      addProducts,
     }
   },
 })

@@ -3,9 +3,9 @@
       <template #content>
           <NuxtChild/> 
       </template>
-      <template #vouchershopcomponent>
+      <!-- <template #vouchershopcomponent>
           <VoucherShop/>
-      </template>
+      </template> -->
   </NuxtLayout>
 </template>
 

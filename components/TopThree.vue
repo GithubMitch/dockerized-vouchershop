@@ -3,54 +3,55 @@
     <h1>Top 3 populair</h1>
     <div class="popular">
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
-        <a href="">
+        <NuxtLink :to="`/${brand.type}/${brand.key}`"
+        @click="setSelectedBrand(brand.key)"
+        >
+          <!-- //no main category for brand {{type}} -->
           <div class="brand">
             <div class="visual">
               <img :src="`../assets/logos/${brand.key}.png`" />
             </div>
             <label for="brand-name">{{brand.name}}</label>
-            <span class="type">Beltegoed</span>
+            <span class="type">{{brand.type}}</span>
             <Fold
               width="45" 
               height="45"
               />
           </div>
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { state } from '../store/reactives.ts'
+import { actions, state } from '../store/reactives.ts'
 import {_} from 'vue-underscore'
-import Fold  from '@/components/Fold'
-// import Inform from '@/components/Inform';
-// import {isDark, isLight, darken, lighten, brighten, mix} from 'khroma';
-
 
 export default defineComponent({
   async setup(props) {
     const isLoading = ref(true)
     const selectableBrands = toRef(state, 'selectableBrands');
-    const topThree = ref([])
-    // Math.floor(Math.random() * 10);
+    const topThree = toRef(state, 'topThree');
+
     const randomizeBrands = () => {
       for (let i = 0; i < 3; i++) {
         let randIndex = Math.floor(Math.random() * 10)
         let randBrand = selectableBrands.value[randIndex]
-        console.log('meh', randIndex)
-        console.log('randBrand', randBrand)
-        console.log(topThree[0] , topThree[1] , topThree[2])       
         if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
-          console.log('Duplicate')
           i--;
         } else {
-          console.log('PUSH BRAND')
+          randBrand.type = 'beltegoed'
+          if (randBrand.key == 'paysafecard' || randBrand.key == 'apple' )
+            randBrand.type = 'giftcards'
           topThree.value.push(randBrand)
         }
       }
       return
+    }
+
+    const setSelectedBrand = async (brand)  => {
+      await actions.setSelectedBrand(brand)
     }
 
     watch([selectableBrands], (newValues, prevValues) => {
@@ -59,7 +60,7 @@ export default defineComponent({
       isLoading.value = false
     })
     
-    return {topThree}
+    return {setSelectedBrand, topThree}
   }
 })
 </script>
