@@ -31,8 +31,6 @@ import {_} from 'vue-underscore';
 //     break;
 // }
 
-const isAbsent = Symbol();
-
 const state = reactive ({
   categoryUrl: ref(''),
   selectableCategories: ref<[]>([]),
@@ -484,4 +482,4 @@ const computed = {
   // }
 }
 
-export  {state, actions, methods , isAbsent}
+export  {state, actions, methods }
