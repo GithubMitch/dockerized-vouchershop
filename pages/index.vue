@@ -15,29 +15,45 @@
           <TopThree/>
         </div>
       </client-only>
-
-    </template>
-    <template #vouchershopcomponent>
-        <VoucherShop/>
     </template>
   </NuxtLayout>
 </template>
 
 <script>
+import { state, actions } from '../store/reactives';
 
-  export default {
+export default defineComponent({
     layout: 'false',
     name:'home',
-    setup () {
+    async setup () {
+      const stockProducts = toRef(state, 'stockProducts');
+      const brands = toRef(state, 'brands');
+
+      if (stockProducts.value.length == 0 && brands.value.length == 0) {
+        await Promise.all([
+          actions.fetchProductList(),
+          actions.fetchBrandList(),
+          Promise.resolve(`Completed Promise`)
+
+        ])
+      .then((promises) => {
+        // return lists
+        actions.fetchStockList()
+        console.log(promises, 'Promise ressolved')
+      })
+      .catch(error => console.log('vcshop 68',error))
+    }
       // useMeta({
       //   title: 'Home',
       //   meta: [
       //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
       //   ]
       // })
+    return {
+
     }
   }
-
+})
 </script>
 
 <style lang="scss">
@@ -52,7 +68,7 @@
   // width:30%;
 }
 #voucherShop {
-  display:none;
+  // display:none;
 }
   HTML >* , 
   body > * {

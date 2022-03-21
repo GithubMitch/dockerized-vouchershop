@@ -1,7 +1,6 @@
 <template>
   <div class="inner">
     <h1 class="page-title">{{$route.params._categoryslug}}</h1>
-    
     <ClientOnly>
       <transition-group tag="ul" name="card" appear      
         @before-enter="beforeEnter"

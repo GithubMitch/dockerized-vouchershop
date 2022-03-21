@@ -1,11 +1,8 @@
 <template>
   <NuxtLayout name="category">
       <template #content>
-          <NuxtChild/> 
+        <NuxtChild/> 
       </template>
-      <!-- <template #vouchershopcomponent>
-          <VoucherShop/>
-      </template> -->
   </NuxtLayout>
 </template>
 

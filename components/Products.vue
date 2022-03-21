@@ -1,5 +1,5 @@
 <template>
-  <ProductSelection class="inner" :brand="selectedBrand" :products="products"/>
+  <ProductSelection class="inner" :brand="selectedBrand" :products="products" :filter="filter"/>
 </template> 
 
 <script>
@@ -24,6 +24,10 @@ export default defineComponent({
   async setup(props) {
     const stockProducts = toRef(state, 'stockProducts');
     const selectableBrands = toRef(state, 'selectableBrands');
+    // const selectedBrand = ref('KPN');
+    
+    // console.log('Products component: selectedbrand = ',props.selectedBrand )
+    // const selectableBrands = toRef(state, 'selectableBrands');
     // // watcher
     // watch([props], (newValues, prevValues) => {
     // })

@@ -66,13 +66,15 @@ export default defineComponent({
       await Promise.all([
         actions.fetchProductList(),
         actions.fetchBrandList(),
-        actions.fetchStockList(),
-        Promise.resolve(`Completed Promise`)
       ])
-      // .then(lists => {
-      //   // return lists
-      //   console.log(lists)
-      // })
+      .then(lists => {
+        // return lists
+        // actions.fetchStockList()
+
+        console.log('actions, fetch stock list')
+        Promise.resolve(`Completed Promise`)
+
+      })
       .catch(error => console.log('vcshop 68',error))
     }
 

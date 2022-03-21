@@ -7,7 +7,7 @@
 <script>
 import { state , actions } from './store/reactives';
 
-export default {
+export default defineComponent({
   head() {
     // console.log(this.$content.article)
     // let title = this.getTitle();
@@ -28,23 +28,50 @@ export default {
       ]
     }
   },
+  async setup () {
+      const router = useRouter()
+      const route = useRoute()
+
+      const stockProducts = toRef(state, 'stockProducts');
+      const brands = toRef(state, 'brands');
+      const selectedBrand = toRef(state, 'selectedBrand');
+
+      if (route.params._brand) {
+        console.log(route.params._brand)
+        selectedBrand.value = route.params._brands
+      }
+
+      if (stockProducts.value.length == 0 && brands.value.length == 0) {
+        await Promise.all([
+          actions.fetchProductList(),
+          actions.fetchBrandList(),
+          Promise.resolve(`Completed Promise`)
+
+        ])
+      .then((promises) => {
+        // return lists
+        actions.fetchStockList()
+        // console.log(promises, 'Promise ressolved')
+      })
+      .catch(error => console.log('vcshop 68',error))
+    }
+      // useMeta({
+      //   title: 'Home',
+      //   meta: [
+      //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+      //   ]
+      // })
+    return {
+
+    }
   // useMeta({
   //   title: `Vouchershop ${JSON.stringify(route.params._categoryslug)}`,
   //   meta: [
   //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
   //   ]
   // }),
-  setup (context) {
-    const route = useRoute();
-    // const { $currency } = useNuxtApp()
-
-    const getCartTotal = ()  => {
-      actions.getCartTotal()
-    }
-    // console.log(context)
-    return {getCartTotal}
-  },
-}
+  }
+})
 
 </script>
 
