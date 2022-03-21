@@ -4,6 +4,7 @@
       <!-- {{productFilter}} -->
         <!-- @before-enter="beforeEnter"
         @enter="enter"  -->
+        <ClientOnly>
       <transition-group tag="ul" name="card" appear
         class="styled-list product-list">
         <!-- <ul v-if="actionLabel !== '' ? true : false"> -->
@@ -35,6 +36,7 @@
           </li>
         <!-- </ul> -->
       </transition-group>
+      </ClientOnly>
   </div>
 </template>
 

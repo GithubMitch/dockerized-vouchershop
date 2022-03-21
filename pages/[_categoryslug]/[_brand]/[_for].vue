@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="category">
     <template #content>
-      <NuxtChild 
+      <Router-View 
       :selectedBrand="selectedBrand" 
       :products="stockProducts"
       :actionLabel="selectedActionLabel"
@@ -66,7 +66,7 @@
       /* do something before Vue calls this component's render function */
       // selectedBrand.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
       // stockProducts.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
-      selectedActionLabel.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
+      // selectedActionLabel.value == '' ? actions.setSelectedBrand(route.params._brandslug) : console.log('Selected brand value :', selectedBrand.value);
     }) 
 
       return{selectedBrand, stockProducts, selectedActionLabel};

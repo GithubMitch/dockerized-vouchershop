@@ -49,10 +49,12 @@ export default defineComponent({
 
     watch([stockProducts], (newValues, prevValues) => {
       console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
+      console.log('route.params._productslug :',route.params._productslug)
       getProduct(route.params._productslug)
     })
 
     const getProduct = async (productslug)  => {
+      console.log(route.params._productslug)
       await actions.getProduct(productslug)
     }
     
