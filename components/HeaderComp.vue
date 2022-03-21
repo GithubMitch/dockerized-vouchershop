@@ -85,7 +85,7 @@ export default defineComponent({
       route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
       route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
       route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
-      route.params._for ? actions.setActionLabel(route.params._for) : console.log('No route param (_for)');
+      route.params._for ? actions.setActionLabel(route.params._for.replace('for-','')) : console.log('No route param (_for)');
       // console.log(route.params._for)
 
       let navLinks = navMenu.value.children

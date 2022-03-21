@@ -1,6 +1,7 @@
 <template>
   <div v-if="$props.productPage" class="fold">
-    <a :href="$props.productPage" id="productPageprop">
+           
+    <NuxtLink :to="$props.productPage" @click="setProductPage($props.product)" id="productPageprop" >
       <svg class="foldHolder" :height="height" :width="width">
         <polygon :points="'0,0 '+ height+ ',0 '+ width + ',' + width"  
           class="triangle">
@@ -29,7 +30,7 @@
             </template> -->
         </div>
       </div>
-    </a>
+    </NuxtLink>
   </div> 
   <div v-else class="fold">
     <svg class="foldHolder" :height="height" :width="width">
@@ -102,6 +103,11 @@
         default: "MyGradient"
       },
       productPage: {
+        type: String,
+        default: '',
+        required: false
+      },
+      product: {
         type: String,
         default: '',
         required: false

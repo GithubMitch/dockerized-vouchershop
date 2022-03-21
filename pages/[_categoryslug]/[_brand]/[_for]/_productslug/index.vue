@@ -15,7 +15,7 @@
 
         </p> 
         <p>
-Duis dictum egestas augue ut tristique. Vestibulum vel felis ut ligula porttitor elementum. Vestibulum sed velit vel felis pharetra sollicitudin. Praesent ipsum arcu, pretium id metus sit amet, vehicula sodales elit. Donec volutpat vulputate augue, iaculis cursus libero dignissim non. Sed varius mauris a feugiat venenatis. Donec non neque a est pretium mollis ut eget diam. Donec congue, libero quis gravida congue, felis velit consectetur diam, non fringilla nisi massa sed sapien. Mauris scelerisque sed enim at porttitor. Nam non velit non purus egestas dignissim vel et purus. Nullam tempus erat ex, eget porttitor velit dictum sollicitudin. Maecenas in mauris ac augue facilisis tincidunt.
+          Duis dictum egestas augue ut tristique. Vestibulum vel felis ut ligula porttitor elementum. Vestibulum sed velit vel felis pharetra sollicitudin. Praesent ipsum arcu, pretium id metus sit amet, vehicula sodales elit. Donec volutpat vulputate augue, iaculis cursus libero dignissim non. Sed varius mauris a feugiat venenatis. Donec non neque a est pretium mollis ut eget diam. Donec congue, libero quis gravida congue, felis velit consectetur diam, non fringilla nisi massa sed sapien. Mauris scelerisque sed enim at porttitor. Nam non velit non purus egestas dignissim vel et purus. Nullam tempus erat ex, eget porttitor velit dictum sollicitudin. Maecenas in mauris ac augue facilisis tincidunt.
         </p> 
       </div>
 
@@ -46,7 +46,7 @@ export default defineComponent({
   },
   async setup(props) {
     // console.log(props.product)
-    const counter = useState('counter', () => 0)
+    // const counter = useState('counter', () => 0)
 
     const addProduct = async (product)  => {
       await actions.addProducts(product)
@@ -54,7 +54,7 @@ export default defineComponent({
 
     return {
       addProduct, 
-      counter
+      // counter
     }
   },
 })
