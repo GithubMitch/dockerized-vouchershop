@@ -10,6 +10,7 @@
     "nuxt3": "latest"
   },
   "dependencies": {
+    "@vueuse/core": "^7.7.0",
     "aws-sdk": "^2.1040.0",
     "crypto-js": "^4.1.1",
     "gsap": "^3.9.1",

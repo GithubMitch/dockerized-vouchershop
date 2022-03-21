@@ -4,49 +4,82 @@
   <FooterComp/> 
 </template>
 
+
 <script>
-import { state , actions } from './store/reactives';
+import { state, actions } from './store/reactives';
+import {
+  defineComponent,
+  toRef,
+  } from 'vue';
 
-export default {
-  head() {
-    // console.log(this.$content.article)
-    // let title = this.getTitle();
+export default defineComponent({
+  async setup() {
+    const router = useRouter();
+    // const route = useRoute();
+    const stockProducts = toRef(state, 'stockProducts');
+    const brands = toRef(state, 'brands');
+    const selectedCategory = toRef(state, 'selectedCategory');
+    const selectedBrand = toRef(state, 'selectedBrand');
+    const selectedProducts = toRef(state, 'selectedProducts');
+    const selectableBrands = toRef(state, 'selectableBrands');
+
+    // All lists - remote
+    if (stockProducts.value.length == 0 && brands.value.length == 0) {
+      await Promise.all([
+        actions.fetchProductList(),
+        actions.fetchBrandList(),
+        actions.fetchStockList(),
+        Promise.resolve(`Completed Promise`)
+      ])
+      // .then(lists => {
+      //   // return lists
+      //   console.log(lists)
+      // })
+      .catch(error => console.log('vcshop 68',error))
+    }
+
+    // Reactive.ts Setters :
+    const setSelectedBrand = async (brand)  => {
+      actions.setSelectedBrand(brand)
+    }
+    const deselect = async (selected)  => {
+      Promise.all([
+        actions.deselect(selected),
+        router.go(-1),
+        Promise.resolve(`Completed Promise`)
+      ])
+    }
+    // // Reactive.ts Getters :
+    const getProducts = async ()  => {
+      await actions.fetchProductList()
+      // console.log("BLAH products", products)
+    }
+
+    const stock = async ()  => {
+      // await actions.fetchStockList()
+      console.log('Update Stock')
+    }    
+
     return {
-      title: 'VoucherShop',
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
-      meta: [
-        // {
-        //   hid: 'ABOUT-HID',
-        //   name: `About page`,
-        //   content: 'Website about page'
-        // }
-      ]
+      stockProducts,
+      brands,
+      selectedCategory,
+      selectedBrand,
+      selectedProducts,
+      selectableBrands,
+      deselect,
+      stock,
+      getProducts,
+      setSelectedBrand,
     }
   },
-  // useMeta({
-  //   title: `Vouchershop ${JSON.stringify(route.params._categoryslug)}`,
-  //   meta: [
-  //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-  //   ]
-  // }),
-  setup (context) {
-    const route = useRoute();
-    // const { $currency } = useNuxtApp()
-
-    const getCartTotal = ()  => {
-      actions.getCartTotal()
-    }
-    // console.log(context)
-    return {getCartTotal}
-  },
-}
+  
+})
 
 </script>
+
+
+
 
 <style lang="scss">
   /* RESET STYLE SHEET */
@@ -216,7 +249,12 @@ export default {
         box-sizing: border-box;
         position:relative;
         text-decoration: none;
-        
+        &.disabled {
+          cursor:none;
+          background:lightgray;
+          pointer-events: none;
+        }
+
         span {
           text-transform: uppercase;
           display:block;
