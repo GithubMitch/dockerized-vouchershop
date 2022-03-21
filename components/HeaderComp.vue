@@ -81,6 +81,13 @@ export default defineComponent({
     onMounted(() => {
       const selectableCategories = toRef(state, 'selectableCategories');
 
+      route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
+      route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
+      route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
+      route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
+      route.params._for ? actions.setActionLabel(route.params._for) : console.log('No route param (_for)');
+      // console.log(route.params._for)
+
       let navLinks = navMenu.value.children
       for (let i = 0; i < navLinks.length; i++) {
         let element = ref(navLinks[i]);
@@ -105,10 +112,7 @@ export default defineComponent({
         // console.log(route.params._categoryslug)
         // console.log(validateRoute.value)
         // hasRoute ? console.log(true) : alert(false)
-        // route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
-        // route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
-        // route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
-        // route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
+
       }
     )
     return {

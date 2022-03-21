@@ -2,14 +2,7 @@
   <NuxtLayout name="productlist">
     <template #content>
       <Router-View/>
-      <!-- <NuxtChild 
-      :selectedBrand="selectedBrand" 
-      :products="stockProducts"
-      /> -->
-      <!-- :keep-alive="{stockProducts , selectedBrand}" -->
-
     </template>
-
   </NuxtLayout>
 </template>
 

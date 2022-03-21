@@ -8,6 +8,7 @@
         @enter="enter"
         v-if="$route.params._brand"
         class="styled-list product-list">
+        <!-- {{selectedBrandProducts}} -->
         <li  class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
           <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
           >
@@ -89,7 +90,7 @@ export default defineComponent({
     }
   },
   methods: {
-    addProducts = async (e)  => {
+    addProducts: async (e) => {
       // e.preventDefault()
       console.log(e.target)
       // await actions.addProducts(product)
