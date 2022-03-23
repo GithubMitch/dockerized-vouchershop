@@ -16,6 +16,7 @@
             <Fold
               width="45" 
               height="45"
+              :product="{}"
               />
           </div>
         </NuxtLink>
@@ -35,16 +36,18 @@ export default defineComponent({
     const topThree = toRef(state, 'topThree');
 
     const randomizeBrands = () => {
-      for (let i = 0; i < 3; i++) {
-        let randIndex = Math.floor(Math.random() * 10)
-        let randBrand = selectableBrands.value[randIndex]
-        if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
-          i--;
-        } else {
-          randBrand.type = 'beltegoed'
-          if (randBrand.key == 'paysafecard' || randBrand.key == 'apple' )
-            randBrand.type = 'giftcards'
-          topThree.value.push(randBrand)
+      for (let i = 0; i <=2 ; i++) {
+        if (topThree.value.length <= 2) {
+          let randIndex = Math.floor(Math.random() * 10)
+          let randBrand = selectableBrands.value[randIndex]
+          if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
+            i--;
+          } else {
+            randBrand.type = 'beltegoed'
+            if (randBrand.key == 'paysafecard' || randBrand.key == 'apple' )
+              randBrand.type = 'giftcards'
+            topThree.value.push(randBrand)
+          }
         }
       }
       return
@@ -59,7 +62,9 @@ export default defineComponent({
       randomizeBrands();
       isLoading.value = false
     })
-    
+    // if (topThree.value.length == 0) {
+      randomizeBrands();
+    // }
     return {setSelectedBrand, topThree}
   }
 })

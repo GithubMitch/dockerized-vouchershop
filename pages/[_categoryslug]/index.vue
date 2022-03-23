@@ -1,6 +1,8 @@
 <template>
   <div class="inner">
-    <h1 class="page-title">{{$route.params._categoryslug}}</h1>
+    <div class="title">
+      <h1 class="page-title">{{$route.params._categoryslug}}</h1>
+    </div>
     <ClientOnly>
       <transition-group tag="ul" name="card" appear      
         @before-enter="beforeEnter"
@@ -22,6 +24,7 @@
                   :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
                   :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
                   :MyGradient="'MyGradient'"
+                  :product="{}"
                   />
             </NuxtLink>
           </li>
@@ -46,7 +49,7 @@
     layout: 'category',
     head() {
       return {
-        title: 'VoucherShop Category',
+        title: 'VoucherShop — Category',
         link: [
           {
             rel: "stylesheet",

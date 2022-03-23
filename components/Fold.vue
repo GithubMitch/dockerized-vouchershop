@@ -108,8 +108,8 @@
         required: false
       },
       product: {
-        type: String,
-        default: '',
+        type: Object,
+        default: {},
         required: false
       }
     },
@@ -162,6 +162,7 @@
   top: 0px;
   right: -1px;
   transition: all 0.3s ease-in-out;
+  z-index:50;
   svg.foldHolder{
     position: absolute;
     top: 0px;
@@ -197,6 +198,7 @@
     padding:0;
     position:relative;
     z-index:999;
+    background:none;
   }
 }
 </style>

@@ -26,29 +26,12 @@ export default defineComponent({
     layout: 'false',
     name:'home',
     async setup () {
-      const stockProducts = toRef(state, 'stockProducts');
-      const brands = toRef(state, 'brands');
-
-      if (stockProducts.value.length == 0 && brands.value.length == 0) {
-        await Promise.all([
-          actions.fetchProductList(),
-          actions.fetchBrandList(),
-          Promise.resolve(`Completed Promise`)
-
-        ])
-      .then((promises) => {
-        // return lists
-        actions.fetchStockList()
-        console.log(promises, 'Promise ressolved')
+      useMeta({
+        title: 'SOMETHING',
+        meta: [
+          { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+        ]
       })
-      .catch(error => console.log('vcshop 68',error))
-    }
-      // useMeta({
-      //   title: 'Home',
-      //   meta: [
-      //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-      //   ]
-      // })
     return {
 
     }
@@ -66,9 +49,6 @@ export default defineComponent({
 }
 #topthree {
   // width:30%;
-}
-#voucherShop {
-  // display:none;
 }
   HTML >* , 
   body > * {

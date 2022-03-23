@@ -1,7 +1,10 @@
 <template #content>
     <div class="inner productpage">
       <!-- <h1>Product detail page</h1> -->
-      <h1>{{product.name}}</h1>
+      <h1>
+        {{product.name}} 
+        <i class="i simple-line-icons:close" @click="$router.go(-1)"></i>
+      </h1>
       <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
       <div class="description">
         <p>
@@ -22,13 +25,17 @@
         <h3>€{{product.value / 100}}, -</h3>
 
       
-      <!-- <button class="cta" @click="addProducts(product, (counter < 4 ? counter++ : counter) )"> Add to cart </button> -->
-      <!-- <button class="cta" @click="checkoutWith(product)"> Add & go to cart </button> -->
-      <hr>
-      <NuxtLink class="cta" @click="addProduct(product)" to="/checkout">Add & go to cart</NuxtLink>
-      <!-- <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink> -->
-      <hr>
-      <div class="close"  @click="$router.go(-1)">X</div>
+      <div class="buttons">
+        <!-- <button class="cta" @click="addProducts(product, (counter < 4 ? counter++ : counter) )"> Add to cart </button> -->
+        <!-- <button class="cta" @click="checkoutWith(product)"> Add & go to cart </button> -->
+        <!-- <hr> -->
+        <!-- <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink> -->
+        <!-- <hr> -->
+
+        <NuxtLink class="cta" @click="addProduct(product)" to="/checkout">Add & go to cart</NuxtLink>
+
+        <!-- <div class="close"  @click="$router.go(-1)">X</div> -->
+      </div>
     </div>
 </template>
 
@@ -42,6 +49,16 @@ export default defineComponent({
     product:{
       type: Object,
       default: []
+    }
+  },
+  head() {
+    return {
+      link: [
+        {
+          rel: "stylesheet",
+          href: "/assets/iconfont/iconfont.css"
+        }
+      ],
     }
   },
   async setup(props) {
@@ -60,10 +77,25 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .close {
     display:block;
     margin:auto;
     text-align:center;
+  }
+  h1 i {
+    font-size:1.333em;
+    float:right;
+    &::before {
+      // background:orange;
+      color:darkorange;
+      transition:.3s ease color;
+    }
+    &:hover {
+      cursor:pointer;
+      &::before {
+        color:red;
+      }
+    }
   }
 </style>

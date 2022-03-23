@@ -94,7 +94,7 @@
           &.name {
             font-weight:bold;
             opacity:.7;
-            font-size:1em;
+            font-size:.888em;
           }
           &.action {
             font-weight:light;

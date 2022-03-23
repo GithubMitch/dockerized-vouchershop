@@ -150,52 +150,66 @@
         if(reactiveData.progressCounter < 2 && reactiveData.status != 'result'){
           try{
             let data = {
-              pay_qid: reactiveData.qid,
+              reference : "blablabla",
+              orderStatusRequest : {
+                "securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+                "paymentQueueId" : reactiveData.qid
+              }
             }
-            // let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
-            // console.log('productsRequest',productsRequest.products);
 
-            let statusReq = await $fetch('http://api.prepaidpoint.test/vouchershop/orderstatus' , {
+            const statusReq = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/orderstatus', { 
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
               },
-              body: data,
-            })
+              body: data
+            });
+
+            // let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
+            // console.log('productsRequest',productsRequest.products);
+            // /v1/online/orderstatus
+            // let statusReq = await $fetch('http://api.prepaidpoint.test/vouchershop/orderstatus' , {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //     // 'Content-Type': 'application/x-www-form-urlencoded',
+            //   },
+            //   body: data,
+            // })
             console.log('Status Req =>',statusReq);
 
 
-            if(statusReq.result_code != 1000)
+            if(statusReq.responseObject.resultCode != 1000)
               // console.log(statusReq)
               throw 'Failure in request for orderstatus';
 
-            if(statusReq.status == 'OPEN'){
+            if(statusReq.responseObject.status == 'OPEN'){
               reactiveData.progressCounter = 0;
             }
 
-            if(statusReq.status == 'PAID'){
+            if(statusReq.responseObject.status == 'PAID'){
               reactiveData.progressCounter = 1;
             }
 
-            if(statusReq.status == 'CONFIRMED'){
+            if(statusReq.responseObject.status == 'CONFIRMED'){
               // 2 -- vouchercode
               // 3 -- transmit
               reactiveData.progressCounter = 4;
               localStorage.setItem('trxmem', {} );
+              // order.orderItems.value = []   // clear orderItems (cart)
               // TODO -- delete trx data (qid, payment url.)
               // this.status = 'result';
               // this.result = 'success';
             }
 
-            if(statusReq.status == 'CHECK'){
+            if(statusReq.responseObject.status == 'CHECK'){
               reactiveData.progressCounter = 1;
               // console.log(watchCount.value)
               console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
               reactiveData.checkThreshold--;
             }
 
-            if(statusReq.status == 'FAILURE'){
+            if(statusReq.responseObject.status == 'FAILURE'){
               reactiveData.progressCounter = -1;
               console.log('FAILURE');
               // PAUSE
@@ -206,7 +220,7 @@
               reactiveData.result = 'failure';
             }
 
-            if(statusReq.status == 'CANCELED'){
+            if(statusReq.responseObject.status == 'CANCELED'){
               reactiveData.progressCounter = -1;
               console.log('CANCELED');
               // PAUSE

@@ -467,21 +467,38 @@ export default defineComponent({
 			console.log("subPaymethodId/selectedSubPaymethod.pmsubId = ", pmsubId)
 
       return {
-        ref: "ref_" + Date.now() + "_VS",
-        lang: "nl",
-        // -----------
-        mobile: tel.value,
-        email: email.value,
-        desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
-        orderItems: formattedOrderItems,
-        paymethodId: pmId, 
-        subPaymethodId: pmsubId, 
-        totalPriceCents: getCartTotal(),
-        extraAmount: getTotalAmountOfAddedCosts(),
-        returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
-        // '/#'+ #HASHMODE NOT ENABLED //
+
+        // ref: "ref_" + Date.now() + "_VS",
+				reference : "referexxxnce",
+				submitOrderRequest : {
+					"language" : "en" ,
+	        orderItems: formattedOrderItems,
+  	      desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
+					"orderConfig" : "dit isw de orderConfig",
+					// -----------
+					mobile: tel.value,
+					email: email.value,
+					shopPaymentId: pmId, 
+					subPaymethodId: pmsubId, 
+					totalAmountCents: getCartTotal(),
+					extraAmount: getTotalAmountOfAddedCosts(),
+					returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
+					"securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+					specifyOrderItems : true 
+				}
+				// '/#'+ #HASHMODE NOT ENABLED //
         // orderConfig: null
       }
+			// {
+
+
+				
+			// 	"shopPaymentId" : 2 ,
+			// 	"specifyOrderItems" : true ,
+			// 	"totalAmountCents" : 2000,
+			// 	"zipcode" : "1234aa"
+			// 	}
+			// }
       /*      
             [REQUEST - TEMPLATE]
             lang: 'XX'
@@ -508,10 +525,11 @@ export default defineComponent({
     const formatOrderItems = (cart) => {
       return _(cart).map((orderItem) => {
         return {
-          ean: orderItem.ean,
-          priceCents: orderItem.price,
-          qty: orderItem.qnt,
+          ean: parseInt(orderItem.ean),
+          amountCents: orderItem.price,
+          quantity: orderItem.qnt,
           desc: orderItem.name,
+					type : "TOPUP" 
         }
       });
     }
@@ -594,12 +612,13 @@ export default defineComponent({
 
 				if (window.fetch) {
 					// run my fetch request here
-					let submitReq = await $fetch('http://api.prepaidpoint.test/vouchershop/submitorder', { 
+					let submitReq = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/submitorder', { 
 						method: "POST", 
 						body: JSONorderItems,
 						headers: {
+							'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`),
 							// 'Access-Control-Allow-Origin': '*', 
-							'Content-Type' : 'application/json' 
+							// 'Content-Type' : 'application/json' 
 						}
 					})
 					// let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
@@ -608,18 +627,18 @@ export default defineComponent({
 					// });
 					console.log('submitReq', submitReq)
 					if(submitReq) {
-						if(submitReq.resultCode > 50000)
+						if(submitReq.responseObject.resultCode > 50000)
 						throw 'Error in request';
 	
-						qid.value = submitReq.paymentQueueId;
-						payUrl.value = submitReq.paymentUrl;
+						qid.value = submitReq.responseObject.paymentQueueId;
+						payUrl.value = submitReq.responseObject.paymentUrl;
 	
-						console.log('QID', submitReq.paymentQueueId, 'PAYURL', submitReq.paymentUrl, 'ORDERITEMS', orderItems )
+						console.log('QID', submitReq.responseObject.paymentQueueId, 'PAYURL', submitReq.responseObject.paymentUrl, 'ORDERITEMS', orderItems )
 	
 						storeLastTrxData(qid.value, payUrl.value, orderItems.value);
-						if (submitReq.paymentUrl)
-							console.log(submitReq.paymentUrl)
-							window.location.href = `${submitReq.paymentUrl}`
+						if (submitReq.responseObject.paymentUrl)
+							console.log(submitReq.responseObject.paymentUrl)
+							// window.location.href = `${submitReq.responseObject.paymentUrl}`
 					}
 
 					if(!submitReq)

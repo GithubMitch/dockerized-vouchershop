@@ -230,302 +230,313 @@ const actions = {
     return toRaw(state.selectableBrands);
   },
   async fetchStockList() {
-    // try{
-      // console.log('productsRequest ');
-
-      let productsRequest = ref([]);
-      productsRequest.products = [
-        {
-            "price": 1500,
-            "ean": "1000537000496",
-            "instructions": null,
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3683",
-            "title": "ITuNLLO 15,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2500,
-            "ean": "1000537000502",
-            "instructions": null,
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3683",
-            "title": "ITuNLLO 25,-",
-            "variableAmount": false
-        },
-        {
-            "price": 5000,
-            "ean": "1000537000519",
-            "instructions": null,
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3683",
-            "title": "ITuNLLO 50,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2500,
-            "ean": "9120005812147",
-            "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3601",
-            "title": "PaySafeC 25,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "9120005812031",
-            "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3601",
-            "title": "PaySafeC 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 10000,
-            "ean": "9120005812345",
-            "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3601",
-            "title": "PaySafeC 100,-",
-            "variableAmount": false
-        },
-        {
-            "price": 5000,
-            "ean": "9120005812246",
-            "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3601",
-            "title": "PaySafeC 50,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "8717472240033",
-            "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3113",
-            "title": "Lebara10 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "8xxxxxxxx",
-            "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3113",
-            "title": "Lebara10 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "8717624590030",
-            "instructions": "Beltegoed opwaarderen:\n\n1.\tBel gratis 1244 met uw mobiele telefoon\n2.\tToets optie 9 in het menu\n3.\tVoer de 15-cijferige code in gevolgd door een #\n4.\tUw beltegoed is opgewaardeerd\n\nVoor vragen, informatie en actuele tarieven: www.ortelmobile.nl \n\nBedankt dat u voor Ortel Mobile heeft gekozen. ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3130",
-            "title": "Ortel 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "8717624590047",
-            "instructions": "Beltegoed opwaarderen:\n\n1.\tBel gratis 1244 met uw mobiele telefoon\n2.\tToets optie 9 in het menu\n3.\tVoer de 15-cijferige code in gevolgd door een #\n4.\tUw beltegoed is opgewaardeerd\n\nVoor vragen, informatie en actuele tarieven: www.ortelmobile.nl \n\nBedankt dat u voor Ortel Mobile heeft gekozen. ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3130",
-            "title": "Ortel 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "8712421045820",
-            "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3101",
-            "title": "KPN 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1500,
-            "ean": "8712421056901",
-            "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3101",
-            "title": "KPN 15,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "8712421040443",
-            "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3101",
-            "title": "KPN 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 3000,
-            "ean": "8712421074141",
-            "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3101",
-            "title": "KPN 30,-",
-            "variableAmount": false
-        },
-        {
-            "price": -100,
-            "ean": "8712421045888",
-            "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3101",
-            "title": "KPN -1,-",
-            "variableAmount": true
-        },
-        {
-            "price": 1000,
-            "ean": "5391515720466",
-            "instructions": "Beltegoed Opwaarderen\n1.\tBel gratis 1244 en volg het gesproken menu.\n2.\tKies optie 1 in het menu en toets de bovenstaande opwaardeercode in.\n\n\nTopping up your credit\n1.\tDial 1244 (free of charge) and follow the voice prompts\n2.\tChoose option 1 in the menu and enter your top up code\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3190",
-            "title": "GT-Mobil 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "5391515720459",
-            "instructions": "Beltegoed Opwaarderen\n1.\tBel gratis 1244 en volg het gesproken menu.\n2.\tKies optie 1 in het menu en toets de bovenstaande opwaardeercode in.\n\n\nTopping up your credit\n1.\tDial 1244 (free of charge) and follow the voice prompts\n2.\tChoose option 1 in the menu and enter your top up code\n",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3190",
-            "title": "GT-Mobil 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "8715872000493",
-            "instructions": "PrePaid tegoed opwaarderen:\n- bel gratis 1244\n- volg de instructies in het menu",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3104",
-            "title": "T-Mobile 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "8715872000578",
-            "instructions": "PrePaid tegoed opwaarderen:\n- bel gratis 1244\n- volg de instructies in het menu",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3104",
-            "title": "T-Mobile 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 3000,
-            "ean": "8717472240798",
-            "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 30 dagen na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 30 days after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3747",
-            "title": "LebaUnLm 30,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "8717472240897",
-            "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3767",
-            "title": "LebaOne 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": -100,
-            "ean": "505164405362",
-            "instructions": null,
-            "max_amount": 10000,
-            "min_amount": 500,
-            "operator_id": "5928",
-            "title": "Blackhwk -1,-",
-            "variableAmount": true
-        },
-        {
-            "price": -100,
-            "ean": "2222222222222",
-            "instructions": null,
-            "max_amount": 10000,
-            "min_amount": 0,
-            "operator_id": "4183",
-            "title": "Loyalty1 -1,-",
-            "variableAmount": true
-        },
-        {
-            "price": 2000,
-            "ean": "5392000039216",
-            "instructions": "Beltegoed Opwaarderen / Topping Up Your Credit \n\n- Toets*101*BELTEGOEDCODE# en druk vervolgens op verzenden \nof \n- Bel 1244 en volg de instructies \n_________________ \n\n- Enter *101*PIN# and press the call/send button \nor \n- Call 1244 and follow the instructions",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3144",
-            "title": "Lycatel 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 1000,
-            "ean": "5392000039209",
-            "instructions": "Beltegoed Opwaarderen / Topping Up Your Credit \n\n- Toets*101*BELTEGOEDCODE# en druk vervolgens op verzenden \nof \n- Bel 1244 en volg de instructies \n_________________ \n\n- Enter *101*PIN# and press the call/send button \nor \n- Call 1244 and follow the instructions",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3144",
-            "title": "Lycatel 10,-",
-            "variableAmount": false
-        },
-        {
-            "price": 4000,
-            "ean": "8715557006192",
-            "instructions": " ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3102",
-            "title": "Vodafone 40,-",
-            "variableAmount": false
-        },
-        {
-            "price": 2000,
-            "ean": "8715557006178",
-            "instructions": " ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3102",
-            "title": "Vodafone 20,-",
-            "variableAmount": false
-        },
-        {
-            "price": 3000,
-            "ean": "8715557006185",
-            "instructions": " ",
-            "max_amount": 0,
-            "min_amount": 0,
-            "operator_id": "3102",
-            "title": "Vodafone 30,-",
-            "variableAmount": false
-        }
-      ]
+    // try{     
+        const productsRequest = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
+          method: 'POST',
+          headers: {
+            'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
+          },
+          body: {
+            reference : "blablabla", // 
+            productListRequest : {
+            "securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333"
+            }
+          }
+        });
+        
+        console.log(productsRequest.responseObject.products)
+      // productsRequest.products = [
+      //   {
+      //       "price": 1500,
+      //       "ean": "1000537000496",
+      //       "instructions": null,
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3683",
+      //       "title": "ITuNLLO 15,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2500,
+      //       "ean": "1000537000502",
+      //       "instructions": null,
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3683",
+      //       "title": "ITuNLLO 25,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 5000,
+      //       "ean": "1000537000519",
+      //       "instructions": null,
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3683",
+      //       "title": "ITuNLLO 50,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2500,
+      //       "ean": "9120005812147",
+      //       "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3601",
+      //       "title": "PaySafeC 25,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "9120005812031",
+      //       "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3601",
+      //       "title": "PaySafeC 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 10000,
+      //       "ean": "9120005812345",
+      //       "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3601",
+      //       "title": "PaySafeC 100,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 5000,
+      //       "ean": "9120005812246",
+      //       "instructions": "Betalen op het internet  \n- kies webshop en product  \n- kies Paysafecard als betaalmethode  \n- Toets de PINcode in - klaar \n\nHelp: www.paysafecard.com/help\n\nWaarschuwing! Indien u gevraagd wordt om met paysafecard te betalen om uw computer te deblokkeren, ga naar: www.paysafecard.com/help- dit is namelijk een virus op uw computer!\n \nDeze kaart mag niet beroepsmatig worden doorverkocht  \nPaysafecard is een betaalmiddel van Paysafe Prepaid Services Ltd.  \nDe algemene voorwaarden vind u op www.paysafecard.com ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3601",
+      //       "title": "PaySafeC 50,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "8717472240033",
+      //       "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3113",
+      //       "title": "Lebara10 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "8xxxxxxxx",
+      //       "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3113",
+      //       "title": "Lebara10 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "8717624590030",
+      //       "instructions": "Beltegoed opwaarderen:\n\n1.\tBel gratis 1244 met uw mobiele telefoon\n2.\tToets optie 9 in het menu\n3.\tVoer de 15-cijferige code in gevolgd door een #\n4.\tUw beltegoed is opgewaardeerd\n\nVoor vragen, informatie en actuele tarieven: www.ortelmobile.nl \n\nBedankt dat u voor Ortel Mobile heeft gekozen. ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3130",
+      //       "title": "Ortel 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "8717624590047",
+      //       "instructions": "Beltegoed opwaarderen:\n\n1.\tBel gratis 1244 met uw mobiele telefoon\n2.\tToets optie 9 in het menu\n3.\tVoer de 15-cijferige code in gevolgd door een #\n4.\tUw beltegoed is opgewaardeerd\n\nVoor vragen, informatie en actuele tarieven: www.ortelmobile.nl \n\nBedankt dat u voor Ortel Mobile heeft gekozen. ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3130",
+      //       "title": "Ortel 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "8712421045820",
+      //       "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3101",
+      //       "title": "KPN 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1500,
+      //       "ean": "8712421056901",
+      //       "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3101",
+      //       "title": "KPN 15,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "8712421040443",
+      //       "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3101",
+      //       "title": "KPN 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 3000,
+      //       "ean": "8712421074141",
+      //       "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3101",
+      //       "title": "KPN 30,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": -100,
+      //       "ean": "8712421045888",
+      //       "instructions": "Opwaardeerinstructie:\nEr zijn 3 manieren om je beltegoed op te waarderen:\n1.\tBel gratis 1244, toets 9 en volg de instructies\n2.\tStuur een gratis sms naar 1266 met de volgende tekst: opwaardeercode [spatie] Opwaarderen (bijvoorbeeld: 123456789123456 Opwaarderen) \n3.\tDownload de KPN Prepaid App op www.kpn.com/appvoorprepaid, ga in het menu naar Beltegoed en kies Opwaarderen met een voucher.\nHoudbaarheid van het tegoed.\nHeb je een KPN prepaid? Dan is het tegoed onbeperkt houdbaar als je 1 keer in de 6 maanden belt, smst, internet of opwaardeert. \n\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3101",
+      //       "title": "KPN -1,-",
+      //       "variableAmount": true
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "5391515720466",
+      //       "instructions": "Beltegoed Opwaarderen\n1.\tBel gratis 1244 en volg het gesproken menu.\n2.\tKies optie 1 in het menu en toets de bovenstaande opwaardeercode in.\n\n\nTopping up your credit\n1.\tDial 1244 (free of charge) and follow the voice prompts\n2.\tChoose option 1 in the menu and enter your top up code\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3190",
+      //       "title": "GT-Mobil 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "5391515720459",
+      //       "instructions": "Beltegoed Opwaarderen\n1.\tBel gratis 1244 en volg het gesproken menu.\n2.\tKies optie 1 in het menu en toets de bovenstaande opwaardeercode in.\n\n\nTopping up your credit\n1.\tDial 1244 (free of charge) and follow the voice prompts\n2.\tChoose option 1 in the menu and enter your top up code\n",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3190",
+      //       "title": "GT-Mobil 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "8715872000493",
+      //       "instructions": "PrePaid tegoed opwaarderen:\n- bel gratis 1244\n- volg de instructies in het menu",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3104",
+      //       "title": "T-Mobile 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "8715872000578",
+      //       "instructions": "PrePaid tegoed opwaarderen:\n- bel gratis 1244\n- volg de instructies in het menu",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3104",
+      //       "title": "T-Mobile 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 3000,
+      //       "ean": "8717472240798",
+      //       "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 30 dagen na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 30 days after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3747",
+      //       "title": "LebaUnLm 30,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "8717472240897",
+      //       "instructions": "OPWAARDEER INSTRUCTIE:\n1. Toets gratis: *101* en de 14-cijferige\nopwaardeercode, gevolgd door een #,\nen druk op de beltoets.\n2. Of bel gratis: 1244, toets 2 en de 14-\ncijferige opwaardeercode, en een #\n\nGeldig tot 6 maanden na activatie.\nBedankt dat u voor Lebara heeft gekozen.\nwww.lebara.nl\n\nTOP-UP INSTRUCTION:\n1. Dial free of charge: *101* and the\n14-digit code, followed by a #, and\npress the call button.\n2. Or call free of charge: 1244, press 2\nand the 14-digit code, followed by a #\n\nValid 6 months after activation.\nThank you for choosing Lebara.\nwww.lebara.nl/en",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3767",
+      //       "title": "LebaOne 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": -100,
+      //       "ean": "505164405362",
+      //       "instructions": null,
+      //       "max_amount": 10000,
+      //       "min_amount": 500,
+      //       "operator_id": "5928",
+      //       "title": "Blackhwk -1,-",
+      //       "variableAmount": true
+      //   },
+      //   {
+      //       "price": -100,
+      //       "ean": "2222222222222",
+      //       "instructions": null,
+      //       "max_amount": 10000,
+      //       "min_amount": 0,
+      //       "operator_id": "4183",
+      //       "title": "Loyalty1 -1,-",
+      //       "variableAmount": true
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "5392000039216",
+      //       "instructions": "Beltegoed Opwaarderen / Topping Up Your Credit \n\n- Toets*101*BELTEGOEDCODE# en druk vervolgens op verzenden \nof \n- Bel 1244 en volg de instructies \n_________________ \n\n- Enter *101*PIN# and press the call/send button \nor \n- Call 1244 and follow the instructions",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3144",
+      //       "title": "Lycatel 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 1000,
+      //       "ean": "5392000039209",
+      //       "instructions": "Beltegoed Opwaarderen / Topping Up Your Credit \n\n- Toets*101*BELTEGOEDCODE# en druk vervolgens op verzenden \nof \n- Bel 1244 en volg de instructies \n_________________ \n\n- Enter *101*PIN# and press the call/send button \nor \n- Call 1244 and follow the instructions",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3144",
+      //       "title": "Lycatel 10,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 4000,
+      //       "ean": "8715557006192",
+      //       "instructions": " ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3102",
+      //       "title": "Vodafone 40,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 2000,
+      //       "ean": "8715557006178",
+      //       "instructions": " ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3102",
+      //       "title": "Vodafone 20,-",
+      //       "variableAmount": false
+      //   },
+      //   {
+      //       "price": 3000,
+      //       "ean": "8715557006185",
+      //       "instructions": " ",
+      //       "max_amount": 0,
+      //       "min_amount": 0,
+      //       "operator_id": "3102",
+      //       "title": "Vodafone 30,-",
+      //       "variableAmount": false
+      //   }
+      // ]
       // console.log('productsRequest ',productsRequest);
       
       // const nintendo = {
@@ -542,7 +553,7 @@ const actions = {
 
       // productsRequest.products.push(nintendo)
       // methods.validateStock(productsRequest.products);
-      return methods.validateStock(productsRequest.products);
+      return methods.validateStock(productsRequest.responseObject.products);
     // }catch(e){
     //   console.log('Fetchstocklist has following error:');
     //   console.log(e);
@@ -569,7 +580,7 @@ const actions = {
     
     // state.selectedBrandProducts = _(state.stockProducts).filter({brand: brand, inStock: true});
      // console.trace()
-    return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) : console.log('Didnt set selectedBrand', brand))
+    return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.selectedBrand = '', console.log('Reset brand')))
   }, 
   setActionLabel(actionLabel)  {
     return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : console.log('Didnt set actionLabel', actionLabel))

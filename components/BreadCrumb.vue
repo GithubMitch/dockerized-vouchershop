@@ -9,6 +9,7 @@
           <span v-show="route == '_categoryslug'">
             <NuxtLink v-if="$route.params._categoryslug" :to='`/${param}`'>{{param}}</NuxtLink>
           </span>  
+          <!-- <span v-show="$route.params._brand">:{{$route.params._brand}}:</span> -->
           <span v-show="route == '_brand'">
             <NuxtLink v-if="$route.params._brand" :to='`/${$route.params._categoryslug}/${param}`'>{{param}}</NuxtLink>
           </span> 

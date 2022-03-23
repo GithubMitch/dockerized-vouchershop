@@ -4,6 +4,7 @@
       <div class="inner">
         <h1>404</h1>
         <p>Page not found</p>
+        <h3>error</h3>
       </div>
     </template>
   </NuxtLayout>

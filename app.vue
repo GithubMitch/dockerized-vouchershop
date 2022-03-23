@@ -66,15 +66,31 @@ export default defineComponent({
       //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
       //   ]
       // })
+      // try {
+      //   // const res = $fetch('http://10.226.80.160:8280/productlist', { 
+      //   //   method: 'POST',
+      //   //   headers: {
+      //   //     'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
+      //   //   }
+      //   // });        
+      //   const res = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
+      //     method: 'POST',
+      //     headers: {
+      //       'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
+      //     },
+      //     body: {
+      //       reference : "blablabla", // 
+      //       productListRequest : {
+      //       "securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333"
+      //       }
+      //     }
+      //   });
+      //   console.log("PRODUCTS", res.responseObject.products)
+      // } catch (err) {console.log(err)}
+
     return {
 
     }
-  // useMeta({
-  //   title: `Vouchershop ${JSON.stringify(route.params._categoryslug)}`,
-  //   meta: [
-  //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-  //   ]
-  // }),
   }
 })
 
@@ -179,12 +195,25 @@ export default defineComponent({
     -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200px);
     min-height: 100vh;
   }
-  .page-title {
-    text-transform: capitalize;
-    color: #0c4971;
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size:2em;
+  .title {
+    .page-title {
+      text-transform: capitalize;
+      color: #0c4971;
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size:2em;
+      // margin:0;
+      display:inline-block;
+      padding-right:1em;
+    }
+    .page-subtitle {
+      // margin:0;
+      color: #0c4971;
+      display:inline-block;
+      font-weight: 900;
+      text-transform: uppercase;
+
+    }
   }
   .product{
     text-decoration: line-through;
@@ -239,6 +268,10 @@ export default defineComponent({
       overflow:hidden;
       box-shadow: 0 0 3px rgb(0 0 0 / 19%);
       color: #2c3e50;
+      // box-shadow: 0px 1px 8px orange;
+      // box-shadow: 0px 0px 14px -5px orange;
+
+
 
       a {
         background:#fff;
@@ -255,6 +288,8 @@ export default defineComponent({
           cursor:none;
           background:lightgray;
           pointer-events: none;
+          box-shadow: none;
+
         }
 
         span {
@@ -267,7 +302,7 @@ export default defineComponent({
           &.name {
             font-weight:bold;
             opacity:.7;
-            font-size:1em;
+            font-size:.888em;
           }
           &.action {
             font-weight:light;
@@ -354,6 +389,7 @@ export default defineComponent({
     margin: 0;
     left: 0;
     background: linear-gradient(186deg,#28c475,#15734c);
+    background: repeating-linear-gradient(45deg, #1684c8, #308ac3 100px);
     color: #fff;
     width: 100%;
     border: none;
@@ -373,7 +409,8 @@ export default defineComponent({
     transition:.3s ease opacity;
 
     &:hover {
-      opacity:.9;
+      background: linear-gradient(186deg,#28c430,#15734c);
+      background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
     }
   }
 

@@ -16,7 +16,7 @@
       </ul>
       <ul>
         <h3>Contact</h3>
-        <li><NuxtLink to="/contact">Contactforumulier</NuxtLink></li>
+        <li><NuxtLink to="/contact">Contactformulier</NuxtLink></li>
       </ul>
       <div id="FooterLogo">
         <div id="PaymentLogos">

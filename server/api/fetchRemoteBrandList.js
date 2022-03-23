@@ -10,34 +10,34 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
 });
 
 let items = [
-  {key: "voda", name: "Vodafone"},
-  {key: "lyca", name: "Lycamobile"},
-  {key: "gtmobile", name: "GT-Mobile"},
-  {key: "lmobi", name: "L-Mobi"},
-  {key: "paysafe", name: "PaySafeCard"},
-  {key: "ortel", name: "Ortel"},
-  {key: "lebara", name: "Lebara"},
-  {key: "kpn", name: "KPN"},
-  {key: "apple", name: "Apple"},
-  {key: "tmobile", name: "T-Mobile"},
 ]
+// {key: "voda", name: "Vodafone"},
+// {key: "lyca", name: "Lycamobile"},
+// {key: "gtmobile", name: "GT-Mobile"},
+// {key: "lmobi", name: "L-Mobi"},
+// {key: "paysafe", name: "PaySafeCard"},
+// {key: "ortel", name: "Ortel"},
+// {key: "lebara", name: "Lebara"},
+// {key: "kpn", name: "KPN"},
+// {key: "apple", name: "Apple"},
+// {key: "tmobile", name: "T-Mobile"},
 
 export default async (req, res) => {
-  // let tableName = 'brands';
-  // let params = {
-  //     TableName: tableName
-  // };
+  let tableName = 'brands';
+  let params = {
+      TableName: tableName
+  };
   
-  // dynamodb.scan(params, (err, data) => {
+  dynamodb.scan(params, (err, data) => {
     
-  //   if (err) {
-  //     throw { msg: 'Request failed' , data: err };
-  //     return
-  //   } else {
-  //     items = data.Items
-  //     // console.log('Brands >>>> Finished dynamoDB SCAN....');
-  //     return items;
-  //   };
-  // });
+    if (err) {
+      throw { msg: 'Request failed' , data: err };
+      return
+    } else {
+      items = data.Items
+      // console.log('Brands >>>> Finished dynamoDB SCAN....');
+      return items;
+    };
+  });
   return items 
 }

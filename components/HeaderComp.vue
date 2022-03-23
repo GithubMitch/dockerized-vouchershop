@@ -23,19 +23,13 @@
     <div id="PageMenuContent">
       <div id="Categories">
         <div ref="navMenu">
-            <NuxtLink class="category" to="/">Home</NuxtLink>
-            <NuxtLink class="category" to="/beltegoed">Beltegoed</NuxtLink>
-            <NuxtLink class="category" to="/gaming">Gaming</NuxtLink>
-            <NuxtLink class="category" to="/payment">Payment</NuxtLink>
-            <NuxtLink class="category" to="/giftcards">Giftcards</NuxtLink>
-            <NuxtLink class="category" to="/topups">Topups</NuxtLink>
-            <NuxtLink class="category" to="/coupons">Coupons</NuxtLink>
+            <NuxtLink v-for="item in navLinks" v-bind:key="item.url" @click="item.subItems ? activeItem = item : activeItem = {}, setActionLabel(`${item.label}`) , setSelectedBrand('')" class="category" :to="item.url">{{item.label}}</NuxtLink>
         </div>
       </div>
     </div>
   </div>
   <BreadCrumb/>
-  <PageSubMenu/>
+  <PageSubMenu :navLinks="activeItem" />
 </template>
 
 <script lang='ts'>
@@ -49,7 +43,6 @@ export default defineComponent({
   methods: {
     addCategories(){
       console.log(this.$refs.Categories.children)
-      
     }
   },
   setup() {
@@ -57,6 +50,111 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const orderItems = toRef(state.order, 'orderItems');
+    const activeItem = ref()
+    const navLinks = ref([
+      {
+        label: 'Home',
+        url:'/'
+      },
+      {
+        label: 'Beltegoed',
+        url:'/beltegoed',
+        subItems: ref([
+          {          
+            label: 'bellen',
+            url:'/bellen'
+          },
+          {          
+            label: 'data',
+            url:'/data'
+          },
+          {          
+            label: 'bundels',
+            url:'/bundels'
+          },
+        ])
+      },
+      {
+        label: 'Gaming',
+        url:'/gaming',
+        subItems: [
+          {          
+            label: 'console',
+            url:'/console'
+          },
+          {          
+            label: 'PC',
+            url:'/pc'
+          }
+        ]
+      },
+      {
+        label: 'Wallets',
+        url:'/wallets',
+        subItems: [
+          {          
+            label: 'Paysafe',
+            url:'/paysafe'
+          },
+          {          
+            label: 'Apple Itunes',
+            url:'/appleitunes'
+          },
+          {          
+            label: 'Google Play',
+            url:'/googleplay'
+          },
+          {          
+            label: 'Tony'+`'s`,
+            url:'/tonys'
+          },
+        ]
+      },
+      {
+        label: 'Giftcards',
+        url:'/giftcards',
+        subItems: [
+          {          
+            label: 'hem',
+            url:'/hem'
+          },
+          {          
+            label: 'haar',
+            url:'/haar'
+          },
+          {          
+            label: 'kids',
+            url:'/kids'
+          },
+          {          
+            label: 'elkaar',
+            url:'/elkaar'
+          },
+        ]
+      },
+      {
+        label: 'Coupons',
+        url:'/coupons',
+        subItems: [
+          {          
+            label: 'Erop Uit',
+            url:'/eropuit'
+          },
+          {          
+            label: 'Home Voordeel',
+            url:'/homevoordeel'
+          },
+          {          
+            label: 'Gezond & Fit',
+            url:'/gezondfit'
+          },
+          {          
+            label: 'Smaakvoordeel',
+            url:'/smaakvoordeel'
+          },
+        ]
+      },
+    ])
 
     const interval = ref(300)
     const { pause, resume, isActive } = useIntervalFn(() => {
@@ -70,6 +168,14 @@ export default defineComponent({
       return actions.getCartTotal()
     }
 
+    const setActionLabel = (value)  => {
+      console.log(value)
+      actions.setActionLabel(value)
+    }
+
+    const setSelectedBrand = async (brand)  => {
+      await actions.setSelectedBrand(brand)
+    }
 
     const pulseEffect = () => {
       let element = document.getElementById("Cart");
@@ -79,6 +185,7 @@ export default defineComponent({
 
 
     onMounted(() => {
+      console.log("MOUNT HEADERCOMP")
       const selectableCategories = toRef(state, 'selectableCategories');
 
       route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
@@ -86,7 +193,8 @@ export default defineComponent({
       route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
       route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
       route.params._for ? actions.setActionLabel(route.params._for.replace('for-','')) : console.log('No route param (_for)');
-      // console.log(route.params._for)
+
+      // route.params = item.subItems
 
       let navLinks = navMenu.value.children
       for (let i = 0; i < navLinks.length; i++) {
@@ -101,6 +209,8 @@ export default defineComponent({
     watch(
       () => route.params,
       async getParams => {
+        // activeSubItem.value = navLinks.route.params._categoryslug  make subitems active
+
         const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
 
         if (route.params._categoryslug == undefined) {
@@ -118,7 +228,11 @@ export default defineComponent({
     return {
       orderItems,
       navMenu,
+      navLinks,
+      activeItem,
       getCartTotal,
+      setActionLabel,
+      setSelectedBrand,
       pulseEffect
     }
   },
@@ -388,7 +502,7 @@ export default defineComponent({
         font-size: 15px;
         padding: 5px;
         font-weight: bold;
-        text-transform: uppercase;
+        text-transform: capitalize;
         display: inline-block;
         text-decoration: none;
         font-weight: bold;

@@ -2,7 +2,10 @@
 <template>
   <NuxtLayout name="productlist">
     <ClientOnly>
-      <h1>{{brand}}</h1>  
+      <div class="title">
+        <h1 class="page-title">{{$route.params._categoryslug ?? $route.params._categoryslug}} : {{brand ?? brand}}</h1>
+        <h2 class="page-subtitle" v-if="!brand | brand !== $route.params._brand" >{{$route.params._brand}}</h2>
+      </div>
       <transition-group tag="ul" name="card" appear
         @before-enter="beforeEnter"
         @enter="enter"
@@ -10,25 +13,26 @@
         class="styled-list product-list">
         <!-- {{selectedBrandProducts}} -->
         <li  class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
+          <Fold
+            width="45" 
+            height="45"
+            :productPage="`${product.brand}/${product.actionLabel}/${product.key}`"
+            :product="product"
+            :class="'MyGradient_'+index"           
+            :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+            :MyGradient="'MyGradient'"
+            :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+            :disabled="!product.inStock ? 'disabled' : false"
+            />
           <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
+          @click="addProducts($event, product)"
           >
-          <!-- @click.prevent="click" 
-          @click="addProducts(e)" -->
+          <!-- @click.prevent="click" -->
             <img :src="`../../assets/logos/${product.brand}.png`" />
             <span class="price" for="">€ {{product.value / 100}}</span>
             <span class="name">{{ product.name }}</span>
             <span class="action" for="">{{product.actionLabel}}</span>
 
-            <Fold
-              width="45" 
-              height="45"
-              :productPage="`${product.brand}/${product.actionLabel}/${product.key}`"
-              :product='product'
-              :class="'MyGradient_'+index"           
-              :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-              :MyGradient="'MyGradient'"
-              :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
-              />
           </a>
         </li>
       </transition-group>
@@ -55,7 +59,7 @@
                     :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
                     :MyGradient="'MyGradient'"
                     :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
-                    />
+                  />
             </router-link>
           </li>
       </transition-group>
@@ -75,10 +79,10 @@ export default defineComponent({
       type: String,
       default: ''
     },
-    // products:{
-    //   type: Object,
-    //   default: {}
-    // }
+    products:{
+      type: Object,
+      default: {}
+    }
   },
   head() {
     return {
@@ -91,10 +95,10 @@ export default defineComponent({
     }
   },
   methods: {
-    addProducts: async (e) => {
+    addProducts: async (e, x) => {
       // e.preventDefault()
       console.log(e.target)
-      // await actions.addProducts(product)
+      await actions.addProducts(x)
     }
   },
   setup(props) {
@@ -107,7 +111,9 @@ export default defineComponent({
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
 
-
+    if (selectedBrandProducts.value.length == 0) {
+      selectedBrandProducts.value = stockProducts.value
+    }
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;

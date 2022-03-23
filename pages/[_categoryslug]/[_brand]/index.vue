@@ -9,8 +9,7 @@
   import { state, actions } from '../../../store/reactives';
   import {
     defineComponent,
-    toRef,
-    onMounted
+    toRef
   } from 'vue';
   // import gsap from "gsap";
   

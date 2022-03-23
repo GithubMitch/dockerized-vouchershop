@@ -51,7 +51,7 @@
         required: true,
       },
       default: {
-        type: String,
+        type: Object,
         required: false,
         default: null,
       },

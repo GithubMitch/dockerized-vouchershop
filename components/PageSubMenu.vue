@@ -1,8 +1,22 @@
 <template>
-  <div id="PageSubMenu" v-if="$route.params._categoryslug && $route.params._brand">
+  <div id="PageSubMenu" 
+  >
+    <!-- v-if="$route.params._categoryslug && $route.params._brand" -->
     <nav>
       <ul>
-        <li>
+        <!-- {{navLinks}} -->
+        <li v-for="item in navLinks.subItems" v-bind:key="item.label" class="category">
+          <NuxtLink :to="`${navLinks.url}${item.url}`" 
+              @click="setActionLabel(`opwaarderen`)"
+            >
+              <!-- @click="setActionLabel(`${item.label}`)" -->
+
+              {{item.label}}
+          </NuxtLink>
+          <!--  -->
+        </li>
+            
+        <!-- <li>
           <NuxtLink @click="setActionLabel('kids')" 
           :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-him`' value="him" key="him">Him</NuxtLink>
         </li>
@@ -17,7 +31,7 @@
         <li>
           <NuxtLink @click="setActionLabel('opwaarderen')" 
           :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-opwaarderen`' value="opwaarderen" key="opwaarderen">Opwaarderen</NuxtLink>
-        </li>
+        </li> -->
       </ul>
     </nav>
   </div>
@@ -29,7 +43,13 @@ import {_} from 'vue-underscore';
 import { state , actions } from '../store/reactives';
 
 export default defineComponent({
-  
+  props: {
+    navLinks: {
+      type: Object,
+      default: {},
+      required: false
+    }
+  },
   async setup() {
     const selectedBrand = toRef(state, 'selectedBrand');
 

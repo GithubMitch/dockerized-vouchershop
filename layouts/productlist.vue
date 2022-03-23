@@ -12,7 +12,7 @@
     layout: `productlist`,
     head() {
       return {
-        title: 'VoucherShop - ProductList',
+        title: 'VoucherShop — ProductList',
         link: [
           {
             rel: "stylesheet",
