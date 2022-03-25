@@ -23,12 +23,13 @@
     <div id="PageMenuContent">
       <div id="Categories">
         <div ref="navMenu">
-            <NuxtLink v-for="item in navLinks" v-bind:key="item.url" @click="item.subItems ? activeItem = item : activeItem = {}, setActionLabel(`${item.label}`) , setSelectedBrand('')" class="category" :to="item.url">{{item.label}}</NuxtLink>
+            <NuxtLink v-for="item in navLinks" v-bind:key="item.url" @click="item.subItems ? (activeItem = item, setCategory(item.label), setSelectedBrand(''), setGroup('') ): activeItem = {}, setSelectedBrand(''), setGroup('')" class="category" :to="item.url">{{item.label}}</NuxtLink>
         </div>
       </div>
     </div>
   </div>
-  <BreadCrumb/>
+  <!-- <BreadCrumb/> -->
+  <ProductFilter/>
   <PageSubMenu :navLinks="activeItem" />
 </template>
 
@@ -172,11 +173,17 @@ export default defineComponent({
       console.log(value)
       actions.setActionLabel(value)
     }
+    const setCategory = (value)  => {
+      console.log(value)
+      actions.setCategory(value)
+    }
 
     const setSelectedBrand = async (brand)  => {
       await actions.setSelectedBrand(brand)
     }
-
+    const setGroup = async (group)  => {
+      await actions.setGroup(group)
+    }
     const pulseEffect = () => {
       let element = document.getElementById("Cart");
       element.classList.remove("pulse");
@@ -188,28 +195,29 @@ export default defineComponent({
       console.log("MOUNT HEADERCOMP")
       const selectableCategories = toRef(state, 'selectableCategories');
 
-      route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : console.log('No category');
-      route.params._brand ? actions.setSelectedBrand(route.params._brand) : console.log('No brand');
-      route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
-      route.params._productslug ? actions.setProductPage(route.params._productslug) : console.log('No route._product for (_productslug)');
-      route.params._for ? actions.setActionLabel(route.params._for.replace('for-','')) : console.log('No route param (_for)');
+      route.params._categoryslug ? actions.setCategory(route.params._categoryslug) : false;
+      // : console.log('No category');
+      route.params._brand ? actions.setSelectedBrand(route.params._brand) : false;
+      // : console.log('No brand');
+      // route.params._for ? actions.setSelectedSubCategory(route.params._for) : console.log('No Subcategory (_for)');
+      route.params._for ? actions.setActionLabel(route.params._for.replace('for-','')) : false;
+      // : console.log('No route param (_for)');
+      route.params._productslug ? actions.setProductPage(route.params._productslug) : false;
+      // : console.log('No route._product for (_productslug)');
 
-      // route.params = item.subItems
+      // route.params._for ? actions.setGroup(route.params._for.replace('for-','')) : console.log('No route param (_for)');
 
       let navLinks = navMenu.value.children
       for (let i = 0; i < navLinks.length; i++) {
         let element = ref(navLinks[i]);
         let formatted = element.value.outerText;
         state.selectableCategories.push(formatted.toLowerCase())
-        // console.log(element.value.outerText)
       }      
-      // console.log(selectableCategories.value)
     })
 
     watch(
       () => route.params,
       async getParams => {
-        // activeSubItem.value = navLinks.route.params._categoryslug  make subitems active
 
         const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
 
@@ -219,10 +227,6 @@ export default defineComponent({
         if (validateRoute.value == false)
           router.push('404')
 
-        // console.log(route.params._categoryslug)
-        // console.log(validateRoute.value)
-        // hasRoute ? console.log(true) : alert(false)
-
       }
     )
     return {
@@ -231,7 +235,9 @@ export default defineComponent({
       navLinks,
       activeItem,
       getCartTotal,
+      setCategory,
       setActionLabel,
+      setGroup,
       setSelectedBrand,
       pulseEffect
     }

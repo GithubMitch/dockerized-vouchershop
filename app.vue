@@ -185,7 +185,7 @@ export default defineComponent({
       }
     }
     &:last-child {
-      border:none;
+      // border:none;
     }
   }
   body {

@@ -29,10 +29,10 @@
     margin:auto;
     background: #dedede;
     padding:1em;
-    border-bottom:1px solid black;
+    /* border-bottom:1px solid black; */
   }
   .inner:last-child {
-    border:none;
+    /* border:none; */
   }
   .product{
     text-decoration: line-through;

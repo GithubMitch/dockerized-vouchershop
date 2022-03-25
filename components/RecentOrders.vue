@@ -41,9 +41,10 @@ export default {
     }
   }
   .recent {
-    border: 1px solid #DDD;
-    -webkit-box-shadow: 0px 0px 3px #00000030;
-    box-shadow: 0px 0px 3px #00000030;
+    background:#fff;
+    border: 1px solid #00000030;
+    // -webkit-box-shadow: 0px 0px 3px #00000030;
+    // box-shadow: 0px 0px 3px #00000030;
     padding: 16px;
     border-radius:5px;
     background-image: url("../assets/speedCart.png");

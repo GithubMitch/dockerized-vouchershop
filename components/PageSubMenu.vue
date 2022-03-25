@@ -7,8 +7,9 @@
         <!-- {{navLinks}} -->
         <li v-for="item in navLinks.subItems" v-bind:key="item.label" class="category">
           <NuxtLink :to="`${navLinks.url}${item.url}`" 
-              @click="setActionLabel(`opwaarderen`)"
+              @click="setGroup(`${item.label}`)"
             >
+              <!-- //  TODO HIERBOVEN >> SET GROUP (product.group) FILTER -->
               <!-- @click="setActionLabel(`${item.label}`)" -->
 
               {{item.label}}
@@ -56,8 +57,12 @@ export default defineComponent({
     const setActionLabel = (value)  => {
       console.log(value)
       actions.setActionLabel(value)
+    }    
+    const setGroup = (value)  => {
+      console.log(value)
+      actions.setGroup(value)
     }
-    return {setActionLabel, selectedBrand}
+    return {setGroup, setActionLabel, selectedBrand}
   },
 })
 </script>

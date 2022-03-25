@@ -23,15 +23,16 @@
 import { state, actions } from '../store/reactives';
 
 export default defineComponent({
-    layout: 'false',
-    name:'home',
-    async setup () {
-      useMeta({
-        title: 'SOMETHING',
-        meta: [
-          { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-        ]
-      })
+  layout: 'false',
+  name:'home',
+  async setup () {
+    useMeta({
+      title: 'Home',
+      meta: [
+        { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
+      ]
+    })
+
     return {
 
     }
@@ -69,7 +70,7 @@ export default defineComponent({
     margin:0 auto;
     padding:1em;
     :last-child {
-      border:none;
+      // border:none;
     }
   }
   .product{

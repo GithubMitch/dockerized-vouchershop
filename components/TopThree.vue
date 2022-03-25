@@ -1,6 +1,6 @@
 <template>
   <div id="topthree">
-    <h1>Top 3 populair</h1>
+    <h2>Top 3</h2>
     <div class="popular">
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
         <NuxtLink :to="`/${brand.type}/${brand.key}`"
@@ -13,11 +13,11 @@
             </div>
             <label for="brand-name">{{brand.name}}</label>
             <span class="type">{{brand.type}}</span>
-            <Fold
+            <!-- <Fold
               width="45" 
               height="45"
               :product="{}"
-              />
+              /> -->
           </div>
         </NuxtLink>
       </div>
@@ -108,7 +108,10 @@ export default defineComponent({
     //   background:purple;
     //   .fold {background:red}
       
-  
+  h1, h2 {
+    line-height: 2em;
+    color: #0c4971;
+  }
   .popular {
     .select{
       position: relative;
@@ -148,13 +151,13 @@ export default defineComponent({
       display: inline-flex;
       justify-content: space-between;
       flex-flow: column;
-      border: 1px solid #DDD;
-      box-shadow: 0px 0px 3px #00000030;
+      border: 1px solid #00000030;
+      // box-shadow: 0px 0px 3px #00000030;
       padding: 10px;
       margin: 33px;
       margin-top: 0px;
       margin-left: 0px;
-      min-height: 140px;
+      min-height: 146px;
       vertical-align: top;
       text-align: center;
       border-radius: 9px;
@@ -164,6 +167,8 @@ export default defineComponent({
 
       &::after {
         background:#1985c8;
+        background:orange;
+        background:#f06c19;
         //#1985c8
         color:#fff;
         transition: all 300ms cubic-bezier(.47,1.64,.41,.8);
@@ -173,6 +178,9 @@ export default defineComponent({
         &::after {
           transform: scale(1.25);
           background:#4b9fd4;
+          background:orange;
+          // background:orange;
+
           // 4b9fd4
         }
       }
@@ -229,8 +237,8 @@ export default defineComponent({
     overflow: hidden;
     
     .triangle{
-      // fill: #ed6c23;
-      // fill:url(#MyGradient)
+      fill: #ed6c23;
+      fill:url(#MyGradient)
     }
   }
   .fold svg.foldHolder {

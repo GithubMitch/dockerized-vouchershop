@@ -118,8 +118,8 @@
       const router = useRouter()
       const route = useRoute()
 
-      if (props.productPage != '')
-        console.log("props.productPage", props.productPage)
+      // if (props.productPage != '')
+      //   console.log("props.productPage", props.productPage)
 
       const setProductPage = async (product)  => {
         await actions.setProductPage(product)

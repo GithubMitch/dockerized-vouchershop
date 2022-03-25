@@ -69,7 +69,7 @@
 
 <script>
 import gsap from "gsap";
-import { state, actions } from '../store/reactives'
+import { state, actions, methods } from '../store/reactives'
 import { defineComponent, ref, toRef } from 'vue'
 import {_} from 'vue-underscore';
 
@@ -110,7 +110,23 @@ export default defineComponent({
     const selectedCategory = toRef(state, 'selectedCategory');
     const selectedProducts = toRef(state, 'selectedProducts');
     const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
+    const selectedGroup = toRef(state, 'selectedGroup');
 
+    if (selectedGroup.value.length) {
+      // console.log('GROUP IS ', selectedGroup.value)
+      methods.filterGroup(stockProducts.value, selectedGroup.value)
+    }
+    // if (selectedGroup.value.length) {
+    //   console.log('SELECTED BRAND PRODUCTS', selectedBrandProducts.value)
+    //   console.log('FILTER BRANDS ON GROUP :', selectedGroup.value)
+    //   methods.filterGroup(selectedBrandProducts.value, selectedGroup.value)
+    //    // TODO filter selectedBrandProduct on selectedGroup and return selectedBrandProducts 
+    //   console.log('SELECTED BRAND PRODUCTS FILTERD ON GROUP', selectedBrandProducts.value)
+    // }
+
+    // console.log(selectedGroup.value)
+
+    // TODO : IF no selectedbrandproducts  ( now it returns full stocklist)
     if (selectedBrandProducts.value.length == 0) {
       selectedBrandProducts.value = stockProducts.value
     }
