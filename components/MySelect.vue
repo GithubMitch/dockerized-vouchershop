@@ -78,6 +78,7 @@
           return true
         } else {
           console.error('selectChange: Not a valid payload')
+          console.log('Payload : (empty)')
           return false 
         }
       },

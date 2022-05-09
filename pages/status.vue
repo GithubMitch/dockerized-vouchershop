@@ -55,7 +55,7 @@
         <p>De ticket wordt opgepakt! Er wordt zo snel mogelijk contact opgenomen.</p>
       </div>
     </div>
-    <div class="interval">
+    <!-- <div class="interval">
         <p>{{ intervalData.word }}</p>
         <p>
           interval:
@@ -67,7 +67,7 @@
         <button v-show="!isActive" @click="resume">
           Resume
         </button>
-    </div>
+    </div> -->
   </div>  
 
 </template>
@@ -160,22 +160,12 @@
             const statusReq = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/orderstatus', { 
               method: 'POST',
               headers: {
-                'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
+                'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
+                'posId': '50100004'
               },
               body: data
             });
 
-            // let productsRequest = await $fetch('http://api.prepaidpoint.test/vouchershop/products', { method: 'POST'});
-            // console.log('productsRequest',productsRequest.products);
-            // /v1/online/orderstatus
-            // let statusReq = await $fetch('http://api.prepaidpoint.test/vouchershop/orderstatus' , {
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/json'
-            //     // 'Content-Type': 'application/x-www-form-urlencoded',
-            //   },
-            //   body: data,
-            // })
             console.log('Status Req =>',statusReq);
 
 
@@ -259,25 +249,40 @@
           if(!validate())
             throw 'validation error';
 
-          let data = {
-            ticket_title: 'Vouchershop/Question',
-            ticket_ref: createCustomerToken(),
-            name: reactiveData.name,
-            phone: reactiveData.tel,
-            email: reactiveData.email,
-            msg: 'CUSTOMER STUCK IN CHECK!',
-            locale: 'nl',
-            qid: reactiveData.qid,
+
+          let data1 = {
+            // TODO > convert localstorage > currentOrder > take over values and fill in here (orderId / uniqueReference )
+            reference : "blablabla",
+            questionRequest : {
+              //TODO : define default or usrinput
+              securityKey : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+              locale : "nl_NL",
+              message : "de belangrijke message", 
+              mobile : reactiveData.tel,
+              name : reactiveData.name,
+              orderId :  1234, //route.query.orderId, // TODO orderId ? qeueId
+              problem : "=eigenlijk geen probleem",
+              product : "topup belkaart",
+              email : reactiveData.email,
+              productValue : 1000,
+              uniqueReference : "1234"//route.query.paymentSessionId //route.query.paymentSessionId ? qeueId ticketRef
+            }
           }
 
-          let contactReq = await $fetch('http://api.prepaidpoint.test/vouchershop/createsupportticket', {
+          // let  = await $fetch('http://api.prepaidpoint.test/vouchershop/createsupportticket', {
+          let contactReq = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/sendquestion`, { 
+
             method: 'POST',
-            body: JSON.stringify(data),
+						headers: {
+							'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
+							'posId': '50100004'
+						},            
+            body: data1,
           });
 
           console.log(contactReq);
 
-          if(contactReq.data.result_code != '1000')
+          if(contactReq.responseObject.resultCode != '1000')
             throw 'Probleempje met versturen. Probeer het nogmaals.' 
 
           await sleep(1020);

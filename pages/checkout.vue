@@ -447,86 +447,20 @@ export default defineComponent({
       if (errors["agreed2Terms"].length > 0) return false;
       if (!selectedPaymethod.value) return false;
       if (errors["form"].length > 0) return false;
+			
 			// if no product return false
       // validated.validateForm(validated.validateFields)
       // console.log(validated.validateForm(validated.validateFields))
       return true;
     }
 
-    const getOrder = () => {
-      let pmId = selectedPaymethod.value.id;
-			console.log(selectedSubPaymethod)
-      // let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
-      let pmsubId = null;
-			console.log('selectedSubPaymethod',selectedSubPaymethod)
-      // // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
-      // subPaymethodId.value = selectedSubPaymethod != undefined ? selectedSubPaymethod.pmsubId : null;
-      let formattedOrderItems = formatOrderItems(state.order.orderItems);
-
-			console.log("paymethodId/selectedPaymethod.id = ", pmId)
-			console.log("subPaymethodId/selectedSubPaymethod.pmsubId = ", pmsubId)
-
-      return {
-
-        // ref: "ref_" + Date.now() + "_VS",
-				reference : "referexxxnce",
-				submitOrderRequest : {
-					"language" : "en" ,
-	        orderItems: formattedOrderItems,
-  	      desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
-					"orderConfig" : "dit isw de orderConfig",
-					// -----------
-					mobile: tel.value,
-					email: email.value,
-					shopPaymentId: pmId, 
-					subPaymethodId: pmsubId, 
-					totalAmountCents: getCartTotal(),
-					extraAmount: getTotalAmountOfAddedCosts(),
-					returnUrl: window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
-					"securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
-					specifyOrderItems : true 
-				}
-				// '/#'+ #HASHMODE NOT ENABLED //
-        // orderConfig: null
-      }
-			// {
-
-
-				
-			// 	"shopPaymentId" : 2 ,
-			// 	"specifyOrderItems" : true ,
-			// 	"totalAmountCents" : 2000,
-			// 	"zipcode" : "1234aa"
-			// 	}
-			// }
-      /*      
-            [REQUEST - TEMPLATE]
-            lang: 'XX'
-            ---------------------
-            mobile: '+31XXXXXXXXX',
-            email: 'X@X.XX',
-            desc: '.....',
-            ----------------------
-            qty: X,
-            orderItems: [
-              { ean: 'XXXXXXXXXXXXX', priceCents: XXXX,  qty: X, desc: '.....' },
-            ],
-            ----------------------
-            extraAmount: XXXX, 
-            totalPriceCents: XXXX, (cumulative orderItemAmount + addedAmount (product&paymethod added costs) )
-            ----------------------
-            paymethodId: XXX,
-            subPaymethodId: XXXX,
-            ----------------------
-            returnUrl: 'httpX://XXXX.prepaidpoint.com',
-        */
-    }
-
-    const formatOrderItems = (cart) => {
+    const formatOrderItems = (cart, mail , tel) => {
       return _(cart).map((orderItem) => {
         return {
           ean: parseInt(orderItem.ean),
           amountCents: orderItem.price,
+					email: mail.value,
+        	mobileNumber : tel.value,
           quantity: orderItem.qnt,
           desc: orderItem.name,
 					type : "TOPUP" 
@@ -579,11 +513,6 @@ export default defineComponent({
 						target: "agreed2Terms",
 						msg: "Je moet akkoord geven op de algemene voorwaarden.",
 					}
-				let formatOrder = getOrder();
-				let JSONorderItems = JSON.stringify(formatOrder);
-
-
-
 				const protocol = window.location.protocol;
 				const domain = window.location.hostname;
 				const port = window.location.port;
@@ -610,21 +539,54 @@ export default defineComponent({
 						break;
 				}
 
+				let pmId = selectedPaymethod.value.id;
+				console.log(selectedSubPaymethod)
+				// let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
+				let pmsubId = null;
+				console.log('selectedSubPaymethod',selectedSubPaymethod)
+				// // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
+				// subPaymethodId.value = selectedSubPaymethod != undefined ? selectedSubPaymethod.pmsubId : null;
+				let formattedOrderItems = formatOrderItems(state.order.orderItems, email.value ,tel.value);
+
+				console.log("paymethodId/selectedPaymethod.id = ", pmId)
+				console.log("subPaymethodId/selectedSubPaymethod.pmsubId = ", pmsubId)
+
+				const orderPayload = reactive({
+					"reference" : "referexxxnce",
+					"submitOrderRequest" : {
+						desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
+						mobile: tel.value,
+						email: email.value,
+						subPaymethodId: pmsubId, 
+						"address1" : "address1",
+						"city" : "Hoofddorp" ,
+						"country" : "NL" ,
+						"description" : "Holland bundle NL",
+						totalAmountCents: getCartTotal(),
+						extraAmount: getTotalAmountOfAddedCosts(),
+						"ipCustomer" : "127.0.0.1",
+						"language" : "nl" ,
+						orderItems: formattedOrderItems,
+						"orderConfig" : '',
+						"returnUrl": window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
+						"securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+						shopPaymentId: pmId, 
+						"specifyOrderItems" : true ,
+						"zipcode" : "1234aa",
+					}
+				})
+				console.log(orderPayload)
 				if (window.fetch) {
 					// run my fetch request here
-					let submitReq = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/submitorder', { 
-						method: "POST", 
-						body: JSONorderItems,
+					let submitReq = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/submitorder`, { 
+						method: 'POST',
 						headers: {
-							'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`),
-							// 'Access-Control-Allow-Origin': '*', 
-							// 'Content-Type' : 'application/json' 
-						}
+							'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
+							'posId': '50100004'
+						},
+						body: orderPayload,
 					})
-					// let submitReq = await $fetch("http://api.prepaidpoint.test/vouchershop/submitorder", {
-					// 	method: "POST",
-					// 	body: formatOrder,
-					// });
+
 					console.log('submitReq', submitReq)
 					if(submitReq) {
 						if(submitReq.responseObject.resultCode > 50000)
@@ -646,9 +608,6 @@ export default defineComponent({
 				} else {
 					// do something with XMLHttpRequest?
 				}
-
-
-				
 			} catch (e) {
 				console.log('Error in form submission::', 'Initiate gracefull shutdown');
 				console.log(e);
@@ -731,8 +690,6 @@ export default defineComponent({
 
 		onMounted(() => {
       actions.getPaymentOptions()
-
-    
 		});
 
 		return {
