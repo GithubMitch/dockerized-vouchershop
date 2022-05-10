@@ -29,8 +29,6 @@
       </div>
     </div>
   </div>
-  <!-- <BreadCrumb/> -->
-  <!-- <filteredProductList/> -->
   <PageSubMenu :navLinks="activeItem" />
 </template>
 
@@ -208,7 +206,7 @@ export default defineComponent({
       pause()
     }
 
-
+  console.log(toRaw(route))
     // onMounted(() => {})
     activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.beltegoed)
     console.log(activeItem.value)
@@ -237,7 +235,8 @@ export default defineComponent({
       setActionLabel,
       setGroup,
       setSelectedBrand,
-      pulseEffect
+      pulseEffect,
+      route
     }
   },
 })

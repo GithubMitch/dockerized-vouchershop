@@ -3,15 +3,12 @@
       <!-- <h1>Product detail page</h1> -->
       <h1>
         {{product.name}} 
-        <!-- TODO fix this mess -->
-        <NuxtLink v-if="product.brand" :to="`/beltegoed/${product.brand}`" @click="setGroup(product.brand)">
-          <i  class="i simple-line-icons:close"></i>
-        </NuxtLink>
-        <i v-else class="i simple-line-icons:close" @click="$router.go(-1)"></i>
+        <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.go(-1)"></i>
       </h1>
       <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
       <div class="description">
-        <p>
+<pre>{{pickedproduct}}</pre>
+        <!-- <p>
           Suspendisse quis dui et ipsum sagittis feugiat. Etiam ac justo auctor nunc pellentesque molestie nec pulvinar odio. 
           Vivamus malesuada, metus ac feugiat fermentum, mi odio consequat justo, ac ultricies orci massa vitae risus. Vestibulum sollicitudin lorem augue, 
           quis lacinia felis finibus vitae. Mauris id blandit dolor. In lacinia laoreet neque et aliquam. Nam vitae fringilla ex. Donec dictum pellentesque arcu id malesuada.  
@@ -23,7 +20,7 @@
         </p> 
         <p>
           Duis dictum egestas augue ut tristique. Vestibulum vel felis ut ligula porttitor elementum. Vestibulum sed velit vel felis pharetra sollicitudin. Praesent ipsum arcu, pretium id metus sit amet, vehicula sodales elit. Donec volutpat vulputate augue, iaculis cursus libero dignissim non. Sed varius mauris a feugiat venenatis. Donec non neque a est pretium mollis ut eget diam. Donec congue, libero quis gravida congue, felis velit consectetur diam, non fringilla nisi massa sed sapien. Mauris scelerisque sed enim at porttitor. Nam non velit non purus egestas dignissim vel et purus. Nullam tempus erat ex, eget porttitor velit dictum sollicitudin. Maecenas in mauris ac augue facilisis tincidunt.
-        </p> 
+        </p>  -->
       </div>
 
         <h3>€{{product.value / 100}}, -</h3>
@@ -50,13 +47,17 @@ import { defineComponent, toRef, ref} from 'vue';
 export default defineComponent({
   layout: false,
   props: {
+    pickedproduct:{
+      type: Object,
+      default: {}
+    },
     product:{
       type: Object,
-      default: []
+      default: {}
     },
     details:{
       type: Object,
-      default: []
+      default: {}
     }
   },
   head() {
@@ -70,6 +71,10 @@ export default defineComponent({
     }
   },
   async setup() {
+    const setBrand = (brand)  => {
+      console.log(brand)
+      actions.setSelectedBrand(brand)
+    }
     const setGroup = (group)  => {
       console.log(group)
       actions.setGroup(group)
@@ -80,6 +85,7 @@ export default defineComponent({
 
     return {
       addProduct, 
+      setBrand,
       setGroup
     }
   },

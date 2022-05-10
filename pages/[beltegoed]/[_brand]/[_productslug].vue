@@ -2,7 +2,7 @@
   <NuxtLayout name="default">
     <template #content>
       <div class="modal">
-        <Router-View :product="pickedProduct.product" :details="pickedProduct.details"/>
+        <Router-View :pickedproduct="pickedProduct" :product="pickedProduct.product" :details="pickedProduct.providedDetails"/>
       </div>
     </template>
   </NuxtLayout>
@@ -38,7 +38,6 @@ export default defineComponent({
     const route = useRoute()
     const pickedProduct = toRef(state, 'productPage');
     const stockProducts = toRef(state, 'stockProducts');
-
     onMounted(() => {
       /* do something before Vue calls this component's render function */
       // state.productPage.length == 0 ? (console.log('Getting Product', state.productPage.length), pickedProduct.value = getProduct(route.params._productslug)) : (console.log('Product was set already', state.productPage) );
@@ -50,7 +49,7 @@ export default defineComponent({
       console.log('route.params._productslug :',route.params._productslug)
       getProduct(route.params._productslug)
     })
-    
+
     const getProduct = async (productslug)  => {
       console.log(route.params._productslug)
       await actions.getProduct(productslug)

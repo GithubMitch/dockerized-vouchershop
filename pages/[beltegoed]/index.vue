@@ -37,7 +37,7 @@
       const route = useRoute()
       const open = ref(false)
 
-
+      console.log(route.params)
       const brands = toRef(state, 'brands');
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
