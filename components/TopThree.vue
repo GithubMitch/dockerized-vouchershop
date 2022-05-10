@@ -4,8 +4,8 @@
     <div class="popular">
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
         <NuxtLink :to="`/${brand.type}/${brand.key}`"
-        @click="setSelectedBrand(brand.key)"
         >
+        <!-- @click="setSelectedBrand(brand.key)" -->
           <!-- //no main category for brand {{type}} -->
           <div class="brand">
             <div class="visual">
@@ -32,14 +32,14 @@ import {_} from 'vue-underscore'
 export default defineComponent({
   async setup(props) {
     const isLoading = ref(true)
-    const selectableBrands = toRef(state, 'selectableBrands');
+    const brands = toRef(state, 'brands');
     const topThree = toRef(state, 'topThree');
 
     const randomizeBrands = () => {
       for (let i = 0; i <=2 ; i++) {
         if (topThree.value.length <= 2) {
           let randIndex = Math.floor(Math.random() * 10)
-          let randBrand = selectableBrands.value[randIndex]
+          let randBrand = brands.value[randIndex]
           if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
             i--;
           } else {
@@ -53,11 +53,7 @@ export default defineComponent({
       return
     }
 
-    const setSelectedBrand = async (brand)  => {
-      await actions.setSelectedBrand(brand)
-    }
-
-    watch([selectableBrands], (newValues, prevValues) => {
+    watch([brands], (newValues, prevValues) => {
       console.log("old / new values =",prevValues, newValues)
       randomizeBrands();
       isLoading.value = false
@@ -65,7 +61,7 @@ export default defineComponent({
     // if (topThree.value.length == 0) {
       randomizeBrands();
     // }
-    return {setSelectedBrand, topThree}
+    return {topThree}
   }
 })
 </script>

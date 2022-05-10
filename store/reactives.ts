@@ -32,23 +32,22 @@ import {_} from 'vue-underscore';
 // }
 
 const state = reactive ({
-  categoryUrl: ref(''),
-  selectableCategories: ref<[]>([]),
-  selectedSubCategory: ref<[]>([]),
-  brands: ref<[]>([]),
-  selectableBrands: ref<[]>([]),
-  stockProducts: ref<[]>([]),
-  selectableProducts: ref<[]>([]),
-  selectedProducts: ref<[]>([]),
-  selectedBrandProducts: ref<[]>([]),
-  productFilter: ref<[]>([]),
+  //filters
+  brand: ref(''),
+  group: ref(''),
+  actionLabel: ref(''),
+
+  //database brand and product list , stockproducts = altered 
+  brands: ref<[]>([]),  // default from DynamoDB
+  products: ref<[]>([]), // default from DynamoDB
+  stockProducts: ref<[]>([]), // imported from H@nd API
+  filteredProductList: ref<[]>([]), 
+  productFilter: ref<[]>([]), // probably can be removed
+
+
   productPage: ref<[]>([]),
   cart: ref<[]>([]),
   topThree: ref<[]>([]),
-  selectedBrand: ref(''),
-  selectedActionLabel: ref(''),
-  selectedGroup: ref(''),
-  selectedCategory: ref(''),
   paymentOptions: ref([]),
   order: ref({
     selectedCategory: null,
@@ -66,13 +65,13 @@ const actions = {
   
   // ----------------------------------------FETCH EXTERNALS - handled by server/api (directory in root)--------------------------------------------------
   async fetchProductList():Promise<any[]> {
-    state.selectableProducts = await $fetch("/api/fetchremoteproductlist");
+    state.products = await $fetch("/api/fetchremoteproductlist");
     actions.getPaymentOptions();
-    return toRaw(state.selectableProducts);
+    return toRaw(state.products);
   },
   async fetchBrandList():Promise<any[]> {
-    state.selectableBrands = await $fetch("/api/fetchremotebrandlist");
-    return toRaw(state.selectableBrands);
+    state.brands = await $fetch("/api/fetchremotebrandlist");
+    return toRaw(state.brands);
   },
   async fetchStockList() {
     // try{     
@@ -89,6 +88,7 @@ const actions = {
           }
         }
       });
+      // console.log(productsRequest.responseObject.products)
       return methods.validateStock(productsRequest.responseObject.products);
 
   },
@@ -99,22 +99,23 @@ const actions = {
   },    
 
   // --------------------------------------------SETTERS------------------------------------------------------
-  setCategory(category)  {
-    return  (category ? (state.selectedCategory = category, console.log('Set category: ', category)) : (console.log('Didnt set category', category), state.selectedCategory = '', console.log('Reset selectedCategory')))
-  },    
-  // SUB category
-  setSelectedSubCategory(category)  {
-    return  (category ? (state.selectedSubCategory = category, console.log('Set subcategory: ', category)) : (console.log('Didnt set subcategory', category), state.selectedSubCategory = '', console.log('Reset selectedSubCategory')))
-  },  
+  // setCategory(category)  {
+  //   return  (category ? (state.selectedCategory = category, console.log('Set category: ', category)) : (console.log('Didnt set category', category), state.selectedCategory = '', console.log('Reset selectedCategory')))
+  // },    
+  // // SUB category
+  // setSelectedSubCategory(category)  {
+  //   return  (category ? (state.selectedSubCategory = category, console.log('Set subcategory: ', category)) : (console.log('Didnt set subcategory', category), state.selectedSubCategory = '', console.log('Reset selectedSubCategory')))
+  // },  
   setSelectedBrand(brand)  {
-    return (brand ? (state.selectedBrand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.selectedBrand = '', console.log('Reset brand')))
+    methods.filterBrand(brand);
+    return (brand ? (state.brand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.brand = '', console.log('Reset brand')))
   }, 
-  setActionLabel(actionLabel)  {
-    return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : (console.log('Didnt set actionLabel', actionLabel), state.selectedActionLabel = '', console.log('Reset selectedActionLabel')))
-  },      
-  setGroup(group)  {
-    return  (group ? (state.selectedGroup = group, console.log('Set group: ', group)) : (console.log('Didnt set group', group), state.selectedGroup = '', console.log('Reset selectedGroup')))
-  },     
+  // setActionLabel(actionLabel)  {
+  //   return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : (console.log('Didnt set actionLabel', actionLabel), state.selectedActionLabel = '', console.log('Reset selectedActionLabel')))
+  // },      
+  // setGroup(group)  {
+  //   return  (group ? (state.selectedGroup = group, console.log('Set group: ', group)) : (console.log('Didnt set group', group), state.selectedGroup = '', console.log('Reset selectedGroup')))
+  // },     
   async addProducts(product) {
     let foundProduct = await state.order.orderItems.find(element => element.ean == product.ean)
     let windowAlertMsg;
@@ -227,7 +228,6 @@ const actions = {
       case (state.brands):
         break;
       case state.stockProducts:
-        state.selectedProducts = []
         console.log('Deselect Products')
         break;
       default:
@@ -238,17 +238,26 @@ const actions = {
 
 const methods = {
   // TODO : check if this is correct , and if its used in this project
-  async filterActionLabel(stockProducts , actionLabel){
-    console.log('Filter ' + actionLabel + 'products in ', stockProducts, );
+  async filterActionLabel(actionLabel){
+    console.log('Filter ' + actionLabel + 'products in ' );
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
       return filteredProduct.actionLabel == actionLabel; 
     });
-    console.log(filteredProductList)
-    state.productFilter = filteredProductList;
-    return toRaw(state.productFilter)
+    console.log(filteredProductList, 'filteredProductList')
+    state.filteredProductList = filteredProductList;
+    return toRaw(state.filteredProductList)
   },
 
-  async filterGroup(stockProducts , group){
+  async filterBrand(brand){
+    console.log('Filter ' + brand + 'products' );
+    const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
+      return filteredProduct.brand == brand; 
+    });
+    console.log(filteredProductList, 'filteredProductList')
+    state.filteredProductList = filteredProductList;
+    return toRaw(state.filteredProductList)
+  },
+  async filterGroup(group){
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
       
       let foundResult = ref();
@@ -263,18 +272,21 @@ const methods = {
           return foundResult.value = element == group
         }
       }
-      console.log(foundResult.value)
+        if (foundResult.value !== undefined) {
+          console.log(foundResult.value)
+        }
+          
       return foundResult.value; 
 
       });
-    console.log(filteredProductList, 'filterdProducts')
-    state.selectedBrandProducts = filteredProductList;
-    return toRaw(state.selectedBrandProducts)
+    console.log(filteredProductList, 'filterdProductList')
+    state.filteredProductList = filteredProductList;
+    return toRaw(state.filteredProductList)
   },
 
   validateStock(stockProducts){
     console.log('handling products...');
-    const optimizedProductList = _(state.selectableProducts).map( (stockItem) => {
+    const optimizedProductList = _(state.products).map( (stockItem) => {
       return {
         ...stockItem,
         inStock : _.chain(stockProducts).findIndex({ean: stockItem.ean }) != -1

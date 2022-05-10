@@ -2,7 +2,8 @@
 	<NuxtLayout name="default">
 		<template #content>
 			<div class="inner">
-				<h1 style="text-align: center">Checkout</h1>
+				<h1 style="text-align: center">Checkout {{order}} 123</h1>
+
 				<!-- <p>
             A list with all products that reside within your cart.
           </p> -->
@@ -554,25 +555,25 @@ export default defineComponent({
 				const orderPayload = reactive({
 					"reference" : "referexxxnce",
 					"submitOrderRequest" : {
-						desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
-						mobile: tel.value,
-						email: email.value,
-						subPaymethodId: pmsubId, 
 						"address1" : "address1",
 						"city" : "Hoofddorp" ,
 						"country" : "NL" ,
 						"description" : "Holland bundle NL",
-						totalAmountCents: getCartTotal(),
-						extraAmount: getTotalAmountOfAddedCosts(),
+						"extraAmount": getTotalAmountOfAddedCosts(),
 						"ipCustomer" : "127.0.0.1",
 						"language" : "nl" ,
-						orderItems: formattedOrderItems,
+						"orderItems": formattedOrderItems,
 						"orderConfig" : '',
 						"returnUrl": window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
 						"securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
-						shopPaymentId: pmId, 
+						"shopPaymentId": pmId, 
 						"specifyOrderItems" : true ,
+						"subPaymethodId": pmsubId, 
+						"totalAmountCents": getCartTotal(),
 						"zipcode" : "1234aa",
+						// desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
+						// mobile: tel.value,
+						// email: email.value,
 					}
 				})
 				console.log(orderPayload)
@@ -600,7 +601,7 @@ export default defineComponent({
 						storeLastTrxData(qid.value, payUrl.value, orderItems.value);
 						if (submitReq.responseObject.paymentUrl)
 							console.log(submitReq.responseObject.paymentUrl)
-							// window.location.href = `${submitReq.responseObject.paymentUrl}`
+							window.location.href = `${submitReq.responseObject.paymentUrl}`
 					}
 
 					if(!submitReq)

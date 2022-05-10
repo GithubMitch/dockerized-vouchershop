@@ -3,17 +3,11 @@
   <NuxtLayout name="productlist">
     <div class="inner">
       <ClientOnly>
-        <div class="title">
-          <h1 class="page-title">{{$route.params._categoryslug ?? $route.params._categoryslug}} : {{brand ?? brand}}</h1>
-          <h2 class="page-subtitle" v-if="!brand | brand !== $route.params._brand" >{{$route.params._brand}}</h2>
-        </div>
         <transition-group tag="ul" name="card" appear
           @before-enter="beforeEnter"
           @enter="enter"
-          v-if="$route.params._brand"
           class="styled-list product-list">
-          <!-- {{selectedBrandProducts}} -->
-          <li  class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
+          <li  class="item" v-for="(product, index) in products" :key="product.key">
             <Fold
               width="45" 
               height="45"
@@ -28,7 +22,7 @@
             <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
             @click="addProducts($event, product)"
             >
-            <!-- @click.prevent="click" -->
+              <!-- @click.prevent="click" -->
               <img :src="`../../assets/logos/${product.brand}.png`" />
               <span class="price" for="">€ {{product.value / 100}}</span>
               <span class="name">{{ product.name }}</span>
@@ -36,33 +30,6 @@
 
             </a>
           </li>
-        </transition-group>
-        <transition-group tag="ul" name="card" appear
-          @before-enter="beforeEnter"
-          @enter="enter"
-          v-else
-          class="styled-list product-list">
-            <li class="item" v-for="(product, index) in selectedBrandProducts" :brand="brand"  :key="product.key">
-              <router-link class="brandLine product" 
-                :to='product.brand + `/` + product.actionLabel + `/`  + product.key'
-                :class="{instock : product.inStock}" 
-                @click="setProductPage(product)"
-                >
-                  <img :src="`../../assets/logos/${product.brand}.png`" />
-                  <span class="price" for="">€ {{product.value / 100}}</span>
-                  <span class="name">{{ product.name }}</span>
-                  <span class="action" for="">{{product.actionLabel}}</span>
-
-                  <Fold
-                      width="45" 
-                      height="45"
-                      :class="'MyGradient_'+index"           
-                      :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-                      :MyGradient="'MyGradient'"
-                      :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
-                    />
-              </router-link>
-            </li>
         </transition-group>
       </ClientOnly>
     </div>
@@ -72,7 +39,7 @@
 <script>
 import gsap from "gsap";
 import { state, actions, methods } from '../store/reactives'
-import { defineComponent, ref, toRef } from 'vue'
+import { defineComponent, ref, toRef, onBeforeMount } from 'vue'
 import {_} from 'vue-underscore';
 
 export default defineComponent({
@@ -81,9 +48,17 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    group: {
+      type: String,
+      default: ''
+    },
+    actionLabel: {
+      type: String,
+      default: ''
+    },
     products:{
       type: Object,
-      default: {}
+      default: []
     }
   },
   head() {
@@ -103,35 +78,35 @@ export default defineComponent({
       await actions.addProducts(x)
     }
   },
-  setup(props) {
+  async setup(props) {
     const router = useRouter()
     const route = useRoute()
     const open = ref(false)
 
-    const stockProducts = toRef(state, 'stockProducts');
-    const selectedCategory = toRef(state, 'selectedCategory');
-    const selectedProducts = toRef(state, 'selectedProducts');
-    const selectedBrandProducts = toRef(state, 'selectedBrandProducts');
-    const selectedGroup = toRef(state, 'selectedGroup');
 
-    if (selectedGroup.value.length) {
-      // console.log('GROUP IS ', selectedGroup.value)
-      methods.filterGroup(stockProducts.value, selectedGroup.value)
-    }
-    // if (selectedGroup.value.length) {
-    //   console.log('SELECTED BRAND PRODUCTS', selectedBrandProducts.value)
-    //   console.log('FILTER BRANDS ON GROUP :', selectedGroup.value)
-    //   methods.filterGroup(selectedBrandProducts.value, selectedGroup.value)
-    //    // TODO filter selectedBrandProduct on selectedGroup and return selectedBrandProducts 
-    //   console.log('SELECTED BRAND PRODUCTS FILTERD ON GROUP', selectedBrandProducts.value)
+    const stockProducts = toRef(state, 'stockProducts');
+    const brand = toRef(state, 'brand');
+    const actionLabel = toRef(state, 'actionLabel');
+    const group = toRef(state, 'group')
+    const filteredProductList = toRef(state, 'filteredProductList')
+
+    // if (props) {
+    //   console.log(props)
+      
+    //   if (props.brand)
+    //     console.log(brand.value)     
+    //     methods.filterBrand(brand.value) 
+    //   if (props.actionLabel)
+    //     console.log(actionLabel.value) 
+    //     methods.filterActionLabel(actionLabel.value) 
+    //   if (props.group)
+    //     console.log(group.value)
+    //     methods.filterGroup(group.value)
+    //   // console.log('GROUP IS ', selectedGroup.value)
+    //   // methods.filterGroup( selectedGroup.value)
+    //   // methods.filterBrand( selectedBrand.value)
     // }
 
-    // console.log(selectedGroup.value)
-
-    // TODO : IF no selectedbrandproducts  ( now it returns full stocklist)
-    if (selectedBrandProducts.value.length == 0) {
-      selectedBrandProducts.value = stockProducts.value
-    }
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -166,34 +141,34 @@ export default defineComponent({
       })
     }
 
-    const setProductPage = async (product)  => {
-      await actions.setProductPage(product)
-    }
-    const deselect = async (selected)  => {
-      await Promise.all([
-        actions.deselect(selected),
-        router.go(-1),
-        Promise.resolve(`Completed Promise`)
-      ])
-    }
+    onMounted(() => {
+      // window.alert('mongol')    
+      // if (props) {
+      //   console.log(props)
+        
+      //   if (props.brand !== '') {
+      //     console.log(brand.value)     
+      //     methods.filterBrand(brand.value) 
+      //   }
+      //   if (props.actionLabel  !== '') {
+      //     methods.filterActionLabel(actionLabel.value) 
+      //     console.log(actionLabel.value) 
+      //   }
+      //   if (props.group !== '') {
+      //     console.log(group.value)
+      //     methods.filterGroup(group.value)
 
-      // const stock = async (stockProducts)  => {
-      //   selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value, inStock: true})
+      //   }
+        // console.log('GROUP IS ', selectedGroup.value)
+        // methods.filterGroup( selectedGroup.value)
+        // methods.filterBrand( selectedBrand.value)
       // }
-      // // watcher
-      // watch([stockProducts], (newValues, prevValues) => {
-      //   stock(stockProducts)
-      // })
+    })
 
     return {
-      open,
-      selectedProducts, 
-      selectedCategory, 
-      stockProducts, 
-      selectedBrandProducts, 
-      props, 
-      setProductPage, 
-      deselect,
+      brand, 
+      group, 
+      actionLabel, 
       beforeEnter,
       enter,
       leave,

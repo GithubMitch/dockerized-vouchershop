@@ -1,9 +1,9 @@
 
 <template>
   <div class="breadcrumb">
-    <div v-if="$route.params._categoryslug" class="inner">
+    <div v-if="$route.params" class="inner">
       <!-- <span v-for="(param, route) in $route.params" :key="param"> -->
-          <span v-show="selectedCategory">
+          <!-- <span v-show="selectedCategory">
             x {{selectedCategory}}
           </span>
           <span v-show="selectedBrand">
@@ -14,7 +14,7 @@
           </span>
           <span v-show="selectedGroup">
             x {{selectedGroup}}
-          </span>
+          </span> -->
     </div>
     <!-- <div v-if="$route.params._categoryslug" class="inner">
       <span v-for="(param, route) in $route.params" :key="param">
@@ -47,17 +47,16 @@ import { state, actions } from '../store/reactives';
 export default defineComponent({
 
   async setup() {
-    const selectedCategory = toRef(state, 'selectedCategory');
-    const selectedBrand = toRef(state, 'selectedBrand');
-    const selectedActionLabel = toRef(state, 'selectedActionLabel');
-    const selectedGroup = toRef(state, 'selectedGroup');
+    // const selectedCategory = toRef(state, 'selectedCategory');
+    // const selectedActionLabel = toRef(state, 'selectedActionLabel');
+    // const selectedGroup = toRef(state, 'selectedGroup');
 
 
     return {
-      selectedCategory,
-      selectedBrand,
-      selectedActionLabel,
-      selectedGroup
+      // selectedCategory,
+      // selectedBrand,
+      // selectedActionLabel,
+      // selectedGroup
     }
   }
 })

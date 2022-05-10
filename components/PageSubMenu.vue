@@ -4,35 +4,17 @@
     <!-- v-if="$route.params._categoryslug && $route.params._brand" -->
     <nav>
       <ul>
-        <!-- {{navLinks}} -->
         <li v-for="item in navLinks.subItems" v-bind:key="item.label" class="category">
           <NuxtLink :to="`${navLinks.url}${item.url}`" 
               @click="setGroup(`${item.label}`)"
             >
-              <!-- //  TODO HIERBOVEN >> SET GROUP (product.group) FILTER -->
+              <!-- //  TODO  >> SET GROUP (product.group) FILTER -->
               <!-- @click="setActionLabel(`${item.label}`)" -->
 
               {{item.label}}
           </NuxtLink>
           <!--  -->
         </li>
-            
-        <!-- <li>
-          <NuxtLink @click="setActionLabel('kids')" 
-          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-him`' value="him" key="him">Him</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink @click="setActionLabel('kids')" 
-          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-her`' value="her" key="her">Her</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink @click="setActionLabel('kids')" 
-          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-kids`' value="kids" key="kids">Kids</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink @click="setActionLabel('opwaarderen')" 
-          :to='`/${$route.params._categoryslug}` + `/${$route.params._brand}` + `/for-opwaarderen`' value="opwaarderen" key="opwaarderen">Opwaarderen</NuxtLink>
-        </li> -->
       </ul>
     </nav>
   </div>
@@ -52,7 +34,6 @@ export default defineComponent({
     }
   },
   async setup() {
-    const selectedBrand = toRef(state, 'selectedBrand');
 
     const setActionLabel = (value)  => {
       console.log(value)
@@ -62,7 +43,7 @@ export default defineComponent({
       console.log(value)
       actions.setGroup(value)
     }
-    return {setGroup, setActionLabel, selectedBrand}
+    return {setGroup, setActionLabel}
   },
 })
 </script>

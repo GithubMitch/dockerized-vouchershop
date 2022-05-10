@@ -5,7 +5,7 @@
       <p>Voortgang van je bestelling. </p>
       <p> <b>Ordernummer: {{reactiveData.qid}}
       </b></p>
-      <div class="loader"></div>
+      <div v-if="reactiveData.status !== 'result'" class="loader"></div>
       <div id="Progress">
           <div :class="{inprogress: reactiveData.progress.paid == 'inprogress' }">Betaald: <img v-if="reactiveData.progress.paid === true" src="@/assets/ok.svg" /></div>
           <div :class="{inprogress: reactiveData.progress.vouchercode == 'inprogress' }">Ophalen vouchercode: <img v-if="reactiveData.progress.vouchercode === true" src="@/assets/ok.svg" /></div>
@@ -13,10 +13,6 @@
           <div :class="{inprogress: reactiveData.progress.done == 'inprogress' }">Klaar! <img v-if="reactiveData.progress.done === true" src="@/assets/ok.svg" /></div>
       </div>
     </div>
-    <h1>
-      Status: {{reactiveData.status}}
-    </h1>
-    
     <div v-if="reactiveData.result == 'success' ">
         <!-- //- <CheckIt size="150" thickness="10"></CheckIt> -->
         <h1>Je order is onderweg!</h1>

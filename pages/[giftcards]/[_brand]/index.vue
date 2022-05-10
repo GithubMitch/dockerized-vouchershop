@@ -1,6 +1,7 @@
 <template>
+  <h1>brand page</h1>
   <Products 
-  :selectedBrand="selectedBrand" 
+  :products="stockProducts ?? stockProducts" 
   /> 
   <!-- :products="products" -->
 </template>
@@ -27,8 +28,9 @@
     //   }
     // },
     async setup(props) {     
-      const selectedBrand = toRef(state, 'selectedBrand');
-      return{selectedBrand};
+      const stockProducts = toRef(state, 'stockProducts');
+
+      return{stockProducts};
     }
   })
 </script>

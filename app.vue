@@ -6,7 +6,7 @@
 
 
 <script>
-import { state, actions } from './store/reactives';
+import {state , actions} from './store/reactives'
 import {
   defineComponent,
   toRef,
@@ -23,28 +23,12 @@ export default defineComponent({
           rel: "stylesheet",
           href: "/assets/iconfont/iconfont.css"
         }
-      ],
-      meta: [
-        // {
-        //   hid: 'ABOUT-HID',
-        //   name: `About page`,
-        //   content: 'Website about page'
-        // }
       ]
     }
   },
   async setup () {
-      const router = useRouter()
-      const route = useRoute()
-
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
-      const selectedBrand = toRef(state, 'selectedBrand');
-
-      if (route.params._brand) {
-        console.log(route.params._brand)
-        selectedBrand.value = route.params._brands
-      }
 
       if (stockProducts.value.length == 0 && brands.value.length == 0) {
         await Promise.all([
@@ -60,33 +44,6 @@ export default defineComponent({
       })
       .catch(error => console.log('vcshop 68',error))
     }
-      // useMeta({
-      //   title: 'Home',
-      //   meta: [
-      //     { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-      //   ]
-      // })
-      // try {
-      //   // const res = $fetch('http://10.226.80.160:8280/productlist', { 
-      //   //   method: 'POST',
-      //   //   headers: {
-      //   //     'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
-      //   //   }
-      //   // });        
-      //   const res = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
-      //     method: 'POST',
-      //     headers: {
-      //       'Authorization': 'Basic ' + btoa(`${'EVA'}:${'XXXX'}`)
-      //     },
-      //     body: {
-      //       reference : "blablabla", // 
-      //       productListRequest : {
-      //       "securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333"
-      //       }
-      //     }
-      //   });
-      //   console.log("PRODUCTS", res.responseObject.products)
-      // } catch (err) {console.log(err)}
 
     return {
 
