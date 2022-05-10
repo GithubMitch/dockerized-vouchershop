@@ -11,7 +11,7 @@
             <Fold
               width="45" 
               height="45"
-              :productPage="`${product.brand}/${product.actionLabel}/${product.key}`"
+              :productPage="`${product.brand}/${product.key}`"
               :product="product"
               :class="'MyGradient_'+index"           
               :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
@@ -44,6 +44,10 @@ import {_} from 'vue-underscore';
 
 export default defineComponent({
   props: {
+    products: {
+      type: Array,
+      default: []
+    },
     brand: {
       type: String,
       default: ''
@@ -55,10 +59,6 @@ export default defineComponent({
     actionLabel: {
       type: String,
       default: ''
-    },
-    products:{
-      type: Object,
-      default: []
     }
   },
   head() {
@@ -78,11 +78,10 @@ export default defineComponent({
       await actions.addProducts(x)
     }
   },
-  async setup(props) {
+  async setup() {
     const router = useRouter()
     const route = useRoute()
     const open = ref(false)
-
 
     const stockProducts = toRef(state, 'stockProducts');
     const brand = toRef(state, 'brand');
@@ -90,23 +89,7 @@ export default defineComponent({
     const group = toRef(state, 'group')
     const filteredProductList = toRef(state, 'filteredProductList')
 
-    // if (props) {
-    //   console.log(props)
-      
-    //   if (props.brand)
-    //     console.log(brand.value)     
-    //     methods.filterBrand(brand.value) 
-    //   if (props.actionLabel)
-    //     console.log(actionLabel.value) 
-    //     methods.filterActionLabel(actionLabel.value) 
-    //   if (props.group)
-    //     console.log(group.value)
-    //     methods.filterGroup(group.value)
-    //   // console.log('GROUP IS ', selectedGroup.value)
-    //   // methods.filterGroup( selectedGroup.value)
-    //   // methods.filterBrand( selectedBrand.value)
-    // }
-
+    // const products = ref([]);
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -141,34 +124,11 @@ export default defineComponent({
       })
     }
 
-    onMounted(() => {
-      // window.alert('mongol')    
-      // if (props) {
-      //   console.log(props)
-        
-      //   if (props.brand !== '') {
-      //     console.log(brand.value)     
-      //     methods.filterBrand(brand.value) 
-      //   }
-      //   if (props.actionLabel  !== '') {
-      //     methods.filterActionLabel(actionLabel.value) 
-      //     console.log(actionLabel.value) 
-      //   }
-      //   if (props.group !== '') {
-      //     console.log(group.value)
-      //     methods.filterGroup(group.value)
-
-      //   }
-        // console.log('GROUP IS ', selectedGroup.value)
-        // methods.filterGroup( selectedGroup.value)
-        // methods.filterBrand( selectedBrand.value)
-      // }
-    })
-
     return {
       brand, 
       group, 
-      actionLabel, 
+      actionLabel,
+      filteredProductList,stockProducts,
       beforeEnter,
       enter,
       leave,

@@ -1,7 +1,7 @@
 <template>
   <div class="inner">
 
-      <!-- {{productFilter}} -->
+      <!-- {{filteredProductList}} -->
         <!-- @before-enter="beforeEnter"
         @enter="enter"  -->
         <ClientOnly>
@@ -90,7 +90,7 @@ export default defineComponent({
     return {
       stockProducts,
       brands,
-      productFilter,
+      filteredProductList,
       addProducts
     }
   },

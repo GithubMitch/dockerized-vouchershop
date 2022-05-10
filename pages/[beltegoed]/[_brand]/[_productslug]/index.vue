@@ -1,9 +1,13 @@
 <template #content>
-    <div class="inner productpage">
+    <div :class="{disabled: !product.inStock}" class="inner productpage ">
       <!-- <h1>Product detail page</h1> -->
       <h1>
         {{product.name}} 
-        <i class="i simple-line-icons:close" @click="$router.go(-1)"></i>
+        <!-- TODO fix this mess -->
+        <NuxtLink v-if="product.brand" :to="`/beltegoed/${product.brand}`" @click="setGroup(product.brand)">
+          <i  class="i simple-line-icons:close"></i>
+        </NuxtLink>
+        <i v-else class="i simple-line-icons:close" @click="$router.go(-1)"></i>
       </h1>
       <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
       <div class="description">
@@ -32,7 +36,7 @@
         <!-- <NuxtLink class="cta" @click="checkoutWith(product, (counter < 4 ? counter++ : counter) )" to="/checkout">Add & go to cart</NuxtLink> -->
         <!-- <hr> -->
 
-        <NuxtLink class="cta" @click="addProduct(product)" to="/checkout">Add & go to cart</NuxtLink>
+        <NuxtLink :class="{disabled: !product.inStock}" class="cta" @click="addProduct(product)" :to="product.inStock ? '/checkout' : '/home'">{{ !product.inStock ? 'Not in stock right now' : 'Add & go to cart' }}</NuxtLink>
 
         <!-- <div class="close"  @click="$router.go(-1)">X</div> -->
       </div>
@@ -40,13 +44,17 @@
 </template>
 
 <script lang='ts'>
-import { state, actions } from '../../../../../store/reactives';
+import { state, actions } from '../../../../store/reactives';
 import { defineComponent, toRef, ref} from 'vue';
 
 export default defineComponent({
   layout: false,
   props: {
     product:{
+      type: Object,
+      default: []
+    },
+    details:{
       type: Object,
       default: []
     }
@@ -61,17 +69,18 @@ export default defineComponent({
       ],
     }
   },
-  async setup(props) {
-    // console.log(props.product)
-    // const counter = useState('counter', () => 0)
-
+  async setup() {
+    const setGroup = (group)  => {
+      console.log(group)
+      actions.setGroup(group)
+    }
     const addProduct = async (product)  => {
       await actions.addProducts(product)
     }
 
     return {
       addProduct, 
-      // counter
+      setGroup
     }
   },
 })

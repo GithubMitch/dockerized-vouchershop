@@ -1,33 +1,31 @@
 
 <template>
   <NuxtLayout name="productlist">
-    <div class="inner">
-      <ClientOnly>
-        <transition-group tag="ul" name="card" appear
-          @before-enter="beforeEnter"
-          @enter="enter"
-          class="styled-list product-list">
-          <li  class="item" v-for="(brand, index) in brands" :key="brand.key">
-            <NuxtLink class="brandLine" :to='`/beltegoed` + `/${brand.key}`' 
-              @click="setSelectedBrand(brand.key)"
-              >
-                <img :src="`../../assets/logos/${brand.key}.png`" />
-                <span for="">{{brand.name}}</span>
-                <span for="">{{$route.params.beltegoed}}</span>
+    <ClientOnly>
+      <transition-group tag="ul" name="card" appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+        class="styled-list product-list">
+        <li  class="item" v-for="(brand, index) in brands" :key="brand.key">
+          <NuxtLink class="brandLine" :to='`/beltegoed` + `/${brand.key}`' 
+            @click="setSelectedBrand(brand.key)"
+            >
+              <img :src="`../../assets/logos/${brand.key}.png`" />
+              <span for="">{{brand.name}}</span>
+              <span for="">{{$route.params.beltegoed}}</span>
 
-                <Fold
-                    width="45" 
-                    height="45"
-                    :class="'MyGradient_'+index"           
-                    :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-                    :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
-                    :MyGradient="'MyGradient'"
-                    />
-            </NuxtLink>   
-          </li>
-        </transition-group>
-      </ClientOnly>
-    </div>
+              <Fold
+                  width="45" 
+                  height="45"
+                  :class="'MyGradient_'+index"           
+                  :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+                  :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+                  :MyGradient="'MyGradient'"
+                  />
+          </NuxtLink>   
+        </li>
+      </transition-group>
+    </ClientOnly>
   </NuxtLayout> 
 </template>
 
@@ -42,14 +40,6 @@ export default defineComponent({
     brands: {
       type: Array,
       default: []
-    },
-    brand: {
-      type: String,
-      default: ''
-    },
-    products:{
-      type: Object,
-      default: {}
     }
   },
   head() {
@@ -75,6 +65,7 @@ export default defineComponent({
     const open = ref(false)
 
     const stockProducts = toRef(state, 'stockProducts');
+    const brand = toRef(state, 'brand');
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -119,6 +110,7 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
+      brand
     }
   },
 })

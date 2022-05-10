@@ -40,7 +40,7 @@ export default defineComponent({
       .then((promises) => {
         // return lists
         actions.fetchStockList()
-        // console.log(promises, 'Promise ressolved')
+        console.log(promises, 'Promise resolved')
       })
       .catch(error => console.log('vcshop 68',error))
     }
@@ -108,8 +108,10 @@ export default defineComponent({
       }
     }
   }
+  main .inner {max-width:100%;}
+  main .inner.sales {max-width:990px;}
   .inner {
-    max-width:990px;
+    // max-width:990px;
     box-sizing:border-box;
     width:100%;
     display:block;
@@ -345,8 +347,8 @@ export default defineComponent({
   .cta {
     margin: 0;
     left: 0;
-    background: linear-gradient(186deg,#28c475,#15734c);
     background: repeating-linear-gradient(45deg, #1684c8, #308ac3 100px);
+    background: linear-gradient(186deg,#28c475,#15734c);
     color: #fff;
     width: 100%;
     border: none;
@@ -365,9 +367,19 @@ export default defineComponent({
     font-weight:500;
     transition:.3s ease opacity;
 
+    &.disabled {
+      // pointer-events:none;
+      // background: linear-gradient(186deg,#28c430,#15734c);
+      background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
+
+      opacity:1;
+      &:hover {
+        opacity:.9;
+      }
+    }
     &:hover {
       background: linear-gradient(186deg,#28c430,#15734c);
-      background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
+      // background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
     }
   }
 

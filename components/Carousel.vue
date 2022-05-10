@@ -107,9 +107,9 @@
       -webkit-box-pack: justify;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      max-width: 990px;
+      // max-width: 990px;
       margin: 0px auto;
-      min-width: 990px;
+      min-width: 100%;
       position: relative;
       overflow: hidden;
       margin-bottom: 2em;

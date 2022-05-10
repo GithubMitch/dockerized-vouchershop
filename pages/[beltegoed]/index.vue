@@ -1,11 +1,9 @@
 <template>
   <NuxtLayout name="category">
       <template #content>
-        <div class="inner">
-          <h1>Beltegoed</h1>
-          <h2>Select your brand</h2>
-          <Categories :brands="brands"/>
-        </div>
+        <h1>Beltegoed</h1>
+        <span>Select your brand</span>
+        <Categories :brands="brands"/>
       </template>
   </NuxtLayout>
 </template>
@@ -43,20 +41,6 @@
       const brands = toRef(state, 'brands');
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
-
-
-      // if (selectedGroup.value.length) {
-      //   console.log('SELECTED BRAND PRODUCTS', selectedBrandProducts.value)
-      //   console.log('FILTER BRANDS ON GROUP :', selectedGroup.value)
-      //   methods.filterGroup(selectedGroup.value)
-      //    // TODO filter selectedBrandProduct on selectedGroup and return selectedBrandProducts 
-      //   console.log('SELECTED BRAND PRODUCTS FILTERD ON GROUP', selectedBrandProducts.value)
-      // }
-
-      // console.log(selectedGroup.value)
-
-      // TODO : IF no selectedbrandproducts  ( now it returns full stocklist)
-
 
       const beforeEnter = (el) => {
         el.style.opacity = 0;

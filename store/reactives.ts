@@ -1,36 +1,6 @@
 import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
-// URL and selected URL for category
-// const categoryUrl = ref([]);
-// const selectedCategory = ref([]);
-
-//------------------------------------------------
-// const protocol = window.location.protocol;
-// const domain = window.location.hostname;
-// const port = window.location.port;
-
-// Vue.prototype.$origin = protocol + domain + port;
-
-// switch (domain) {
-//   case 'localhost':
-//     Vue.prototype.$api = 'http://localhost'
-//   case '127.0.0.1':
-//   case 'vouchershop.prepaidpoint.devv':
-//     Vue.prototype.$api = 'http://api.prepaidpoint.test/vouchershop';
-//     break;
-//   case 'vouchershop.prepaidpoint.test':
-//     Vue.prototype.$api = 'http://api.prepaidpoint.test/vouchershop';
-//     break;
-//   case 'vouchershop.prepaidpoint-preprod.com':
-//     Vue.prototype.$api = 'http://api.prepaidpoint-preprod.com/vouchershop';
-//     Vue.prototype.$origin = 'https://vouchershop.prepaidpoint-preprod.nl/vouchershop'
-//     break;
-//   default:
-//     Vue.prototype.$api = 'https://api.prepaidpoint.com/vouchershop';
-//     break;
-// }
-
 const state = reactive ({
   //filters
   brand: ref(''),
@@ -40,15 +10,16 @@ const state = reactive ({
   //database brand and product list , stockproducts = altered 
   brands: ref<[]>([]),  // default from DynamoDB
   products: ref<[]>([]), // default from DynamoDB
-  stockProducts: ref<[]>([]), // imported from H@nd API
-  filteredProductList: ref<[]>([]), 
-  productFilter: ref<[]>([]), // probably can be removed
-
-
-  productPage: ref<[]>([]),
-  cart: ref<[]>([]),
+  stockProducts: ref<{}>([]), // imported from H@nd API
+  filteredProductList: ref<{}>([]), 
+  paymentOptions: ref<{}>([]),
+  productPage: ref<{}>([]),
   topThree: ref<[]>([]),
-  paymentOptions: ref([]),
+  allProducts: ref<{}>([]), //if needed or testing
+
+  giftCards:ref<[]>([]), // filtered blackhawk products
+
+  cart: ref<[]>([]),
   order: ref({
     selectedCategory: null,
     selectedBrand: null,
@@ -74,48 +45,36 @@ const actions = {
     return toRaw(state.brands);
   },
   async fetchStockList() {
-    // try{     
-      const productsRequest = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
-        method: 'POST',
-        headers: {
-          'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
-          'posId': '50100004'
-        },
-        body: {
-          reference : "blablabla", // 
-          productListRequest : {
-          "securityKey" : 'DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333'
-          }
-        }
-      });
-      // console.log(productsRequest.responseObject.products)
-      return methods.validateStock(productsRequest.responseObject.products);
-
+    let stock = await $fetch("/api/fetchstocklist");
+    state.allProducts = stock
+    return methods.validateStock(stock);
+  },
+  async getPaymentOptions() {
+    let payOpts = await $fetch("/api/fetchpaymethods");
+    return state.paymentOptions = payOpts;
   },
   async getProduct(_productslug) { // find product in stockproducts
-    state.productPage = await state.stockProducts.find(element => element.key == _productslug)
+    let product = state.stockProducts.find(element => element.key == _productslug)
+    let providedDetails = state.allProducts.find(element => element.ean == product.ean)
+    state.productPage = {product,providedDetails}
     console.log('Found this product >>>', state.productPage)
+    console.log('Belonging details >>>', providedDetails)
     return state.productPage
   },    
 
   // --------------------------------------------SETTERS------------------------------------------------------
-  // setCategory(category)  {
-  //   return  (category ? (state.selectedCategory = category, console.log('Set category: ', category)) : (console.log('Didnt set category', category), state.selectedCategory = '', console.log('Reset selectedCategory')))
-  // },    
-  // // SUB category
-  // setSelectedSubCategory(category)  {
-  //   return  (category ? (state.selectedSubCategory = category, console.log('Set subcategory: ', category)) : (console.log('Didnt set subcategory', category), state.selectedSubCategory = '', console.log('Reset selectedSubCategory')))
-  // },  
   setSelectedBrand(brand)  {
     methods.filterBrand(brand);
     return (brand ? (state.brand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.brand = '', console.log('Reset brand')))
   }, 
-  // setActionLabel(actionLabel)  {
-  //   return  (actionLabel ? (state.selectedActionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : (console.log('Didnt set actionLabel', actionLabel), state.selectedActionLabel = '', console.log('Reset selectedActionLabel')))
-  // },      
-  // setGroup(group)  {
-  //   return  (group ? (state.selectedGroup = group, console.log('Set group: ', group)) : (console.log('Didnt set group', group), state.selectedGroup = '', console.log('Reset selectedGroup')))
-  // },     
+  setActionLabel(actionLabel)  {
+    methods.filterActionLabel(actionLabel);
+    return  (actionLabel ? (state.actionLabel = actionLabel, console.log('Set actionLabel: ', actionLabel)) : (console.log('Didnt set actionLabel', actionLabel), state.actionLabel = '', console.log('Reset selectedActionLabel')))
+  },      
+  setGroup(group)  {
+    methods.filterGroup(group);
+    return  (group ? (state.group = group, console.log('Set group: ', group)) : (console.log('Didnt set group', group), state.group = '', console.log('Reset selectedGroup')))
+  },     
   async addProducts(product) {
     let foundProduct = await state.order.orderItems.find(element => element.ean == product.ean)
     let windowAlertMsg;
@@ -157,10 +116,14 @@ const actions = {
   },
   async setProductPage(product) {
     if (product.key) {
-      state.productPage = product
+      let thisProductDetails = state.allProducts.find(element => element.ean == product.ean)
+      
+      state.productPage = {product , thisProductDetails}
+      // console.log('details:', thisProductDetails)
     } else {
-      let thisProduct = await state.stockProducts.find(element => element.key == product)
-      state.productPage = thisProduct
+      let thisProduct = state.stockProducts.find(element => element.key == product)
+      let thisProductDetails = state.allProducts.find(element => element.ean == product.ean)
+      state.productPage = {thisProduct, thisProductDetails}
     }
     console.log('Set:', state.productPage)
     return state.productPage
@@ -179,22 +142,7 @@ const actions = {
     } , 0);
   },
   
-  async getPaymentOptions() {
-    const paymentOpts = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/paymentmethods', { 
-      method: 'POST',
-      headers: {
-        'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
-        'posId': '50100004'
-      },
-      body: {
-        reference : "blablabla", // 
-        securityKey : 'DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333'
-      }
-    });
-      state.paymentOptions = paymentOpts.responseObject.handpay;
 
-    return state.paymentOptions;
-  },
   getPaymethodWithKey(key) {
     return _(state.paymentOptions).findWhere({ key });
   },
@@ -249,7 +197,7 @@ const methods = {
   },
 
   async filterBrand(brand){
-    console.log('Filter ' + brand + 'products' );
+    console.log('Filter ' + brand + ' products' );
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
       return filteredProduct.brand == brand; 
     });
@@ -265,10 +213,10 @@ const methods = {
       if (filteredProduct.group && filteredProduct.group == group) {
         return foundResult.value = filteredProduct.group == group; 
       } else if (Array.isArray(filteredProduct['group'])) {
-        console.log(filteredProduct['group'])
+        // console.log(filteredProduct['group'])
         for (let index = 0; index < filteredProduct['group'].length; index++) {
           const element = filteredProduct['group'][index];
-          console.log(element == group)
+          // console.log(element == group)
           return foundResult.value = element == group
         }
       }
@@ -293,6 +241,9 @@ const methods = {
       }
     });
     state.stockProducts = optimizedProductList;
+    if (state.brand) {
+      console.log(state.brand)
+    }
     return toRaw(state.stockProducts)
   },
 
@@ -326,5 +277,22 @@ const methods = {
     state.paymentOptions = optimizedPaymethodList
   },
 }
+
+
+/// TODO  
+//  1.  Move api Calls to server/API  
+        // -submit
+        // -checkout
+        // -status
+        // -sendmail
+        // -sendquestion
+//  3.  Make giftcards working
+//  5.  Expand filters {brand>group>actionlabel} define order of filtering
+//  2.  Set operatorcode blckhwk seperate category > giftcards
+//  4.  Contact page with contact form
+
+//  6.  ProductPage as landing page has no back < navigation (needs re(fetch) content)
+
+
 
 export  {state, actions, methods }

@@ -1,9 +1,6 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <div class="inner">
-        <h1> 123</h1>
-      </div>
       <Router-View/>
     </template>
   </NuxtLayout>

@@ -2,11 +2,7 @@
 	<NuxtLayout name="default">
 		<template #content>
 			<div class="inner">
-				<h1 style="text-align: center">Checkout {{order}} 123</h1>
-
-				<!-- <p>
-            A list with all products that reside within your cart.
-          </p> -->
+				<h1 style="text-align: center">Checkout</h1>
 			</div>
 			<div class="inner checkout">
 				<div id="ProductSelection">
@@ -282,7 +278,6 @@ export default defineComponent({
 	},
 	async setup() {
 		const cart = toRef(state, "cart");
-		const selectedProducts = toRef(state, "selectedProducts");
 		const hover = ref(false);
 		const selectedPaymethod = ref(null);
 		const selectedSubPaymethod = ref(null);
@@ -707,7 +702,6 @@ export default defineComponent({
 			paymentOptions,
 			orderItems,
 			cart,
-			selectedProducts,
 			hover,
 			selectedPaymethod,
 			selectedSubPaymethod,
@@ -730,7 +724,7 @@ export default defineComponent({
       checkName,
       checkMobile,
       checkEmail,
-      checkPaymethods
+      checkPaymethods,
 		}
 	}
 });

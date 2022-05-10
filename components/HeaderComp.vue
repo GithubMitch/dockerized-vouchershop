@@ -23,14 +23,14 @@
     <div id="PageMenuContent">
       <div id="Categories">
         <div ref="navMenu">
-            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category" :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}">{{item.label}}</NuxtLink>
+            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}">{{item.label}}</NuxtLink>
             <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setSelectedBrand(''), setGroup('') ): activeItem = {}, setSelectedBrand(''), setGroup('')" -->
         </div>
       </div>
     </div>
   </div>
   <!-- <BreadCrumb/> -->
-  <!-- <ProductFilter/> -->
+  <!-- <filteredProductList/> -->
   <PageSubMenu :navLinks="activeItem" />
 </template>
 
@@ -55,11 +55,11 @@ export default defineComponent({
     const activeItem = ref()
     const navLinks = ref([
       {
-        label: 'Home',
+        label: 'home',
         url:'/'
       },
       {
-        label: 'Beltegoed',
+        label: 'beltegoed',
         url:'/beltegoed',
         subItems: ref([
           {          
@@ -95,7 +95,7 @@ export default defineComponent({
         ])
       },
       {
-        label: 'Gaming',
+        label: 'gaming',
         url:'/gaming',
         subItems: [
           {          
@@ -109,7 +109,7 @@ export default defineComponent({
         ]
       },
       {
-        label: 'Wallets',
+        label: 'wallets',
         url:'/wallets',
         subItems: [
           {          
@@ -131,7 +131,7 @@ export default defineComponent({
         ]
       },
       {
-        label: 'Giftcards',
+        label: 'giftcards',
         url:'/giftcards',
         subItems: [
           {          
@@ -153,7 +153,7 @@ export default defineComponent({
         ]
       },
       {
-        label: 'Coupons',
+        label: 'coupons',
         url:'/coupons',
         subItems: [
           {          
@@ -175,7 +175,6 @@ export default defineComponent({
         ]
       },
     ])
-
     const interval = ref(300)
     const { pause, resume, isActive } = useIntervalFn(() => {
       pulseEffect()
@@ -210,23 +209,24 @@ export default defineComponent({
     }
 
 
-    onMounted(() => {
-    })
+    // onMounted(() => {})
+    activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.beltegoed)
+    console.log(activeItem.value)
+    watch(
+      () => route.params,
+      async getParams => {
+        activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.beltegoed)
 
-    // watch(
-      // () => route.params,
-      // async getParams => {
+        // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
 
-      //   const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
+        // if (route.params._categoryslug == undefined) {
+        //   validateRoute.value = true
+        // }
+        // if (validateRoute.value == false)
+        //   router.push('404')
 
-      //   if (route.params._categoryslug == undefined) {
-      //     validateRoute.value = true
-      //   }
-      //   if (validateRoute.value == false)
-      //     router.push('404')
-
-      // }
-    // )
+      }
+    )
     return {
       orderItems,
       navMenu,
@@ -486,6 +486,8 @@ export default defineComponent({
     }
   }
   #PageSubMenu {
+    background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
+
     ul {
       list-style:none;
       padding:0;
@@ -493,8 +495,7 @@ export default defineComponent({
       max-width: 990px;
       margin:0 auto;
       display:flex;
-      background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
-      clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
+      // clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
 
       li {
         margin: 0;
