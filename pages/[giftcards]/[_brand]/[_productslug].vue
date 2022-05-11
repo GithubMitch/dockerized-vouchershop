@@ -12,7 +12,7 @@
 </template>
 
 <script lang='ts'>
-import { state, actions } from '../../../../store/reactives';
+import { state, actions } from '../../../store/reactives';
 import { defineComponent, onMounted, toRef, watch} from 'vue';
 
 export default defineComponent({

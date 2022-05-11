@@ -5,7 +5,7 @@
         <h3>Vouchershop</h3>
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/over">Over Vouchershop</NuxtLink></li>
-        <li><NuxtLink to="/beltegoed">Beltegoed</NuxtLink></li>
+        <li><NuxtLink to="/category">Beltegoed</NuxtLink></li>
         <li><NuxtLink to="/giftcards">Giftcards & Credit</NuxtLink></li>
       </ul>
       <ul>

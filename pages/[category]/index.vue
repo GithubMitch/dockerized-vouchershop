@@ -1,9 +1,17 @@
 <template>
   <NuxtLayout name="category">
       <template #content>
-        <h1>Beltegoed</h1>
-        <span>Select your brand</span>
-        <Categories :brands="brands"/>
+        <h1 class="pagetitle">Category {{$route.params.category}}</h1>
+        <ClientOnly>
+          <div v-if="$route.params.category !== 'giftcards'">
+            <span>Select your brand</span>
+            <Categories :brands="brands"/>
+          </div>
+          <div v-else>
+            <span>Select your product</span>
+            <Products :products="stockProducts"/>
+          </div>
+        </ClientOnly>
       </template>
   </NuxtLayout>
 </template>
@@ -37,7 +45,6 @@
       const route = useRoute()
       const open = ref(false)
 
-      console.log(route.params)
       const brands = toRef(state, 'brands');
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
@@ -85,6 +92,21 @@
           Promise.resolve(`Completed Promise`)
         ])
       }
+
+      watch(
+        () => route.params,
+        async getParams => {
+          console.log(route.params)
+          // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
+
+          // if (route.params._categoryslug == undefined) {
+          //   validateRoute.value = true
+          // }
+          // if (validateRoute.value == false)
+          //   router.push('404')
+
+        }
+      )
 
       return {
         open,
@@ -153,5 +175,7 @@
       text-decoration: underline;
     }
   }
-
+  .pagetitle {
+    text-transform: capitalize;
+  }
 </style>

@@ -7,12 +7,11 @@
         @enter="enter"
         class="styled-list product-list">
         <li  class="item" v-for="(brand, index) in brands" :key="brand.key">
-          <NuxtLink class="brandLine" :to='`/beltegoed` + `/${brand.key}`' 
-            @click="setSelectedBrand(brand.key)"
-            >
+          <!-- <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setSelectedBrand(brand.key)"> -->
+          <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setBrand(brand)">
               <img :src="`../../assets/logos/${brand.key}.png`" />
               <span for="">{{brand.name}}</span>
-              <span for="">{{$route.params.beltegoed}}</span>
+              <span for="">{{$route.params.category}}</span>
 
               <Fold
                   width="45" 
@@ -100,13 +99,14 @@ export default defineComponent({
       })
     }
 
+    const setBrand = async (brand)  => {
 
-    const setSelectedBrand = async (brand)  => {
-      await actions.setSelectedBrand(brand)
+      // console.log('setBrand', brand)
+      actions.setSelectedBrand(brand)
     }
 
     return {
-      setSelectedBrand, 
+      setBrand, 
       beforeEnter,
       enter,
       leave,

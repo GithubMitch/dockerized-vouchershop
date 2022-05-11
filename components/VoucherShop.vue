@@ -11,7 +11,7 @@
 
               <pre v-if="$route.params._categoryslug">Selected:
 Category    : {{ $route.params._categoryslug }}
-Brand       :  -{{ $route.params._brand }}
+Brand       :  -{{ $route.params.brand }}
 Subcategory :  -{{ $route.params._for }}
               </pre>
             </ClientOnly>
@@ -23,7 +23,7 @@ Subcategory :  -{{ $route.params._for }}
             <ul v-if="$route.params._categoryslug">
               <pre v-if="selectedBrand">Selected: {{ selectedBrand }}</pre>
               <li v-show="selectedBrand.length == 0" v-for="brand in selectableBrands" :key="brand">
-                <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/` + `${brand.key}`' @click="setSelectedBrand(brand.key)">{{brand.name}}</NuxtLink>
+                <NuxtLink class="brandLine" :to='`/${$route.params._categoryslug}` + `/` + `${brand.key}`' @click="setBrand(brand.key)">{{brand.name}}</NuxtLink>
               </li>
             </ul>
           </ClientOnly>
@@ -79,7 +79,7 @@ export default defineComponent({
     }
 
     // Reactive.ts Setters :
-    const setSelectedBrand = async (brand)  => {
+    const setBrand = async (brand)  => {
       actions.setSelectedBrand(brand)
     }
     const deselect = async (selected)  => {
@@ -110,7 +110,7 @@ export default defineComponent({
       deselect,
       stock,
       getProducts,
-      setSelectedBrand,
+      setBrand,
     }
   },
   

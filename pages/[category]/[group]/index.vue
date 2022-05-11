@@ -1,8 +1,11 @@
 <template>
   <div class="inner">
-    <h1 class="pagetitle">{{group ? group : brand }}</h1> 
-    <!-- // TODO above -->
+    <h1 class="pagetitle">
+      {{$route.params.group ? `Group ` + `${$route.params.group}` : `Brand ` + `${$route.params.brand}`}}
+    </h1> 
+    <span>Select your product(s)</span>
     <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
+<pre>{{$route}}</pre>    
   </div>
 </template>
 
@@ -17,16 +20,6 @@
 
   export default defineComponent({
     layout: 'productlist',
-    // props: {
-    //   selectedBrand:{
-    //     type: String,
-    //     default: ''
-    //   },
-    //   products:{
-    //     type: Object,
-    //     default: {}
-    //   }
-    // },
     async setup(props) {   
       const router = useRouter()
       const route = useRoute()
@@ -40,33 +33,41 @@
 
       watch([stockProducts], (newValues, prevValues) => {
         console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
-        if (route.params._brand !== undefined) {
-          console.log('route.params._brand :',route.params._brand)
-          setSelectedBrand(route.params._brand)
+        if (route.params.brand !== undefined) {
+          // NO BRAND => SET GROUP
+          console.log('route.params.brand :',route.params.brand)
+          // let currentBrand = getOperatorCodeWithBrand(route.params.brand);
+          // console.log(currentBrand, 'currentBrand')
+          setBrand(route.params.brand)
           if ( toRaw(filteredProductList.value).length === 0 ) {
             console.log(toRaw(filteredProductList.value))
-            setGroup(route.params._brand)
+            setGroup(route.params.brand)
           }
         } else {
-          console.log('route.params._brand = (group) :',route.params._brand)
+          // NO BRAND => SET BRAND
+          console.log('route.params.group = (group) :',route.params.group)
         }
         //  if group
-        // setGroup(route.params._group)
+        // setGroup(route.params.group)
 
         // if (route.params._) {
-        //   setSelectedBrand(route.params._brand)
+        //   setBrand(route.params.brand)
         // }
       })
 
-      const setSelectedBrand = async (brand)  => {
-        console.log(route.params._brand)
+      const setBrand = async (brand)  => {
+        console.log('setBrand', route.params.brand)
         actions.setSelectedBrand(brand)
       }
       const setGroup = async (group)  => {
         actions.setGroup(group)
       }
+      const getOperatorCodeWithBrand = async (brandslug)  => {
+        actions.getOperatorCodeWithBrand(brandslug)
+      }
+    // console.log(route.params)
 
-      return{stockProducts, filteredProductList, group, brand, actionLabel};
+      return{stockProducts, filteredProductList, group, brand, actionLabel, setBrand};
     }
   })
 </script>

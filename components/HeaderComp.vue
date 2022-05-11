@@ -6,7 +6,7 @@
     <div id="HeaderContent">
         <div id="HeaderNav">
             <div id="Links">
-              <a href="/404" class="">Over Vouchershop</a>
+              <a href="/category" class="">Over Vouchershop</a>
               <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
             </div>
         </div>
@@ -24,12 +24,12 @@
       <div id="Categories">
         <div ref="navMenu">
             <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}">{{item.label}}</NuxtLink>
-            <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setSelectedBrand(''), setGroup('') ): activeItem = {}, setSelectedBrand(''), setGroup('')" -->
+            <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setBrand(''), setGroup('') ): activeItem = {}, setBrand(''), setGroup('')" -->
         </div>
       </div>
     </div>
   </div>
-  <PageSubMenu :navLinks="activeItem" />
+  <PageSubMenu v-if="activeItem" :navLinks="activeItem" />
 </template>
 
 <script lang='ts'>
@@ -62,25 +62,7 @@ export default defineComponent({
         subItems: ref([
           {          
             label: 'bellen',
-            url:'/bellen'
-          },
-          {          
-            label: 'data',
-            url:'/data'
-          },
-          {          
-            label: 'bundels',
-            url:'/bundels'
-          },
-        ])
-      },      
-      {
-        label: 'BTG',
-        url:'/btg',
-        subItems: ref([
-          {          
-            label: 'bellen',
-            url:'/bellen'
+            url:'/bellen',
           },
           {          
             label: 'data',
@@ -194,7 +176,7 @@ export default defineComponent({
       // actions.setCategory(value)
     }
 
-    const setSelectedBrand = async (brand)  => {
+    const setBrand = async (brand)  => {
       await actions.setSelectedBrand(brand)
     }
     const setGroup = async (group)  => {
@@ -206,15 +188,14 @@ export default defineComponent({
       pause()
     }
 
-  console.log(toRaw(route))
+  // console.log(toRaw(route))
     // onMounted(() => {})
-    activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.beltegoed)
-    console.log(activeItem.value)
+    activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category)
+    // console.log(activeItem.value)
     watch(
       () => route.params,
       async getParams => {
-        activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.beltegoed)
-
+        activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category)
         // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
 
         // if (route.params._categoryslug == undefined) {
@@ -234,7 +215,7 @@ export default defineComponent({
       setCategory,
       setActionLabel,
       setGroup,
-      setSelectedBrand,
+      setBrand,
       pulseEffect,
       route
     }

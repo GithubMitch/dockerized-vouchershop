@@ -40,7 +40,7 @@
 </template>
 
 <script lang='ts'>
-import { state, actions } from '../../../../../store/reactives';
+import { state, actions } from '../../../../store/reactives';
 import { defineComponent, toRef, ref} from 'vue';
 
 export default defineComponent({

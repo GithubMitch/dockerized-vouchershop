@@ -2,7 +2,7 @@
   <NuxtLayout name="category">
       <template #content>
         <div class="inner">
-          <h1>GiftCards</h1>
+          <h1>GiftCards !</h1>
           <Products/>
         </div>
         <NuxtChild/> 

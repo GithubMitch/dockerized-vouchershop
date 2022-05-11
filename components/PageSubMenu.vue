@@ -1,13 +1,16 @@
 <template>
   <div id="PageSubMenu" 
   >
-    <!-- v-if="$route.params._categoryslug && $route.params._brand" -->
+    <!-- v-if="$route.params._categoryslug && $route.params.brand" -->
     <nav>
       <ul>
         <li v-for="item in navLinks.subItems" v-bind:key="item.label" class="category">
-          <NuxtLink :to="`${navLinks.url}${item.url}`" 
+            <!-- /${$route.params.category}/${item.label} -->
+          <!-- <NuxtLink :to="`${navLinks.url}${item.url}`"  -->
+          <NuxtLink :to="{name: `category-group` , params: {  category: $route.params.category !== undefined ? $route.params.category : navLinks.url , group: item.label }}"
+              :prefetch="true" 
               @click="setGroup(`${item.label}`)"
-            >
+          >
               <!-- //  TODO  >> SET GROUP (product.group) FILTER -->
               <!-- @click="setActionLabel(`${item.label}`)" -->
 

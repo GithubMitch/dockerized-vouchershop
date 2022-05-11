@@ -49,7 +49,7 @@ export default defineComponent({
       default: []
     },
     brand: {
-      type: String,
+      // type: Object,
       default: ''
     },
     group: {
@@ -90,7 +90,6 @@ export default defineComponent({
     const filteredProductList = toRef(state, 'filteredProductList')
 
     // const products = ref([]);
-
     const beforeEnter = (el) => {
       el.style.opacity = 0;
       gsap.set(el, {

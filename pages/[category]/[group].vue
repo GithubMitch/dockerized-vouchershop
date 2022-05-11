@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
+      <!-- {{$route.params.group}} - Group -->
       <Router-View/>
     </template>
   </NuxtLayout>
@@ -23,11 +24,6 @@
     async setup(props) {
       const route = useRoute()
       const stockProducts = toRef(state, 'stockProducts');
-
-      const stock = async (stockProducts)  => {
-
-      }
-
 
       return{ stockProducts};
     }

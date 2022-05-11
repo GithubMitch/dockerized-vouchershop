@@ -1,3 +1,4 @@
+import { ApplicationAutoScaling } from 'aws-sdk';
 import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
@@ -64,8 +65,23 @@ const actions = {
 
   // --------------------------------------------SETTERS------------------------------------------------------
   setSelectedBrand(brand)  {
-    methods.filterBrand(brand);
-    return (brand ? (state.brand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.brand = '', console.log('Reset brand')))
+    console.log(brand, "BRAND")
+    if (!brand.key) {
+      actions.getOperatorCodeWithBrand(brand)
+      methods.filterBrand(brand)
+    } else {
+      state.brand = brand
+      methods.filterBrand(brand.key)
+    }
+    console.log(state.brand,"state.brand")
+    // if (brand.key) {
+    //   state.brand = brand.key
+    //   methods.filterBrand(brand.key);
+    // } else {
+    //   state.brand = brand
+    // }
+    // (brand ? (state.brand = brand, console.log('Set selectedBrand: ', brand)) :  (console.log('Didnt set selectedBrand', brand), state.brand = '', console.log('Reset brand')))
+    return state.brand
   }, 
   setActionLabel(actionLabel)  {
     methods.filterActionLabel(actionLabel);
@@ -153,6 +169,12 @@ const actions = {
     if(name != undefined)
       return name.toLowerCase().replace(' ', '_').replace('-', '_');
   },
+  async getOperatorCodeWithBrand(brand) {
+    // console.log(brand, 'getCodewith Brand >>> FIND!')
+    // state.brand = state.brands.find(element => element.key == brand);
+    console.log(state.brands.find(element => element.key == brand), 'getOperatorCodeWithBrand()')
+    return state.brand = state.brands.find(element => element.key == brand);
+  },
 
   reinstateOrder(orderItems){
     state.order.orderItems = orderItems ?? [];                                                                    
@@ -195,11 +217,23 @@ const methods = {
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
+  async filterOperatorCode(operatorcode){
+    // brands.key
+    // brands.operator
+    // operator blackhawk = 5928 
 
-  async filterBrand(brand){
-    console.log('Filter ' + brand + ' products' );
+    console.log('Filter ' + operatorcode + ' products' );
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
-      return filteredProduct.brand == brand; 
+      return filteredProduct.brand == operatorcode; 
+    });
+    console.log(filteredProductList, 'filteredProductList')
+    state.filteredProductList = filteredProductList;
+    return toRaw(state.filteredProductList)
+  },
+  filterBrand(brand){
+    console.log('Filter ' + `${brand}` + ' products' );
+    const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
+        return filteredProduct.brand == brand; 
     });
     console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
@@ -288,10 +322,10 @@ const methods = {
         // -sendquestion
 //  3.  Make giftcards working
 //  5.  Expand filters {brand>group>actionlabel} define order of filtering
-//  2.  Set operatorcode blckhwk seperate category > giftcards
 //  4.  Contact page with contact form
 
-//  6.  ProductPage as landing page has no back < navigation (needs re(fetch) content)
+//  2.  Set operatorcode blckhwk seperate category > giftcards
+//  6.  Fix correct routing to group and brand respectively
 
 
 

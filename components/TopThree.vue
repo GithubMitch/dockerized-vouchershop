@@ -5,7 +5,7 @@
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
         <NuxtLink :to="`/${brand.type}/${brand.key}`"
         >
-        <!-- @click="setSelectedBrand(brand.key)" -->
+        <!-- @click="setBrand(brand.key)" -->
           <!-- //no main category for brand {{type}} -->
           <div class="brand">
             <div class="visual">
@@ -43,7 +43,7 @@ export default defineComponent({
           if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
             i--;
           } else {
-            randBrand.type = 'beltegoed'
+            randBrand.type = 'category'
             if (randBrand.key == 'paysafecard' || randBrand.key == 'apple' )
               randBrand.type = 'giftcards'
             topThree.value.push(randBrand)
