@@ -1,32 +1,30 @@
 <template>
   <NuxtLayout name="category">
       <template #content>
-        <div class="inner">
-          <h1>GiftCards !</h1>
-          <Products/>
-        </div>
-        <NuxtChild/> 
+        <h1 class="pagetitle">Category {{$route.params.category}}</h1>
+        <ClientOnly>
+          <!-- <div v-if="$route.params.category !== 'giftcards'">
+            <span>Select your brand</span>
+            <Categories :brands="brands"/>
+          </div> -->
+          <div >
+            <span>Select your product</span>
+            <Products :products="stockProducts"/>
+          </div>
+        </ClientOnly>
       </template>
   </NuxtLayout>
 </template>
 
 <script lang="ts">
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+
   import gsap from "gsap";
   import { state, actions, methods } from '../../store/reactives'
   import { defineComponent, ref, toRef } from 'vue'
   import {_} from 'vue-underscore';
 
   export default defineComponent({
-    // props: {
-    //   brand: {
-    //     type: String,
-    //     default: ''
-    //   },
-    //   products:{
-    //     type: Object,
-    //     default: {}
-    //   }
-    // },
     head() {
       return {
         link: [
@@ -49,9 +47,16 @@
       const route = useRoute()
       const open = ref(false)
 
+      const brands = toRef(state, 'brands');
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
 
+      console.log(route.query)
+      onBeforeRouteUpdate(async (to, from) => {
+        if (to.params.brand) {
+          return  console.log('ROUTE UPDATE !')
+        }
+      })
 
       const beforeEnter = (el) => {
         el.style.opacity = 0;
@@ -97,18 +102,26 @@
         ])
       }
 
-        // const stock = async (stockProducts)  => {
-        //   selectedBrandProducts.value = _(stockProducts.value).filter({brand: selectedBrand.value, inStock: true})
-        // }
-        // // watcher
-        // watch([stockProducts], (newValues, prevValues) => {
-        //   stock(stockProducts)
-        // })
+      watch(
+        () => route.params,
+        async getParams => {
+          console.log(route.params)
+          // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
+
+          // if (route.params._categoryslug == undefined) {
+          //   validateRoute.value = true
+          // }
+          // if (validateRoute.value == false)
+          //   router.push('404')
+
+        }
+      )
 
       return {
         open,
         stockProducts,
         props, 
+        brands,
         setProductPage, 
         deselect,
         beforeEnter,
@@ -135,7 +148,7 @@
     font-family: Avenir,Helvetica,Arial,sans-serif;
   }
   .inner {
-    max-width:990px;
+    // max-width:990px;
     box-sizing:border-box;
     width:100%;
     display:block;
@@ -171,5 +184,7 @@
       text-decoration: underline;
     }
   }
-
+  .pagetitle {
+    text-transform: capitalize;
+  }
 </style>

@@ -23,7 +23,10 @@
     <div id="PageMenuContent">
       <div id="Categories">
         <div ref="navMenu">
-            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}" exact>{{item.label}}</NuxtLink>
+            <!-- :to="{name: `category` , params: { category: item.label }}" -->
+            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  
+            :to="item.url"
+            @click="item.subItems ? (activeItem = item) : activeItem = {}" exact>{{item.label}}</NuxtLink>
             <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setBrand(''), setGroup('') ): activeItem = {}, setBrand(''), setGroup('')" -->
         </div>
       </div>

@@ -236,7 +236,7 @@ const methods = {
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
         return filteredProduct.brand == brand; 
     });
-    // console.log(filteredProductList, 'filteredProductList')
+    console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },

@@ -3,13 +3,9 @@
     <template #content>
       <h1>Parent: {{$route.params.group}} - Group</h1>
       <!-- {{$route.params.group}} - Group -->
-      <Router-View params="GROUP"/>
+      <Router-View :products="stockProducts"/>
       <!-- <NuxtPage/> -->
-    <h1>
-<pre>path: {{$route.path}}</pre>
-<pre>name: {{$route.name}}</pre>
-<pre>params: {{$route.params}}</pre>
-    </h1>
+
     </template>
   </NuxtLayout>
 </template>
@@ -31,12 +27,32 @@
     async setup(props) {
       const route = useRoute()
       const filteredProductList = toRef(state, 'filteredProductList');
+      const setupAppReady = toRef(state, 'setupAppReady');
       const stockProducts = toRef(state, 'stockProducts');
       const brand = toRef(state, 'brand');
       const group = toRef(state, 'group');
       const actionLabel = toRef(state, 'actionLabel');
       
       console.log('GROUP PARENT VUE :'  , route.params)
+
+    const stopWatch /* this is a callback that dismantles the watch function. see: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#shared-behavior-with-watcheffect */
+    = watch(
+      [setupAppReady], /* you can watch an entire array of reactive values */
+      (current, previous) => { /* see: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watch */
+      /* if you use a watcher to trigger an async function, make sure you invalidate side effects! See: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#side-effect-invalidation */
+        // code you want to run when reactives change
+          console.log(current, previous)
+          if (route.params.group !== undefined) {
+            console.log(setupAppReady.value)
+            actions.setGroup(route.params.group)
+          }
+      },
+      {
+        deep: true, /* see https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watching-reactive-objects*/
+        immediate: false /*see: https://v3.vuejs.org/api/instance-methods.html#watch*/
+      }
+    )
+
 
       // watch([stockProducts], (newValues, prevValues) => {
       //   console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)

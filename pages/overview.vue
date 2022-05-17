@@ -21,7 +21,7 @@
     font-family: Avenir,Helvetica,Arial,sans-serif;
   }
   .inner {
-    max-width:990px;
+    /* max-width:990px; */
     box-sizing:border-box;
     width:100%;
     display:block;

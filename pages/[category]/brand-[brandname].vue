@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <h1>Parent: {{$route.params.brand}} - Brand</h1>
+      <h1>Parent: {{$route.params.brandname}} - Brand</h1>
       <Router-View :products="stockProducts"/>
-      <!-- <NuxtPage/> -->
+      <!-- <NuxtPage :products="stockProducts"/> -->
     </template>
   </NuxtLayout>
 </template>
@@ -27,13 +27,29 @@
       const route = useRoute()
       const stockProducts = toRef(state, 'stockProducts');
       console.log('BRAND PARENT VUE :'  , route.params)
+
+
+      const stopWatch /* this is a callback that dismantles the watch function. see: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#shared-behavior-with-watcheffect */
+      = watch(
+        [setupAppReady], /* you can watch an entire array of reactive values */
+        (current, previous) => { /* see: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watch */
+        /* if you use a watcher to trigger an async function, make sure you invalidate side effects! See: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#side-effect-invalidation */
+          // code you want to run when reactives change
+          console.log(current, previous)
+          if (route.params.brandname !== undefined) {
+            console.log(setupAppReady.value)
+            actions.setSelectedBrand(route.params.brandname)
+
+          }
+        },
+        {
+          deep: true, /* see https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watching-reactive-objects*/
+          immediate: false /*see: https://v3.vuejs.org/api/instance-methods.html#watch*/
+        }
+      )
       // onBeforeMount(() => {
         /* do something before Vue calls this component's render function */
-        if (route.params.brand !== undefined) {
-          console.log(setupAppReady.value)
-          actions.setSelectedBrand(route.params.brand)
 
-        }
       // })
 
       return{ stockProducts};

@@ -10,7 +10,7 @@
 
 
 
-// import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import {state , actions} from './store/reactives'
 import {
   defineComponent,
@@ -46,14 +46,16 @@ export default defineComponent({
         Promise.all([
           actions.fetchProductList(),
           actions.fetchBrandList(),
-          Promise.resolve(`Completed Promise`)
+          actions.fetchStockList()
 
         ])
       .then((promises) => {
         // return lists
-        actions.fetchStockList()
         setupAppReady.value = true;
-        // console.log(promises, 'Promise resolved')
+        console.log(promises, 'Resolved')
+        Promise.resolve(promises)
+      }).then ((promises) => {
+
       })
         .catch(error => console.log('vcshop 68',error))
       }
@@ -226,8 +228,8 @@ export default defineComponent({
     list-style:none;
     justify-content: space-between;
     justify-content: flex-start;
-    margin-left: -1rem;
-    margin-right: -2rem;
+    // margin-left: -1rem;
+    // margin-right: -2rem;
 
     .item {
       cursor:pointer;

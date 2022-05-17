@@ -1,7 +1,7 @@
 
 <template>
-  <NuxtLayout name="productlist">
-    <div class="inner">
+  <!-- <NuxtLayout name="productlist"> -->
+    <!-- <div class="inner"> -->
       <ClientOnly>
         <transition-group tag="ul" name="card" appear
           @before-enter="beforeEnter"
@@ -11,7 +11,7 @@
             <Fold
               width="45" 
               height="45"
-              :productPage="`${product.brand}/${product.key}`"
+              :productPage="`/${route.params.category}/brand-${product.brand}/${product.key}`"
               :product="product"
               :class="'MyGradient_'+index"           
               :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
@@ -32,8 +32,8 @@
           </li>
         </transition-group>
       </ClientOnly>
-    </div>
-  </NuxtLayout> 
+    <!-- </div> -->
+  <!-- </NuxtLayout>  -->
 </template>
 
 <script>
@@ -131,6 +131,7 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
+      route
     }
   },
 })

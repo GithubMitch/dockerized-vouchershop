@@ -1,10 +1,9 @@
 <template>
   <main>
-    <div class="inner">
+    <!-- <div class="inner"> -->
       <slot name="content"></slot>
-      <slot name="vouchershopcomponent"></slot>
       <slot/>
-    </div>
+    <!-- </div> -->
   </main>
 </template>
 
