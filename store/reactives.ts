@@ -3,6 +3,9 @@ import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
 const state = reactive ({
+  // False = app still fetching stock
+  setupAppReady : ref(false),
+
   //filters
   brand: ref(''),
   group: ref(''),
@@ -58,14 +61,13 @@ const actions = {
     let product = state.stockProducts.find(element => element.key == _productslug)
     let providedDetails = state.allProducts.find(element => element.ean == product.ean)
     state.productPage = {product,providedDetails}
-    console.log('Found this product >>>', state.productPage)
-    console.log('Belonging details >>>', providedDetails)
+    // console.log('Found this product >>>', state.productPage)
+    // console.log('Belonging details >>>', providedDetails)
     return state.productPage
   },    
 
   // --------------------------------------------SETTERS------------------------------------------------------
   setSelectedBrand(brand)  {
-    console.log(brand, "BRAND")
     if (!brand.key) {
       actions.getOperatorCodeWithBrand(brand)
       methods.filterBrand(brand)
@@ -73,7 +75,6 @@ const actions = {
       state.brand = brand
       methods.filterBrand(brand.key)
     }
-    console.log(state.brand,"state.brand")
     // if (brand.key) {
     //   state.brand = brand.key
     //   methods.filterBrand(brand.key);
@@ -213,7 +214,7 @@ const methods = {
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
       return filteredProduct.actionLabel == actionLabel; 
     });
-    console.log(filteredProductList, 'filteredProductList')
+    // console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
@@ -226,7 +227,7 @@ const methods = {
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
       return filteredProduct.brand == operatorcode; 
     });
-    console.log(filteredProductList, 'filteredProductList')
+    // console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
@@ -235,7 +236,7 @@ const methods = {
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
         return filteredProduct.brand == brand; 
     });
-    console.log(filteredProductList, 'filteredProductList')
+    // console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
@@ -261,7 +262,7 @@ const methods = {
       return foundResult.value; 
 
       });
-    console.log(filteredProductList, 'filterdProductList')
+    // console.log(filteredProductList, 'filterdProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
@@ -276,7 +277,7 @@ const methods = {
     });
     state.stockProducts = optimizedProductList;
     if (state.brand) {
-      console.log(state.brand)
+      // console.log(state.brand)
     }
     return toRaw(state.stockProducts)
   },

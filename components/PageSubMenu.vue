@@ -5,12 +5,11 @@
     <nav>
       <ul>
         <li v-for="item in navLinks.subItems" v-bind:key="item.label" class="category">
-            <!-- /${$route.params.category}/${item.label} -->
-          <!-- <NuxtLink :to="`${navLinks.url}${item.url}`"  -->
+          <!-- <NuxtLink :to="{name: `group-${item.label}` , params: {  category: $route.params.category !== undefined ? $route.params.category : navLinks.url , group: item.label }}" -->
           <NuxtLink :to="{name: `category-group` , params: {  category: $route.params.category !== undefined ? $route.params.category : navLinks.url , group: item.label }}"
-              :prefetch="true" 
               @click="setGroup(`${item.label}`)"
-          >
+          exact>
+              <!-- :prefetch="true"  -->
               <!-- //  TODO  >> SET GROUP (product.group) FILTER -->
               <!-- @click="setActionLabel(`${item.label}`)" -->
 

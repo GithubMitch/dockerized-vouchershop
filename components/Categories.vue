@@ -8,7 +8,7 @@
         class="styled-list product-list">
         <li  class="item" v-for="(brand, index) in brands" :key="brand.key">
           <!-- <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setSelectedBrand(brand.key)"> -->
-          <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setBrand(brand)">
+          <NuxtLink class="brandLine" :to='`/${$route.params.category}` + `/${brand.key}`' @click="setBrand(brand)">
               <img :src="`../../assets/logos/${brand.key}.png`" />
               <span for="">{{brand.name}}</span>
               <span for="">{{$route.params.category}}</span>
@@ -110,7 +110,8 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
-      brand
+      brand,
+      route
     }
   },
 })

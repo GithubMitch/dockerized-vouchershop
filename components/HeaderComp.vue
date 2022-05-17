@@ -23,7 +23,7 @@
     <div id="PageMenuContent">
       <div id="Categories">
         <div ref="navMenu">
-            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}">{{item.label}}</NuxtLink>
+            <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  :to="item.url" @click="item.subItems ? (activeItem = item) : activeItem = {}" exact>{{item.label}}</NuxtLink>
             <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setBrand(''), setGroup('') ): activeItem = {}, setBrand(''), setGroup('')" -->
         </div>
       </div>
@@ -167,6 +167,8 @@ export default defineComponent({
       return actions.getCartTotal()
     }
 
+
+
     const setActionLabel = (value)  => {
       console.log(value)
       // actions.setActionLabel(value)
@@ -196,14 +198,6 @@ export default defineComponent({
       () => route.params,
       async getParams => {
         activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category)
-        // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
-
-        // if (route.params._categoryslug == undefined) {
-        //   validateRoute.value = true
-        // }
-        // if (validateRoute.value == false)
-        //   router.push('404')
-
       }
     )
     return {

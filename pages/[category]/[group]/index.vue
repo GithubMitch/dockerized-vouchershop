@@ -1,11 +1,16 @@
 <template>
   <div class="inner">
     <h1 class="pagetitle">
-      {{$route.params.group ? `Group ` + `${$route.params.group}` : `Brand ` + `${$route.params.brand}`}}
+      <!-- {{$route.params.group ? `Group ` + `${$route.params.group}` : `Brand ` + `${$route.params.brand}`}} -->
+      group
     </h1> 
     <span>Select your product(s)</span>
     <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
-<pre>{{$route}}</pre>    
+    <h1>
+<pre>path: {{$route.path}}</pre>
+<pre>name: {{$route.name}}</pre>
+<pre>params: {{$route.params}}</pre>
+    </h1>
   </div>
 </template>
 
@@ -31,29 +36,32 @@
       const actionLabel = toRef(state, 'actionLabel');
       // console.log(filteredProductList.value)
 
-      watch([stockProducts], (newValues, prevValues) => {
-        console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
-        if (route.params.brand !== undefined) {
-          // NO BRAND => SET GROUP
-          console.log('route.params.brand :',route.params.brand)
-          // let currentBrand = getOperatorCodeWithBrand(route.params.brand);
-          // console.log(currentBrand, 'currentBrand')
-          setBrand(route.params.brand)
-          if ( toRaw(filteredProductList.value).length === 0 ) {
-            console.log(toRaw(filteredProductList.value))
-            setGroup(route.params.brand)
-          }
-        } else {
-          // NO BRAND => SET BRAND
-          console.log('route.params.group = (group) :',route.params.group)
-        }
-        //  if group
-        // setGroup(route.params.group)
+      // watch([stockProducts], (newValues, prevValues) => {
+      //   console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
+      //   if (route.params.brand !== undefined) {
+      //     // NO BRAND => SET GROUP
+      //     console.log('route.params.brand :',route.params.brand)
+      //     // let currentBrand = getOperatorCodeWithBrand(route.params.brand);
+      //     // console.log(currentBrand, 'currentBrand')
+      //     setBrand(route.params.brand)
+      //     if ( toRaw(filteredProductList.value).length === 0 ) {
+      //       setGroup(route.params.brand)
+      //       console.log(toRaw(filteredProductList.value))
+      //     }
+      //   } else {
+      //     // NO BRAND => SET GROUP
+      //     setGroup(route.params.group)
 
-        // if (route.params._) {
-        //   setBrand(route.params.brand)
-        // }
-      })
+      //     console.log('route.params.group = (brand) :',route.params.brand)
+      //     console.log('route.params.group = (group) :',route.params.group)
+      //   }
+      //   //  if group
+      //   // setGroup(route.params.group)
+
+      //   // if (route.params._) {
+      //   //   setBrand(route.params.brand)
+      //   // }
+      // })
 
       const setBrand = async (brand)  => {
         console.log('setBrand', route.params.brand)

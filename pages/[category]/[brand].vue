@@ -1,8 +1,9 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <!-- <h1>{{$route.params.brand}} - Brand</h1> -->
-      <Router-View/>
+      <h1>Parent: {{$route.params.brand}} - Brand</h1>
+      <Router-View :products="stockProducts"/>
+      <!-- <NuxtPage/> -->
     </template>
   </NuxtLayout>
 </template>
@@ -22,8 +23,18 @@
     layout: false,
     // inheritAttrs: false,
     async setup(props) {
+      const setupAppReady = toRef(state, 'setupAppReady')
       const route = useRoute()
       const stockProducts = toRef(state, 'stockProducts');
+      console.log('BRAND PARENT VUE :'  , route.params)
+      // onBeforeMount(() => {
+        /* do something before Vue calls this component's render function */
+        if (route.params.brand !== undefined) {
+          console.log(setupAppReady.value)
+          actions.setSelectedBrand(route.params.brand)
+
+        }
+      // })
 
       return{ stockProducts};
     }

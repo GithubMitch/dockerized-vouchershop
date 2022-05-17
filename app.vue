@@ -1,16 +1,22 @@
 <template>
   <HeaderComp/>
   <Router-View/>
+  <!-- <NuxtPage/> -->
   <FooterComp/> 
 </template>
 
 
-<script>
+<script lang="ts">
+
+
+
+// import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import {state , actions} from './store/reactives'
 import {
   defineComponent,
   toRef,
   } from 'vue';
+
 
 export default defineComponent({
   head() {
@@ -26,12 +32,18 @@ export default defineComponent({
       ]
     }
   },
-  async setup () {
+  setup () {
+    // onBeforeRouteLeave(async (to, from) => {
+    //     // if (to.params.brand) {
+    //   return  console.log('ROUTE UPDATE !')
+    //   // }
+    // })
+      const setupAppReady = toRef(state, 'setupAppReady')
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
 
       if (stockProducts.value.length == 0 && brands.value.length == 0) {
-        await Promise.all([
+        Promise.all([
           actions.fetchProductList(),
           actions.fetchBrandList(),
           Promise.resolve(`Completed Promise`)
@@ -40,10 +52,13 @@ export default defineComponent({
       .then((promises) => {
         // return lists
         actions.fetchStockList()
-        console.log(promises, 'Promise resolved')
+        setupAppReady.value = true;
+        // console.log(promises, 'Promise resolved')
       })
-      .catch(error => console.log('vcshop 68',error))
-    }
+        .catch(error => console.log('vcshop 68',error))
+      }
+
+
 
     return {
 

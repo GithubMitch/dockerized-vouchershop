@@ -21,7 +21,7 @@
 
 <script>
 import { state, actions } from '../store/reactives';
-
+   
 export default defineComponent({
   layout: 'false',
   name:'home',
