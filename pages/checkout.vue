@@ -571,17 +571,13 @@ export default defineComponent({
 						// email: email.value,
 					}
 				})
-				console.log(orderPayload)
+				// console.log(orderPayload)
 				if (window.fetch) {
+					
+					// actions.submitOrder
+
 					// run my fetch request here
-					let submitReq = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/submitorder`, { 
-						method: 'POST',
-						headers: {
-							'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
-							'posId': '50100004'
-						},
-						body: orderPayload,
-					})
+					let submitReq = await actions.submitOrder(orderPayload);
 
 					console.log('submitReq', submitReq)
 					if(submitReq) {

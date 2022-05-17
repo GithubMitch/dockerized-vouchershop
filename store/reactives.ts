@@ -57,6 +57,16 @@ const actions = {
     let payOpts = await $fetch("/api/fetchpaymethods");
     return state.paymentOptions = payOpts;
   },
+  async submitOrder(orderPayload) {
+    console.log(orderPayload)
+    let submitOrder = await $fetch("/api/submitorder", {method: 'POST', body: orderPayload});
+    return submitOrder
+  },
+  async orderStatus(orderPayload) {
+    console.log(orderPayload)
+    let submitOrder = await $fetch("/api/orderstatus", {method: 'POST', body: orderPayload});
+    return submitOrder
+  },
   async getProduct(_productslug) { // find product in stockproducts
     let product = state.stockProducts.find(element => element.key == _productslug)
     let providedDetails = state.allProducts.find(element => element.ean == product.ean)
@@ -91,6 +101,10 @@ const actions = {
   setGroup(group)  {
     methods.filterGroup(group);
     return  (group ? (state.group = group, console.log('Set group: ', group)) : (console.log('Didnt set group', group), state.group = '', console.log('Reset selectedGroup')))
+  },         
+  setCategory(category)  {
+    // return  (category ? (state.category = category, console.log('Set group: ', category)) : (console.log('Didnt set group', category), state.category = '', console.log('Reset selected category')))
+    return
   },     
   async addProducts(product) {
     let foundProduct = await state.order.orderItems.find(element => element.ean == product.ean)
@@ -236,7 +250,7 @@ const methods = {
     const filteredProductList = _.filter((state.stockProducts), function(filteredProduct){ 
         return filteredProduct.brand == brand; 
     });
-    console.log(filteredProductList, 'filteredProductList')
+    // console.log(filteredProductList, 'filteredProductList')
     state.filteredProductList = filteredProductList;
     return toRaw(state.filteredProductList)
   },
@@ -322,11 +336,17 @@ const methods = {
         // -sendmail
         // -sendquestion
 //  3.  Make giftcards working
-//  5.  Expand filters {brand>group>actionlabel} define order of filtering
 //  4.  Contact page with contact form
 
+
+
+
+//  5.  Expand filters {brand>group>actionlabel} define order of filtering
 //  2.  Set operatorcode blckhwk seperate category > giftcards
-//  6.  Fix correct routing to group and brand respectively
+      // DONE
+
+//  6.  Fix correct routing to group and brand respectively  
+      // DONE
 
 
 

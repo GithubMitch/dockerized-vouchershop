@@ -2,9 +2,9 @@
   <div class="inner">
     <h1 class="pagetitle">
       <!-- {{$route.params.group ? `Group ` + `${$route.params.group}` : `Brand ` + `${$route.params.brand}`}} -->
-      brand123
+      group
     </h1> 
-    <span>Select your product(ssss)</span>
+    <span>Select your product(s)</span>
     <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
     <h1>
 <pre>path: {{$route.path}}</pre>
@@ -18,14 +18,13 @@
   import { state, actions } from '../../../store/reactives';
   import {
     defineComponent,
-    onBeforeMount,
     toRef
   } from 'vue';
   // import gsap from "gsap";
   
 
   export default defineComponent({
-    layout: 'category',
+    layout: 'productlist',
     async setup(props) {   
       const router = useRouter()
       const route = useRoute()
@@ -46,11 +45,14 @@
       //     // console.log(currentBrand, 'currentBrand')
       //     setBrand(route.params.brand)
       //     if ( toRaw(filteredProductList.value).length === 0 ) {
-      //       console.log(toRaw(filteredProductList.value))
       //       setGroup(route.params.brand)
+      //       console.log(toRaw(filteredProductList.value))
       //     }
       //   } else {
-      //     // NO BRAND => SET BRAND
+      //     // NO BRAND => SET GROUP
+      //     setGroup(route.params.group)
+
+      //     console.log('route.params.group = (brand) :',route.params.brand)
       //     console.log('route.params.group = (group) :',route.params.group)
       //   }
       //   //  if group
@@ -72,20 +74,6 @@
         actions.getOperatorCodeWithBrand(brandslug)
       }
     // console.log(route.params)
-      onBeforeMount(()=>{
-        // let brandsString = JSON.stringify(state.brands)
-        // const validateBrand = ref(brandsString.includes(route.params.brand))
-        //   console.log('validateRoute',route.params.brand, validateBrand.value)
-        // if (validateBrand.value) {
-
-        // }else {
-        //   // redirect to group
-        //   // router.push(`/${route.params.category}/${route.params.brand}`)
-        //   // name: `category-group` 
-        //   router.push({name: `category-group`, params: {  category: route.params.category , group: route.params.brand }})
-        // }
-
-      })
 
       return{stockProducts, filteredProductList, group, brand, actionLabel, setBrand};
     }

@@ -5,10 +5,7 @@
   <FooterComp/> 
 </template>
 
-
 <script lang="ts">
-
-
 
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import {state , actions} from './store/reactives'
@@ -33,11 +30,6 @@ export default defineComponent({
     }
   },
   setup () {
-    // onBeforeRouteLeave(async (to, from) => {
-    //     // if (to.params.brand) {
-    //   return  console.log('ROUTE UPDATE !')
-    //   // }
-    // })
       const setupAppReady = toRef(state, 'setupAppReady')
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
@@ -47,24 +39,20 @@ export default defineComponent({
           actions.fetchProductList(),
           actions.fetchBrandList(),
           actions.fetchStockList()
+        ]).then((promises) => {
+          // return lists
+          setupAppReady.value = true;
+          if (!process.server) {
+            console.log(promises, 'Resolved')
+            Promise.resolve(promises)
 
-        ])
-      .then((promises) => {
-        // return lists
-        setupAppReady.value = true;
-        console.log(promises, 'Resolved')
-        Promise.resolve(promises)
-      }).then ((promises) => {
-
-      })
-        .catch(error => console.log('vcshop 68',error))
+          }
+        }).catch(error => {
+          console.log('vcshop 68',error)
+        })
       }
 
-
-
-    return {
-
-    }
+    return {}
   }
 })
 

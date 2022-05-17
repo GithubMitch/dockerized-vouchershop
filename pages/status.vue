@@ -1,5 +1,6 @@
 <template>
   <div id="Status">
+  <ClientOnly>
     <div class="status">
       <h1>Momentje a.u.b.</h1>
       <p>Voortgang van je bestelling. </p>
@@ -64,6 +65,8 @@
           Resume
         </button>
     </div> -->
+  </ClientOnly>
+
   </div>  
 
 </template>
@@ -116,20 +119,19 @@
         greetings: ['Hello', 'Hi', 'Yo!', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut!', '你好'],
         word: 'Hello',
         action: () => {
-          intervalData.word = intervalData.greetings[Math.round(Math.random() * (intervalData.greetings.length - 1))]
+          // intervalData.word = intervalData.greetings[Math.round(Math.random() * (intervalData.greetings.length - 1))]
+          checkStatus()
         }
       })
 
       const interval = ref(3000)
       const { pause, resume, isActive } = useIntervalFn(() => {
         intervalData.action()
-        checkStatus()
-
       }, interval)
     
+            // CHECK STATUS
       const checkStatus = async () => {
-        console.log('Check transaction status: ' )
-
+        console.log("checkStatus")
         if(reactiveData.checkThreshold <= 0) {
           initiateSaveMode();
           //pause
@@ -144,7 +146,8 @@
           reactiveData.currentCounter++;
 
         if(reactiveData.progressCounter < 2 && reactiveData.status != 'result'){
-          try{
+
+            // getOrderStatus
             let data = {
               reference : "blablabla",
               orderStatusRequest : {
@@ -153,74 +156,58 @@
               }
             }
 
-            const statusReq = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/orderstatus', { 
-              method: 'POST',
-              headers: {
-                'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
-                'posId': '50100004'
-              },
-              body: data
-            });
+					  let statusReq = await actions.orderStatus(data);
 
-            console.log('Status Req =>',statusReq);
-
+            // if(statusReq.responsObject)
+            //   currentShopReceitTotal.value = actions.getCartTotal();
 
             if(statusReq.responseObject.resultCode != 1000)
               // console.log(statusReq)
               throw 'Failure in request for orderstatus';
-
             if(statusReq.responseObject.status == 'OPEN'){
               reactiveData.progressCounter = 0;
             }
-
             if(statusReq.responseObject.status == 'PAID'){
               reactiveData.progressCounter = 1;
             }
-
             if(statusReq.responseObject.status == 'CONFIRMED'){
               // 2 -- vouchercode
               // 3 -- transmit
               reactiveData.progressCounter = 4;
-              localStorage.setItem('trxmem', {} );
+              // TODO  : clear localstorage or set to empty {Obj}
               // order.orderItems.value = []   // clear orderItems (cart)
               // TODO -- delete trx data (qid, payment url.)
-              // this.status = 'result';
-              // this.result = 'success';
+              console.log('Stopped Timer')
+              pause();
+              console.log('Deleted trxmem')
+              localStorage.removeItem('trxmem');
+              reactiveData.status = 'result';
+              reactiveData.result = 'success';
             }
-
             if(statusReq.responseObject.status == 'CHECK'){
               reactiveData.progressCounter = 1;
               // console.log(watchCount.value)
               console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
               reactiveData.checkThreshold--;
             }
-
             if(statusReq.responseObject.status == 'FAILURE'){
               reactiveData.progressCounter = -1;
               console.log('FAILURE');
               // PAUSE
-              // this.$timer.stop('checkStatus');
-              // pause()
+              pause()
 
               reactiveData.status = 'result';
               reactiveData.result = 'failure';
             }
-
             if(statusReq.responseObject.status == 'CANCELED'){
               reactiveData.progressCounter = -1;
               console.log('CANCELED');
               // PAUSE
-              // this.$timer.stop('checkStatus');
-
+              pause()
               reactiveData.status = 'result';
               reactiveData.result = 'canceled';
             }
-
-          }catch(e){
-            console.log(e);
-          }
         }
-        
       }
 
       const initiateSaveMode = () => {
