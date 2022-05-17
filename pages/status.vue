@@ -233,7 +233,7 @@
             throw 'validation error';
 
 
-          let data1 = {
+          let payLoad = {
             // TODO > convert localstorage > currentOrder > take over values and fill in here (orderId / uniqueReference )
             reference : "blablabla",
             questionRequest : {
@@ -243,7 +243,7 @@
               message : "de belangrijke message", 
               mobile : reactiveData.tel,
               name : reactiveData.name,
-              orderId :  1234, //route.query.orderId, // TODO orderId ? qeueId
+              orderId :  reactiveData.qid, //route.query.orderId, // TODO orderId ? qeueId
               problem : "=eigenlijk geen probleem",
               product : "topup belkaart",
               email : reactiveData.email,
@@ -252,20 +252,12 @@
             }
           }
 
-          // let  = await $fetch('http://api.prepaidpoint.test/vouchershop/createsupportticket', {
-          let contactReq = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/sendquestion`, { 
+					let sendQuestionReq = await actions.sendQuestion(payLoad);
 
-            method: 'POST',
-						headers: {
-							'Authorization': 'Basic ' + btoa(`${'HND_ONLINE_VOUCHERSHOP'}:${'vouchershop'}`),
-							'posId': '50100004'
-						},            
-            body: data1,
-          });
 
-          console.log(contactReq);
+          console.log(sendQuestionReq);
 
-          if(contactReq.responseObject.resultCode != '1000')
+          if(sendQuestionReq.responseObject.resultCode != '1000')
             throw 'Probleempje met versturen. Probeer het nogmaals.' 
 
           await sleep(1020);

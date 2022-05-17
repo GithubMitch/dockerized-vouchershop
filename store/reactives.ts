@@ -64,8 +64,18 @@ const actions = {
   },
   async orderStatus(orderPayload) {
     console.log(orderPayload)
-    let submitOrder = await $fetch("/api/orderstatus", {method: 'POST', body: orderPayload});
-    return submitOrder
+    let orderstatus = await $fetch("/api/orderstatus", {method: 'POST', body: orderPayload});
+    return orderstatus
+  },
+  async sendEmail(orderPayload) {
+    console.log(orderPayload)
+    let sendEmail = await $fetch("/api/sendemail", {method: 'POST', body: orderPayload});
+    return sendEmail
+  },
+  async sendQuestion(orderPayload) {
+    console.log(orderPayload)
+    let sendQuestion = await $fetch("/api/sendquestion", {method: 'POST', body: orderPayload});
+    return sendQuestion
   },
   async getProduct(_productslug) { // find product in stockproducts
     let product = state.stockProducts.find(element => element.key == _productslug)
@@ -329,15 +339,21 @@ const methods = {
 
 
 /// TODO  
-//  1.  Move api Calls to server/API  
-        // -submit
-        // -checkout
-        // -status
-        // -sendmail
-        // -sendquestion
 //  3.  Make giftcards working
-//  4.  Contact page with contact form
 
+
+
+//  1.  Move api Calls to server/API  
+        // -submit V
+        // -checkout V
+        // -status V
+        // -sendmail    V
+        // -sendquestion    TEST THIS ON CONTACT FORM AND IN ORDERSTATUS
+
+
+
+//  4.  Contact page with contact form
+      // WIP : need to create the API route for this server , and test the outgoing endpoint
 
 
 
