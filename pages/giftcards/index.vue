@@ -1,18 +1,19 @@
 <template>
   <NuxtLayout name="category">
-      <template #content>
+    <template #content>
+      <ClientOnly>
         <h1 class="pagetitle">Category {{$route.params.category}}</h1>
-        <ClientOnly>
-          <!-- <div v-if="$route.params.category !== 'giftcards'">
-            <span>Select your brand</span>
-            <Categories :brands="brands"/>
-          </div> -->
-          <div >
-            <span>Select your product</span>
-            <Products :products="stockProducts"/>
-          </div>
-        </ClientOnly>
-      </template>
+        <!-- <div v-if="$route.params.category !== 'giftcards'"> -->
+        <!-- <div>
+          <span>Select your brand</span>
+          <Categories :brands="brands"/>
+        </div> -->
+        <div>
+          <span>Select your product</span>
+          <Products :categoryClass="'giftcards'" :products="stockProducts"/>
+        </div>
+      </ClientOnly>
+    </template>
   </NuxtLayout>
 </template>
 
@@ -42,7 +43,7 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
         await actions.addProducts(x)
       }
     },
-    setup(props) {
+    async setup(props) {
       const router = useRouter()
       const route = useRoute()
       const open = ref(false)
@@ -51,7 +52,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
 
-      router.push({ name: 'category', params: { category: 'giftcards' } })
 
       // actions.setCategory('giftcards')
       // console.log(route.query)
@@ -105,6 +105,10 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
           Promise.resolve(`Completed Promise`)
         ])
       }
+
+      onBeforeMount(() => {
+        router.push({ params: { category: 'giftcards' } })
+      })
 
       watch(
         () => route.params,

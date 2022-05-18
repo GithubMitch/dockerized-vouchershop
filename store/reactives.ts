@@ -50,6 +50,7 @@ const actions = {
   },
   async fetchStockList() {
     let stock = await $fetch("/api/fetchstocklist");
+    console.log(stock)
     state.allProducts = stock
     return methods.validateStock(stock);
   },
@@ -350,14 +351,14 @@ const methods = {
         // -sendmail    V
         // -sendquestion    TEST THIS ON CONTACT FORM AND IN ORDERSTATUS
 
-
-
-//  4.  Contact page with contact form
-      // WIP : need to create the API route for this server , and test the outgoing endpoint
+    //  4.  Contact page with contact form
+          // WIP : need to create the API route for this server , and test the outgoing endpoint
+    // 7. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
 
 
 
 //  5.  Expand filters {brand>group>actionlabel} define order of filtering
+
 //  2.  Set operatorcode blckhwk seperate category > giftcards
       // DONE
 

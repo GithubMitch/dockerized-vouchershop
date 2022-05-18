@@ -7,26 +7,29 @@
           @before-enter="beforeEnter"
           @enter="enter"
           class="styled-list product-list">
-          <li  class="item" v-for="(product, index) in products" :key="product.key">
+          <li  class="item" v-for="(product, index) in products" :key="product.key" :class="categoryClass ?? categoryClass">
             <Fold
               width="45" 
               height="45"
               :productPage="`/${route.params.category}/brand-${product.brand}/${product.key}`"
               :product="product"
               :class="'MyGradient_'+index"           
-              :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-              :MyGradient="'MyGradient'"
+              :gradient="$route.params.category === 'giftcards' ? { from: [`#59a5d4`, 45] , to: ['#2678ac', 100] } : {from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
               :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :disabled="!product.inStock ? 'disabled' : false"
               />
+              <!-- blue gradient 68c4ff -->
+              <!-- :MyGradient="'MyGradient'" -->
+              <!-- :gradient="{from: [`#116ba2`, 95] , to: ['#308ac3', 95] }"   -->
+
             <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
             @click="addProducts($event, product)"
             >
               <!-- @click.prevent="click" -->
               <img :src="`../../assets/logos/${product.brand}.png`" />
               <span class="price" for="">€ {{product.value / 100}}</span>
-              <span class="name">{{ product.name }}</span>
-              <span class="action" for="">{{product.actionLabel}}</span>
+              <span class="name">{{ product.key }}</span>
+              <span v-if="$route.params.category !== 'giftcards'" class="action" for="">{{product.actionLabel}}</span>
 
             </a>
           </li>
@@ -57,6 +60,10 @@ export default defineComponent({
       default: ''
     },
     actionLabel: {
+      type: String,
+      default: ''
+    },
+    categoryClass: {
       type: String,
       default: ''
     }

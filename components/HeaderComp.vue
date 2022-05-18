@@ -24,9 +24,10 @@
       <div id="Categories">
         <div ref="navMenu">
             <!-- :to="{name: `category` , params: { category: item.label }}" -->
+            <!-- :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } } : item.url " -->
             <NuxtLink v-for="item in navLinks" v-bind:key="item.url"  class="category"  
-            :to="item.url"
-            @click="item.subItems ? (activeItem = item) : activeItem = {}" exact>{{item.label}}</NuxtLink>
+            :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } } : item.url"
+            @click="item === activeItem ? activeItem = item : activeItem = activeItem" exact>{{item.label}}</NuxtLink>
             <!-- @click="item.subItems ? (activeItem = item, setCategory(item.label), setBrand(''), setGroup('') ): activeItem = {}, setBrand(''), setGroup('')" -->
         </div>
       </div>

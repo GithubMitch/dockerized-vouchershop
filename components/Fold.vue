@@ -157,6 +157,16 @@
 </script>
 
 <style lang="scss" scoped>
+// .item.giftcards {
+//   .fold {
+//     svg.foldHolder {
+//       .triangle {
+//         fill:linear-gradient(to right, red, #f06d06);
+
+//       }
+//     }
+//   }
+// }
 .fold{
   position: absolute;
   top: 0px;

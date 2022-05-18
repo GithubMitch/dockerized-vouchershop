@@ -29,7 +29,7 @@ export default defineComponent({
       ]
     }
   },
-  setup () {
+  async setup () {
       const setupAppReady = toRef(state, 'setupAppReady')
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
@@ -51,7 +51,7 @@ export default defineComponent({
           console.log('vcshop 68',error)
         })
       }
-
+    
     return {}
   }
 })
@@ -278,6 +278,8 @@ export default defineComponent({
           max-width: 80%;
           display: block;
           margin: auto;
+          max-height: 80px;
+          margin-bottom: 1em;
 
           + span {
             font-weight:bold;

@@ -1,10 +1,12 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <h1>Parent: {{$route.params.group}} - Group</h1>
-      <!-- {{$route.params.group}} - Group -->
-      <Router-View :products="stockProducts"/>
-      <!-- <NuxtPage/> -->
+      <ClientOnly>
+        <h1>Parent: {{$route.params.group}} - Group</h1>
+        <!-- {{$route.params.group}} - Group -->
+        <Router-View :products="stockProducts"/>
+        <!-- <NuxtPage/> -->
+      </ClientOnly>
 
     </template>
   </NuxtLayout>
@@ -26,6 +28,8 @@
     // inheritAttrs: false,
     async setup(props) {
       const route = useRoute()
+      const router = useRouter()
+
       const filteredProductList = toRef(state, 'filteredProductList');
       const setupAppReady = toRef(state, 'setupAppReady');
       const stockProducts = toRef(state, 'stockProducts');
@@ -80,6 +84,10 @@
       //     setGroup(route.params.group)
       //   }
       // })
+
+      onBeforeMount(() => {
+        router.push({ params: { category: 'giftcards' } })
+      })
 
       const setBrand = async (brand)  => {
         console.log('setBrand', route.params.brand)

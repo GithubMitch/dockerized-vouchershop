@@ -8,7 +8,7 @@
             <Categories :brands="brands"/>
           </div>
           <div v-else>
-            <span>Select your product</span>
+            <span>Select your product123</span>
             <Products :products="stockProducts"/>
           </div>
         </ClientOnly>

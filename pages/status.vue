@@ -82,6 +82,8 @@
   export default defineComponent({
     layout: 'false',
     async setup() {
+      const route = useRoute();
+      const router = useRouter();
       const order = toRef(state, "order");
 		  const orderItems = toRef(state.order, "orderItems");
       const reactiveData = reactive({
@@ -222,8 +224,8 @@
       const showResult = (result) => {
       }
       const backToStart = () => {
-        // emptyOrder();
-        // $router.push('/')
+        emptyOrder();
+        router.replace('/');
       }
       const createSupportTicket = async () => {
         try{
@@ -294,7 +296,7 @@
       const reinstateOrder = (orderItems) => {
         state.order.orderItems = orderItems ?? [];
       }
-      const emptyOrder = (orderItems) => {
+      const emptyOrder = () => {
         state.order.orderItems = [];
       }
       if (process.client){
@@ -481,7 +483,7 @@
   form{
     background: linear-gradient(45deg, #c3c3c3, #FFFFFF);;
     border: 1px solid #DDD;
-    
+    padding:0 1em;
     max-width: 300px;
     margin: 25px auto 35px;
     box-shadow: 3px 5px 2px #00000060;

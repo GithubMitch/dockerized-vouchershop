@@ -23,8 +23,9 @@
     layout: false,
     // inheritAttrs: false,
     async setup(props) {
-      const setupAppReady = toRef(state, 'setupAppReady')
+      const router = useRouter()
       const route = useRoute()
+      const setupAppReady = toRef(state, 'setupAppReady')
       const stockProducts = toRef(state, 'stockProducts');
       console.log('BRAND PARENT VUE :'  , route.params)
 
@@ -47,10 +48,9 @@
           immediate: false /*see: https://v3.vuejs.org/api/instance-methods.html#watch*/
         }
       )
-      // onBeforeMount(() => {
-        /* do something before Vue calls this component's render function */
-
-      // })
+      onBeforeMount(() => {
+        router.push({ params: { category: 'giftcards' } })
+      })
 
       return{ stockProducts};
     }

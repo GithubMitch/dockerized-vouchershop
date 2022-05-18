@@ -5,7 +5,7 @@
       group
     </h1> 
     <span>Select your product(s)</span>
-    <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
+    <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :categoryClass="'giftcards'" :actionLabel="actionLabel" />
     <h1>
 <pre>path: {{$route.path}}</pre>
 <pre>name: {{$route.name}}</pre>

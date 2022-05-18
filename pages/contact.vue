@@ -155,6 +155,15 @@ export default defineComponent({
               mobile : reactiveData.tel, //usr input
               name : reactiveData.name, //usr input
               email : reactiveData.email, //usr input
+
+
+              // *** EXTRA FIELDS ***  ///  
+              // Voor normaal contactformulier heb ik geen qid product of productvalue / unique-ref ???
+              // orderId :  reactiveData.qid, //route.query.orderId, // TODO orderId ? qeueId
+              // problem : "=eigenlijk geen probleem",
+              // product : "topup belkaart",
+              // productValue : 1000,
+              // uniqueReference : "1234"//route.query.paymentSessionId //route.query.paymentSessionId ? qeueId ticketRef
             }
           }
 
@@ -293,8 +302,6 @@ export default defineComponent({
           reactiveData.validated.name = true;
           reactiveData.validated.tel = true;
           reactiveData.validated.email = true;
-
-          console.log(reactiveData.name, reactiveData.tel, reactiveData.email)
         }
         
       }
