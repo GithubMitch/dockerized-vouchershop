@@ -33,6 +33,8 @@ export default defineComponent({
     }
   },
   async setup(props) {
+    const setupAppReady = toRef(state, 'setupAppReady')
+
     /// SETUP ROUTING HERE FOR NAVIGATION
     const router = useRouter()
     const route = useRoute()
@@ -45,8 +47,9 @@ export default defineComponent({
 
 
     watch([stockProducts], (newValues, prevValues) => {
-      console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
-      console.log('route.params._productslug :',route.params._productslug)
+      console.log('WATCHER stockProducts' , prevValues, newValues)
+      // console.log('WATCHER STOCKPRODUCTs' , prevValues, newValues)
+      // console.log('route.params._productslug :',route.params._productslug)
       getProduct(route.params._productslug)
     })
 
@@ -62,10 +65,8 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.inner.productpage {
-  padding:2em;
-}
+<style lang="scss" scoped>
+
  .modal {
    padding-top:10em;
    display:block;

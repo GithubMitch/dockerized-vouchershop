@@ -1,13 +1,16 @@
 <template #content>
+
     <div :class="{disabled: !product.inStock}" class="inner productpage ">
       <!-- <h1>Product detail page</h1> -->
       <h1>
-        {{product.name}} 
-        <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.go(-1)"></i>
+        {{product.name}}
+        <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `category-brand-brandname`, params: {category:$route.params.category , brandname: $route.params. brandname } })"></i>
       </h1>
-      <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
+        <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
+
       <div class="description">
-<pre>{{pickedproduct}}</pre>
+  <!-- <p>{{ details.instructions ? details.instructions : 'No instructions' }}</p> -->
+  <pre>{{pickedproduct}}</pre>
         <!-- <p>
           Suspendisse quis dui et ipsum sagittis feugiat. Etiam ac justo auctor nunc pellentesque molestie nec pulvinar odio. 
           Vivamus malesuada, metus ac feugiat fermentum, mi odio consequat justo, ac ultricies orci massa vitae risus. Vestibulum sollicitudin lorem augue, 
@@ -58,7 +61,11 @@ export default defineComponent({
     details:{
       type: Object,
       default: {}
-    }
+    },
+    products:{
+      type: Object,
+      default: {}
+    },
   },
   head() {
     return {
@@ -83,6 +90,7 @@ export default defineComponent({
       await actions.addProducts(product)
     }
 
+
     return {
       addProduct, 
       setBrand,
@@ -93,6 +101,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.productpage {
+  max-width:600px;
+  padding:1em;
+  border:1px solid #ddd;
+  background:wheat;
+  overflow:hidden;
+  border-radius:1em;
+}
+  h1,
+  h3,
+  .buttons {
+    overflow:hidden;
+  }
   .close {
     display:block;
     margin:auto;

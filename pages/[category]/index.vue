@@ -9,7 +9,9 @@
           </div>
           <div v-else>
             <span>Select your product123</span>
-            <Products :products="stockProducts"/>
+            <ClientOnly>
+              <Products :products="stockProducts"/>
+            </ClientOnly>
           </div>
         </ClientOnly>
       </template>

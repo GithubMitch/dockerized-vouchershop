@@ -50,7 +50,7 @@ const actions = {
   },
   async fetchStockList() {
     let stock = await $fetch("/api/fetchstocklist");
-    console.log(stock)
+    // console.log(stock)
     state.allProducts = stock
     return methods.validateStock(stock);
   },
@@ -80,10 +80,10 @@ const actions = {
   },
   async getProduct(_productslug) { // find product in stockproducts
     let product = state.stockProducts.find(element => element.key == _productslug)
-    let providedDetails = state.allProducts.find(element => element.ean == product.ean)
-    state.productPage = {product,providedDetails}
+    let thisProductDetails = state.allProducts.find(element => element.ean == product.ean)
+    state.productPage = {product,thisProductDetails}
     // console.log('Found this product >>>', state.productPage)
-    // console.log('Belonging details >>>', providedDetails)
+    // console.log('Belonging details >>>', thisProductDetails)
     return state.productPage
   },    
 
@@ -161,7 +161,7 @@ const actions = {
       let thisProductDetails = state.allProducts.find(element => element.ean == product.ean)
       
       state.productPage = {product , thisProductDetails}
-      // console.log('details:', thisProductDetails)
+      console.log('details:', thisProductDetails)
     } else {
       let thisProduct = state.stockProducts.find(element => element.key == product)
       let thisProductDetails = state.allProducts.find(element => element.ean == product.ean)
@@ -351,20 +351,22 @@ const methods = {
         // -sendmail    V
         // -sendquestion    TEST THIS ON CONTACT FORM AND IN ORDERSTATUS
 
-    //  4.  Contact page with contact form
-          // WIP : need to create the API route for this server , and test the outgoing endpoint
-    // 7. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+//  4.  Contact page with contact form
+      // WIP : need to create the API route for this server , and test the outgoing endpoint
+//  7. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
 
 
 
 //  5.  Expand filters {brand>group>actionlabel} define order of filtering
+        // Display Corresponding filters like brand : swap out with groups if possible
 
-//  2.  Set operatorcode blckhwk seperate category > giftcards
-      // DONE
+// 8. Fix instructions ( productpage ) and modal general styling ( CSS giftcards - maybe same - then remove scoped and put in global scope for both dynamic pages are same)
 
-//  6.  Fix correct routing to group and brand respectively  
-      // DONE
+  //  8.1 Maybe take instructions and put into brand/operator/list:: IF instructions are based on brand , not specific products
+  //  on reload , check instructions, if not there dont render/print to page
 
+//9. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady)
 
-
+//10. Check back button (for correct routing ) on productpage ( modal close button
+//11. Visual for empty list (e.g group or brand filtering)
 export  {state, actions, methods }

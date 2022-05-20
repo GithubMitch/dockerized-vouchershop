@@ -2,7 +2,7 @@
   <NuxtLayout name="default">
     <template #content>
       <div class="modal">
-        <Router-View :pickedproduct="pickedProduct" :product="pickedProduct.product" :details="pickedProduct.providedDetails"/>
+        <Router-View :pickedproduct="pickedProduct" :product="pickedProduct.product" :details="pickedProduct.thisProductDetails"/>
       </div>
     </template>
   </NuxtLayout>
@@ -62,9 +62,15 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .inner.productpage {
   padding:2em;
+  overflow: hidden;
+  h1,
+  h3,
+  .button {
+    overflow:hidden;
+  }
 }
  .modal {
    padding-top:10em;

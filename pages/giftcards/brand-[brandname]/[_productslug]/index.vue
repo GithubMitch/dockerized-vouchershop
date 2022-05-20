@@ -3,10 +3,14 @@
       <!-- <h1>Product detail page</h1> -->
       <h1>
         {{product.name}} 
-        <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.go(-1)"></i>
+        <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:$route.params.category} })"></i>
       </h1>
-      <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
+      <ClientOnly>
+        <img class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
+
+      </ClientOnly>
       <div class="description">
+<!-- <p>{{pickedproduct.thisProductDetails.instructions ?? pickedproduct.thisProductDetails.instructions  }}</p> -->
 <pre>{{pickedproduct}}</pre>
         <!-- <p>
           Suspendisse quis dui et ipsum sagittis feugiat. Etiam ac justo auctor nunc pellentesque molestie nec pulvinar odio. 
@@ -93,6 +97,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.productpage {
+  max-width:600px;
+  padding:1em;
+  border:1px solid #ddd;
+  background:wheat;
+  overflow:hidden;
+  border-radius:1em;
+}
+  h1,
+  h3,
+  .buttons {
+    overflow:hidden;
+  }
   .close {
     display:block;
     margin:auto;

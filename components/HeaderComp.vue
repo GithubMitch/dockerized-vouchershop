@@ -6,7 +6,8 @@
     <div id="HeaderContent">
         <div id="HeaderNav">
             <div id="Links">
-              <a href="/category" class="">Over Vouchershop</a>
+              <!-- <a href="/category" class="">Over Vouchershop</a> -->
+              <NuxtLink  class="category" to="/about">Over VoucherShop</NuxtLink>
               <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
             </div>
         </div>
