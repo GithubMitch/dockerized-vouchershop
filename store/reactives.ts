@@ -340,17 +340,19 @@ const methods = {
 
 
 /// TODO  
-//1.  FIX loading of dynamic img on productpage - for giftcards
-//2.  Test Moved server/api requests
-      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
-//3.  Fix instructions ( productpage ) and modal general styling ( CSS giftcards - maybe same - then remove scoped and put in global scope for both dynamic pages are same)
-//4.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
-//5.  Transitions! / GSAP
-
+//1.  Test: Moved server/api requests
+  //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+//2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
+//3.  Transitions! / GSAP ???
 
 // CHOICES
-//1. Check back button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
-//4. Style GiftCards ?
-//9. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
+//1. Productpage Close (back) button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
+//2. Style GiftCards ?
+//3. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
     // Made component ProgressBar , have to implement them on ?every? page that loads data reactively
+
+// DONE
+//1.  Fix instructions ( productpage ) and modal general styling ( CSS giftcards - maybe same - then remove scoped and put in global scope for both dynamic pages are same)
+      // -- leave it like this for the giftcards CSS might change 
+
 export  {state, actions, methods }

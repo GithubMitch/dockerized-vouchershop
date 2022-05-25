@@ -232,6 +232,7 @@ export default defineComponent({
       overflow:hidden;
       box-shadow: 0 0 3px rgb(0 0 0 / 19%);
       color: #2c3e50;
+      position: relative;
       // box-shadow: 0px 1px 8px orange;
       // box-shadow: 0px 0px 14px -5px orange;
 

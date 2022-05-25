@@ -2,12 +2,7 @@
   <NuxtLayout name="category">
     <template #content>
       <ClientOnly>
-        <h1 class="pagetitle">Category {{$route.params.category}}</h1>
-        <!-- <div v-if="$route.params.category !== 'giftcards'"> -->
-        <!-- <div>
-          <span>Select your brand</span>
-          <Categories :brands="brands"/>
-        </div> -->
+        <h1 class="pagetitle">{{$route.params.category}}</h1>
         <div>
           <span>Select your product</span>
           <Products :categoryClass="'giftcards'" :products="stockProducts"/>
@@ -25,7 +20,7 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
   import { defineComponent, ref, toRef } from 'vue'
   import {_} from 'vue-underscore';
 
-  export default defineComponent({
+  export default defineNuxtComponent({
     head() {
       return {
         link: [

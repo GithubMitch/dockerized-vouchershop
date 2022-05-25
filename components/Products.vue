@@ -3,11 +3,12 @@
   <!-- <NuxtLayout name="productlist"> -->
     <!-- <div class="inner"> -->
       <ClientOnly>
-        <transition-group tag="ul" name="card" appear
+          <!-- @leave="leave" -->
+        <transition-group tag="ul" name="card"
           @before-enter="beforeEnter"
           @enter="enter"
           class="styled-list product-list">
-          <li  class="item" v-for="(product, index) in products" :key="product.key" :class="categoryClass ?? categoryClass">
+          <li  class="item" v-for="(product, index) in products" :key="index" :class="categoryClass ?? categoryClass">
             <Fold
               width="45" 
               height="45"
@@ -18,6 +19,7 @@
               :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
               :disabled="!product.inStock ? 'disabled' : false"
               />
+              
               <!-- blue gradient 68c4ff -->
               <!-- :MyGradient="'MyGradient'" -->
               <!-- :gradient="{from: [`#116ba2`, 95] , to: ['#308ac3', 95] }"   -->
@@ -110,12 +112,12 @@ export default defineComponent({
         duration: 0.74,
         opacity: 1,
         overwrite: false,
-        ease: "power2.inOut",
+        // ease: "power2.inOut",
         scaleY: 1,
         scaleX: 1,
         // delay: 0.7,
         y: 0,
-        delay: el.dataset.index * 0.1,
+        delay: el.dataset.index * 0.6,
         onComplete: done
       })
     }

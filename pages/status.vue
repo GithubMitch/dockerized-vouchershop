@@ -153,7 +153,7 @@
             let data = {
               reference : "blablabla",
               orderStatusRequest : {
-                "securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+                "securityKey" : "SecretH@ndShake007",
                 "paymentQueueId" : reactiveData.qid
               }
             }
@@ -240,14 +240,14 @@
             reference : "blablabla",
             questionRequest : {
               //TODO : define default or usrinput
-              securityKey : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+              securityKey : "SecretH@ndShake007",
               locale : "nl_NL",
-              message : "de belangrijke message", 
+              message : "de belangrijke message", // TODO fix this message
               mobile : reactiveData.tel,
               name : reactiveData.name,
               orderId :  reactiveData.qid, //route.query.orderId, // TODO orderId ? qeueId
-              problem : "=eigenlijk geen probleem",
-              product : "topup belkaart",
+              problem : "=eigenlijk geen probleem", // TODO : problem ???
+              product : "topup belkaart", // TODO product ??
               email : reactiveData.email,
               productValue : 1000,
               uniqueReference : "1234"//route.query.paymentSessionId //route.query.paymentSessionId ? qeueId ticketRef

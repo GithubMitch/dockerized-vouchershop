@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <h1>Parent: {{$route.params.group}} - Group</h1>
+      <!-- <h1>Parent: {{$route.params.group}} - Group</h1> -->
       <!-- {{$route.params.group}} - Group -->
       <Router-View :products="stockProducts"/>
       <!-- <NuxtPage/> -->

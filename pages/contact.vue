@@ -149,7 +149,7 @@ export default defineComponent({
             reference : "blablabla",
             questionRequest : {
               //TODO : define default or usrinput
-              securityKey : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333", // TODO only set security key inside the API function scope
+              securityKey : "SecretH@ndShake007",
               locale : "nl_NL",
               message : reactiveData.msg, //usr input
               mobile : reactiveData.tel, //usr input

@@ -3,7 +3,8 @@ import config from '#config';
 import {useBody} from 'h3';
 
 export default async (req, res) => {
-  const orderPayload = await useBody(req)
+  let orderPayload = await useBody(req)
+  orderPayload.submitOrderRequest.securityKey = `${config.hand_auth_key}`;
 
   let submitOrder = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/submitorder`, { 
     method: 'POST',

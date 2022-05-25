@@ -1,18 +1,16 @@
 <template>
   <NuxtLayout name="category">
       <template #content>
-        <h1 class="pagetitle">Category {{$route.params.category}}</h1>
+        <h1 class="pagetitle">{{$route.params.category}}</h1>
         <ClientOnly>
-          <div v-if="$route.params.category !== 'giftcards'">
             <span>Select your brand</span>
             <Categories :brands="brands"/>
-          </div>
-          <div v-else>
+          <!-- <div v-else>
             <span>Select your product123</span>
             <ClientOnly>
               <Products :products="stockProducts"/>
             </ClientOnly>
-          </div>
+          </div> -->
         </ClientOnly>
       </template>
   </NuxtLayout>

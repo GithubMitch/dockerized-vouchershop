@@ -1,13 +1,9 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <ClientOnly>
-        <h1>Parent: {{$route.params.group}} - Group</h1>
-        <!-- {{$route.params.group}} - Group -->
+      <!-- <ClientOnly> -->
         <Router-View :products="stockProducts"/>
-        <!-- <NuxtPage/> -->
-      </ClientOnly>
-
+      <!-- </ClientOnly> -->
     </template>
   </NuxtLayout>
 </template>
@@ -128,6 +124,7 @@
       overflow:hidden;
       box-shadow: 0 0 3px rgb(0 0 0 / 19%);
       color: #2c3e50;
+      position:relative;
 
       a {
         background:#fff;

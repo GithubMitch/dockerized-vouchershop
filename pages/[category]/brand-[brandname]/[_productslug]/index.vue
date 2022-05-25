@@ -1,5 +1,4 @@
 <template #content>
-
     <div :class="{disabled: !product.inStock}" class="inner productpage ">
       <div v-if="JSON.stringify(product) === '{}'">
         <ProgressBar/>
@@ -17,7 +16,7 @@
 
           <h3>€{{product.value / 100}}, -</h3>
       </div>
-      
+
       <div class="buttons">
         <NuxtLink :class="{disabled: !product.inStock}" class="cta" @click="addProduct(product)" :to="product.inStock ? '/checkout' : '/home'">{{ !product.inStock ? 'Not in stock right now' : 'Add & go to cart' }}</NuxtLink>
       </div>

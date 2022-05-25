@@ -1,9 +1,7 @@
 <template>
   <NuxtLayout name="productlist">
     <template #content>
-      <h1>Parent: {{$route.params.brandname}} - Brand</h1>
       <Router-View :products="stockProducts"/>
-      <!-- <NuxtPage :products="stockProducts"/> -->
     </template>
   </NuxtLayout>
 </template>

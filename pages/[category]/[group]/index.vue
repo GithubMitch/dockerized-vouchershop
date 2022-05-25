@@ -1,16 +1,15 @@
 <template>
   <div class="inner">
     <h1 class="pagetitle">
-      <!-- {{$route.params.group ? `Group ` + `${$route.params.group}` : `Brand ` + `${$route.params.brand}`}} -->
-      group
+      {{$route.params.category}} > 
+      {{$route.params.group}}
     </h1> 
     <span>Select your product(s)</span>
     <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
-    <h1>
+    <!-- <h1>
 <pre>path: {{$route.path}}</pre>
 <pre>name: {{$route.name}}</pre>
-<pre>params: {{$route.params}}</pre>
-    </h1>
+    </h1> -->
   </div>
 </template>
 

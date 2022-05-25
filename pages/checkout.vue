@@ -560,7 +560,7 @@ export default defineComponent({
 						"orderItems": formattedOrderItems,
 						"orderConfig" : '',
 						"returnUrl": window.location.protocol + "//" + window.location.hostname + (window.location.port != undefined ? ":" + window.location.port : "") + "/status", 
-						"securityKey" : "DSFBUHQEWRBV89UWRETHUISFBHOSBGFJBNMGERTGTYYJUR3333",
+						"securityKey" : "SecretH@ndShake007",
 						"shopPaymentId": pmId, 
 						"specifyOrderItems" : true ,
 						"subPaymethodId": pmsubId, 
