@@ -2,7 +2,7 @@
   <NuxtLayout name="default">
     <template #content>
       <div class="modal">
-        <Router-View :pickedproduct="pickedProduct" :product="pickedProduct.product" :details="pickedProduct.providedDetails"/>
+        <Router-View :pickedproduct="pickedProduct" :product="pickedProduct.product" :details="pickedProduct.thisProductDetails"/>
       </div>
     </template>
   </NuxtLayout>

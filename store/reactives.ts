@@ -340,34 +340,17 @@ const methods = {
 
 
 /// TODO  
-//  3.  Make giftcards working
+//1.  FIX loading of dynamic img on productpage - for giftcards
+//2.  Test Moved server/api requests
+      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+//3.  Fix instructions ( productpage ) and modal general styling ( CSS giftcards - maybe same - then remove scoped and put in global scope for both dynamic pages are same)
+//4.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
+//5.  Transitions! / GSAP
 
 
-
-//  1.  Move api Calls to server/API  
-        // -submit V
-        // -checkout V
-        // -status V
-        // -sendmail    V
-        // -sendquestion    TEST THIS ON CONTACT FORM AND IN ORDERSTATUS
-
-//  4.  Contact page with contact form
-      // WIP : need to create the API route for this server , and test the outgoing endpoint
-//  7. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
-
-
-
-//  5.  Expand filters {brand>group>actionlabel} define order of filtering
-        // Display Corresponding filters like brand : swap out with groups if possible
-
-// 8. Fix instructions ( productpage ) and modal general styling ( CSS giftcards - maybe same - then remove scoped and put in global scope for both dynamic pages are same)
-
-  //  8.1 Maybe take instructions and put into brand/operator/list:: IF instructions are based on brand , not specific products
-  //  on reload , check instructions, if not there dont render/print to page
-
-//9. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady)
-
-//10. Check back button (for correct routing ) on productpage ( modal close button
-//11. Visual for empty list (e.g group or brand filtering)
-//12. FIX loading of dynamic img on productpage
+// CHOICES
+//1. Check back button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
+//4. Style GiftCards ?
+//9. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
+    // Made component ProgressBar , have to implement them on ?every? page that loads data reactively
 export  {state, actions, methods }
