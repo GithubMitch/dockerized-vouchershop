@@ -369,4 +369,5 @@ const methods = {
 
 //10. Check back button (for correct routing ) on productpage ( modal close button
 //11. Visual for empty list (e.g group or brand filtering)
+//12. FIX loading of dynamic img on productpage
 export  {state, actions, methods }
