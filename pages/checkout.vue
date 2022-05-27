@@ -620,14 +620,16 @@ export default defineComponent({
     }
 
 			const reinstateOrder = (orderItems) => {
-				orderItems = orderItems ?? [];
+				// console.log('reinstate order')
+				actions.reinstateOrder(orderItems)
+				// orderItems = orderItems ?? [];
 			}
 			const emptyOrder = (orderItems) => {
 				state.order.orderItems = [];
 			}
 
       if (process.client){
-        if (localStorage.getItem('trxmem')) {
+        if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0) {
           let storedTrxString = localStorage.getItem('trxmem');
           if(storedTrxString != undefined && bytes != '' ){
             var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
@@ -665,19 +667,19 @@ export default defineComponent({
 			//   if(selectedPaymethod.subSelect != undefined)
 			//     subSelection = selectedPaymethod.subSelect;
 			// }
-			if( state.order.orderItems.length == 0 ){
-			  let storedTrxString = localStorage.getItem('trxmem');
-			  if(storedTrxString != undefined  &&  bytes != '' ){
-			    var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
-			    if(bytes != undefined  &&  bytes != '' ){
-			      let data = bytes.toString(CryptoJS.enc.Utf8);
-			      data = JSON.parse(data);
-			      console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
-			      console.log(data)
-			      reinstateOrder(data.orderItems);
-			    }
-			  }
-			}
+			// if( state.order.orderItems.length == 0 ){
+			//   let storedTrxString = localStorage.getItem('trxmem');
+			//   if(storedTrxString != undefined  &&  bytes != '' ){
+			//     var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+			//     if(bytes != undefined  &&  bytes != '' ){
+			//       let data = bytes.toString(CryptoJS.enc.Utf8);
+			//       data = JSON.parse(data);
+			//       console.log('%c[REINSTATE ORDER]', 'background: #bad455; color:darkgreen')
+			//       console.log(data)
+			//       reinstateOrder(data.orderItems);
+			//     }
+			//   }
+			// }
 		}
 
 		onMounted(() => {

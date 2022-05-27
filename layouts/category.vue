@@ -1,9 +1,7 @@
 <template>
   <main>
-    <!-- <div class="inner"> -->
-      <slot name="content"></slot>
-      <slot/>
-    <!-- </div> -->
+    <slot name="content"></slot>
+    <slot/>
   </main>
 </template>
 

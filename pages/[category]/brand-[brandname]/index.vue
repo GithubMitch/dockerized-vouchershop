@@ -1,8 +1,8 @@
 <template>
   <div class="inner">
     <h1 class="pagetitle">
-      {{$route.params.category}} > 
-      {{$route.params.brand}}
+      {{$route.params.category}} {{$route.params.brandname ? '>' : ''}} 
+      {{$route.params.brandname}}
     </h1> 
     <span>Select your product(s)</span>
     <Products :products="filteredProductList ? filteredProductList : products" :brand="brand" :group="group" :actionLabel="actionLabel" />

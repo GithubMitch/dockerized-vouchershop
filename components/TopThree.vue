@@ -1,23 +1,25 @@
 <template>
   <div id="topthree">
-    <h2>Top 3</h2>
+    <h2>Meest populair</h2>
     <div class="popular">
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
-        <NuxtLink :to="`/${brand.type}/${brand.key}`"
-        >
-        <!-- @click="setBrand(brand.key)" -->
-          <!-- //no main category for brand {{type}} -->
+        <NuxtLink v-if="brand.type !== 'giftcards'" 
+          @click="setBrand(brand.key)"
+          :to="{name: `category-brand-brandname`, params: {category: `${brand.type}`, brandname: `${brand.key}`}}">
+        <!-- <NuxtLink v-if="brand.type !== 'giftcards'" :to="`/${brand.type}/brand-${brand.key}`"> -->
           <div class="brand">
             <div class="visual">
               <img :src="`../assets/logos/${brand.key}.png`" />
             </div>
             <label for="brand-name">{{brand.name}}</label>
-            <span class="type">{{brand.type}}</span>
-            <!-- <Fold
-              width="45" 
-              height="45"
-              :product="{}"
-              /> -->
+          </div>
+        </NuxtLink>
+        <NuxtLink v-else :to="{name: `category`, params: {category: `${brand.type}`}}">
+          <div class="brand">
+            <div class="visual">
+              <img :src="`../assets/logos/${brand.key}.png`" />
+            </div>
+            <label for="brand-name">{{brand.name}}</label>
           </div>
         </NuxtLink>
       </div>
@@ -35,6 +37,10 @@ export default defineComponent({
     const brands = toRef(state, 'brands');
     const topThree = toRef(state, 'topThree');
 
+    const setBrand = (brand) => {
+      actions.setSelectedBrand(brand);
+    }
+
     const randomizeBrands = () => {
       for (let i = 0; i <=2 ; i++) {
         if (topThree.value.length <= 2) {
@@ -43,7 +49,7 @@ export default defineComponent({
           if (randBrand === topThree.value[0] || randBrand === topThree.value[1] || randBrand === topThree.value[2]) {
             i--;
           } else {
-            randBrand.type = 'category'
+            randBrand.type = 'beltegoed'
             if (randBrand.key == 'paysafecard' || randBrand.key == 'apple' )
               randBrand.type = 'giftcards'
             topThree.value.push(randBrand)
@@ -61,7 +67,7 @@ export default defineComponent({
     // if (topThree.value.length == 0) {
       randomizeBrands();
     // }
-    return {topThree}
+    return {setBrand,topThree}
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="inner">
+  <div>
     <h1 class="pagetitle">
       {{$route.params.category}} > 
       {{$route.params.group}}

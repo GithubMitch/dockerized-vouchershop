@@ -2,30 +2,51 @@
   <div id="recentorders">
     <h2><span>Je vorige bestellingen</span></h2>
     <div class="recent">
-      <a href="" class="close"></a>
       <ul class="products">
-        <li class="product">
-          <span>KPN €20,-  </span>
-        </li>
-        <li class="product">
-          <span>KPN €10,-   </span>
-        </li>
-        <li class="product">
-          <span>T-Mobile €20,-   </span>
+        <li v-for="(item, index) in orderItems" :key="index">
+          <span>{{item.key}}  </span>
         </li>
       </ul>
-      <a href="" class="button">Bestel nu snel!</a>
+      <NuxtLink class="button" to="/checkout">Bestel nu snel!</NuxtLink>
+      <!-- <a href="" class="button">Bestel nu snel!</a> -->
     </div>
   </div>
-  
 </template>
 
 <script>
-import {_} from 'vue-underscore';
+import { _ } from "vue-underscore";
+import CryptoJS from "crypto-js";
+import { state, actions, methods } from '../store/reactives'
 
-export default {
-  
-}
+export default defineComponent({
+  async setup () {
+      const order = toRef(state,'order')
+      const orderItems = toRef(state.order,'orderItems')
+			const reinstateOrder = (orderItems) => {
+				actions.reinstateOrder(orderItems)
+			}
+			const emptyOrder = (orderItems) => {
+				state.order.orderItems = [];
+			}
+
+      if (process.client){
+        
+        if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0 ) {
+          let storedTrxString = localStorage.getItem('trxmem');
+          if(storedTrxString != undefined && bytes != '' ){
+            var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+            if(bytes != undefined && bytes != '' ){
+              let data = bytes.toString(CryptoJS.enc.Utf8);
+              data = JSON.parse(data);
+              console.log('LocalStorage getItem:',{data});
+              actions.reinstateOrder(data.orderItems);
+            }
+          }
+        } 
+      }
+    return {orderItems}
+  }
+})
 </script>
 
 <style scoped lang="scss">
