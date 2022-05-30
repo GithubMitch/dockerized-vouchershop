@@ -4,6 +4,7 @@
         <a href="#/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
     </div>
     <div id="HeaderContent">
+        <a id="hamburger" @click="toggleMenu"><i class="i simple-line-icons:menu"></i></a>
         <div id="HeaderNav">
             <div id="Links">
               <!-- <a href="/category" class="">Over Vouchershop</a> -->
@@ -172,7 +173,16 @@ export default defineComponent({
       return actions.getCartTotal()
     }
 
+    const activeSideMenu = toRef(state,'activeSideMenu')
 
+    const toggleMenu = (e) => {
+      activeSideMenu.value == false ? activeSideMenu.value = true : activeSideMenu.value = false;
+      console.log('activeSideMenu', activeSideMenu.value)
+      return
+    }
+    // const toggleMenu = () => {
+    //   console.log('toggleMenu')
+    // }
 
     const setActionLabel = (value)  => {
       console.log(value)
@@ -216,21 +226,35 @@ export default defineComponent({
       setGroup,
       setBrand,
       pulseEffect,
-      route
+      route,
+      toggleMenu
     }
   },
 })
 </script>
 
-<style lang="scss">  
+<style lang="scss">
+  #hamburger {
+    position: absolute;
+    color:#000;
+    right: 150px;
+    // right: 145px;
+    top: 58px;
+    font-size:2em;
+    padding:3px;
+    cursor:pointer;
+  }
   header{
     flex: 0 1 20%;
-    min-width: 990px;
+    max-width: 1200px;
+    width:100%;
     text-align: left;
     margin: 1.2em auto 0.5em;
+    padding-top: 1.2em;
+    margin-top: 0;
     display: flex;
     max-height: 80px;
-    width:990px;
+    position:relative;
 
     #Logo{
       flex: 1 1 20%;
@@ -341,7 +365,8 @@ export default defineComponent({
     
     #PageMenuContent{
       display: flex;
-      max-width: 990px;
+      max-width: 1200px;
+      width:100%;
       margin: 0px auto;
       justify-content: space-between;
       flex: 1 1 100%;
@@ -471,9 +496,11 @@ export default defineComponent({
       list-style:none;
       padding:0;
       width: 100%;
-      max-width: 990px;
       margin:0 auto;
-      display:flex;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
       // clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
 
       li {
@@ -481,7 +508,6 @@ export default defineComponent({
         padding: 0;
         line-height: 18px;
         vertical-align: middle;
-        -webkit-box-flex: 1;
         align-self: center;
         font-size: 15px;
         padding: 5px;
@@ -492,9 +518,9 @@ export default defineComponent({
         font-weight: bold;
         color: #444;
         cursor: pointer;
-        -webkit-box-flex: 1;
-        -ms-flex: 0 1 25%;
-        flex: 0 1 25%;
+        // -webkit-box-flex: 1;
+        // -ms-flex: 0 1 25%;
+        // flex: 0 1 25%;
         transition: .3s ease opacity;
         text-align:center;
         &:hover {
@@ -526,8 +552,27 @@ export default defineComponent({
         }
       }
     }
-  }
+    #brandMenu {
+      li {
+        padding:.5em 1em;
+        a {
+          color: #1a6fb5;
+          font-weight: 700;
 
+          &.router-link-exact-active {
+            text-shadow: 0px 0px 4px #fff;
+          }
+        }
+      }
+    }
+    #groupMenu {
+      li {
+        -webkit-box-flex: 1;
+        -ms-flex: 0 1 23%;
+        flex: 0 1 23%;
+      }
+    }
+  }
   #Breadcrumbs{
     background: #DDDDDD50;
     

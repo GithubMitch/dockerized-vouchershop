@@ -6,13 +6,13 @@
         @before-enter="beforeEnter"
         @enter="enter"
         class="styled-list product-list">
-        <li  class="item" v-for="(brand, index) in brands" :key="brand.key">
+        <li  class="item" v-for="(brand, index) in brands" :key="brand.key + index">
           <!-- <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setSelectedBrand(brand.key)"> -->
           <!-- `/${$route.params.category}` + `/brand-${brand.key}` -->
           <NuxtLink class="brandLine" :to='{name: `category-brand-brandname` , params: {  category: $route.params.category , brandname: brand.key }}' @click="setBrand(brand)">
               <img :src="`../../assets/logos/${brand.key}.png`" />
               <span for="">{{brand.name}}</span>
-              <span for="">{{$route.params.category}}</span>
+              <!-- <span for="">{{$route.params.category}}</span> -->
 
               <Fold
                   width="45" 
@@ -40,16 +40,6 @@ export default defineComponent({
     brands: {
       type: Array,
       default: []
-    }
-  },
-  head() {
-    return {
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
     }
   },
   // methods: {

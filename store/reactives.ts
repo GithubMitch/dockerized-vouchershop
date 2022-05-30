@@ -6,6 +6,9 @@ const state = reactive ({
   // False = app still fetching stock
   setupAppReady : ref(false),
 
+  // sidemenu 
+  activeSideMenu : ref(false),
+
   //filters
   brand: ref(''),
   group: ref(''),
@@ -340,17 +343,20 @@ const methods = {
   // * * * * * * * * * * * * ///
  // * * * *   TODO   * * * * ///
 // * * * * ///* * * * * * * ///
-//*****  Fix Options bug when going to checkout
+//*****  Fix Options bug when going to checkout  ( Cant reproduce ?)
 //1.  Test: Moved server/api requests
-      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )ç
 //2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
-//3.  Transitions! / GSAP ???
+//3.  Transitions! / GSAP ??? Fixed by setting unique index
+// 4. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
 
 // CHOICES
 //1. Productpage Close (back) button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
     // CHECK NOT IN STOCK BUTTON (adding product whie not in stock) - disable button
 //2. Style GiftCards ?
-//3. Display visual for loading time , for when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
+//3. Display visual for loading time & or when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
     // Made component ProgressBar , have to implement them on ?every? page that loads data reactively
+
+// CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC
 
 export  {state, actions, methods }

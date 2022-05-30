@@ -6,9 +6,9 @@
           <!-- @leave="leave" -->
         <transition-group tag="ul" name="card"
           @before-enter="beforeEnter"
-          @enter="enter"
+          @enter="enter" appear
           class="styled-list product-list">
-          <li  class="item" v-for="(product, index) in products" :key="index" :class="categoryClass ?? categoryClass">
+          <li  class="item" v-for="(product, index) in products" :key="product.ean" :class="categoryClass ?? categoryClass">
             <Fold
               width="45" 
               height="45"

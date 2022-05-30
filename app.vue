@@ -1,8 +1,14 @@
 <template>
-  <HeaderComp/>
-    <Router-View/>
-  <!-- <NuxtPage/> -->
-  <FooterComp/> 
+  <div>
+    <div id="content" :class="{open: activeSideMenu}">
+      <HeaderComp/>
+      <Router-View/>
+      <!-- <NuxtPage/> -->
+      <FooterComp/> 
+    </div>
+    <SideMenu  :class="{open: activeSideMenu}"/>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -33,6 +39,7 @@ export default defineComponent({
       const setupAppReady = toRef(state, 'setupAppReady')
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
+      const activeSideMenu = toRef(state, 'activeSideMenu');
 
       if (stockProducts.value.length == 0 && brands.value.length == 0) {
         Promise.all([
@@ -52,7 +59,7 @@ export default defineComponent({
         })
       }
     
-    return {}
+    return {activeSideMenu}
   }
 })
 
@@ -71,6 +78,7 @@ export default defineComponent({
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow:hidden;
   }
   html {
     background:repeating-linear-gradient(
@@ -155,8 +163,8 @@ export default defineComponent({
   body {
     padding: 0;
     margin: 0;
-    background: repeating-linear-gradient(
-    -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200px);
+    // background: repeating-linear-gradient(
+    // -137deg,hsla(0,0%,62%,.050980392156862744),hsla(0,0%,100%,.25098039215686274) 200px);
     min-height: 100vh;
   }
   .title {
@@ -394,4 +402,114 @@ export default defineComponent({
 
   .foldHoder, 
   .tip {cursor:pointer;}
+
+  // Sidemenu togglemenu Setup
+  #sidemenu {
+    position: fixed;
+    z-index: 0;
+    height: 100%;
+    width: 300px;
+    top: 0;
+    transition: .3s ease-in left, .3s cubic-bezier(0.19, 1, 0.22, 1) opacity;
+    opacity: 0;
+    background: rgb(221 221 221 / 25%);
+    color:#0c4971;
+    overflow-y: auto;
+    &.open {
+      transition: .3s ease-in left, 1s cubic-bezier(0.19, 1, 0.22, 1) opacity;
+      left:0px;
+      opacity:1;
+    }
+    .title {
+      padding-left: 1em;
+      line-height: 35px;
+      margin-top: 1px;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .title.open {
+      display:inline-block;
+      width:100%;
+    }
+    .title.open,
+    .open > a{
+      background: rgb(221 221 221 / 25%);
+      font-weight:bold;
+    }
+    i {
+      position: absolute;
+      right: 1px;
+      line-height: 35px;
+      padding: 0 1em;
+      background: #dde;
+      cursor: pointer;
+      background: rgba(221, 221, 221, 0.25);
+      border-left: 1px solid #ddd;
+    }
+    a {
+      color:#0c4971;
+      text-decoration: none;
+      transition: .3s ease text-decoration;
+      &:hover {
+        text-decoration: underline;
+      }
+      &.router-link-active {
+        background:#ff7514;
+        color:#fff;
+        + i {
+          color:#fff;
+        }
+      }
+    }
+    ul {
+      li:last-of-type {
+        border-bottom:0;
+      }
+      li {
+        border-bottom:1px solid #ccc;
+        &:hover {
+          background:white;
+        }
+        a {
+          align-self: center;
+          font-size: 18px;
+          padding: 5px;
+          box-sizing: border-box;
+          display: inline-block;
+          text-decoration: none;
+          text-transform: capitalize;
+          width:100%;
+        }
+        
+        //1st lvl nest
+        ul {
+          height:0;
+          overflow:hidden;
+          li {
+            a {
+
+            }
+          }
+          &.open {
+            height:auto;
+          }
+        }
+      } 
+    }
+  }
+  #content {
+    position:relative;
+    z-index:100;
+    box-shadow:1px -10px 10px #333;
+    left:0;
+
+      transition: .3s ease-out all;
+    // animation to 
+    &.open {
+      // position:fixed;
+      background:#fff;
+      left:300px;      
+    }
+  }
 </style>
