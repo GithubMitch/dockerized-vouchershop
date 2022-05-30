@@ -47,16 +47,6 @@ export default defineComponent({
       default: {}
     },
   },
-  head() {
-    return {
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
-    }
-  },
   async setup() {
     const setBrand = (brand)  => {
       console.log(brand)

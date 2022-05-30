@@ -3,14 +3,16 @@
       <template #content>
         <h1 class="pagetitle">{{$route.params.category}}</h1>
         <ClientOnly>
+          <div v-if="$route.params.category == 'beltegoed'">
             <span>Select your brand</span>
             <Categories :brands="brands"/>
-          <!-- <div v-else>
+          </div>
+          <div v-else>
             <span>Select your product123</span>
             <ClientOnly>
               <Products :products="stockProducts"/>
             </ClientOnly>
-          </div> -->
+          </div>
         </ClientOnly>
       </template>
   </NuxtLayout>
