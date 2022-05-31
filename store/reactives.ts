@@ -6,8 +6,9 @@ const state = reactive ({
   // False = app still fetching stock
   setupAppReady : ref(false),
 
-  // sidemenu 
+  // MenuStates
   activeSideMenu : ref(false),
+  activeCategoryMenu : ref(false),
 
   //filters
   brand: ref(''),
@@ -349,6 +350,7 @@ const methods = {
 //2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
 //3.  Transitions! / GSAP ??? Fixed by setting unique index
 // 4. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
+
 
 // CHOICES
 //1. Productpage Close (back) button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?

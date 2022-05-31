@@ -98,29 +98,6 @@ export default defineComponent({
     margin-block-end: 0;
     font-family: Avenir,Helvetica,Arial,sans-serif;
   }
-  .breadcrumb {
-    clip-path: polygon(0% 0%, 100% 0%, 98% 50%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 2% 50%);
-  }
-  .breadcrumb > .inner {
-    // background: #b8c5ce repeating-linear-gradient(308deg, #9e9e9e0d, #ffffff40 200px);
-    clip-path: polygon(0% 0%, 100% 0%, 98% 45%, 95% 100%, 95% 100%, 100% 100%, 5% 100%, 3% 65%);
-    color:#308ac3;
-    font-weight:500;
-    padding: 0.25em 4em;
-    text-align: center;
-    max-width:1100px;
-    background:silver;
-    a {
-      &.router-link-active,
-      &:visited {
-        color:#308ac3;
-      }
-      &:hover {
-        color:darkblue;
-        text-decoration: none;
-      }
-    }
-  }
   main .inner {max-width:100%;}
   main .inner.sales {max-width:990px;}
   .inner {
@@ -503,7 +480,7 @@ export default defineComponent({
     z-index:100;
     box-shadow:1px -10px 10px #333;
     left:0;
-
+    min-height: 100vh;
       transition: .3s ease-out all;
     // animation to 
     &.open {

@@ -1,24 +1,24 @@
 
 <template>
   <div class="breadcrumb">
-    <div v-if="$route.params._categoryslug" class="inner">
+    <div v-if="$route.params.category" class="inner">
       <span v-for="(param, route) in $route.params" :key="param">
-          <span v-show="route !== '_categoryslug'">
+          <span v-show="route !== 'category'">
             >    
           </span> 
-          <span v-show="route == '_categoryslug'">
-            <NuxtLink v-if="$route.params._categoryslug" :to='`/${param}`'>{{param}}</NuxtLink>
+          <span v-show="route == 'category'">
+            <NuxtLink v-if="$route.params.category" :to='`/${param}`'>{{param}}</NuxtLink>
           </span>  
-          <!-- <span v-show="$route.params.brand">:{{$route.params.brand}}:</span> -->
-          <span v-show="route == 'brand'">
-            <NuxtLink v-if="$route.params.brand" :to='`/${$route.params._categoryslug}/${param}`'>{{param}}</NuxtLink>
+          <!-- <span v-show="$route.params.brandname">:{{$route.params.brandname}}:</span> -->
+          <span v-show="route == 'brandname'">
+            <NuxtLink v-if="$route.params.brandname" :to='`/${$route.params.category}/${param}`'>{{param}}</NuxtLink>
           </span> 
           <span v-show="route == '_for'">
-            <NuxtLink v-if="$route.params._for" :to='`/${$route.params._categoryslug}/${$route.params.brand}/${param}`'>{{param}}</NuxtLink>
+            <NuxtLink v-if="$route.params._for" :to='`/${$route.params.category}/${$route.params.brandname}/${param}`'>{{param}}</NuxtLink>
           </span> 
-          <span v-show="route == '_productslug'">
-            <NuxtLink v-if="$route.params._productslug" :to='`/${$route.params._categoryslug}/${$route.params.brand}/${$route.params._for}/${param}`'>{{param}}</NuxtLink>
-          </span> 
+          <!-- <span v-show="route == '_productslug'">
+            <NuxtLink v-if="$route.params._productslug" :to='`/${$route.params.category}/${$route.params.brandname}/${$route.params._for}/${param}`'>{{param}}</NuxtLink>
+          </span>  -->
       </span>
     </div>
   </div>

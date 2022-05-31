@@ -5,14 +5,14 @@
       <ul>
         <li v-for="item in navLinks" v-bind:key="item.url">
           <NuxtLink class="category"
-            :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } , replace: true } : item.url"
+            :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } , replace: true } : { name: 'category', params: { category: item.label } , replace: true }"
             @click="item === activeItem ? activeItem = item : activeItem = activeItem" exact>
               {{item.label}} 
           </NuxtLink>
           <i v-if="item.subItems" @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i>
           <ul v-if="item.subItems">
             <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
-              <NuxtLink :to="subItem.url">
+              <NuxtLink :to="{ name: 'giftcards', params: { category: 'giftcards' } , replace: true }">
                 {{subItem.label}}
               </NuxtLink>
             </li>
@@ -35,7 +35,6 @@
           <NuxtLink  class="category" to="/contact">Contact</NuxtLink>
         </li>  
       </ul>
-      {{brands}}
     </ClientOnly>
   </div>
 </template>
