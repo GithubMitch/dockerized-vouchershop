@@ -1,25 +1,24 @@
 <template #content>
-    <div :class="{disabled: !product.inStock}" class="inner productpage ">
-      <div v-if="JSON.stringify(product) === '{}'">
-        <ProgressBar/>
-      </div>    
-      <div v-else>
-        <h1>
-          {{product.name}}
-          <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:$route.params.category} })"></i>
-        </h1>
-        <div class="description">
-          <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
-          <pre>{{pickedproduct}}</pre>
-          <!-- <p>{{details.instructions}}</p> -->
-        </div>
-        <h3>€{{product.value / 100}}, -</h3>
-      </div>
-      
-      <div class="buttons">
-        <NuxtLink :class="{disabled: !product.inStock}" class="cta" @click="addProduct(product)" :to="product.inStock ? '/checkout' : '/home'">{{ !product.inStock ? 'Not in stock right now' : 'Add & go to cart' }}</NuxtLink>
-      </div>
+<div :class="{disabled: !product.inStock}" class="inner productpage ">
+  <div v-if="JSON.stringify(product) === '{}'">
+    <ProgressBar/>
+  </div>    
+  <div v-else>
+    <h1>
+      {{product.name}}
+      <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:$route.params.category} })"></i>
+    </h1>
+    <div class="description">
+      <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`../../../assets/logos/${product.brand}.png`" />
+      <pre>{{pickedproduct}}</pre>
     </div>
+    <h3>€{{product.value / 100}}, -</h3>
+  </div>
+  
+  <div class="buttons">
+    <NuxtLink :class="{disabled: !product.inStock}" class="cta" @click="addProduct(product)" :to="product.inStock ? '/checkout' : '/home'">{{ !product.inStock ? 'Not in stock right now' : 'Add & go to cart' }}</NuxtLink>
+  </div>
+</div>
 </template>
 
 <script lang='ts'>

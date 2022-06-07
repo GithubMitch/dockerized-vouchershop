@@ -6,6 +6,9 @@ const state = reactive ({
   // False = app still fetching stock
   setupAppReady : ref(false),
 
+  // router check
+  hasHistory:ref(false),
+
   // MenuStates
   activeSideMenu : ref(false),
   activeCategoryMenu : ref(false),
@@ -344,21 +347,27 @@ const methods = {
   // * * * * * * * * * * * * ///
  // * * * *   TODO   * * * * ///
 // * * * * ///* * * * * * * ///
-//*****  Fix Options bug when going to checkout  ( Cant reproduce ?)
-//1.  Test: Moved server/api requests
-      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )ç
-//2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
-//3.  Transitions! / GSAP ??? Fixed by setting unique index
-// 4. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
+//*****  Fix Options bug when going to checkout  ( Cant reproduce ?!!)
 
+//1.  Test: Moved server/api requests
+      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+//2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
+//3. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
+//4. Check modal , and layouts
 
 // CHOICES
 //1. Productpage Close (back) button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
-    // CHECK NOT IN STOCK BUTTON (adding product whie not in stock) - disable button
+    // CHECK NOT IN STOCK BUTTON (adding product while not in stock) - disable button - needs safeguard
 //2. Style GiftCards ?
 //3. Display visual for loading time & or when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
     // Made component ProgressBar , have to implement them on ?every? page that loads data reactively
 
-// CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC
+//4. Check empty lists , display msg nothing found or no products atm.
+
+// CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC 
+
+// CHECK LAYOUTS
+
+// CHECK COMPONENT PRODUCTS , FOR DISPLAYED ACTION LABEL > SHOULD BE CATEGORY
 
 export  {state, actions, methods }

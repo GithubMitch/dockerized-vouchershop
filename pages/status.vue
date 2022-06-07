@@ -15,7 +15,6 @@
       </div>
     </div>
     <div v-if="reactiveData.result == 'success' ">
-        <!-- //- <CheckIt size="150" thickness="10"></CheckIt> -->
         <h1>Je order is onderweg!</h1>
         <p>Je krijgt een SMS en e-mail met daarin de code(s) en instructies.<br /> Bij probleempjes of vertragingen kan je altijd contact openemen via ons <router-link to="contact">contactformulier.</router-link>
         </p><br />
@@ -52,19 +51,6 @@
         <p>De ticket wordt opgepakt! Er wordt zo snel mogelijk contact opgenomen.</p>
       </div>
     </div>
-    <!-- <div class="interval">
-        <p>{{ intervalData.word }}</p>
-        <p>
-          interval:
-          <input v-model="interval" type="number" placeholder="interval">
-        </p>
-        <button v-show="isActive" class="orange" @click="pause">
-          Pause
-        </button>
-        <button v-show="!isActive" @click="resume">
-          Resume
-        </button>
-    </div> -->
   </ClientOnly>
 
   </div>  
@@ -72,343 +58,327 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent,toRef,onMounted, watch} from 'vue';
-  import { state, actions } from '../store/reactives';
-  import CryptoJS from "crypto-js";
-  import { _ } from "vue-underscore";
-  import { useIntervalFn } from '@vueuse/core';
+import {defineComponent,toRef,onMounted, watch} from 'vue';
+import { state, actions } from '../store/reactives';
+import CryptoJS from "crypto-js";
+import { _ } from "vue-underscore";
+import { useIntervalFn } from '@vueuse/core';
 
 
-  export default defineComponent({
-    layout: 'false',
-    async setup() {
-      const route = useRoute();
-      const router = useRouter();
-      const order = toRef(state, "order");
-		  const orderItems = toRef(state.order, "orderItems");
-      const reactiveData = reactive({
-        support_ticket_sending: false,
-        status: 'checking', // checking|result
-        result: null,
-        resolved: false,
-        checkThreshold: 3,
-        qid: null,
-        currentCounter: 0,
-        progressCounter: 0,
-        progress: {
-          paid: false,
-          vouchercode: false,
-          transmit: false,
-          done: false,
-        },
-        name: '',
-        tel: '',
-        email: '',
-        errors: { 
-          tel: [],
-          email: [],
-        },
-        validated: {  // false / true are actual statuses
-          tel: null,
-          email: null,
-        },
-        preFilled: false
+export default defineComponent({
+  layout: 'false',
+  async setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const order = toRef(state, "order");
+    const orderItems = toRef(state.order, "orderItems");
+    const reactiveData = reactive({
+      support_ticket_sending: false,
+      status: 'checking', // checking|result
+      result: null,
+      resolved: false,
+      checkThreshold: 3,
+      qid: null,
+      currentCounter: 0,
+      progressCounter: 0,
+      progress: {
+        paid: false,
+        vouchercode: false,
+        transmit: false,
+        done: false,
+      },
+      name: '',
+      tel: '',
+      email: '',
+      errors: { 
+        tel: [],
+        email: [],
+      },
+      validated: {  // false / true are actual statuses
+        tel: null,
+        email: null,
+      },
+      preFilled: false
 
-      })
-      const watchCount = ref({watchCount: reactiveData.progressCounter})
+    })
+    const watchCount = ref({watchCount: reactiveData.progressCounter})
 
-      const intervalData = reactive({
-        greetings: ['Hello', 'Hi', 'Yo!', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut!', '你好'],
-        word: 'Hello',
-        action: () => {
-          // intervalData.word = intervalData.greetings[Math.round(Math.random() * (intervalData.greetings.length - 1))]
-          checkStatus()
-        }
-      })
+    const intervalData = reactive({
+      greetings: ['Hello', 'Hi', 'Yo!', 'Hey', 'Hola', 'こんにちは', 'Bonjour', 'Salut!', '你好'],
+      word: 'Hello',
+      action: () => {
+        checkStatus()
+      }
+    })
 
-      const interval = ref(3000)
-      const { pause, resume, isActive } = useIntervalFn(() => {
-        intervalData.action()
-      }, interval)
-    
-            // CHECK STATUS
-      const checkStatus = async () => {
-        console.log("checkStatus")
-        if(reactiveData.checkThreshold <= 0) {
-          initiateSaveMode();
-          //pause
-          // console.log(this)
-          console.log('Stopped timer')
-          pause()
-          // this.$timer.stop('checkStatus');
-          return;
-        }
-
-        if(reactiveData.currentCounter <= reactiveData.progressCounter)
-          reactiveData.currentCounter++;
-
-        if(reactiveData.progressCounter < 2 && reactiveData.status != 'result'){
-
-            // getOrderStatus
-            let data = {
-              reference : "blablabla",
-              orderStatusRequest : {
-                "securityKey" : "SecretH@ndShake007",
-                "paymentQueueId" : reactiveData.qid
-              }
-            }
-
-					  let statusReq = await actions.orderStatus(data);
-
-            // if(statusReq.responsObject)
-            //   currentShopReceitTotal.value = actions.getCartTotal();
-
-            if(statusReq.responseObject.resultCode != 1000)
-              // console.log(statusReq)
-              throw 'Failure in request for orderstatus';
-            if(statusReq.responseObject.status == 'OPEN'){
-              reactiveData.progressCounter = 0;
-            }
-            if(statusReq.responseObject.status == 'PAID'){
-              reactiveData.progressCounter = 1;
-            }
-            if(statusReq.responseObject.status == 'CONFIRMED'){
-              // 2 -- vouchercode
-              // 3 -- transmit
-              reactiveData.progressCounter = 4;
-              // TODO  : clear localstorage or set to empty {Obj}
-              // order.orderItems.value = []   // clear orderItems (cart)
-              // TODO -- delete trx data (qid, payment url.)
-              console.log('Stopped Timer')
-              pause();
-              console.log('Deleted trxmem')
-              localStorage.removeItem('trxmem');
-              reactiveData.status = 'result';
-              reactiveData.result = 'success';
-            }
-            if(statusReq.responseObject.status == 'CHECK'){
-              reactiveData.progressCounter = 1;
-              // console.log(watchCount.value)
-              console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
-              reactiveData.checkThreshold--;
-            }
-            if(statusReq.responseObject.status == 'FAILURE'){
-              reactiveData.progressCounter = -1;
-              console.log('FAILURE');
-              // PAUSE
-              pause()
-
-              reactiveData.status = 'result';
-              reactiveData.result = 'failure';
-            }
-            if(statusReq.responseObject.status == 'CANCELED'){
-              reactiveData.progressCounter = -1;
-              console.log('CANCELED');
-              // PAUSE
-              pause()
-              reactiveData.status = 'result';
-              reactiveData.result = 'canceled';
-            }
-        }
+    const interval = ref(3000)
+    const { pause, resume, isActive } = useIntervalFn(() => {
+      intervalData.action()
+    }, interval)
+  
+          // CHECK STATUS
+    const checkStatus = async () => {
+      console.log("checkStatus")
+      if(reactiveData.checkThreshold <= 0) {
+        initiateSaveMode();
+        console.log('Stopped timer')
+        pause()
+        return;
       }
 
-      const initiateSaveMode = () => {
-        console.log('INITIATED SAVE MODE!');
-        reactiveData.status = 'result';
-        reactiveData.result = 'check'
-        // this.storeTicket(qid, date, status) // ticket page -> will display this.
-      }
-      const sleep = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-      const showResult = (result) => {
-      }
-      const backToStart = () => {
-        emptyOrder();
-        router.replace('/');
-      }
-      const createSupportTicket = async () => {
-        try{
-          reactiveData.support_ticket_sending = true;
+      if(reactiveData.currentCounter <= reactiveData.progressCounter)
+        reactiveData.currentCounter++;
 
-          if(!validate())
-            throw 'validation error';
+      if(reactiveData.progressCounter < 2 && reactiveData.status != 'result'){
 
-
-          let payLoad = {
-            // TODO > convert localstorage > currentOrder > take over values and fill in here (orderId / uniqueReference )
+          // getOrderStatus
+          let data = {
             reference : "blablabla",
-            questionRequest : {
-              //TODO : define default or usrinput
-              securityKey : "SecretH@ndShake007",
-              locale : "nl_NL",
-              message : "de belangrijke message", // TODO fix this message
-              mobile : reactiveData.tel,
-              name : reactiveData.name,
-              orderId :  reactiveData.qid, //route.query.orderId, // TODO orderId ? qeueId
-              problem : "=eigenlijk geen probleem", // TODO : problem ???
-              product : "topup belkaart", // TODO product ??
-              email : reactiveData.email,
-              productValue : 1000,
-              uniqueReference : "1234"//route.query.paymentSessionId //route.query.paymentSessionId ? qeueId ticketRef
+            orderStatusRequest : {
+              "securityKey" : "SecretH@ndShake007",
+              "paymentQueueId" : reactiveData.qid
             }
           }
 
-					let sendQuestionReq = await actions.sendQuestion(payLoad);
+          let statusReq = await actions.orderStatus(data);
 
+          // if(statusReq.responsObject)
+          //   currentShopReceitTotal.value = actions.getCartTotal();
 
-          console.log(sendQuestionReq);
-
-          if(sendQuestionReq.responseObject.resultCode != '1000')
-            throw 'Probleempje met versturen. Probeer het nogmaals.' 
-
-          await sleep(1020);
-
-          ticketCreated()
-
-          reactiveData.support_ticket_sending = false;
-
-        }catch(e){
-          console.error(e);
-          reactiveData.support_ticket_sending = false;
-          // reactiveData.errors.all.push(e);
-        }
-      }
-      const validate = () => {
-        if(reactiveData.errors.tel.length > 0)
-          return false;
-        if(reactiveData.errors.email.length > 0)
-          return false;
-        return true;
-      }
-      const createCustomerToken = () => {
-        const d = new Date();
-        const year = d.getFullYear();
-        const month = d.getMonth();
-        const day = d.getDate();
-        return `vouchershop_online_${year}${month}${day}_${reactiveData.tel}`;
-      }
-      const ticketCreated = () => {
-        reactiveData.resolved = true;
-        // store ticket, with qid in localstorage with status inprogress, include order, amount and more;
-      }
-
-      const reinstateOrder = (orderItems) => {
-        state.order.orderItems = orderItems ?? [];
-      }
-      const emptyOrder = () => {
-        state.order.orderItems = [];
-      }
-      if (process.client){
-        if (localStorage.getItem('trxmem')) {
-          let storedTrxString = localStorage.getItem('trxmem');
-          if(storedTrxString != undefined && bytes != '' ){
-            var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
-            if(bytes != undefined && bytes != '' ){
-              let data = bytes.toString(CryptoJS.enc.Utf8);
-              data = JSON.parse(data);
-              console.log({data});
-              reinstateOrder(data.orderItems);
-              reactiveData.qid = data.qid;
-            }
+          if(statusReq.responseObject.resultCode != 1000)
+            // console.log(statusReq)
+            throw 'Failure in request for orderstatus';
+          if(statusReq.responseObject.status == 'OPEN'){
+            reactiveData.progressCounter = 0;
           }
-          //////////////////////////
-          let storedDataString = localStorage.getItem('paymem');
-          let userData;
-          // RELOAD USERDATA //
-          if(storedDataString != undefined && bytes != '' ){
-            var bytes  = CryptoJS.AES.decrypt(storedDataString, 'xxxstatixxx');
-            if(bytes != undefined && bytes != '' ){
-              userData = bytes.toString(CryptoJS.enc.Utf8);
-              userData = JSON.parse(userData);  
-              reactiveData.name = userData.name;
-              reactiveData.tel = userData.tel;
-              reactiveData.email = userData.email;
-            }
-            if(reactiveData.name != null && reactiveData.tel != null && reactiveData.email != null){
-              reactiveData.preFilled = true;
-            }
+          if(statusReq.responseObject.status == 'PAID'){
+            reactiveData.progressCounter = 1;
           }
-            reactiveData.progress.paid = 'inprogress';
-        } 
-      }
-
-      watch(() => reactiveData.progressCounter, (currentValue, oldValue) => {
-          console.log(oldValue);
-          console.log(currentValue);
-          
-          // let randTime = Math.random();
-          if(currentValue == -1){
-          //   this.$timer.stop('checkStatus');
-            pause()
-            reactiveData.status = 'result';
-            reactiveData.result = 'failure';
-            return ;
-          }
-            // console.log('reactiveData.progress.paid',reactiveData)
-
-          if(currentValue > 0){
-            reactiveData.progress.paid = true;
-            reactiveData.progress.vouchercode ='inprogress';
-          }
-
-          if(currentValue > 1){
-            reactiveData.progress.vouchercode = true;
-            reactiveData.progress.transmit ='inprogress';
-          }
-
-          if(currentValue > 2){
-            reactiveData.progress.transmit = true;
-            reactiveData.progress.done ='inprogress';
-          }
-
-          if(currentValue > 3){
-            reactiveData.progress.done = true;
-            reactiveData.progressCounter = 5;
-          }
-
-          if(currentValue == 5){
+          if(statusReq.responseObject.status == 'CONFIRMED'){
+            // 2 -- vouchercode
+            // 3 -- transmit
+            reactiveData.progressCounter = 4;
+            // TODO  : clear localstorage or set to empty {Obj}
+            // order.orderItems.value = []   // clear orderItems (cart)
+            // TODO -- delete trx data (qid, payment url.)
+            console.log('Stopped Timer')
+            pause();
+            console.log('Deleted trxmem')
+            localStorage.removeItem('trxmem');
             reactiveData.status = 'result';
             reactiveData.result = 'success';
           }
+          if(statusReq.responseObject.status == 'CHECK'){
+            reactiveData.progressCounter = 1;
+            // console.log(watchCount.value)
+            console.log('STUCK IN CHECK!', 'INITIATE SAVE PROTOCOL');
+            reactiveData.checkThreshold--;
+          }
+          if(statusReq.responseObject.status == 'FAILURE'){
+            reactiveData.progressCounter = -1;
+            console.log('FAILURE');
+            // PAUSE
+            pause()
 
-          //interval
-          // interval = ((randTime*2000) + 500) - (currentValue*(randTime*200));
-          // pause
-          // $timer.stop('checkStatus');
-          pause()
-          // resume
-          // $timer.start('checkStatus');
-          resume()
-          // emit("selectChange", select.value)
-        // })
-
-
-        },
-        { deep: true }
-      )
-
-
-
-      return {
-        reactiveData,
-        intervalData,
-        interval,
-        isActive,
-        pause, 
-        resume,
-        checkStatus,
-        initiateSaveMode,
-        sleep,
-        showResult,
-        backToStart,
-        createSupportTicket,
-        ticketCreated,
-        validate,
-        createCustomerToken,
+            reactiveData.status = 'result';
+            reactiveData.result = 'failure';
+          }
+          if(statusReq.responseObject.status == 'CANCELED'){
+            reactiveData.progressCounter = -1;
+            console.log('CANCELED');
+            // PAUSE
+            pause()
+            reactiveData.status = 'result';
+            reactiveData.result = 'canceled';
+          }
       }
     }
-  })
+
+    const initiateSaveMode = () => {
+      console.log('INITIATED SAVE MODE!');
+      reactiveData.status = 'result';
+      reactiveData.result = 'check'
+      // this.storeTicket(qid, date, status) // ticket page -> will display this.
+    }
+    const sleep = (ms) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    const showResult = (result) => {
+    }
+    const backToStart = () => {
+      emptyOrder();
+      router.replace('/');
+    }
+    const createSupportTicket = async () => {
+      try{
+        reactiveData.support_ticket_sending = true;
+
+        if(!validate())
+          throw 'validation error';
+
+
+        let payLoad = {
+          // TODO > convert localstorage > currentOrder > take over values and fill in here (orderId / uniqueReference )
+          reference : "blablabla",
+          questionRequest : {
+            //TODO : define default or usrinput
+            securityKey : "SecretH@ndShake007",
+            locale : "nl_NL",
+            message : "de belangrijke message", // TODO fix this message
+            mobile : reactiveData.tel,
+            name : reactiveData.name,
+            orderId :  reactiveData.qid, //route.query.orderId, // TODO orderId ? qeueId
+            problem : "=eigenlijk geen probleem", // TODO : problem ???
+            product : "topup belkaart", // TODO product ??
+            email : reactiveData.email,
+            productValue : 1000,
+            uniqueReference : "1234"//route.query.paymentSessionId //route.query.paymentSessionId ? qeueId ticketRef
+          }
+        }
+
+        let sendQuestionReq = await actions.sendQuestion(payLoad);
+
+
+        console.log(sendQuestionReq);
+
+        if(sendQuestionReq.responseObject.resultCode != '1000')
+          throw 'Probleempje met versturen. Probeer het nogmaals.' 
+
+        await sleep(1020);
+
+        ticketCreated()
+
+        reactiveData.support_ticket_sending = false;
+
+      }catch(e){
+        console.error(e);
+        reactiveData.support_ticket_sending = false;
+        // reactiveData.errors.all.push(e);
+      }
+    }
+    const validate = () => {
+      if(reactiveData.errors.tel.length > 0)
+        return false;
+      if(reactiveData.errors.email.length > 0)
+        return false;
+      return true;
+    }
+    const createCustomerToken = () => {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = d.getMonth();
+      const day = d.getDate();
+      return `vouchershop_online_${year}${month}${day}_${reactiveData.tel}`;
+    }
+    const ticketCreated = () => {
+      reactiveData.resolved = true;
+      // store ticket, with qid in localstorage with status inprogress, include order, amount and more;
+    }
+
+    const reinstateOrder = (orderItems) => {
+      state.order.orderItems = orderItems ?? [];
+    }
+    const emptyOrder = () => {
+      state.order.orderItems = [];
+    }
+    if (process.client){
+      if (localStorage.getItem('trxmem')) {
+        let storedTrxString = localStorage.getItem('trxmem');
+        if(storedTrxString != undefined && bytes != '' ){
+          var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+          if(bytes != undefined && bytes != '' ){
+            let data = bytes.toString(CryptoJS.enc.Utf8);
+            data = JSON.parse(data);
+            console.log({data});
+            reinstateOrder(data.orderItems);
+            reactiveData.qid = data.qid;
+          }
+        }
+        //////////////////////////
+        let storedDataString = localStorage.getItem('paymem');
+        let userData;
+        // RELOAD USERDATA //
+        if(storedDataString != undefined && bytes != '' ){
+          var bytes  = CryptoJS.AES.decrypt(storedDataString, 'xxxstatixxx');
+          if(bytes != undefined && bytes != '' ){
+            userData = bytes.toString(CryptoJS.enc.Utf8);
+            userData = JSON.parse(userData);  
+            reactiveData.name = userData.name;
+            reactiveData.tel = userData.tel;
+            reactiveData.email = userData.email;
+          }
+          if(reactiveData.name != null && reactiveData.tel != null && reactiveData.email != null){
+            reactiveData.preFilled = true;
+          }
+        }
+          reactiveData.progress.paid = 'inprogress';
+      } 
+    }
+
+    watch(() => reactiveData.progressCounter, (currentValue, oldValue) => {
+        console.log(oldValue);
+        console.log(currentValue);
+        
+        // let randTime = Math.random();
+        if(currentValue == -1){
+        //   this.$timer.stop('checkStatus');
+          pause()
+          reactiveData.status = 'result';
+          reactiveData.result = 'failure';
+          return ;
+        }
+          // console.log('reactiveData.progress.paid',reactiveData)
+
+        if(currentValue > 0){
+          reactiveData.progress.paid = true;
+          reactiveData.progress.vouchercode ='inprogress';
+        }
+
+        if(currentValue > 1){
+          reactiveData.progress.vouchercode = true;
+          reactiveData.progress.transmit ='inprogress';
+        }
+
+        if(currentValue > 2){
+          reactiveData.progress.transmit = true;
+          reactiveData.progress.done ='inprogress';
+        }
+
+        if(currentValue > 3){
+          reactiveData.progress.done = true;
+          reactiveData.progressCounter = 5;
+        }
+
+        if(currentValue == 5){
+          reactiveData.status = 'result';
+          reactiveData.result = 'success';
+        }
+        pause()
+        resume()
+
+      },
+      { deep: true }
+    )
+
+    return {
+      reactiveData,
+      intervalData,
+      interval,
+      isActive,
+      pause, 
+      resume,
+      checkStatus,
+      initiateSaveMode,
+      sleep,
+      showResult,
+      backToStart,
+      createSupportTicket,
+      ticketCreated,
+      validate,
+      createCustomerToken,
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

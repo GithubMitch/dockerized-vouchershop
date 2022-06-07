@@ -1,37 +1,32 @@
 
 <template>
-  <NuxtLayout name="productlist">
-    <ClientOnly>
-      <transition-group tag="ul" name="card" appear
-        @before-enter="beforeEnter"
-        @enter="enter"
-        class="styled-list product-list">
-        <li  class="item" v-for="(brand, index) in brands" :key="brand.key + index">
-          <!-- <NuxtLink class="brandLine" :to='`/category` + `/${brand.key}`' @click="setSelectedBrand(brand.key)"> -->
-          <!-- `/${$route.params.category}` + `/brand-${brand.key}` -->
-          <NuxtLink class="brandLine" :to='{name: `category-brand-brandname` , params: {  category: $route.params.category , brandname: brand.key }}' @click="setBrand(brand)">
-              <img :src="`../../assets/logos/${brand.key}.png`" />
-              <span for="">{{brand.name}}</span>
-              <!-- <span for="">{{$route.params.category}}</span> -->
-
-              <Fold
-                  width="45" 
-                  height="45"
-                  :class="'MyGradient_'+index"           
-                  :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
-                  :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
-                  :MyGradient="'MyGradient'"
-                  />
-          </NuxtLink>   
-        </li>
-      </transition-group>
-    </ClientOnly>
-  </NuxtLayout> 
+<ClientOnly>
+  <span>Selecteer een merk</span>
+  <transition-group tag="ul" name="card" appear
+    @before-enter="beforeEnter"
+    @enter="enter"
+    class="styled-list product-list">
+    <li  class="item" v-for="(brand, index) in brands" :key="brand.key + index">
+      <NuxtLink class="brandLine" :to='{name: `category-brand-brandname` , params: {  category: $route.params.category , brandname: brand.key }}' @click="setBrand(brand)">
+        <img :src="`../../assets/logos/${brand.key}.png`" />
+        <span for="">{{brand.name}}</span>
+        <Fold
+            width="45" 
+            height="45"
+            :class="'MyGradient_'+index"           
+            :gradient="{from: [`#ff7514`, 5] , to: ['#f36000a1', 95] }"
+            :textStyle="{top: '2px', left: '3px', width: '20px', opacity: 0.85 }"
+            :MyGradient="'MyGradient'"
+            />
+      </NuxtLink>   
+    </li>
+  </transition-group>
+</ClientOnly>
 </template>
 
 <script>
 import gsap from "gsap";
-import { state, actions, methods } from '../store/reactives'
+import { state, actions } from '../store/reactives'
 import { defineComponent, ref, toRef } from 'vue'
 import {_} from 'vue-underscore';
 
@@ -42,14 +37,7 @@ export default defineComponent({
       default: []
     }
   },
-  // methods: {
-  //   addProducts: async (e, x) => {
-  //     // e.preventDefault()
-  //     console.log(e.target)
-  //     await actions.addProducts(x)
-  //   }
-  // },
-  setup(props) {
+  setup() {
     const router = useRouter()
     const route = useRoute()
     const open = ref(false)
@@ -91,8 +79,6 @@ export default defineComponent({
     }
 
     const setBrand = async (brand)  => {
-
-      // console.log('setBrand', brand)
       actions.setSelectedBrand(brand)
     }
 

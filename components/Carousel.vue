@@ -1,10 +1,10 @@
 <template>
-  <div id="Slider" v-if="show" @mouseover="isHovering = true , stopAutoSlide()" @mouseout="isHovering = false, startAutoSlide()">
+<ClientOnly>
+  <div id="Slider" :class="{fadein: setupAppReady}" @mouseover="isHovering = true , stopAutoSlide()" @mouseout="isHovering = false, startAutoSlide()">
     <transition class="slides-group" tag="div" name="slide-fade">
       <div :key="current" class="slide" :class="slides[current].className">
         <p>
           Get your giftcards in 4 clicks ! 
-          <!-- I am {{slides[current].className}}!  -->
         </p>
       </div>
     </transition>
@@ -14,70 +14,61 @@
       <span v-for="(slide, index) in slides" v-bind:key="index" class="bullet" :class="{active: index ==current}" @click="navigateTo(index)" @mouseover="isHovering = true" @mouseout="isHovering = false"></span>
     </div>
   </div>
+</ClientOnly>
 </template>
 
 <script>
-  import { state } from '../store/reactives'
-  import { defineComponent, reactive, onMounted, toRef } from 'vue'
-  import {_} from 'vue-underscore'
+import { state } from '../store/reactives'
+import { defineComponent, reactive, onMounted, toRef } from 'vue'
+import {_} from 'vue-underscore'
 
-  export default defineComponent({
-
-    async setup(props) {
-
-      const carouselState = reactive ({
-        current: 0,
-        direction: 1,
-        transitionName: "slide-next",
-        active: 'active', 
-        show: true,
-        autoSlides: true,
-        isHovering: false,
-        intervalId: null,
-        slides: ([
-          { className: "blue" },
-          { className: "red" },
-          { className: "yellow" }
-        ])
-      })
-
-      const show = toRef(carouselState, 'show');
-      const current = toRef(carouselState, 'current');
-      const direction = toRef(carouselState, 'direction');
-      const transitionName = toRef(carouselState, 'transitionName');
-      const active = toRef(carouselState, 'active');
-      const autoSlides = toRef(carouselState, 'autoSlides');
-      const isHovering = toRef(carouselState, 'isHovering');
-      const intervalId = toRef(carouselState, 'intervalId');
-      const slides = toRef(carouselState, 'slides');
-      const className = toRef(carouselState.slides, 'className');
-
-
-      const startAutoSlide = async ()  => {
+export default defineComponent({
+  async setup() {
+    const carouselState = reactive({
+      current: 0,
+      direction: 1,
+      transitionName: "slide-next",
+      active: "active",
+      show: true,
+      autoSlides: true,
+      isHovering: false,
+      intervalId: null,
+      slides: ([
+        { className: "blue" },
+        { className: "red" },
+        { className: "yellow" }
+      ])
+    });
+    const setupAppReady = toRef(state, "setupAppReady");
+    const show = toRef(carouselState, "show");
+    const current = toRef(carouselState, "current");
+    const direction = toRef(carouselState, "direction");
+    const transitionName = toRef(carouselState, "transitionName");
+    const active = toRef(carouselState, "active");
+    const autoSlides = toRef(carouselState, "autoSlides");
+    const isHovering = toRef(carouselState, "isHovering");
+    const intervalId = toRef(carouselState, "intervalId");
+    const slides = toRef(carouselState, "slides");
+    const className = toRef(carouselState.slides, "className");
+    const startAutoSlide = async () => {
         clearInterval(carouselState.intervalId);
         // let ref = this
-        carouselState.autoSlides ? carouselState.intervalId = setInterval(() => {slide(1)}, 3000) : stopAutoSlide() ;
-      }      
-      const stopAutoSlide = async ()  => {
+        carouselState.autoSlides ? carouselState.intervalId = setInterval(() => { slide(1); }, 3000) : stopAutoSlide();
+    };
+    const stopAutoSlide = async () => {
         clearInterval(carouselState.intervalId);
-      }
-      const slide = async (dir)  => {
+    };
+    const slide = async (dir) => {
         carouselState.direction = dir;
         dir === 1 ? (carouselState.transitionName = "slide-next") : (carouselState.transitionName = "slide-prev");
-        // console.log(carouselState.transitionName)
         let len = carouselState.slides.length;
         carouselState.current = (carouselState.current + dir % len + len) % len;
-      }
-      const navigateTo = async (dir)  => {
-        dir > carouselState.current ? 
-          (carouselState.current = dir, carouselState.transitionName = "slide-next") : (carouselState.current = dir, (carouselState.transitionName = "slide-prev"));      
-      }
-
-      onMounted(() => {
-        // carouselState.show ? startAutoSlide() : stopAutoSlide()     
-      }) 
-
-      return {
+    };
+    const navigateTo = async (dir) => {
+        dir > carouselState.current ?
+            (carouselState.current = dir, carouselState.transitionName = "slide-next") : (carouselState.current = dir, (carouselState.transitionName = "slide-prev"));
+    };
+    return {
         show,
         current,
         direction,
@@ -91,14 +82,14 @@
         startAutoSlide,
         stopAutoSlide,
         slide,
-        navigateTo
-      }
-    }
-  })
+        navigateTo,
+        setupAppReady
+    };
+  },
+})
 </script>
 
 <style lang="scss">
-
   #Slider {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -113,8 +104,15 @@
       position: relative;
       overflow: hidden;
       margin-bottom: 2em;
-      margin-top:2em;
+      // margin-top:2em;
       border-radius:9px;
+      opacity:0;
+      height:0px;
+      transition:.3s ease all;
+      &.fadein {
+        opacity:1;
+        height:300px;
+      }
 
     .slides-group {
       position: absolute;
@@ -191,7 +189,6 @@
       top: calc(50% - 35px);
       left: 1%;
       transition: color, background 0.3s ease-in-out;
-      // transition: background 0.1s ease-in-out;
       user-select: none;
       border-radius: 5px;
     }

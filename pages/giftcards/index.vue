@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteUpdate } from 'vue-router'
 
   import gsap from "gsap";
   import { state, actions, methods } from '../../store/reactives'
-  import { defineComponent, ref, toRef } from 'vue'
+  import { ref, toRef } from 'vue'
   import {_} from 'vue-underscore';
 
   export default defineNuxtComponent({
@@ -47,9 +47,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
       const stockProducts = toRef(state, 'stockProducts');
       const filteredProductList = toRef(state, 'filteredProductList');
 
-
-      // actions.setCategory('giftcards')
-      // console.log(route.query)
       onBeforeRouteUpdate(async (to, from) => {
         if (to) {
           console.log(to ,'ROUTE UPDATE 123!')
@@ -109,14 +106,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
         () => route.params,
         async getParams => {
           console.log(route.params)
-          // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
-
-          // if (route.params._categoryslug == undefined) {
-          //   validateRoute.value = true
-          // }
-          // if (validateRoute.value == false)
-          //   router.push('404')
-
         }
       )
 

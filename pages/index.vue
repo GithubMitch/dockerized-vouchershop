@@ -1,46 +1,56 @@
 <template>
   <NuxtLayout name="home">
     <template #slider>
-      <client-only>
-        <Carousel/>
-      </client-only>
+      <Carousel/>
+    </template>
+    <template #pickcategory>
+      <ClientOnly>
+        <PickCategory  :class="{fadein: setupAppReady}"/>
+      </ClientOnly>
     </template>
     <template #salesprops>
       <SalesProps/>
     </template>
     <template #content>
-      <client-only>
-        <div class="inner sales">
-          <RecentOrders/>
-          <TopThree/>
+      <div class="inner sales" >
+        <ClientOnly>
+          <RecentOrders :class="{fadein: setupAppReady}"/>
+          <TopThree :class="{fadein: setupAppReady}"/>
+        </ClientOnly>
         </div>
-      </client-only>
     </template>
   </NuxtLayout>
 </template>
 
 <script>
-import { state, actions } from '../store/reactives';
-   
+import {state} from '../store/reactives'
 export default defineComponent({
-  layout: 'false',
-  name:'home',
-  async setup () {
+  layout: "home",
+  name: "home",
+  async setup() {
     useMeta({
-      title: 'Home',
-      meta: [
-        { name: 'Home', content: 'width=device-width, initial-scale=1, maximum-scale=1' }
-      ]
-    })
-
-    return {
-
-    }
-  }
+        title: "Home",
+        meta: [
+            { name: "Home", content: "width=device-width, initial-scale=1, maximum-scale=1" }
+        ]
+    });
+    const setupAppReady = toRef(state, 'setupAppReady')
+    return {setupAppReady};
+  },
 })
 </script>
 
 <style lang="scss">
+.inner.sales #recentorders,
+.inner.sales #topthree,
+#Slider,
+#pickcategory {
+  opacity:0 !important;
+  transition:.6s cubic-bezier(0.075, 0.82, 0.165, 1) all;
+  &.fadein {
+    opacity:1 !important;
+  }
+}
 .inner.sales {
   display:flex;
 }
@@ -48,38 +58,4 @@ export default defineComponent({
   width:35%;
   margin-right:2%;
 }
-#topthree {
-  // width:30%;
-}
-  // HTML >* , 
-  // body > * {
-  //   box-sizing: border-box;
-  //   margin:0;
-  //   padding:0;
-  //   font-size:1rem;
-  //   margin-block-start: 0;
-  //   margin-block-end: 0;
-  //   font-family: Avenir,Helvetica,Arial,sans-serif;
-  // }
-  // .inner {
-  //   // max-width:990px;
-  //   box-sizing:border-box;
-  //   width:100%;
-  //   display:block;
-  //   position:relative;
-  //   margin:0 auto;
-  //   padding:1em;
-  // }
-  // .product{
-  //   text-decoration: line-through;
-  //   pointer-events: none;
-  // }
-  // .product.instock {
-  //   text-decoration: none;
-  //   pointer-events: all;
-  // }
-  // .sales {
-  //   display:flex;
-  // }
-
 </style>

@@ -39,7 +39,7 @@
         <div>
           powered by
           <img style="max-width:200px; display:block;" src="../assets/logos/ppp.svg" alt="">
-          2020
+          2022
         </div>
       </div>
     </div>

@@ -1,74 +1,80 @@
 <template>
-  <div id="Contact">
-    <ClientOnly>
-      <h1>Contact</h1>
-      <form autocomplete="on">
-        <div class="formControl">
-          <label>Naam</label>
-          <span class="input">
-            <input type="text" name="name" placeholder="naam" v-model="reactiveData.name" :disabled="reactiveData.loading || reactiveData.done" maxLength="30" @change="checkName" @@click.capture="activate" />
-            <span class="indicator" v-if="reactiveData.validated.name == true"> <img src="@/assets/ok.svg" /></span>
-            <span class="indicator" v-else-if="reactiveData.errors.name.length > 0"> 
-            <img src="@/assets/warn.svg" />
-            </span>
-            <div class="error" v-if="reactiveData.errors.name.length > 0">{{reactiveData.errors.name[0]}}</div>
-          </span>
-        </div>
-        <div class="formControl">
-          <label>Telefoon</label>
-          <span class="input">
-            <input type="text" name="tel-local" placeholder="telefoon of mobiel" v-model="reactiveData.tel" :disabled="reactiveData.loading || reactiveData.done" @change="checkMobile" autocomplete="tel" @@click.capture="activate" />
-            <span class="indicator" v-if="reactiveData.validated.tel == true"> 
-              <img src="@/assets/ok.svg" />
-            </span>
-            <span class="indicator" v-else-if="reactiveData.errors.tel.length > 0"> 
+<NuxtLayout name="default">
+  <template #content>
+    <Carousel/>
+    <div id="Contact">
+      <ClientOnly>
+        <h1>Contact</h1>
+        <form autocomplete="on">
+          <div class="formControl">
+            <label>Naam</label>
+            <span class="input">
+              <input type="text" name="name" placeholder="naam" v-model="reactiveData.name" :disabled="reactiveData.loading || reactiveData.done" maxLength="30" @change="checkName" @@click.capture="activate" />
+              <span class="indicator" v-if="reactiveData.validated.name == true"> <img src="@/assets/ok.svg" /></span>
+              <span class="indicator" v-else-if="reactiveData.errors.name.length > 0"> 
               <img src="@/assets/warn.svg" />
+              </span>
+              <div class="error" v-if="reactiveData.errors.name.length > 0">{{reactiveData.errors.name[0]}}</div>
             </span>
-            <div class="error" v-if="reactiveData.errors.tel.length > 0">{{reactiveData.errors.tel[0]}}</div>
-          </span>
-        </div>
-        <div class="formControl">
-          <label>E-mail</label>
-          <span class="input">
-            <input type="email" name="email" placeholder="emailadres" v-model="reactiveData.email" :disabled="reactiveData.loading || reactiveData.done" @change="checkEmail" @@click.capture="activate" />
-            <span class="indicator" v-if="reactiveData.validated.email == true"> 
-              <img src="@/assets/ok.svg" />
+          </div>
+          <div class="formControl">
+            <label>Telefoon</label>
+            <span class="input">
+              <input type="text" name="tel-local" placeholder="telefoon of mobiel" v-model="reactiveData.tel" :disabled="reactiveData.loading || reactiveData.done" @change="checkMobile" autocomplete="tel" @@click.capture="activate" />
+              <span class="indicator" v-if="reactiveData.validated.tel == true"> 
+                <img src="@/assets/ok.svg" />
+              </span>
+              <span class="indicator" v-else-if="reactiveData.errors.tel.length > 0"> 
+                <img src="@/assets/warn.svg" />
+              </span>
+              <div class="error" v-if="reactiveData.errors.tel.length > 0">{{reactiveData.errors.tel[0]}}</div>
             </span>
-            <span class="indicator" v-else-if="reactiveData.errors.email.length > 0"> 
-              <img src="@/assets/warn.svg" />
+          </div>
+          <div class="formControl">
+            <label>E-mail</label>
+            <span class="input">
+              <input type="email" name="email" placeholder="emailadres" v-model="reactiveData.email" :disabled="reactiveData.loading || reactiveData.done" @change="checkEmail" @@click.capture="activate" />
+              <span class="indicator" v-if="reactiveData.validated.email == true"> 
+                <img src="@/assets/ok.svg" />
+              </span>
+              <span class="indicator" v-else-if="reactiveData.errors.email.length > 0"> 
+                <img src="@/assets/warn.svg" />
+              </span>
+              <div class="error" v-if="reactiveData.errors.email.length > 0">{{reactiveData.errors.email[0]}}</div>
             </span>
-            <div class="error" v-if="reactiveData.errors.email.length > 0">{{reactiveData.errors.email[0]}}</div>
-          </span>
-        </div>
-        <div class="formControl">
-          <label>Bericht</label>
-          <span class="input">
-            <textarea name="message" placeholder="Vul hier uw vraag of probleem in" v-model="reactiveData.msg" :disabled="reactiveData.loading || reactiveData.done" @change="checkMsg" maxlength="250" @keydown="checkMsgCount()" @keyup="checkMsgCount()" @click.capture="activate">
-            </textarea>
-              <span class="chars" :class="{disabled: reactiveData.done}">{{ reactiveData.msgMax - msgLen() }} / {{ reactiveData.msgMax }}</span>
-              <span class="indicator" v-if="reactiveData.validated.msg == true"> <img src="@/assets/ok.svg" /></span>
-              <span class="indicator" v-else-if="reactiveData.errors.msg.length > 0"> <img src="@/assets/warn.svg" /></span>
-              <div class="error" v-if="reactiveData.errors.msg.length > 0">{{reactiveData.errors.msg[0]}}</div>
-          </span>
-        </div>
-        <div class="formControl">
-          <label></label>
-          <span class="input">
-            <div id="Loader" v-if="reactiveData.loading">
-              <!-- <vue-loaders-ball-beat> </vue-loaders-ball-beat> -->
-            </div>
-            <!-- <invisible-recaptcha id="Submit" v-show="!loading&amp;&amp;!done" name="contact" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" :callback="send" type="submit" :disabled="loading" :class="{loading}">Verstuur</invisible-recaptcha> -->
-            <button id="Submit" v-show="!reactiveData.loading&&!reactiveData.done" name="contact" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" @click="send()" :disabled="reactiveData.loading" :class="reactiveData.loading">Verstuur</button>
-            <div class="error" v-if="reactiveData.errors.all.length > 0">{{reactiveData.errors.name[0]}}</div>
-          </span>
-        </div>
-        <div class="formControl done" v-if="reactiveData.done">
-          <p>Bericht verstuurd! </p>
-        </div>
-        <div class="formControl again" v-if="reactiveData.done"><a @click="again">Opnieuw</a></div>
-      </form>
-    </ClientOnly>
-  </div>
+          </div>
+          <div class="formControl">
+            <label>Bericht</label>
+            <span class="input">
+              <textarea name="message" placeholder="Vul hier uw vraag of probleem in" v-model="reactiveData.msg" :disabled="reactiveData.loading || reactiveData.done" @change="checkMsg" maxlength="250" @keydown="checkMsgCount()" @keyup="checkMsgCount()" @click.capture="activate">
+              </textarea>
+                <span class="chars" :class="{disabled: reactiveData.done}">{{ reactiveData.msgMax - msgLen() }} / {{ reactiveData.msgMax }}</span>
+                <span class="indicator" v-if="reactiveData.validated.msg == true"> <img src="@/assets/ok.svg" /></span>
+                <span class="indicator" v-else-if="reactiveData.errors.msg.length > 0"> <img src="@/assets/warn.svg" /></span>
+                <div class="error" v-if="reactiveData.errors.msg.length > 0">{{reactiveData.errors.msg[0]}}</div>
+            </span>
+          </div>
+          <div class="formControl">
+            <label></label>
+            <span class="input">
+              <div id="Loader" v-if="reactiveData.loading">
+                <!-- <vue-loaders-ball-beat> </vue-loaders-ball-beat> -->
+              </div>
+              <!-- <invisible-recaptcha id="Submit" v-show="!loading&amp;&amp;!done" name="contact" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" :callback="send" type="submit" :disabled="loading" :class="{loading}">Verstuur</invisible-recaptcha> -->
+              <button id="Submit" v-show="!reactiveData.loading&&!reactiveData.done" name="contact" sitekey="6Lfe3REaAAAAAP12JQcZ5tsOHqeTH4_DcRhw1y9V" :validate="prepare" @click="send()" :disabled="reactiveData.loading" :class="reactiveData.loading">Verstuur</button>
+              <div class="error" v-if="reactiveData.errors.all.length > 0">{{reactiveData.errors.name[0]}}</div>
+            </span>
+          </div>
+          <div class="formControl done" v-if="reactiveData.done">
+            <p>Bericht verstuurd! </p>
+          </div>
+          <div class="formControl again" v-if="reactiveData.done"><a @click="again">Opnieuw</a></div>
+        </form>
+      </ClientOnly>
+    </div>
+  </template>
+
+</NuxtLayout>
 
 </template>
 
@@ -77,9 +83,7 @@ import CryptoJS from "crypto-js";
 import {state , actions} from '../store/reactives'
 import { defineComponent, toRef , onMounted} from 'vue';
 export default defineComponent({
-  // TODO 
-  // add router const
-  
+  layout: 'home',
   async setup () {
     const reactiveData = reactive({
       ///////////////
@@ -324,7 +328,8 @@ export default defineComponent({
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
+#content h1 {text-align:center;}
 .formControl{
   display: flex;
   justify-content: space-between;

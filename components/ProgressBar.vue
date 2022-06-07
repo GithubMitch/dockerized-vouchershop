@@ -1,17 +1,13 @@
 
 <template>
   <div class="loader"></div>
+  <span>Loading...</span>
 </template> 
 <script>
 import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
-  async setup() {
-      // const setupAppReady = toRef(state, 'setupAppReady')
-    // const setupAppReady = toRef(state, 'setupAppReady');
 
-    // return {}
-  },
 })
 </script>
 
@@ -30,9 +26,8 @@ export default defineComponent({
     width: 300px;
     height: 20px;
     background: orange;
-    margin: 0 auto;
+    margin: 2em 0;
     background: orange repeating-linear-gradient(135deg, #7d560e14, #ffffff73 23px);
-    margin: 0 auto;
     border: 2px solid #DDD;
     box-shadow: 0 10px 10px -7px #00000050;
     animation: animatedBackground 500s linear infinite;

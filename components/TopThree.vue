@@ -1,12 +1,10 @@
 <template>
-  <div id="topthree">
+  <div id="topthree">    
     <h2>Meest populair</h2>
     <div class="popular">
       <div class="select" v-for="(brand, index) in topThree" v-bind:key="index">
-        <NuxtLink v-if="brand.type !== 'giftcards'" 
-          @click="setBrand(brand.key)"
+        <NuxtLink v-if="brand.type !== 'giftcards'" @click="setBrand(brand.key)"
           :to="{name: `category-brand-brandname`, params: {category: `${brand.type}`, brandname: `${brand.key}`}}">
-        <!-- <NuxtLink v-if="brand.type !== 'giftcards'" :to="`/${brand.type}/brand-${brand.key}`"> -->
           <div class="brand">
             <div class="visual">
               <img :src="`../assets/logos/${brand.key}.png`" />
@@ -64,52 +62,33 @@ export default defineComponent({
       randomizeBrands();
       isLoading.value = false
     })
-    // if (topThree.value.length == 0) {
-      randomizeBrands();
-    // }
+    randomizeBrands();
     return {setBrand,topThree}
   }
 })
 </script>
 
 <style lang="scss">
-  @mixin brandCircle($size, $bottom:0, $right:0, $content : '1', $line-height: 3em, $font-size: 1.5em) {
-    border-radius: 50%;
-    content: "";
-    display:block;
-    font-weight:700;
-    font-size:1.5em;
-    height: $size;
-    position:absolute;
-    width: $size;
+@mixin brandCircle($size, $bottom:0, $right:0, $content : '1', $line-height: 3em, $font-size: 1.5em) {
+  border-radius: 50%;
+  content: "";
+  display:block;
+  font-weight:700;
+  font-size:1.5em;
+  height: $size;
+  position:absolute;
+  width: $size;
 
-    @if $bottom != 0 "and" $right != 0  "and" $content != '1' "and" $line-height != 3em "and" $font-size != 1.5em {
-      bottom: $bottom;
-      content: $content;
-      font-size: $font-size;
-      right: $right;
-      line-height: $line-height;
-    }
+  @if $bottom != 0 "and" $right != 0  "and" $content != '1' "and" $line-height != 3em "and" $font-size != 1.5em {
+    bottom: $bottom;
+    content: $content;
+    font-size: $font-size;
+    right: $right;
+    line-height: $line-height;
   }
+}
 
-  #topthree {
-    // position: relative;
-    // max-width: 990px;
-    // min-width: 990px;
-    // margin: 0px auto;    
-    // text-align:left;
-    // .popular .select:nth-child(1) {
-    //   background:purple;
-    //   .fold {background:red}
-    // }
-    // .popular .select:nth-child(2) {
-    //   background:purple;
-    //   .fold {background:red}
-    // }
-    // .popular .select:nth-child(3) {
-    //   background:purple;
-    //   .fold {background:red}
-      
+#topthree {
   h1, h2 {
     line-height: 2em;
     color: #0c4971;

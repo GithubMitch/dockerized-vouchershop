@@ -98,16 +98,34 @@ export default defineComponent({
     margin-block-end: 0;
     font-family: Avenir,Helvetica,Arial,sans-serif;
   }
+  
+  main[name="productlist"], 
+  main[name="category"] {
+    max-width: 1600px;
+    margin: 0 auto;
+    position:relative;
+    padding-top:1em;
+    // padding: 0 1em;
+  }
+
+  main[name="category"] {
+    main[name="productlist"] {
+      padding-top:0;
+      #back {
+        display:none;
+      }
+    }
+  }
   main .inner {max-width:100%;}
-  main .inner.sales {max-width:990px;}
+  main .inner.sales {max-width:990px;margin:auto;}
   .inner {
     // max-width:990px;
-    box-sizing:border-box;
-    width:100%;
-    display:block;
-    position:relative;
-    margin:0 auto;
-    padding:1em;
+    // box-sizing:border-box;
+    // width:100%;
+    // display:block;
+    // position:relative;
+    // margin:0 auto;
+    // padding:1em;
     &.productpage {
       background:none;
       border:0;
@@ -488,5 +506,9 @@ export default defineComponent({
       background:#fff;
       left:300px;      
     }
+  }
+  .pagetitle {
+    text-transform: capitalize;
+    margin-top:0;
   }
 </style>

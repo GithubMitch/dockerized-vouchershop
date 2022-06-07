@@ -5,14 +5,14 @@
       <ul>
         <li v-for="item in navLinks" v-bind:key="item.url">
           <NuxtLink class="category"
-            :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } , replace: true } : { name: 'category', params: { category: item.label } , replace: true }"
+            :to="item.label === 'giftcards' ? { name: 'giftcards', params: { category: 'giftcards' } , replace: false } : { name: 'category', params: { category: item.label } , replace: false }"
             @click="item === activeItem ? activeItem = item : activeItem = activeItem" exact>
               {{item.label}} 
           </NuxtLink>
           <i v-if="item.subItems" @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i>
           <ul v-if="item.subItems">
             <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
-              <NuxtLink :to="{ name: 'giftcards', params: { category: 'giftcards' } , replace: true }">
+              <NuxtLink :to="{ name: 'giftcards', params: { category: 'giftcards' } , replace: false }">
                 {{subItem.label}}
               </NuxtLink>
             </li>
@@ -46,12 +46,6 @@ import { defineComponent, ref, toRef, onBeforeMount } from 'vue'
 import {_} from 'vue-underscore';
 
 export default defineComponent({
-  props: {
-    // products: {
-    //   type: Array,
-    //   default: []
-    // },
-  },
   methods: {
     clickOutside: async (e, x) => {
       // e.preventDefault()
@@ -62,7 +56,6 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const open = ref(false)
-
     const navLinks = ref([
       {
         label: 'home',
@@ -168,13 +161,9 @@ export default defineComponent({
       },
     ])
     const activeItem = ref()
-
     const brands = toRef(state, 'brands');
-
-
     const setCategory = (value)  => {
       console.log(value)
-      // actions.setCategory(value)
     }
     const dropDownSubMenu = (event) => {
       let subMenu;
@@ -193,10 +182,6 @@ export default defineComponent({
       }
       return 
     }
-    
-    const clickOutSide = () => {
-      
-    }
 
     const setBrand = async (brand)  => {
       await actions.setSelectedBrand(brand)
@@ -206,10 +191,7 @@ export default defineComponent({
     }
 
 
-  // console.log(toRaw(route))
-    // onMounted(() => {})
     activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category)
-    // console.log(activeItem.value)
     watch(
       () => route.params,
       async getParams => {
@@ -217,7 +199,6 @@ export default defineComponent({
       }
     )
 
-    // const products = ref([]);
     const beforeEnter = (el) => {
       el.style.opacity = 0;
       gsap.set(el, {

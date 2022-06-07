@@ -1,19 +1,17 @@
 <template>
-  <main>
-    <slot name="slider"></slot>
-    <slot name="pickcategory"></slot>
-    <slot name="salesprops"></slot>
+  <main class="main">
     <slot name="content"></slot>
+    <slot/>
   </main>
 </template>
 
 <script lang="ts">
-  import {state} from '../store/reactives'
-  export default defineComponent({
-    layout: `home`,
+
+  export default {
+    layout: `brands`,
     head() {
       return {
-        title: 'VoucherShop Home',
+        title: 'VoucherShop Brands',
         link: [
           {
             rel: "stylesheet",
@@ -29,9 +27,5 @@
         ]
       }
     },
-    async setup () {
-      const setupAppReady = toRef(state, 'setupAppReady')
-      return {setupAppReady}
-    }
-  })
+  }
 </script>

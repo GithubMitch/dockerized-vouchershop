@@ -16,18 +16,14 @@
       </svg>
       <div class="tip" 
       >
-        <!-- :style="adjustedTextStyle" -->
         <span v-if="text != ''">{{text}}</span>
         <div class="tipContent" v-else>
           <NuxtLayout name="fold">
             <template #foldIcon>
               <i v-if="$route.path !== '/checkout'" class="i simple-line-icons:info"></i>
-              <!-- <i  class="i simple-line-icons:info"></i> -->
               <i v-else class="i simple-line-icons:close"></i>
             </template>
           </NuxtLayout>
-            <!-- <template>
-            </template> -->
         </div>
       </div>
     </NuxtLink>
@@ -47,18 +43,14 @@
     </svg>
     <div class="tip" 
     >
-      <!-- :style="adjustedTextStyle" -->
       <span v-if="text != ''">{{text}}</span>
       <div class="tipContent" v-else>
         <NuxtLayout name="fold">
           <template #foldIcon>
             <i v-if="$route.path !== '/checkout'" class="i simple-line-icons:info"></i>
-            <!-- <i  class="i simple-line-icons:info"></i> -->
             <i v-else class="i simple-line-icons:close"></i>
           </template>
         </NuxtLayout>
-          <!-- <template>
-          </template> -->
       </div>
     </div>
   </div>  

@@ -22,6 +22,11 @@ const { __dirname } = createCommonJS(import.meta.url)
 
 export default defineNuxtConfig({
   // router: {
+  //   base: '/',
+  //   mode: 'history'
+  // },
+  
+  // router: {
   //   routes: 
   //     [{
   //       path: "/:category/:brand",

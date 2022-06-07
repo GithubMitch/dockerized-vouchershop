@@ -2,19 +2,16 @@
   <header>
     <section>
       <div id="Logo">
-          <a href="#/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
+          <a href="/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
       </div>
       <div id="HeaderContent">
-          <a id="hamburger" :class="{open : activeCategoryMenu}" @click="toggleCategoryMenu">
-            <!-- Assortiment <i class="i simple-line-icons:menu"></i> -->
+          <a ref="hamburger" id="hamburger" :class="{open : activeCategoryMenu}" @click="toggleCategoryMenu">
             <div for="menu_checkbox">
               <div></div>
               <div></div>
               <div></div>
             </div>
           </a>
-
-          <!-- <a id="hamburger" @click="toggleMobileMenu">Assortiment <i class="i simple-line-icons:menu"></i></a> -->
           <div id="HeaderNav">
               <div id="Links">
                 <NuxtLink  class="category" to="/about">Over VoucherShop</NuxtLink>
@@ -32,21 +29,19 @@
       <nav id="menu" ref="menuRef" :class="{open: activeCategoryMenu}">
         <ul>
           <li v-for="item in navLinks" v-bind:key="item.url"> 
-            <!-- main categorys -->
             <NuxtLink   class="category" 
               :to="item.label === 'giftcards' ? 
-                { name: 'giftcards', params: { category: 'giftcards' } , replace: true } : 
-                { name: 'category', params: { category: item.label } , replace: true }"
+                { name: 'giftcards', params: { category: 'giftcards' } , replace: false } : 
+                { name: 'category', params: { category: item.label } , replace: false }"
                 @click="item === activeItem ? activeItem = item : activeItem = activeItem" exact>
 
               {{item.label}}
             </NuxtLink>
 
-            <!-- nested ul -->
             <ul class="subItems" v-if="item.label === 'giftcards' && item.subItems">
               <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
                 <NuxtLink 
-                :to="{name: `giftcards-group` , params: {  category: item.label , group: subItem.key }, replace: true }"
+                :to="{name: `giftcards-group` , params: {  category: item.label , group: subItem.key }, replace: false }"
                   @click="setCategory(`${item.label}`),setGroup(`${subItem.key}`)" exact>
                     {{subItem.label}}
                 </NuxtLink>
@@ -54,7 +49,7 @@
             </ul>
             <ul class="subItems" v-if="item.label !== 'giftcards' && item.subItems">
               <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
-                <NuxtLink :to="{name: `category-group` , params: {  category: item.label , group: subItem.key }, replace: true }"
+                <NuxtLink :to="{name: `category-group` , params: {  category: item.label , group: subItem.key }, replace: false }"
                   @click="setCategory(`${item.label}`),setGroup(`${subItem.key}`)" exact>
                     {{subItem.label}}
                 </NuxtLink>
@@ -70,11 +65,9 @@
 </template>
 
 <script lang='ts'>
-import Vue from 'vue'
 import { state, actions } from '../store/reactives'
-import { defineComponent, onMounted, toRaw, watch, ref, toRef} from 'vue'
+import { defineComponent, toRaw, watch, ref, toRef} from 'vue'
 import { useIntervalFn, onClickOutside } from '@vueuse/core';
-import BreadCrumb from './BreadCrumb.vue';
 
 export default defineComponent({
   methods: {
@@ -214,10 +207,13 @@ export default defineComponent({
       const interval = ref(300);
 
       const menuRef = ref(null)
-      // onClickOutside(menuRef, (e) =>  {
-      //   console.log('click outside')
-      //   if (activeCategoryMenu.value == true) activeCategoryMenu.value = false;
-      // })
+      const hamburger = ref(null)
+      onClickOutside((menuRef,hamburger ), (e) =>  {
+        // closing menu when click outside menu
+        if( activeCategoryMenu.value == true ) {
+          toggleCategoryMenu(e)
+        }
+      })
 
       const { pause, resume, isActive } = useIntervalFn(() => {
           pulseEffect();
@@ -234,8 +230,6 @@ export default defineComponent({
           return;
       };
       const clickEvent = (e) => {
-        // console.log(e.target)
-        // console.log(e.currentTarget)
         toggleCategoryMenu(e)
       }
       const toggleCategoryMenu = (e) => {
@@ -264,34 +258,31 @@ export default defineComponent({
           pause();
       };
 
-      // console.log(toRaw(route))
-      // onMounted(() => {})
       activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category);
-      // console.log(activeItem.value)
       watch(() => route.params, async (getParams) => {
           activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category);
       });
 
     return {
-        orderItems,
-        navMenu,
-        navLinks,
-        activeItem,
-        getCartTotal,
-        setCategory,
-        setActionLabel,
-        setGroup,
-        setBrand,
-        pulseEffect,
-        route,
-        toggleMobileMenu,
-        toggleCategoryMenu,
-        activeCategoryMenu,
-        clickEvent,
-        menuRef
+      orderItems,
+      navMenu,
+      navLinks,
+      activeItem,
+      getCartTotal,
+      setCategory,
+      setActionLabel,
+      setGroup,
+      setBrand,
+      pulseEffect,
+      route,
+      toggleMobileMenu,
+      toggleCategoryMenu,
+      activeCategoryMenu,
+      clickEvent,
+      menuRef,
+      hamburger
     };
   },
-  components: { BreadCrumb }
 })
 </script>
 
@@ -306,8 +297,10 @@ export default defineComponent({
     top: 107px;
     right:1em;
     background:orange;
+    background: #ff7514 repeating-linear-gradient(45deg, #ff7514, #f3600026 100px);
     border-radius:5px;
     pointer-events:none;
+    box-shadow: 4px 3px 7px #333;
 
     &.open {
       opacity:1;
@@ -318,13 +311,13 @@ export default defineComponent({
       content: "";
       display: block;
       position: absolute;
-      top: -14px;
-      right: 172px;
+      top: -13px;
+      right: 154px;
       z-index: 9999;
-      width: 70px;
-      border-radius: 4em;
+      width: 26px;
       height: 16px;
       background-color: orange;
+      background: #ff7514 repeating-linear-gradient(45deg, #ff7514, #f3600026 100px);
       -webkit-clip-path: polygon(50% 0, 100% 100%, 0 100%);
       clip-path: polygon(50% 0, 100% 100%, 0 100%);
     }
@@ -383,8 +376,10 @@ export default defineComponent({
     display: inline-block;
     vertical-align: middle;
     background: orange;
+    background: #ff7514 repeating-linear-gradient(45deg, #ff7514, #f3600026 100px);
     border-radius: 1em;
     padding: 0.5em 1em;
+    transition: .3s ease box-shadow;
     i {
       margin-left:.5em;
       display: inline-block;
@@ -417,6 +412,7 @@ export default defineComponent({
       }
     }
     &.open {
+      box-shadow: 4px 3px 7px #333;
       > div {
         // .open state
         div:first-child {
@@ -560,13 +556,14 @@ export default defineComponent({
     text-transform:uppercase;
     a {
       text-decoration: none;
-      &.router-link-active,
+      color:#fff;
       &:visited {
         color:#308ac3;
-        color:#FFF;
+        color:orange;
       }
+      &.router-link-active,
       &:hover {
-        color:darkblue;
+        color:orange;
         text-decoration: none;
       }
     }

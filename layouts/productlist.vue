@@ -1,5 +1,6 @@
 <template>
   <main>
+    <!-- <slot name="back"><BackButton/></slot> -->
     <slot name="title"></slot>
     <slot name="content"></slot>
     <slot/>

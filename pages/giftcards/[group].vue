@@ -1,11 +1,5 @@
 <template>
-  <NuxtLayout name="productlist">
-    <template #content>
-      <!-- <ClientOnly> -->
-        <Router-View :products="stockProducts"/>
-      <!-- </ClientOnly> -->
-    </template>
-  </NuxtLayout>
+  <Router-View :products="stockProducts"/>
 </template>
 
 <script lang="ts">

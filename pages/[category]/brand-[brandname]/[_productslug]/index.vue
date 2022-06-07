@@ -24,8 +24,8 @@
 </template>
 
 <script lang='ts'>
-import { state, actions } from '../../../../store/reactives';
-import { defineComponent, toRef, ref} from 'vue';
+import { actions } from '../../../../store/reactives';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   layout: false,
@@ -59,8 +59,6 @@ export default defineComponent({
     const addProduct = async (product)  => {
       await actions.addProducts(product)
     }
-
-
     return {
       addProduct, 
       setBrand,
@@ -93,7 +91,6 @@ export default defineComponent({
     font-size:1.333em;
     float:right;
     &::before {
-      // background:orange;
       color:darkorange;
       transition:.3s ease color;
     }

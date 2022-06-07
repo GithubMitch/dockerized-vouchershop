@@ -8,7 +8,6 @@
         </li>
       </ul>
       <NuxtLink class="button" to="/checkout">Bestel nu snel!</NuxtLink>
-      <!-- <a href="" class="button">Bestel nu snel!</a> -->
     </div>
   </div>
 </template>
@@ -19,41 +18,32 @@ import CryptoJS from "crypto-js";
 import { state, actions, methods } from '../store/reactives'
 
 export default defineComponent({
-  async setup () {
-      const order = toRef(state,'order')
-      const orderItems = toRef(state.order,'orderItems')
-			const reinstateOrder = (orderItems) => {
-				actions.reinstateOrder(orderItems)
-			}
-			const emptyOrder = (orderItems) => {
-				state.order.orderItems = [];
-			}
-
-      if (process.client){
-        
-        if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0 ) {
-          let storedTrxString = localStorage.getItem('trxmem');
-          if(storedTrxString != undefined && bytes != '' ){
-            var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
-            if(bytes != undefined && bytes != '' ){
-              let data = bytes.toString(CryptoJS.enc.Utf8);
-              data = JSON.parse(data);
-              console.log('LocalStorage getItem:',{data});
-              actions.reinstateOrder(data.orderItems);
-            }
-          }
-        } 
+async setup () {
+  const orderItems = toRef(state.order,'orderItems')
+  if (process.client){
+    if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0 ) {
+      let storedTrxString = localStorage.getItem('trxmem');
+      if(storedTrxString != undefined && bytes != '' ){
+        var bytes  = CryptoJS.AES.decrypt(storedTrxString, 'trx_ez_obscure');
+        if(bytes != undefined && bytes != '' ){
+          let data = bytes.toString(CryptoJS.enc.Utf8);
+          data = JSON.parse(data);
+          console.log('LocalStorage getItem:',{data});
+          actions.reinstateOrder(data.orderItems);
+        }
       }
-    return {orderItems}
+    } 
   }
+  return {orderItems}
+}
 })
 </script>
 
 <style scoped lang="scss">
-#recentorders {
-  width: 35.3%;
-  margin-right:2%;
-}
+  #recentorders {
+    width: 35.3%;
+    margin-right:2%;
+  }
   h2 {
     line-height:2em;
     color:#0c4971;
@@ -64,8 +54,6 @@ export default defineComponent({
   .recent {
     background:#fff;
     border: 1px solid #00000030;
-    // -webkit-box-shadow: 0px 0px 3px #00000030;
-    // box-shadow: 0px 0px 3px #00000030;
     padding: 16px;
     border-radius:5px;
     background-image: url("../assets/speedCart.png");

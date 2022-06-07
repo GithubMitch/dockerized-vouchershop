@@ -1,28 +1,24 @@
 <template>
-  <NuxtLayout name="category">
-      <template #content>
-        <h1 class="pagetitle">{{$route.params.category}}</h1>
-        <ClientOnly>
-          <div v-if="$route.params.category == 'beltegoed'">
-            <span>Select your brand</span>
-            <Categories :brands="brands"/>
-          </div>
-          <div v-else>
-            <span>Select your product123</span>
-            <ClientOnly>
-              <Products :products="stockProducts"/>
-            </ClientOnly>
-          </div>
-        </ClientOnly>
-      </template>
-  </NuxtLayout>
+<NuxtLayout name="category">
+  <template #content>
+    <h1 class="pagetitle">{{$route.params.category}}</h1>
+    <ClientOnly>
+      <div v-if="$route.params.category == 'beltegoed'">
+        <Categories :brands="brands"/>
+      </div>
+      <div v-else>
+        <Products :products="stockProducts"/>
+      </div>
+    </ClientOnly>
+  </template>
+</NuxtLayout>
 </template>
 
 <script lang="ts">
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { onBeforeRouteUpdate } from 'vue-router'
 
   import gsap from "gsap";
-  import { state, actions, methods } from '../../store/reactives'
+  import { state, actions } from '../../store/reactives'
   import { defineComponent, ref, toRef } from 'vue'
   import {_} from 'vue-underscore';
 
@@ -39,7 +35,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
     },
     methods: {
       addProducts: async (e, x) => {
-        // e.preventDefault()
         console.log(e.target)
         await actions.addProducts(x)
       }
@@ -54,9 +49,7 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
       const filteredProductList = toRef(state, 'filteredProductList');
 
     onBeforeRouteUpdate(async (to, from) => {
-        // if (to.params.brand) {
       return  console.log('ROUTE UPDATE !')
-      // }
     })
 
       const beforeEnter = (el) => {
@@ -107,14 +100,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
         () => route.params,
         async getParams => {
           console.log(route.params)
-          // const validateRoute = ref(state.selectableCategories.includes(route.params._categoryslug))
-
-          // if (route.params._categoryslug == undefined) {
-          //   validateRoute.value = true
-          // }
-          // if (validateRoute.value == false)
-          //   router.push('404')
-
         }
       )
 

@@ -18,28 +18,14 @@
 								</div>
 
 								<div class="productControls">
-									<em @click="() => {decreaseQnt(index);}"
-										:class="{ disable: loading }"
-                    >
-										<!-- @mouseover="hover = true"
-										@mouseleave="hover = false" -->
-                      &#9668;
-                  </em>
+									<em @click="() => {decreaseQnt(index);}" :class="{ disable: loading }">&#9668;</em>
 									<span :class="'qnt_' + index">{{ item.qnt }}&#10005; </span>
-									<em @click="() => {increaseQnt(index);}"
-										:class="{ disable: loading }"
-                    >
-										<!-- @mouseover="hover = true"
-										@mouseleave="hover = false" -->
-                    &#9658;
-                  </em>
+									<em @click="() => {increaseQnt(index);}" :class="{ disable: loading }">&#9658;</em>
 								</div>
 
 								<div class="productPrice">
 									<span :class="['itemTotal', 'total_' + index]">{{ $currency(item.value * item.qnt) }}</span>
-									<div class="addedCost" v-if="item.addedCost != undefined" :class="['itemAdded', 'total_' + index]">
-										{{ $currency(item.addedCost * item.qnt) }}
-									</div>
+									<div class="addedCost" v-if="item.addedCost != undefined" :class="['itemAdded', 'total_' + index]">{{ $currency(item.addedCost * item.qnt) }}</div>
 								</div>
 
 								<Fold
@@ -50,7 +36,6 @@
 									:gradient="{ from: [`#ff7514`, 5], to: ['#f36000a1', 95] }"
 									:MyGradient="'MyGradient'"
 									:textStyle="{top: '-1px',left: '3px',height: '13px',width: '13px'}"/>
-
 							</div>
 						</div>
 						<div id="Total" v-if="orderItems.length > 0">
@@ -173,7 +158,6 @@
 						</span>
 					</div>
 
-					<!-- {{selectedPaymethod}} -->
 					<div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
 						{{selectedPaymethod.subSelect}}
 						<span	class="input" v-if="selectedPaymethod.pmsublist != undefined && selectedPaymethod.pmsublist.length > 0">
@@ -226,7 +210,6 @@
 						</label>
 						<span class="input">
 							<div id="" v-if="loading"></div>
-							<!-- <input v-else type="submit" value="Betalen" :class="{loading}"> -->
 							<input
 								name="orderRequest"
 								v-show="!loading"
@@ -258,15 +241,8 @@
 
 <script lang="ts">
 import MySelect from "../components/MySelect.vue";
-import { state, actions, methods } from "../store/reactives";
-import {
-	defineComponent,
-	reactive,
-	onMounted,
-	toRef,
-	ref,
-	toRaw,
-} from "vue";
+import { state, actions } from "../store/reactives";
+import {reactive,onMounted,toRef,ref} from "vue";
 import CryptoJS from "crypto-js";
 import { _ } from "vue-underscore";
 
@@ -340,8 +316,6 @@ export default defineComponent({
 		const getCartTotal = () => {
 			return actions.getCartTotal();
 		}
-
-    
 		const getPaymentOptions = async () => {
       return actions.getPaymentOptions;
 		}
@@ -353,21 +327,13 @@ export default defineComponent({
 			console.log("setPaymethod - Subselection", subSelection.value);
 			selectedPaymethod.value = option;
       checkPaymethods(option);
-      // validated.paymethod = true;
 		}
 		const setSubPaymethod = (option) => {
       let opt = option ? option : option.option;
 			selectedSubPaymethod.value = option;
 			console.log('setSubPaymethod - Subselection', option, selectedSubPaymethod.value);
       checkPaymethods(option);
-      // validated.subpaymethod = true;
 		}
-
-		// watch([selectedPaymethod], (newValues, prevValues) => {
-		//   console.log("selectedPaymethod=",prevValues, newValues)
-		//   // let container = selectedPaymethod.value
-		//   // container.subSelect ? subSelection.value = container.subSelect : null;
-		// })
 
     const checkName = () => {
       validated.name = false;
@@ -380,7 +346,6 @@ export default defineComponent({
         validated.name = true;
     }
     const checkMobile = () => {
-      // validated.tel = false;
       errors.tel = []; // reset
       console.log('checkMobile...');
       if(!tel) 
@@ -425,16 +390,13 @@ export default defineComponent({
       errors.paymethod = []; // reset      
       validated.paymethod = true;
     }
-
 		const prepare = () => {
 			loading.value = true;
 		}
-
 		const unsetErrorsFor = (target) => {
 			console.log("UNSET", target);
 			errors[`${target}`].value = [];
 		}
-
     const validate = () => {
       console.log(errors)
       if (errors["name"].length > 0) return false;
@@ -449,7 +411,6 @@ export default defineComponent({
       // console.log(validated.validateForm(validated.validateFields))
       return true;
     }
-
     const formatOrderItems = (cart, mail , tel) => {
       return _(cart).map((orderItem) => {
         return {
@@ -474,7 +435,6 @@ export default defineComponent({
 				localStorage.setItem("trxmem", cypher);
 			}
 		}
-
     const storeSettings = () => {
       const data = {
         name: name.value,
@@ -494,15 +454,11 @@ export default defineComponent({
         localStorage.setItem("paymem", cypher);
       }
     }
-
 		const submit = async () => {
-			// console.log("SUBMIT");
 			storeSettings();
-			// unsetErrorsFor("form");
 			try {
 				if (!validate()) 
-					// console.log('selectedPaymethod', selectedPaymethod)
-					// console.log('selectedSubPaymethod', selectedSubPaymethod)
+
 					throw "Fout in een van de invoervelden";
 				if (!agreed2Terms)
 					throw {
@@ -513,8 +469,7 @@ export default defineComponent({
 				const domain = window.location.hostname;
 				const port = window.location.port;
 
-
-				let $origin = protocol + domain + port;
+let $origin = protocol + domain + port;
 				let $api = protocol + domain + port;
 
 				switch (domain) {
@@ -537,11 +492,10 @@ export default defineComponent({
 
 				let pmId = selectedPaymethod.value.id;
 				console.log(selectedSubPaymethod)
-				// let pmsubId = selectedSubPaymethod.value.pmsubId ? selectedSubPaymethod.value.pmsubId : null;
+
 				let pmsubId = null;
 				console.log('selectedSubPaymethod',selectedSubPaymethod)
-				// // subPaymethodId = selectedSubPaymethod != undefined ? parseInt(selectedSubPaymethod.id) : null; 
-				// subPaymethodId.value = selectedSubPaymethod != undefined ? selectedSubPaymethod.pmsubId : null;
+
 				let formattedOrderItems = formatOrderItems(state.order.orderItems, email.value ,tel.value);
 
 				console.log("paymethodId/selectedPaymethod.id = ", pmId)
@@ -566,16 +520,9 @@ export default defineComponent({
 						"subPaymethodId": pmsubId, 
 						"totalAmountCents": getCartTotal(),
 						"zipcode" : "1234aa",
-						// desc: orderItems.value.length > 1 ? orderItems.value.length + " voucher producten." : "Voucheraankoop", 
-						// mobile: tel.value,
-						// email: email.value,
 					}
 				})
-				// console.log(orderPayload)
 				if (window.fetch) {
-					
-					// actions.submitOrder
-
 					// run my fetch request here
 					let submitReq = await actions.submitOrder(orderPayload);
 
@@ -620,9 +567,7 @@ export default defineComponent({
     }
 
 			const reinstateOrder = (orderItems) => {
-				// console.log('reinstate order')
 				actions.reinstateOrder(orderItems)
-				// orderItems = orderItems ?? [];
 			}
 			const emptyOrder = (orderItems) => {
 				state.order.orderItems = [];
@@ -727,8 +672,6 @@ export default defineComponent({
 	}
 });
 </script>
-
-
 
 <style lang="scss">
 	.orderItemHolder {
@@ -900,9 +843,6 @@ export default defineComponent({
 		position:absolute;
 	}
 
-	#Checkout {
-		// margin-top: -4.5em;
-	}
 	form {
 		display: flex;
 		max-width: 900px;
@@ -1222,10 +1162,6 @@ export default defineComponent({
 			height: auto;
 			.select-styled {
 				position: relative;
-				&:after,
-				&:active:after {
-					// top: 1em;
-				}
 			}
 		}
 
