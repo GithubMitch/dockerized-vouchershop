@@ -219,16 +219,12 @@ export default defineComponent({
     list-style:none;
     justify-content: space-between;
     justify-content: flex-start;
-    // margin-left: -1rem;
-    // margin-right: -2rem;
 
     .item {
       cursor:pointer;
       min-width:162px;
       min-height:162px;
       max-width:162px;
-      // margin-bottom: 2rem;
-      // margin-right: 1em;
       margin: 1.225rem;
       text-align:center;
       border-radius:7px;
@@ -237,12 +233,8 @@ export default defineComponent({
       color: #2c3e50;
       position: relative;
       margin-left: 0em;
-      // box-shadow: 0px 1px 8px orange;
-      // box-shadow: 0px 0px 14px -5px orange;
 
-
-
-      a {
+a {
         background:#fff;
         color:inherit;
         display:inline-flex;
@@ -253,6 +245,46 @@ export default defineComponent({
         box-sizing: border-box;
         position:relative;
         text-decoration: none;
+        transition:.3s ease all;
+          .slide {
+            // display:block;
+            span.action {font-weight:700;}
+            span.confirm {display:none;}
+            span {font-size:.888em;}
+            img {
+              // display:inline-block;
+              // line-height:38px;
+              // vertical-align: middle;
+            }
+          }
+          .slide.add {
+            display:none;
+            font-weight:bold;
+            span.action {
+              font-weight:700;
+              opacity:1;
+            }
+            i {
+              display:none;
+              position: absolute;
+              top: 50%;
+              margin:auto;
+              font-size: 5em;
+              width:80px;
+              height:80px;
+              right:50%;
+              margin-right:-40px;
+              margin-top:-50px;
+            }
+
+          }
+          .slide.add {display:none;}
+        &:hover {
+          background:orange;
+          color:#fff;
+          .slide {display:none}
+          .slide.add {display:block;}
+        }
         &.disabled {
           cursor:none;
           background:lightgray;

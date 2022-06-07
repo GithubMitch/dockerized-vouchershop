@@ -4,13 +4,13 @@
       <ul>
         <h3>Vouchershop</h3>
         <li><NuxtLink to="/">Home</NuxtLink></li>
-        <li><NuxtLink to="/over">Over Vouchershop</NuxtLink></li>
-        <li><NuxtLink to="/category">Beltegoed</NuxtLink></li>
+        <li><NuxtLink to="/about">Over Vouchershop</NuxtLink></li>
+        <li><NuxtLink to="/beltegoed">Beltegoed</NuxtLink></li>
         <li><NuxtLink to="/giftcards">Giftcards & Credit</NuxtLink></li>
       </ul>
       <ul>
         <h3>Legal</h3>
-        <li><NuxtLink to="/algemenevoorwaarden">Algemene voorwaarden</NuxtLink></li>
+        <li><NuxtLink to="/voorwaarden">Algemene voorwaarden</NuxtLink></li>
         <li><NuxtLink to="/disclaimer">Disclaimer</NuxtLink></li>
         <li><NuxtLink to="/cookies">Cookies</NuxtLink></li>
       </ul>

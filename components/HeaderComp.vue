@@ -480,6 +480,7 @@ export default defineComponent({
         overflow:hidden;
         border-radius:5px;
         transition:.3s ease background;
+        height:22px;
 
         &.filled{
           border: 2.5px solid #ffa502;

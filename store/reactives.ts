@@ -370,4 +370,8 @@ const methods = {
 
 // CHECK COMPONENT PRODUCTS , FOR DISPLAYED ACTION LABEL > SHOULD BE CATEGORY
 
+// back button from product detail page is going to brands
+
+// terug knop fixed bij scrollen
+
 export  {state, actions, methods }

@@ -21,12 +21,19 @@
           :disabled="!product.inStock ? 'disabled' : false"
           />
         <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
-          @click="addProducts($event, product)">
+          @click="addProducts($event, product), confirmMsg($event)">
           <img :src="`../../assets/logos/${product.brand}.png`" />
           <span class="price" for="">€ {{product.value / 100}}</span>
           <div class="slide">
             <span class="name">{{ product.key }}</span>
-            <span v-if="$route.params.category !== 'giftcards'" class="action" for="">{{product.actionLabel}}</span>
+            <!-- <span v-if="$route.params.category !== 'giftcards'" class="action" for="">{{product.actionLabel}}</span> -->
+          </div>
+          <div class="slide add">
+            <span class="action">Toevoegen +</span>
+            <span class="confirm"> Toegevoegd </span>
+            <i class="i simple-line-icons:check"></i>
+            
+            <!-- <img src="@/assets/cart.png" alt=""> -->
           </div>
         </a>
       </li>
@@ -39,6 +46,8 @@ import gsap from "gsap";
 import { state, actions } from '../store/reactives'
 import { defineComponent, ref, toRef } from 'vue'
 import {_} from 'vue-underscore';
+import { useIntervalFn } from '@vueuse/core';
+
 
 export default defineComponent({
   props: {
@@ -89,6 +98,34 @@ export default defineComponent({
     const actionLabel = toRef(state, 'actionLabel');
     const group = toRef(state, 'group')
     const filteredProductList = toRef(state, 'filteredProductList')
+    const interval = ref(700)
+
+    const confirmMsg = (e) => {
+      let elem =  e.currentTarget;
+      let actionMsg = elem.querySelector('.slide.add span.action');
+      let confirmMsg = elem.querySelector('.slide.add  span.confirm');
+      let checkIcon = elem.querySelector('.i');
+      elem.style.backround = 'darkgray'
+      actionMsg.style.display = 'none'
+      confirmMsg.style.display = 'block'
+      checkIcon.style.display = 'block'
+      // actionMsg.remove()
+      // actionMsg.remove()
+
+      setTimeout(function(){ 
+        // alert("After 1 seconds!");
+        elem.style.backround = '#fff'
+
+        actionMsg.style.display = 'block'
+        confirmMsg.style.display = 'none'
+        checkIcon.style.display = 'none'
+
+      }, interval.value);
+
+      console.log(e.currentTarget);
+      console.log('confirmMsg');
+    }
+
 
     const beforeEnter = (el) => {
       el.style.opacity = 0;
@@ -131,6 +168,7 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
+      confirmMsg,
       route,
       setupAppReady
     }
