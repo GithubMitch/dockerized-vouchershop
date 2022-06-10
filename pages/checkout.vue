@@ -130,21 +130,22 @@
 					<div class="formControl" id="PaySelect">
 						<label> Kies betaalmethode </label>
 						<span class="input">
-							<MySelect
-								ref="mySelect"
-								:default="paymentOptions"
-								:tabindex="0"
-								v-model="selectedPaymethod"
-								:components="{ Deselect: null }"
-								:options="getPaymentOptions ? paymentOptions : paymentOptions"
-								:searchable="false"
-								:placeholder="'Maak een keuze'"
-								:disabled="loading"
-								:elementIndex="0"
-								@selectChange="setPaymethod"
-								:class="[{ static: preFilled && !editMode },{ errored: errors.paymethod.length > 0 },]"
-                >
-							</MySelect>
+
+								<MySelect v-if="setupAppReady"
+									ref="mySelect"
+									:default="paymentOptions"
+									:tabindex="0"
+									v-model="selectedPaymethod"
+									:components="{ Deselect: null }"
+									:options="getPaymentOptions ? paymentOptions : paymentOptions"
+									:searchable="false"
+									:placeholder="'Maak een keuze'"
+									:disabled="loading"
+									:elementIndex="0"
+									@selectChange="setPaymethod"
+									:class="[{ static: preFilled && !editMode },{ errored: errors.paymethod.length > 0 },]"
+									>
+								</MySelect>
 
                 <span class="indicator" v-if="validated.paymethod == true">
                   <img src="@/assets/ok.svg" />
@@ -254,6 +255,7 @@ export default defineComponent({
 	},
 	async setup() {
 		const cart = toRef(state, "cart");
+		const setupAppReady = toRef(state, "setupAppReady");
 		const hover = ref(false);
 		const selectedPaymethod = ref(null);
 		const selectedSubPaymethod = ref(null);
@@ -668,6 +670,7 @@ let $origin = protocol + domain + port;
       checkMobile,
       checkEmail,
       checkPaymethods,
+			setupAppReady
 		}
 	}
 });

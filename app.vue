@@ -45,7 +45,9 @@ export default defineComponent({
         Promise.all([
           actions.fetchProductList(),
           actions.fetchBrandList(),
-          actions.fetchStockList()
+          actions.fetchStockList(),
+          actions.getPaymentOptions()
+
         ]).then((promises) => {
           // return lists
           setupAppReady.value = true;
@@ -101,7 +103,7 @@ export default defineComponent({
   
   main[name="productlist"], 
   main[name="category"] {
-    max-width: 1600px;
+    max-width: 1640px;
     margin: 0 auto;
     position:relative;
     padding-top:1em;
@@ -388,6 +390,13 @@ a {
     box-sizing: border-box;
   }
 //buttons
+.buttons{
+  .cta {
+    &.disabled {
+      width:100%;
+    }
+  }
+}
   .cta {
     margin: 0;
     left: 0;
@@ -415,10 +424,10 @@ a {
       // pointer-events:none;
       // background: linear-gradient(186deg,#28c430,#15734c);
       background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
-
+      width:100%;
       opacity:1;
       &:hover {
-        opacity:.9;
+        // opacity:.9;
       }
     }
     &:hover {

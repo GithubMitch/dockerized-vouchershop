@@ -183,7 +183,7 @@ section {
   .categories {
     display:flex;
     width:100%;
-    max-width:1600px;
+    max-width:1640px;
     margin:0 auto;
     overflow: hidden;
     flex-direction: row;

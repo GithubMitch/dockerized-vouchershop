@@ -59,7 +59,7 @@
 
     #FooterContent{
       padding: 1em;
-      max-width: 1200px;
+      max-width: 1640px;
       width:100%;
       margin: 0px auto;
       display: flex;

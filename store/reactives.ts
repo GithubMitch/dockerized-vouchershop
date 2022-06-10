@@ -1,4 +1,3 @@
-import { ApplicationAutoScaling } from 'aws-sdk';
 import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
@@ -350,7 +349,7 @@ const methods = {
 //*****  Fix Options bug when going to checkout  ( Cant reproduce ?!!)
 
 //1.  Test: Moved server/api requests
-      //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+  //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
 //2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
 //3. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
 //4. Check modal , and layouts
@@ -365,13 +364,15 @@ const methods = {
 //4. Check empty lists , display msg nothing found or no products atm.
 
 // CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC 
-
 // CHECK LAYOUTS
-
 // CHECK COMPONENT PRODUCTS , FOR DISPLAYED ACTION LABEL > SHOULD BE CATEGORY
 
 // back button from product detail page is going to brands
-
 // terug knop fixed bij scrollen
+// smooth add product animation
+
+// SEO OPTIMIZATION 
+  // SET SEO TAGS
+  // CORRECT PAGETITLES 
 
 export  {state, actions, methods }

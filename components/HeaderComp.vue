@@ -1,9 +1,11 @@
 <template>
   <header>
     <section>
-      <div id="Logo">
-          <a href="/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
-      </div>
+      <ClientOnly>
+        <NuxtLink to="/" id="Logo">
+            <a href="/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
+        </NuxtLink>
+      </ClientOnly>
       <div id="HeaderContent">
           <a ref="hamburger" id="hamburger" :class="{open : activeCategoryMenu}" @click="toggleCategoryMenu">
             <div for="menu_checkbox">
@@ -442,7 +444,7 @@ export default defineComponent({
       width:100%;
       padding:1em;
       position: relative;
-      max-width: 1200px;
+      max-width: 1640px;
       height:78px;
       margin:auto;
       display: flex;

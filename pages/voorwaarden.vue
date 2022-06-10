@@ -35,7 +35,7 @@
 
 <style>
   .content {
-    max-width:1600px;
+    max-width:1640px;
     margin:0 auto;
     padding:0 1em;
   }
