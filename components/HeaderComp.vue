@@ -3,7 +3,7 @@
     <section>
       <ClientOnly>
         <NuxtLink to="/" id="Logo">
-            <a href="/" aria-current="page" class="router-link-exact-active router-link-active"><img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/></a>
+            <img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/>
         </NuxtLink>
       </ClientOnly>
       <div id="HeaderContent">
@@ -445,14 +445,17 @@ export default defineComponent({
       padding:1em;
       position: relative;
       max-width: 1640px;
-      height:78px;
       margin:auto;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      box-sizing:border-box;
     } 
     #Logo{
       float:left;
+      img {
+        height:100%;
+      }
       &:active{
         opacity: 0.89;
         transform: translateY(0.6px);
@@ -482,7 +485,7 @@ export default defineComponent({
         overflow:hidden;
         border-radius:5px;
         transition:.3s ease background;
-        height:22px;
+        height:25px;
 
         &.filled{
           border: 2.5px solid #ffa502;

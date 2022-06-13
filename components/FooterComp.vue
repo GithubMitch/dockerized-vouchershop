@@ -65,6 +65,8 @@
       display: flex;
       justify-content: space-between;
       text-align: left;
+      box-sizing: border-box;
+      flex-wrap: wrap;
       ul {
         list-style:none;
         margin:0;

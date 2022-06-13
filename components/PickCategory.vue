@@ -194,9 +194,11 @@ section {
       font-size:2em;
       font-size:1.666em;
       font-weight: 500;
-        width: 15%;
-        color:#333;
-        // margin-top:-1rem;
+      width: 15%;
+      color:#333;
+      padding: 0 0.5em;
+      box-sizing: border-box;
+      // margin-top:-1rem;
       // white-space: nowrap;
       // margin-right:1em;
     }

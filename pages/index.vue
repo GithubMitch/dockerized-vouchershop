@@ -53,6 +53,7 @@ export default defineComponent({
 }
 .inner.sales {
   display:flex;
+  justify-content: center;
 }
 #recentorders {
   width:35%;

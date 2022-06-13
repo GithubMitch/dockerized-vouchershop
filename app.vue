@@ -119,7 +119,7 @@ export default defineComponent({
     }
   }
   main .inner {max-width:100%;}
-  main .inner.sales {max-width:990px;margin:auto;}
+  main .inner.sales {max-width:1200px;margin:auto;}
   .inner {
     // max-width:990px;
     // box-sizing:border-box;
@@ -333,7 +333,9 @@ a {
   #SalesProps{
     position:relative;
     max-width:990px;
-    min-width:990px;
+    min-width:990px;    
+    max-width:1200px;
+    min-width:0;
     margin:0 auto
   }
   #SalesProps,#SalesProps #SalesPropsContent{
@@ -342,7 +344,7 @@ a {
       display:flex;
       -webkit-box-pack:justify;
       -ms-flex-pack:justify;
-      justify-content:space-between
+      justify-content:space-around;
   }
   #SalesProps div{
       -webkit-box-flex:1;
@@ -552,4 +554,60 @@ a {
     text-transform: capitalize;
     margin-top:0;
   }
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { 
+  .categories {
+    > span {
+      display:none;
+    }
+    nav {
+      max-width:100% !important;
+      ul {
+        padding:0 1em !important;
+        box-sizing:border-box;
+        padding-right: 0em !important;
+        li {
+          width:33% !important;
+          max-width:32% !important;
+          margin-right: 1% !important;
+          margin-bottom: 1% !important;    
+          padding-bottom: 1% !important;
+        }
+      }
+    }
+  }
+
+  #SalesProps div {
+    img {
+      display:block;
+      float:none;
+      margin:auto;
+    }
+    padding: 1em !important;
+    margin-top: 0 !important;
+    // text-align: center !important;
+  }
+
+  main .inner.sales {
+    // max-width:100%;
+    width:100%;
+  }
+  .inner.sales {
+    padding:0 1em;
+  }
+ }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { 
+
+ }
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { 
+    
+ }  
 </style>
