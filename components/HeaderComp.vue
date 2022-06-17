@@ -14,6 +14,14 @@
               <div></div>
             </div>
           </a>
+          <a ref="mobileHamburger" id="mobileHamburger" class="mobile" :class="{open : activeCategoryMenu}" @click="toggleMobileMenu($event)">
+            <!-- <a ref="hamburger" id="hamburger" :class="{open : activeCategoryMenu}" @click="toggleCategoryMenu"> -->
+            <div for="menu_checkbox">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </a>
           <div id="HeaderNav">
               <div id="Links">
                 <NuxtLink  class="category" to="/about">Over VoucherShop</NuxtLink>
@@ -214,6 +222,14 @@ export default defineComponent({
         // closing menu when click outside menu
         if( activeCategoryMenu.value == true ) {
           toggleCategoryMenu(e)
+          // toggleMobileMenu(e)
+        }
+        if( activeSideMenu.value == true ) {
+          // toggleCategoryMenu(e)
+          const isDropDown = e.target.classList.contains('i');
+          // console.log(e.target.classList.contains('i'))
+          console.log(isDropDown)
+          if (!isDropDown) toggleMobileMenu(e);
         }
       })
 
@@ -367,6 +383,7 @@ export default defineComponent({
     }
   }
 
+  #mobileHamburger,
   #hamburger {
     position: absolute;
     color: #fff;
@@ -438,6 +455,8 @@ export default defineComponent({
       }
     }
   }
+  #mobileHamburger {display:none;}
+
   header{
     > section {
       position:relative;
@@ -463,6 +482,8 @@ export default defineComponent({
     }
     #HeaderContent{
       float:right;
+      margin-left:1em;
+      min-width:200px
     }
     #HeaderSpace {
       padding-top: 1em;
@@ -558,6 +579,7 @@ export default defineComponent({
     font-weight:500;
     padding: 0.25em 4em;
     text-align: center;
+    box-sizing:border-box;
     width:100%;
     text-transform:uppercase;
     a {

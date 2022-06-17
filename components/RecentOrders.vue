@@ -1,5 +1,5 @@
 <template>
-  <div id="recentorders">
+  <div v-if="hasOrdered" id="recentorders">
     <h2><span>Je vorige bestellingen</span></h2>
     <div class="recent">
       <ul class="products">
@@ -15,11 +15,12 @@
 <script>
 import { _ } from "vue-underscore";
 import CryptoJS from "crypto-js";
-import { state, actions, methods } from '../store/reactives'
+import { state, actions } from '../store/reactives'
 
 export default defineComponent({
 async setup () {
   const orderItems = toRef(state.order,'orderItems')
+  const hasOrdered = ref(false)
   if (process.client){
     if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0 ) {
       let storedTrxString = localStorage.getItem('trxmem');
@@ -30,11 +31,12 @@ async setup () {
           data = JSON.parse(data);
           console.log('LocalStorage getItem:',{data});
           actions.reinstateOrder(data.orderItems);
+          hasOrdered.value = true;
         }
       }
     } 
   }
-  return {orderItems}
+  return {orderItems, hasOrdered}
 }
 })
 </script>

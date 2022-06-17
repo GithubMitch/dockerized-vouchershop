@@ -190,6 +190,7 @@ section {
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
+    padding:0;
     span {
       font-size:2em;
       font-size:1.666em;
@@ -205,10 +206,9 @@ section {
     nav {
       max-width: 1360px;
       width: 100%;
-        max-width: 85%;
-        width: 100%;
-        padding: 1em 0;
-        padding-bottom:0;
+      // max-width: 85%;
+      // width: 100%;
+      padding:1em;
 
       ul {
         width:100%;
@@ -219,19 +219,21 @@ section {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        justify-content: center;
         li {
           display:inline-block;
           margin-right:1em;
           margin-bottom:1em;
           width:20%;
           max-width:18%;
-          min-width:244px;
+          min-width:224px;
+          padding:0;
           a {
             text-transform:uppercase;
             display:block;
             padding:1em;
-            font-size:1.6em;
+            font-size:1.5rem;
             border: 1px solid #00000030;
             border-radius:.25em;
             background:#333;

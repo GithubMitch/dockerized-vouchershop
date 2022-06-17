@@ -106,7 +106,7 @@ export default defineComponent({
     max-width: 1640px;
     margin: 0 auto;
     position:relative;
-    padding-top:1em;
+    padding:1em;
     // padding: 0 1em;
   }
 
@@ -555,41 +555,87 @@ a {
     margin-top:0;
   }
 
+
+
+
+
+
+
+
+
+
+
 // Extra small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
 
 // Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) { 
-  .categories {
-    > span {
-      display:none;
+@media (max-width: 576px) { 
+  }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  header {
+    #Logo {
+      float:none;
+      display:block;
+      margin:auto;
     }
-    nav {
-      max-width:100% !important;
-      ul {
-        padding:0 1em !important;
-        box-sizing:border-box;
-        padding-right: 0em !important;
-        li {
-          width:33% !important;
-          max-width:32% !important;
-          margin-right: 1% !important;
-          margin-bottom: 1% !important;    
-          padding-bottom: 1% !important;
-        }
+    & > section {
+      display:flex;
+      flex-direction:column;
+    }
+    #HeaderContent {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    #mobileHamburger {
+      top: 0;
+      right: 0;
+      position: relative;
+    }
+    #HeaderSpace {padding-top:0;display:inline-flex;}
+  }
+  .styled-list {
+    display: flex;
+    padding-left: 0;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    li.item {
+      width:46%;
+      margin-right:1%;
+      max-width:none;
+      min-width:140px;
+    }
+  }
+  #topthree .popular {
+    flex-direction: column !important;
+    // padding-right:10px;
+    .select {
+      .brand::after {
+        right:-6px !important;
+        top:-18px;
       }
     }
   }
-
-  #SalesProps div {
-    img {
-      display:block;
-      float:none;
-      margin:auto;
+ 
+  .categories {
+    nav {
+      ul {
+        li {
+          width:100% !important;
+          max-width:100% !important;
+          min-width:100% !important;
+          margin-right:0% !important;
+          a {
+            font-size:1rem !important;
+          }
+        }
+      }
     }
-    padding: 1em !important;
-    margin-top: 0 !important;
-    // text-align: center !important;
   }
 
   main .inner.sales {
@@ -599,15 +645,160 @@ a {
   .inner.sales {
     padding:0 1em;
   }
- }
 
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) { 
+}
 
- }
+// /* Small devices (portrait tablets and large phones, 600px and up) */
+// @media only screen and (min-width: 600px) {
 
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) { 
-    
- }  
+// }
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  header #Logo img {
+    height:auto;
+    max-width:100%;
+    margin-top:.5em;
+  }
+  .categories {
+    nav {
+      ul {
+        li {
+          width: 46%!important;
+          max-width: 46%!important;
+          a {
+          }
+        }
+      }
+    }
+  }
+  #SalesProps {
+    span div {
+      padding:1em;
+      margin:auto !important;
+      max-width:100%;
+      border:none;
+      border-bottom:1px solid lightgray;
+      min-height:auto;
+      overflow:hidden;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: center;
+      align-items: center;
+      img {
+        max-width:60px;
+        margin-bottom:1em !important;
+      }
+    }
+    & #SalesPropsContent {
+      display:block;
+      width:100%;
+    }
+  }
+  #Slider .slide {
+    font-size:2rem !important;
+  }
+  // header > section {flex-direction:column;}
+  header #HeaderSpace {padding-top:1.2em}
+  #hamburger {display:none;}
+  #mobileHamburger {display:inline-block;}
+  #menu {right:0;}
+  #Links {display:none;}
+  #hamburger,
+  #mobileHamburger {top:35px;}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+
+  .categories {
+    nav {
+      ul {
+        li {
+          width:32% ;
+          max-width:32% ;
+          min-width:32% ;
+          margin-right:1% ;
+          a.category {
+            font-size:1.5rem !important;
+          }
+        }
+      }
+    }
+  }
+  .inner {
+    &.sales {
+      padding: 0 1em !important;
+      box-sizing:border-box;
+      display:block !important;
+
+      #recentorders {
+        width:100%;
+      }
+    }
+  }
+  #SalesProps {
+    div {
+      img {
+        margin-bottom:3em !important;
+      }
+    }
+  }
+  #topthree .popular {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .select {
+      display:block !important;
+      margin-right:1em;
+      .visual {
+        img {
+          margin:auto;
+        }
+      }
+      .brand::after {
+        z-index: 999;
+      }
+      &:last-child {
+        margin-right:0;
+      }
+    }
+    .select , a , .brand {
+      width:100%;
+      display:block;
+      box-sizing:border-box;
+    }
+
+    .brand {
+      // margin: 24px !important;
+      margin-right: 22px !important;
+      margin-bottom: 22px !important;
+    }
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 1660px) {
+  .categories {
+    > span {
+      display:none;
+    }
+
+    nav {
+      width:100% !important;
+      max-width:100% !important;
+      ul {
+        li {
+          // margin:auto !important;
+          // margin-bottom:1% !important;
+          a {
+            // margin:auto !important;
+          }
+        }
+      }
+    }
+  } 
+}
 </style>

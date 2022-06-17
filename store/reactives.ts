@@ -346,33 +346,25 @@ const methods = {
   // * * * * * * * * * * * * ///
  // * * * *   TODO   * * * * ///
 // * * * * ///* * * * * * * ///
-//*****  Fix Options bug when going to checkout  ( Cant reproduce ?!!)
+// RESPONSIVE DESIGN 
+//0 ****. CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC 
 
-//1.  Test: Moved server/api requests
-  //-CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
-//2.  Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
+//1. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+//2. terug knop fixed maken scrolldown
 //3. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
-//4. Check modal , and layouts
-
-// CHOICES
-//1. Productpage Close (back) button (for correct routing ) on productpage ( modal close button ) - To home or brand view ?
-    // CHECK NOT IN STOCK BUTTON (adding product while not in stock) - disable button - needs safeguard
-//2. Style GiftCards ?
-//3. Display visual for loading time & or when reactives are not set / fetched ( ctrl+shift+F search for setupAppReady) 
-    // Made component ProgressBar , have to implement them on ?every? page that loads data reactively
-
 //4. Check empty lists , display msg nothing found or no products atm.
 
-// CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC 
-// CHECK LAYOUTS
-// CHECK COMPONENT PRODUCTS , FOR DISPLAYED ACTION LABEL > SHOULD BE CATEGORY
+// CHOICES
+// CHECK NOT IN STOCK BUTTON (adding product while not in stock) - disable button - needs safeguarding *?
+//1. Style GiftCards ? add-products (animation)
+//3 ** Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
 
-// back button from product detail page is going to brands
-// terug knop fixed bij scrollen
-// smooth add product animation
 
-// SEO OPTIMIZATION 
+// *** SEO OPTIMIZATION 
   // SET SEO TAGS
   // CORRECT PAGETITLES 
+  // CHECK LAYOUTS
+
+// 
 
 export  {state, actions, methods }

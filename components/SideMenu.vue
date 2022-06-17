@@ -170,8 +170,8 @@ export default defineComponent({
       let target = event.currentTarget;
       let parent = target.parentNode;
       subMenu = target.nextSibling ? target.nextSibling : target.parentNode.nextSibling;
-      console.log(subMenu)
-      console.log(parent)
+      // console.log(subMenu)
+      // console.log(parent)
       let subMenuisOpen = subMenu.classList == 'open';
       if (!subMenuisOpen) {
         subMenu.classList.add('open')

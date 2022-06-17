@@ -49,11 +49,12 @@ export default defineComponent({
   transition:.6s cubic-bezier(0.075, 0.82, 0.165, 1) all;
   &.fadein {
     opacity:1 !important;
+    margin:1em 0;
   }
 }
 .inner.sales {
   display:flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 #recentorders {
   width:35%;
