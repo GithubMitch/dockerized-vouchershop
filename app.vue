@@ -30,7 +30,7 @@ export default defineComponent({
       link: [
         {
           rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
+          href: "@/assets/iconfont/iconfont.css"
         }
       ]
     }
@@ -195,25 +195,6 @@ export default defineComponent({
 
   // temp button style remove later
   .deselect {color:#ddd !important;}
-  /* Vouchershop component */
-  #config-window {
-    box-shadow: inset 0px 0px 10px -4px #000; 
-    box-sizing:border-box;
-    background:#ebebeb;
-    height:800px;
-    padding:1em;
-    overflow: scroll;
-    .brandLine.deselect {
-      border:1px solid white;
-    }
-    :deep() .brandLine ,
-    .brandLine {
-      cursor:pointer;
-    }
-    :deep() .brandLine:hover {
-      text-decoration: underline;
-    }
-  }
   .styled-list {
     display:flex;
     padding-left:0;

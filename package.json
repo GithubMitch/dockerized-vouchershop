@@ -7,7 +7,7 @@
     "db": "java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb"
   },
   "devDependencies": {
-    "nuxt3": "latest"
+    "nuxt3": "3.0.0-27296423.f3082ca"
   },
   "dependencies": {
     "@vueuse/core": "^7.7.0",

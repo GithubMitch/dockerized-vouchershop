@@ -28,7 +28,7 @@ import { onBeforeRouteUpdate } from 'vue-router'
         link: [
           {
             rel: "stylesheet",
-            href: "/assets/iconfont/iconfont.css"
+            href: "@/assets/iconfont/iconfont.css"
           }
         ],
       }

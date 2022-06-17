@@ -20,7 +20,7 @@ export default defineComponent({
       link: [
         {
           rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
+          href: "@/assets/iconfont/iconfont.css"
         }
       ],
       meta: [
