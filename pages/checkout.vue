@@ -11,7 +11,7 @@
 							<div class="orderItem" :class="{ onButton: hover }">
 								<div class="productInfo">
                   <ClientOnly>
-									  <img class="thumbnail" :src="`@/assets/logos/${item.brand}.png`"/>
+									  <img class="thumbnail" :src="`/assets/logos/${item.brand}.png`"/>
                   </ClientOnly>
 									<p class="name">{{ item.name }}</p>
 									<p class="desc">opwaardeercode</p>
@@ -94,10 +94,10 @@
 								:class="[{ static: preFilled && !editMode },{ errored: errors.tel.length > 0 },]"
 								@change="checkMobile"/>
               <span class="indicator" v-if="validated.tel == true">
-                <img src="@/assets/ok.svg" />
+                <img src="~/assets/ok.svg" />
               </span>
               <span class="indicator" v-else-if="errors.tel.length > 0">
-								<img src="@/assets/warn.svg"/>
+								<img src="~/assets/warn.svg"/>
               </span>
 							<div class="error" v-if="errors.tel.length > 0">
 								{{ errors.tel[0] }}
@@ -113,10 +113,10 @@
 								:class="[{ static: preFilled && !editMode },{ errored: errors.email.length > 0 },]"
 								@change="checkEmail"/>
                 <span class="indicator" v-if="validated.email == true">
-								  <img src="@/assets/ok.svg" />
+								  <img src="~/assets/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.email.length > 0">
-								  <img src="@/assets/warn.svg"/>
+								  <img src="~/assets/warn.svg"/>
                 </span>
 							<div class="error" v-if="errors.email.length > 0">
 								{{ errors.email[0] }}
@@ -151,7 +151,7 @@
                   <img src="@/assets/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.paymethod.length > 0">
-                  <img src="@/assets/warn.svg"/>
+                  <img src="~/assets/warn.svg"/>
                 </span>
                 <div class="error" v-if="errors.paymethod.length > 0">
                   {{ errors.paymethod[0] }}
@@ -183,7 +183,7 @@
                   <img src="@/assets/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.subpaymethod.length > 0">
-                  <img src="@/assets/warn.svg"/>
+                  <img src="~/assets/warn.svg"/>
                 </span>
                 <div class="error" v-if="errors.subpaymethod.length > 0">
                   {{ errors.subpaymethod[0] }}

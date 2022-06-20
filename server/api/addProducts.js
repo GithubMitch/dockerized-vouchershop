@@ -1,8 +1,7 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import AWS from 'aws-sdk'
 import fs from 'fs'
-import config from '../../config.js';
+
+const config = useRuntimeConfig().public
 
 AWS.config.update(config.aws_remote_config)
 const dynamodb = new AWS.DynamoDB.DocumentClient({
@@ -12,7 +11,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
 
 let items = []
 
-export default async (req, res) => {
+export default defineEventHandler((event) => {
   let tableName = 'testtable';
   let params = {TableName: tableName};
   
@@ -43,5 +42,5 @@ export default async (req, res) => {
       });
   });
   return console.log('done')
-}
+})
 

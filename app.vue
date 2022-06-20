@@ -2,7 +2,7 @@
   <div>
     <div id="content" :class="{open: activeSideMenu}">
       <HeaderComp/>
-      <Router-View/>
+      <!-- <Router-View/> -->
       <!-- <NuxtPage/> -->
       <FooterComp/> 
     </div>
@@ -18,6 +18,7 @@ import {state , actions} from './store/reactives'
 import {
   defineComponent,
   toRef,
+  onMounted
   } from 'vue';
 
 
@@ -30,7 +31,7 @@ export default defineComponent({
       link: [
         {
           rel: "stylesheet",
-          href: "@/assets/iconfont/iconfont.css"
+          href: "/assets/iconfont/iconfont.css"
         }
       ]
     }
@@ -40,8 +41,40 @@ export default defineComponent({
       const stockProducts = toRef(state, 'stockProducts');
       const brands = toRef(state, 'brands');
       const activeSideMenu = toRef(state, 'activeSideMenu');
-
-      if (stockProducts.value.length == 0 && brands.value.length == 0) {
+      // const config = useRuntimeConfig().public
+      // let paymentOpts = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/paymentmethods', { 
+      //   method: 'POST',
+      //   headers: {
+      //     'Authorization': 'Basic ' + btoa(`${config.hand_auth_user}:${config.hand_auth_pw}`),
+      //     'posId': '50100004'
+      //   },
+      //   body: {
+      //     reference : "blablabla", // 
+      //     securityKey : `${config.hand_auth_key}`
+      //   }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      0
+      // });
+      // console.log(paymentOpts)
+      // actions.fetchProductList(),
+      // actions.fetchBrandList(),
+      // actions.fetchStockList(),
+      onMounted( async ()=>{
         Promise.all([
           actions.fetchProductList(),
           actions.fetchBrandList(),
@@ -59,7 +92,29 @@ export default defineComponent({
         }).catch(error => {
           console.log('vcshop 68',error)
         })
-      }
+      })
+      
+
+      // actions.fetchProductList()
+      // if (stockProducts.value.length == 0 && brands.value.length == 0) {
+      //   Promise.all([
+      //     // actions.fetchProductList(),
+      //     // actions.fetchBrandList(),
+      //     // actions.fetchStockList(),
+      //     // actions.getPaymentOptions()
+
+      //   ]).then((promises) => {
+      //     // return lists
+      //     setupAppReady.value = true;
+      //     if (!process.server) {
+      //       console.log(promises, 'Resolved')
+      //       Promise.resolve(promises)
+
+      //     }
+      //   }).catch(error => {
+      //     console.log('vcshop 68',error)
+      //   })
+      // }
     
     return {activeSideMenu}
   }

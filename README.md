@@ -4,7 +4,7 @@ We recommend to look at the [documentation](https://v3.nuxtjs.org).
 
 ## Setup
 
-Make sure to install the dependencies ( nuxt3: nuxt3@3.0.0-27296423.f3082ca)
+Make sure to install the dependencies
 
 ```bash
 yarn install

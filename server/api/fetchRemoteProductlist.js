@@ -1,23 +1,26 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import AWS from 'aws-sdk'
-import config from '../../config.js';
+const runTimeConfig = useRuntimeConfig()
 
-AWS.config.update(config.aws_remote_config)
+AWS.config.update(runTimeConfig.public.aws_remote_config)
 const dynamodb = new AWS.DynamoDB.DocumentClient({
   region: 'eu-central-1',
-  endpoint: "https://dynamodb.eu-central-1.amazonaws.com"
+  endpoint: "https://dynamodb.eu-central-1.amazonaws.com",
 });
 
 let items = []  
-export default async (req, res) => {
+export default defineEventHandler(async(event) => {
   let tableName = 'products';
-  let params = {
-      TableName: tableName
-  };
+  let params = {TableName: tableName};
+
   dynamodb.scan(params, (err, data) => {
-    items = data.Items
-    return items;
+    if (err) {
+      throw { msg: 'Request failed' , data: err };
+      return
+    } else {
+      items = data.Items
+      return items;
+    };
   });
+
   return items
-}
+})

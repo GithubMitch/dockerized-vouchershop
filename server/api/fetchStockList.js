@@ -1,9 +1,8 @@
-import {state , actions} from '../../store/reactives'
-import config from '#config';
+const config = useRuntimeConfig()
 
-let items = []
+export default defineEventHandler(async(event) => {
+  let items = []
 
-export default async (req, res) => {
   const productsRequest = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
     method: 'POST',
     headers: {
@@ -19,5 +18,5 @@ export default async (req, res) => {
   });
   items = productsRequest.responseObject.products;
 
-  return items
-}
+  return {items}
+})

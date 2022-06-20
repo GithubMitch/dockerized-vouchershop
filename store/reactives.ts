@@ -46,42 +46,50 @@ const actions = {
   
   // ----------------------------------------FETCH EXTERNALS - handled by server/api (directory in root)--------------------------------------------------
   async fetchProductList():Promise<any[]> {
-    state.products = await $fetch("/api/fetchremoteproductlist");
-    actions.getPaymentOptions();
-    return toRaw(state.products);
+    let products = await $fetch("/api/fetchRemoteProductList");
+    state.products = products;
+    console.log({'state.products': state.products})
+    // actions.getPaymentOptions();
+    return toRaw(products);
   },
   async fetchBrandList():Promise<any[]> {
-    state.brands = await $fetch("/api/fetchremotebrandlist");
-    return toRaw(state.brands);
+    let brands = await $fetch("/api/fetchRemoteBrandList");
+    state.brands = brands;
+    console.log({'state.brands': state.brands})
+    return toRaw(brands);
   },
   async fetchStockList() {
-    let stock = await $fetch("/api/fetchstocklist");
-    // console.log(stock)
-    state.allProducts = stock
-    return methods.validateStock(stock);
+    let stock = await $fetch("/api/fetchStockList", {method: 'POST'});
+    console.log(stock)
+    // state.allProducts = stock
+    // return methods.validateStock(stock);
+    methods.validateStock(stock);
+    return state.allProducts = stock
   },
   async getPaymentOptions() {
-    let payOpts = await $fetch("/api/fetchpaymethods");
+    let payOpts = await $fetch("/api/fetchPayMethods", {method: 'POST'});
+    console.log({payOpts});
     return state.paymentOptions = payOpts;
+    // return
   },
   async submitOrder(orderPayload) {
     console.log(orderPayload)
-    let submitOrder = await $fetch("/api/submitorder", {method: 'POST', body: orderPayload});
+    let submitOrder = await $fetch("/api/submitOrder", {method: 'POST', body: orderPayload});
     return submitOrder
   },
   async orderStatus(orderPayload) {
     console.log(orderPayload)
-    let orderstatus = await $fetch("/api/orderstatus", {method: 'POST', body: orderPayload});
+    let orderstatus = await $fetch("/api/orderStatus", {method: 'POST', body: orderPayload});
     return orderstatus
   },
   async sendEmail(orderPayload) {
     console.log(orderPayload)
-    let sendEmail = await $fetch("/api/sendemail", {method: 'POST', body: orderPayload});
+    let sendEmail = await $fetch("/api/sendEmail", {method: 'POST', body: orderPayload});
     return sendEmail
   },
   async sendQuestion(orderPayload) {
     console.log(orderPayload)
-    let sendQuestion = await $fetch("/api/sendquestion", {method: 'POST', body: orderPayload});
+    let sendQuestion = await $fetch("/api/sendQueestion", {method: 'POST', body: orderPayload});
     return sendQuestion
   },
   async getProduct(_productslug) { // find product in stockproducts

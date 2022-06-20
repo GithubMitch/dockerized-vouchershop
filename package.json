@@ -7,10 +7,10 @@
     "db": "java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb"
   },
   "devDependencies": {
-    "nuxt3": "3.0.0-27296423.f3082ca"
+    "nuxt": "npm:nuxt3@latest"
   },
   "dependencies": {
-    "@vueuse/core": "^7.7.0",
+    "@vueuse/core": "^7.7.1",
     "aws-sdk": "^2.1040.0",
     "crypto-js": "^4.1.1",
     "gsap": "^3.9.1",

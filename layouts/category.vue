@@ -18,7 +18,7 @@ import BackButton from "~~/components/backButton.vue"
             link: [
                 {
                     rel: "stylesheet",
-                    href: "@/assets/iconfont/iconfont.css"
+                    href: "/assets/iconfont/iconfont.css"
                 }
             ],
             meta: [

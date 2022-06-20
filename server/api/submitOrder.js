@@ -1,6 +1,4 @@
-import {state , actions} from '../../store/reactives'
-import config from '#config';
-import {useBody} from 'h3';
+const config = useRuntimeConfig();
 
 export default async (req, res) => {
   let orderPayload = await useBody(req)

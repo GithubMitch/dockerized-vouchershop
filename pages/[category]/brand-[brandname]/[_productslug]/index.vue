@@ -8,7 +8,7 @@
           {{product.name}}
           <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `category-brand-brandname`, params: {category:$route.params.category , brandname: $route.params. brandname } })"></i>
         </h1>
-        <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`@/assets/logos/${product.brand}.png`" />
+        <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`/assets/logos/${product.brand}.png`" />
 
         <div class="description">
           <p v-if="details.instructions">{{details.instructions}}</p>

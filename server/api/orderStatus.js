@@ -1,8 +1,6 @@
-import {state , actions} from '../../store/reactives'
-import config from '#config';
-import {useBody} from 'h3';
+const config = useRuntimeConfig()
 
-export default async (req, res) => {
+export default defineEventHandler(async(event) => {
   let orderPayload = await useBody(req)
   orderPayload.orderStatusRequest.securityKey = `${config.hand_auth_key}`;
 
@@ -16,4 +14,4 @@ export default async (req, res) => {
   })
 
   return statusReq
-}
+})

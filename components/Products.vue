@@ -22,7 +22,7 @@
           />
         <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
           @click="addProducts($event, product), confirmMsg($event)">
-          <img :src="`@/assets/logos/${product.brand}.png`" />
+          <img :src="`/assets/logos/${product.brand}.png`" />
           <span class="price" for="">€ {{product.value / 100}}</span>
           <div class="slide">
             <span class="name">{{ product.key }}</span>
@@ -76,7 +76,7 @@ export default defineComponent({
       link: [
         {
           rel: "stylesheet",
-          href: "@/assets/iconfont/iconfont.css"
+          href: "/assets/iconfont/iconfont.css"
         }
       ],
     }

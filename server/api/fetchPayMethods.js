@@ -1,9 +1,7 @@
-import {state , actions} from '../../store/reactives'
-import config from '#config';
+const config = useRuntimeConfig();
 
-let items = []
-
-export default async (req, res) => {
+export default defineEventHandler(async(event) => {
+  let items = [];
   let paymentOpts = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/paymentmethods', { 
     method: 'POST',
     headers: {
@@ -16,5 +14,6 @@ export default async (req, res) => {
     }
   });
   items = paymentOpts.responseObject.handpay;
-  return items
-}
+
+  return {items}
+})

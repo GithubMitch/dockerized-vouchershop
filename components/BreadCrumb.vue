@@ -11,5 +11,12 @@
   </div>
 </div>
 </template> 
+<script>
+import { defineComponent } from '@vue/composition-api'
+import {_} from 'vue-underscore';
 
+export default defineComponent({
+  setup() {},
+})
+</script>
 

@@ -1,10 +1,8 @@
-import {state , actions} from '../../store/reactives'
-import config from '#config';
-import {useBody} from 'h3';
+const config = useRuntimeConfig();
 
-export default async (req, res) => {
+export default defineEventHandler(async(event) => {
   let payLoad = await useBody(req)
-  // payLoad.questionRequest.securityKey = `${config.hand_auth_key}`;
+  payLoad.questionRequest.securityKey = `${config.hand_auth_key}`;
 
   let submitOrder = await $fetch(`http://hndxs.test.hand.local:8280/hndxs/v1/online/sendmail`, { 
     method: 'POST',
@@ -16,4 +14,4 @@ export default async (req, res) => {
   })
 
   return submitOrder
-}
+})
