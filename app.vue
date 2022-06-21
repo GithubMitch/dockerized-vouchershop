@@ -2,7 +2,7 @@
   <div>
     <div id="content" :class="{open: activeSideMenu}">
       <HeaderComp/>
-      <!-- <Router-View/> -->
+      <Router-View/>
       <!-- <NuxtPage/> -->
       <FooterComp/> 
     </div>
@@ -68,18 +68,17 @@ export default defineComponent({
       
       
       
-      0
       // });
       // console.log(paymentOpts)
       // actions.fetchProductList(),
       // actions.fetchBrandList(),
       // actions.fetchStockList(),
-      onMounted( async ()=>{
+      // onBeforeMount( async ()=>{
         Promise.all([
           actions.fetchProductList(),
           actions.fetchBrandList(),
           actions.fetchStockList(),
-          actions.getPaymentOptions()
+          // actions.getPaymentOptions()
 
         ]).then((promises) => {
           // return lists
@@ -92,7 +91,7 @@ export default defineComponent({
         }).catch(error => {
           console.log('vcshop 68',error)
         })
-      })
+      // })
       
 
       // actions.fetchProductList()

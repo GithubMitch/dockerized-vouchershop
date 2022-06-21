@@ -1,7 +1,6 @@
 const config = useRuntimeConfig();
 
 export default defineEventHandler(async(event) => {
-  let items = [];
   let paymentOpts = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/paymentmethods', { 
     method: 'POST',
     headers: {
@@ -13,7 +12,6 @@ export default defineEventHandler(async(event) => {
       securityKey : `${config.hand_auth_key}`
     }
   });
-  items = paymentOpts.responseObject.handpay;
-
-  return {items}
+  
+  return paymentOpts.responseObject.handpay
 })

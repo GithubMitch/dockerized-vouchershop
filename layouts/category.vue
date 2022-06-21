@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="inner">
     <slot name="back"><BackButton/></slot>
     <slot name="title"></slot>
     <slot name="content"></slot>
@@ -33,3 +33,12 @@ import BackButton from "~~/components/backButton.vue"
     components: { BackButton }
 }
 </script>
+
+<style scoped>
+  .inner {
+    margin:auto;
+    max-width:1640px;
+    padding:1em;
+    position: relative;
+  }
+</style>

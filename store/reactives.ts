@@ -18,8 +18,10 @@ const state = reactive ({
   actionLabel: ref(''),
 
   //database brand and product list , stockproducts = altered 
-  brands: ref<[]>([]),  // default from DynamoDB
-  products: ref<[]>([]), // default from DynamoDB
+  brands: ref<{}>([]),  // default from DynamoDB
+  products: ref<{}>([]), // default from DynamoDB
+
+  // real time stock
   stockProducts: ref<{}>([]), // imported from H@nd API
   filteredProductList: ref<{}>([]), 
   paymentOptions: ref<{}>([]),
@@ -48,19 +50,19 @@ const actions = {
   async fetchProductList():Promise<any[]> {
     let products = await $fetch("/api/fetchRemoteProductList");
     state.products = products;
-    console.log({'state.products': state.products})
-    // actions.getPaymentOptions();
+    // console.log({products})
+    actions.getPaymentOptions();
     return toRaw(products);
   },
   async fetchBrandList():Promise<any[]> {
     let brands = await $fetch("/api/fetchRemoteBrandList");
     state.brands = brands;
-    console.log({'state.brands': state.brands})
+    // console.log({brands})
     return toRaw(brands);
   },
   async fetchStockList() {
     let stock = await $fetch("/api/fetchStockList", {method: 'POST'});
-    console.log(stock)
+    // console.log({stock})
     // state.allProducts = stock
     // return methods.validateStock(stock);
     methods.validateStock(stock);
@@ -68,7 +70,7 @@ const actions = {
   },
   async getPaymentOptions() {
     let payOpts = await $fetch("/api/fetchPayMethods", {method: 'POST'});
-    console.log({payOpts});
+    // console.log({payOpts});
     return state.paymentOptions = payOpts;
     // return
   },

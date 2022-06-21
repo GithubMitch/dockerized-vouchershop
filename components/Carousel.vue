@@ -108,6 +108,7 @@ export default defineComponent({
       border-radius:9px;
       opacity:0;
       height:0px;
+      // min-height:300px; // for not animating in height at mount
       transition:.3s ease all;
       &.fadein {
         opacity:1;

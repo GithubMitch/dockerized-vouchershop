@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasOrdered" id="recentorders">
+  <div v-show="hasOrdered" id="recentorders">
     <h2><span>Je vorige bestellingen</span></h2>
     <div class="recent">
       <ul class="products">
@@ -19,8 +19,8 @@ import { state, actions } from '../store/reactives'
 
 export default defineComponent({
 async setup () {
-  const orderItems = toRef(state.order,'orderItems')
   const hasOrdered = ref(false)
+  const orderItems = toRef(state.order,'orderItems')
   if (process.client){
     if (localStorage.getItem('trxmem') && state.order.orderItems.length == 0 ) {
       let storedTrxString = localStorage.getItem('trxmem');

@@ -1,7 +1,6 @@
 const config = useRuntimeConfig()
 
 export default defineEventHandler(async(event) => {
-  let items = []
 
   const productsRequest = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/catalog', { 
     method: 'POST',
@@ -14,9 +13,7 @@ export default defineEventHandler(async(event) => {
       productListRequest : {
       "securityKey" : `${config.hand_auth_key}`
       }
-    }
+    } 
   });
-  items = productsRequest.responseObject.products;
-
-  return {items}
+  return productsRequest.responseObject.products
 })
