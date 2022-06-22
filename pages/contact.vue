@@ -10,9 +10,9 @@
             <label>Naam</label>
             <span class="input">
               <input type="text" name="name" placeholder="naam" v-model="reactiveData.name" :disabled="reactiveData.loading || reactiveData.done" maxLength="30" @change="checkName" @@click.capture="activate" />
-              <span class="indicator" v-if="reactiveData.validated.name == true"> <img src="@/assets/ok.svg" /></span>
+              <span class="indicator" v-if="reactiveData.validated.name == true"> <img src="/ok.svg" /></span>
               <span class="indicator" v-else-if="reactiveData.errors.name.length > 0"> 
-              <img src="@/assets/warn.svg" />
+              <img src="/warn.svg" />
               </span>
               <div class="error" v-if="reactiveData.errors.name.length > 0">{{reactiveData.errors.name[0]}}</div>
             </span>
@@ -22,10 +22,10 @@
             <span class="input">
               <input type="text" name="tel-local" placeholder="telefoon of mobiel" v-model="reactiveData.tel" :disabled="reactiveData.loading || reactiveData.done" @change="checkMobile" autocomplete="tel" @@click.capture="activate" />
               <span class="indicator" v-if="reactiveData.validated.tel == true"> 
-                <img src="@/assets/ok.svg" />
+                <img src="/ok.svg" />
               </span>
               <span class="indicator" v-else-if="reactiveData.errors.tel.length > 0"> 
-                <img src="@/assets/warn.svg" />
+                <img src="/warn.svg" />
               </span>
               <div class="error" v-if="reactiveData.errors.tel.length > 0">{{reactiveData.errors.tel[0]}}</div>
             </span>
@@ -35,10 +35,10 @@
             <span class="input">
               <input type="email" name="email" placeholder="emailadres" v-model="reactiveData.email" :disabled="reactiveData.loading || reactiveData.done" @change="checkEmail" @@click.capture="activate" />
               <span class="indicator" v-if="reactiveData.validated.email == true"> 
-                <img src="@/assets/ok.svg" />
+                <img src="/ok.svg" />
               </span>
               <span class="indicator" v-else-if="reactiveData.errors.email.length > 0"> 
-                <img src="@/assets/warn.svg" />
+                <img src="/warn.svg" />
               </span>
               <div class="error" v-if="reactiveData.errors.email.length > 0">{{reactiveData.errors.email[0]}}</div>
             </span>
@@ -49,8 +49,8 @@
               <textarea name="message" placeholder="Vul hier uw vraag of probleem in" v-model="reactiveData.msg" :disabled="reactiveData.loading || reactiveData.done" @change="checkMsg" maxlength="250" @keydown="checkMsgCount()" @keyup="checkMsgCount()" @click.capture="activate">
               </textarea>
                 <span class="chars" :class="{disabled: reactiveData.done}">{{ reactiveData.msgMax - msgLen() }} / {{ reactiveData.msgMax }}</span>
-                <span class="indicator" v-if="reactiveData.validated.msg == true"> <img src="@/assets/ok.svg" /></span>
-                <span class="indicator" v-else-if="reactiveData.errors.msg.length > 0"> <img src="@/assets/warn.svg" /></span>
+                <span class="indicator" v-if="reactiveData.validated.msg == true"> <img src="/ok.svg" /></span>
+                <span class="indicator" v-else-if="reactiveData.errors.msg.length > 0"> <img src="/warn.svg" /></span>
                 <div class="error" v-if="reactiveData.errors.msg.length > 0">{{reactiveData.errors.msg[0]}}</div>
             </span>
           </div>

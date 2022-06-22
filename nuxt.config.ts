@@ -5,6 +5,7 @@ import { defineNuxtConfig } from 'nuxt'
     // "@vueuse/core": "^7.7.0",
 
 export default defineNuxtConfig({
+  css: ["~/assets/iconfont/iconfont.css"],
   // env: {
   //   baseUrl: process.env.BASE_URL || 'http://localhost'+process.env.PORT,
   // },
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
     hand_auth_user: process.env.BASIC_AUTH_USR,
     public: {
       apiBase: ':/api',
-      hand_base_url: process.env.NODE_ENV === 'production' ? 'http://vouchershop.nl/' : 'http://hndxs.test.hand.local:8280/hndxs/v1/online/',
+      hand_base_url: process.env.NODE_ENV === 'production' ? 'http://vouchershop.nl/' : 'http://www.handdev.nl:8280/hndxs/v1/online/',
       hand_auth_user: process.env.BASIC_AUTH_USR,
       aws_local_config: {
         //Provide details for local configuration

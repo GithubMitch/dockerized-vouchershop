@@ -11,7 +11,7 @@
 							<div class="orderItem" :class="{ onButton: hover }">
 								<div class="productInfo">
                   <ClientOnly>
-									  <img class="thumbnail" :src="`/assets/logos/${item.brand}.png`"/>
+									  <img class="thumbnail" :src="`/logos/${item.brand}.png`"/>
                   </ClientOnly>
 									<p class="name">{{ item.name }}</p>
 									<p class="desc">opwaardeercode</p>
@@ -75,10 +75,10 @@
 								:class="[{ static: preFilled && !editMode },{ errored: errors.name.length > 0 },]"
 								@change="checkName"/>
                 <span class="indicator" v-if="validated.email == true">
-								  <img src="@/assets/ok.svg" />
+								  <img src="/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.name.length > 0">
-								  <img src="@/assets/warn.svg"/>
+								  <img src="/warn.svg"/>
                 </span>
 							<div class="error" v-if="errors.name.length > 0">
 								{{ errors.name[0] }}
@@ -94,10 +94,10 @@
 								:class="[{ static: preFilled && !editMode },{ errored: errors.tel.length > 0 },]"
 								@change="checkMobile"/>
               <span class="indicator" v-if="validated.tel == true">
-                <img src="~/assets/ok.svg" />
+                <img src="/ok.svg" />
               </span>
               <span class="indicator" v-else-if="errors.tel.length > 0">
-								<img src="~/assets/warn.svg"/>
+								<img src="/warn.svg"/>
               </span>
 							<div class="error" v-if="errors.tel.length > 0">
 								{{ errors.tel[0] }}
@@ -113,10 +113,10 @@
 								:class="[{ static: preFilled && !editMode },{ errored: errors.email.length > 0 },]"
 								@change="checkEmail"/>
                 <span class="indicator" v-if="validated.email == true">
-								  <img src="~/assets/ok.svg" />
+								  <img src="/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.email.length > 0">
-								  <img src="~/assets/warn.svg"/>
+								  <img src="/warn.svg"/>
                 </span>
 							<div class="error" v-if="errors.email.length > 0">
 								{{ errors.email[0] }}
@@ -148,10 +148,10 @@
 								</MySelect>
 
                 <span class="indicator" v-if="validated.paymethod == true">
-                  <img src="@/assets/ok.svg" />
+                  <img src="/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.paymethod.length > 0">
-                  <img src="~/assets/warn.svg"/>
+                  <img src="/warn.svg"/>
                 </span>
                 <div class="error" v-if="errors.paymethod.length > 0">
                   {{ errors.paymethod[0] }}
@@ -180,10 +180,10 @@
                 >
 							</MySelect>
                 <span class="indicator" v-if="validated.subpaymethod == true">
-                  <img src="@/assets/ok.svg" />
+                  <img src="/ok.svg" />
                 </span>
                 <span class="indicator" v-else-if="errors.subpaymethod.length > 0">
-                  <img src="~/assets/warn.svg"/>
+                  <img src="/warn.svg"/>
                 </span>
                 <div class="error" v-if="errors.subpaymethod.length > 0">
                   {{ errors.subpaymethod[0] }}
@@ -204,7 +204,7 @@
 							Ik bevestig dat mijn gegevens correct zijn ingevuld en ga akkoord
 							met de <a href="">algemene voorwaarden.</a>
 							<span v-if="errors.agreed2Terms.length > 0" class="indicator">
-								<img src="@/assets/warn.svg" alt="" />
+								<img src="/warn.svg" alt="" />
 								{{ errors.agreed2Terms[0] }}
 							</span>
 							<div class="err"></div>
@@ -471,7 +471,7 @@ export default defineComponent({
 				const domain = window.location.hostname;
 				const port = window.location.port;
 
-let $origin = protocol + domain + port;
+				let $origin = protocol + domain + port;
 				let $api = protocol + domain + port;
 
 				switch (domain) {

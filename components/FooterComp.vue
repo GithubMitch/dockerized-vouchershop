@@ -22,23 +22,23 @@
         <div id="PaymentLogos">
           <h3>Betaal hier veilig met jouw bank          
           </h3>
-          <img src="@/assets/logos/banks/ing.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/rabobank.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/abn_amro.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/knab.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/sns.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/bunq.png" alt="bank-logo">
+          <img src="/logos/banks/ing.png" alt="bank-logo">
+          <img src="/logos/banks/rabobank.png" alt="bank-logo">
+          <img src="/logos/banks/abn_amro.png" alt="bank-logo">
+          <img src="/logos/banks/knab.png" alt="bank-logo">
+          <img src="/logos/banks/sns.png" alt="bank-logo">
+          <img src="/logos/banks/bunq.png" alt="bank-logo">
           <br>
-          <img src="@/assets/logos/banks/moneyou.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/frysche_bank.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/asn_bank.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/van_lanschot.png" alt="bank-logo">
-          <img src="@/assets/logos/banks/triodos_bank.png" alt="bank-logo">
+          <img src="/logos/banks/moneyou.png" alt="bank-logo">
+          <img src="/logos/banks/frysche_bank.png" alt="bank-logo">
+          <img src="/logos/banks/asn_bank.png" alt="bank-logo">
+          <img src="/logos/banks/van_lanschot.png" alt="bank-logo">
+          <img src="/logos/banks/triodos_bank.png" alt="bank-logo">
 
         </div>
         <div>
           powered by
-          <img style="max-width:200px; display:block;" src="@/assets/logos/ppp.svg" alt="">
+          <img style="max-width:200px; display:block;" src="/logos/ppp.svg" alt="">
           2022
         </div>
       </div>

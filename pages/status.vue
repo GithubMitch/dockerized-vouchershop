@@ -8,10 +8,10 @@
       </b></p>
       <div v-if="reactiveData.status !== 'result'" class="loader"></div>
       <div id="Progress">
-          <div :class="{inprogress: reactiveData.progress.paid == 'inprogress' }">Betaald: <img v-if="reactiveData.progress.paid === true" src="@/assets/ok.svg" /></div>
-          <div :class="{inprogress: reactiveData.progress.vouchercode == 'inprogress' }">Ophalen vouchercode: <img v-if="reactiveData.progress.vouchercode === true" src="@/assets/ok.svg" /></div>
-          <div :class="{inprogress: reactiveData.progress.transmit == 'inprogress' }">Code versturen: <img v-if="reactiveData.progress.transmit === true" src="@/assets/ok.svg" /></div>
-          <div :class="{inprogress: reactiveData.progress.done == 'inprogress' }">Klaar! <img v-if="reactiveData.progress.done === true" src="@/assets/ok.svg" /></div>
+          <div :class="{inprogress: reactiveData.progress.paid == 'inprogress' }">Betaald: <img v-if="reactiveData.progress.paid === true" src="/ok.svg" /></div>
+          <div :class="{inprogress: reactiveData.progress.vouchercode == 'inprogress' }">Ophalen vouchercode: <img v-if="reactiveData.progress.vouchercode === true" src="/ok.svg" /></div>
+          <div :class="{inprogress: reactiveData.progress.transmit == 'inprogress' }">Code versturen: <img v-if="reactiveData.progress.transmit === true" src="/ok.svg" /></div>
+          <div :class="{inprogress: reactiveData.progress.done == 'inprogress' }">Klaar! <img v-if="reactiveData.progress.done === true" src="/ok.svg" /></div>
       </div>
     </div>
     <div v-if="reactiveData.result == 'success' ">

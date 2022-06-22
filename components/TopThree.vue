@@ -7,7 +7,7 @@
           :to="{name: `category-brand-brandname`, params: {category: `${brand.type}`, brandname: `${brand.key}`}}">
           <div class="brand">
             <div class="visual">
-              <img :src="`/assets/logos/${brand.key}.png`" />
+              <img :src="`/logos/${brand.key}.png`" />
             </div>
             <label for="brand-name">{{brand.name}}</label>
           </div>
@@ -15,7 +15,7 @@
         <NuxtLink v-else :to="{name: `category`, params: {category: `${brand.type}`}}">
           <div class="brand">
             <div class="visual">
-              <img :src="`/assets/logos/${brand.key}.png`" />
+              <img :src="`/logos/${brand.key}.png`" />
             </div>
             <label for="brand-name">{{brand.name}}</label>
           </div>
@@ -27,7 +27,7 @@
 
 <script>
 import { actions, state } from '../store/reactives.ts'
-import {_} from 'vue-underscore'
+import { _ } from 'vue-underscore'
 
 export default defineComponent({
   async setup(props) {

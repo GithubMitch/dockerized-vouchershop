@@ -9,7 +9,7 @@
       <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:$route.params.category} })"></i>
     </h1>
     <div class="description">
-      <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`/assets/logos/${product.brand}.png`" />
+      <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`/logos/${product.brand}.png`" />
       <pre>{{pickedproduct}}</pre>
     </div>
     <h3>€{{product.value / 100}}, -</h3>

@@ -58,7 +58,7 @@ async setup () {
     border: 1px solid #00000030;
     padding: 16px;
     border-radius:5px;
-    background-image: url("~/assets/speedCart.png");
+    background-image: url("/speedCart.png");
     background-repeat: no-repeat;
     background-size: 34%;
     background-position: 88% 56px;

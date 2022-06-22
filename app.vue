@@ -24,97 +24,42 @@ import {
 
 export default defineComponent({
   head() {
-    // console.log(this.$content.article)
-    // let title = this.getTitle();
     return {
       title: 'VoucherShop',
       link: [
         {
           rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
+          // href: "@/assets/iconfont/iconfont.css"
         }
       ]
     }
   },
   async setup () {
-      const setupAppReady = toRef(state, 'setupAppReady')
-      const stockProducts = toRef(state, 'stockProducts');
-      const brands = toRef(state, 'brands');
-      const activeSideMenu = toRef(state, 'activeSideMenu');
-      // const config = useRuntimeConfig().public
-      // let paymentOpts = await $fetch('http://hndxs.test.hand.local:8280/hndxs/v1/online/paymentmethods', { 
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': 'Basic ' + btoa(`${config.hand_auth_user}:${config.hand_auth_pw}`),
-      //     'posId': '50100004'
-      //   },
-      //   body: {
-      //     reference : "blablabla", // 
-      //     securityKey : `${config.hand_auth_key}`
-      //   }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      // });
-      // console.log(paymentOpts)
-      // actions.fetchProductList(),
-      // actions.fetchBrandList(),
-      // actions.fetchStockList(),
-      // onBeforeMount( async ()=>{
-        Promise.all([
-          actions.fetchProductList(),
-          actions.fetchBrandList(),
-          actions.fetchStockList(),
-          // actions.getPaymentOptions()
-
-        ]).then((promises) => {
-          // return lists
-          setupAppReady.value = true;
-          if (!process.server) {
-            console.log(promises, 'Resolved')
-            Promise.resolve(promises)
-
-          }
-        }).catch(error => {
-          console.log('vcshop 68',error)
-        })
-      // })
-      
-
-      // actions.fetchProductList()
-      // if (stockProducts.value.length == 0 && brands.value.length == 0) {
-      //   Promise.all([
-      //     // actions.fetchProductList(),
-      //     // actions.fetchBrandList(),
-      //     // actions.fetchStockList(),
-      //     // actions.getPaymentOptions()
-
-      //   ]).then((promises) => {
-      //     // return lists
-      //     setupAppReady.value = true;
-      //     if (!process.server) {
-      //       console.log(promises, 'Resolved')
-      //       Promise.resolve(promises)
-
-      //     }
-      //   }).catch(error => {
-      //     console.log('vcshop 68',error)
-      //   })
-      // }
+    const setupAppReady = toRef(state, 'setupAppReady')
+    const stockProducts = toRef(state, 'stockProducts');
+    const brands = toRef(state, 'brands');
+    const activeSideMenu = toRef(state, 'activeSideMenu');
     
+    if (stockProducts.value.length == 0 && brands.value.length == 0) {
+      Promise.all([
+        actions.fetchProductList(),
+        actions.fetchBrandList(),
+        actions.fetchStockList(),
+        // actions.getPaymentOptions()
+
+      ]).then((promises) => {
+        // return lists
+        setupAppReady.value = true;
+        if (!process.server) {
+          console.log(promises, 'Resolved')
+          Promise.resolve(promises)
+
+        }
+      }).catch(error => {
+        console.log('vcshop 68',error)
+      })
+    }
+  
     return {activeSideMenu}
   }
 })
@@ -199,17 +144,17 @@ export default defineComponent({
         color:#308ac3;
         transition: .3s ease color;
         text-transform: capitalize ;
-        &:hover {
-          // color:darkblue;
-        }
-        &:visited {
-          // color:#308ac3;
-        }
+        // &:hover {
+        //   // color:darkblue;
+        // }
+        // &:visited {
+        //   // color:#308ac3;
+        // }
       }
     }
-    &:last-child {
-      // border:none;
-    }
+    // &:last-child {
+    //   // border:none;
+    // }
   }
   body {
     padding: 0;
@@ -288,11 +233,11 @@ a {
             span.action {font-weight:700;}
             span.confirm {display:none;}
             span {font-size:.888em;}
-            img {
-              // display:inline-block;
-              // line-height:38px;
-              // vertical-align: middle;
-            }
+            // img {
+            //   // display:inline-block;
+            //   // line-height:38px;
+            //   // vertical-align: middle;
+            // }
           }
           .slide.add {
             display:none;
@@ -463,9 +408,9 @@ a {
       background: repeating-linear-gradient(45deg, #1684D9, #308AE9 100px);
       width:100%;
       opacity:1;
-      &:hover {
-        // opacity:.9;
-      }
+      // &:hover {
+      //   // opacity:.9;
+      // }
     }
     &:hover {
       background: linear-gradient(186deg,#28c430,#15734c);
@@ -559,11 +504,6 @@ a {
         ul {
           height:0;
           overflow:hidden;
-          li {
-            a {
-
-            }
-          }
           &.open {
             height:auto;
           }
@@ -701,8 +641,6 @@ a {
         li {
           width: 46%!important;
           max-width: 46%!important;
-          a {
-          }
         }
       }
     }
@@ -824,15 +762,6 @@ a {
     nav {
       width:100% !important;
       max-width:100% !important;
-      ul {
-        li {
-          // margin:auto !important;
-          // margin-bottom:1% !important;
-          a {
-            // margin:auto !important;
-          }
-        }
-      }
     }
   } 
 }

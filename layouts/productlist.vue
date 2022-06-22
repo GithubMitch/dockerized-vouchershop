@@ -11,23 +11,5 @@
 
   export default {
     layout: `productlist`,
-    head() {
-      return {
-        title: 'VoucherShop — ProductList',
-        link: [
-          {
-            rel: "stylesheet",
-            href: "/assets/iconfont/iconfont.css"
-          }
-        ],
-        meta: [
-          {
-            // hid: 'ABOUT-HID',
-            // name: `About page`,
-            // content: 'Website about page'
-          }
-        ]
-      }
-    },
   }
 </script>

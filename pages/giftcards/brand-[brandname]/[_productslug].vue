@@ -14,26 +14,7 @@ import { defineComponent, toRef, watch} from 'vue';
 
 export default defineComponent({
   layout: 'default',
-  head() {
-    return {
-      title: 'VoucherShop - Product-page',
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
-      meta: [
-        {
-          hid: 'ABOUT-HID',
-          name: `About page`,
-          content: 'Website about page'
-        }
-      ]
-    }
-  },
   async setup() {
-    const router = useRouter()
     const route = useRoute()
     const pickedProduct = toRef(state, 'productPage');
     const stockProducts = toRef(state, 'stockProducts');

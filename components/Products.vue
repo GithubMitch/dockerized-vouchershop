@@ -22,7 +22,7 @@
           />
         <a class="brandLine product" :disabled="!product.inStock" :class="{disabled : !product.inStock, instock: product.inStock}" 
           @click="addProducts($event, product), confirmMsg($event)">
-          <img :src="`/assets/logos/${product.brand}.png`" />
+          <img :src="`/logos/${product.brand}.png`" />
           <span class="price" for="">€ {{product.value / 100}}</span>
           <div class="slide">
             <span class="name">{{ product.key }}</span>
@@ -32,8 +32,6 @@
             <span class="action">Toevoegen +</span>
             <span class="confirm"> Toegevoegd </span>
             <i class="i simple-line-icons:check"></i>
-            
-            <!-- <img src="@/assets/cart.png" alt=""> -->
           </div>
         </a>
       </li>
@@ -71,16 +69,7 @@ export default defineComponent({
       default: ''
     }
   },
-  head() {
-    return {
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
-    }
-  },
+
   methods: {
     addProducts: async (e, x) => {
       console.log(e.target)

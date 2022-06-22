@@ -23,16 +23,6 @@ import { onBeforeRouteUpdate } from 'vue-router'
   import {_} from 'vue-underscore';
 
   export default defineComponent({
-    head() {
-      return {
-        link: [
-          {
-            rel: "stylesheet",
-            href: "/assets/iconfont/iconfont.css"
-          }
-        ],
-      }
-    },
     methods: {
       addProducts: async (e, x) => {
         console.log(e.target)

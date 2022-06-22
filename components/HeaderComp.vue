@@ -3,7 +3,7 @@
     <section>
       <ClientOnly>
         <NuxtLink to="/" id="Logo">
-            <img src="@/assets/voucher_shop.jpg" alt="Vouchershop.nl"/>
+            <img src="/voucher_shop.jpg" alt="Vouchershop.nl"/>
         </NuxtLink>
       </ClientOnly>
       <div id="HeaderContent">
@@ -490,7 +490,7 @@ export default defineComponent({
       display: flex;
       justify-content: flex-end;
       #Cart{
-        background: #ddd url('./assets/cart.png') no-repeat left;
+        background: #ddd url('/cart.png') no-repeat left;
         background-position: top 4px left 5px;
         background-size: 24px;
         text-align: center;
@@ -510,7 +510,7 @@ export default defineComponent({
 
         &.filled{
           border: 2.5px solid #ffa502;
-          background: #FFF url('./assets/cart_hl.png') no-repeat left;
+          background: #FFF url('/cart_hl.png') no-repeat left;
           background-position: top 4px left 5px;
           background-size: 24px;
           &.pulse {

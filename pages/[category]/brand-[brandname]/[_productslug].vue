@@ -10,24 +10,6 @@ import { defineComponent, toRef, watch} from 'vue';
 
 export default defineComponent({
   layout: 'default',
-  head() {
-    return {
-      title: 'VoucherShop - Product-page',
-      link: [
-        {
-          rel: "stylesheet",
-          href: "/assets/iconfont/iconfont.css"
-        }
-      ],
-      meta: [
-        {
-          hid: 'ABOUT-HID',
-          name: `About page`,
-          content: 'Website about page'
-        }
-      ]
-    }
-  },
   async setup(props) {
     const setupAppReady = toRef(state, 'setupAppReady')
     /// SETUP ROUTING HERE FOR NAVIGATION

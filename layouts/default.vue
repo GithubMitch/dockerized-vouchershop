@@ -8,26 +8,6 @@
 
   export default {
     layout: `default`,
-    head() {
-      // console.log(this.$content.article)
-      // let title = this.getTitle();
-      return {
-        title: 'VoucherShop',
-        link: [
-          {
-            rel: "stylesheet",
-            href: "/assets/iconfont/iconfont.css"
-          }
-        ],
-        meta: [
-          {
-            // hid: 'ABOUT-HID',
-            // name: `About page`,
-            // content: 'Website about page'
-          }
-        ]
-      }
-    },
   }
 // export default {
 //   setup () {

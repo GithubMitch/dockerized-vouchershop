@@ -21,16 +21,6 @@ import { onBeforeRouteUpdate } from 'vue-router'
   import {_} from 'vue-underscore';
 
   export default defineNuxtComponent({
-    head() {
-      return {
-        link: [
-          {
-            rel: "stylesheet",
-            href: "/assets/iconfont/iconfont.css"
-          }
-        ],
-      }
-    },
     methods: {
       addProducts: async (e, x) => {
         // e.preventDefault()
