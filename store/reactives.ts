@@ -2,6 +2,7 @@ import { ref, Ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
 const state = reactive ({
+
   // False = app still fetching stock
   setupAppReady : ref(false),
 
@@ -105,6 +106,7 @@ const actions = {
 
   // --------------------------------------------SETTERS------------------------------------------------------
   setSelectedBrand(brand)  {
+    console.log({brand})
     if (!brand.key) {
       actions.getOperatorCodeWithBrand(brand)
       methods.filterBrand(brand)

@@ -20,8 +20,9 @@
           <span v-if="item.label === 'beltegoed'" class="title" >Brands <i @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i></span>
           <ul style="display:block;" v-if="item.label === 'beltegoed'">
             <li v-for="brand in brands" v-bind:key="brand.key">
-              <NuxtLink :to="{name: `category-brand-brandname` , params: {  category: $route.params.category !== undefined ? $route.params.category : 'ja', brandname: brand.key }}"
-                @click="setGroup(`${brand.key}`)"
+              <NuxtLink :to="{name: `category-brand-brandname` , params: {  category: $route.params.category !== undefined ? $route.params.category : 'beltegoed', brandname: brand.key }}"
+                @click="setGroup(`beltegoed`), setBrand(brand)"
+                
                 exact>
                 {{brand.name}}
               </NuxtLink>
@@ -57,10 +58,10 @@ export default defineComponent({
     const route = useRoute()
     const open = ref(false)
     const navLinks = ref([
-      {
-        label: 'home',
-        url:'/'
-      },
+      // {
+      //   label: 'home',
+      //   url:'/'
+      // },
       {
         label: 'beltegoed',
         url:'/beltegoed',
@@ -184,11 +185,13 @@ export default defineComponent({
     }
 
     const setBrand = async (brand)  => {
+      console.log(brand)
       await actions.setSelectedBrand(brand)
     }
     const setGroup = async (group)  => {
       // await actions.setGroup(group)
-    }
+    }    
+
 
 
     activeItem.value = toRaw(navLinks.value).find(element => element.label == route.params.category)
