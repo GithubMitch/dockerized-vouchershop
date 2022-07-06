@@ -4,7 +4,7 @@
       {{$route.params.category}} > 
       {{$route.params.group}}
     </h1> 
-    <span>Select your product(s)</span>
+    <!-- <span>Select your product(s)</span> -->
     <Products :products="filteredProductList ? filteredProductList : stockProducts" :brand="brand" :group="group" :actionLabel="actionLabel" />
   </div>
 </template>

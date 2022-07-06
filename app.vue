@@ -649,6 +649,10 @@ a {
       }
     }
   }
+  #Slider.fadein .slide {
+    font-size:1.5rem !important;
+    box-sizing:border-box;
+  }
 }
 
 // /* Small devices (portrait tablets and large phones, 600px and up) */

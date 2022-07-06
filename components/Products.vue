@@ -1,10 +1,14 @@
 
 <template>
+
   <div v-if="!setupAppReady">
     <ProgressBar/>
   </div>
+  <div v-else-if="setupAppReady && products.length == 0">
+    Nothing Found 
+  </div>
   <div v-else>
-    <span>Maak een keuze</span>
+    <span>Selecteer uw product(en)</span>, of klik op het info icoon <i class="i simple-line-icons:info"></i>.
     <transition-group tag="ul" name="card"
       @before-enter="beforeEnter"
       @enter="enter" appear

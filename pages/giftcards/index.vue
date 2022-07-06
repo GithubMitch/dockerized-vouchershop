@@ -4,7 +4,7 @@
       <ClientOnly>
         <h1 class="pagetitle">{{$route.params.category}}</h1>
         <div>
-          <span>Select your product</span>
+          <!-- <span>Select your product</span> -->
           <Products :categoryClass="'giftcards'" :products="stockProducts"/>
         </div>
       </ClientOnly>
