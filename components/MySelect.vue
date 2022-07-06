@@ -88,7 +88,7 @@
     methods: {
       selectOption(index, selected) {
         let allRefs = this.$refs
-        console.log('allRefs', allRefs[index])
+        // console.log('allRefs', allRefs[index])
         let opt = this.$refs[index];
         for (const key in allRefs) {
           if (allRefs.hasOwnProperty.call(allRefs, key)) {

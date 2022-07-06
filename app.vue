@@ -719,9 +719,11 @@ a {
       }
     }
 
-    // #contactDelivery {
-    //   flex-wrap:column;
-    // }
+    #ContactDelivery {
+      h1 {
+        padding-left:.75em;
+      }
+    }
     #Payment {
       padding-right:1em;
     }
