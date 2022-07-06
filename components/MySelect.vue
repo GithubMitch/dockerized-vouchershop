@@ -12,7 +12,7 @@
     <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
       <div class="option selected">
           <div class="visual">
-            <img :src="`/logos/${optionType}${ !select.pmname && !options[0].pmname ? select.pmsubName.replace(/ /g, '_') : !select.pmname && !options[0].pmsubName ? options[0].pmname : select.pmname}.png`" />
+            <img :src="`/logos/${optionType}${ !select.pmname && !options[0].pmname ? select.pmsubName.replace(/ /g, '_').toLowerCase() : !select.pmname && !options[0].pmsubName ? options[0].pmname : select.pmname}.png`" />
           </div>
           <div class="info"><strong>{{ select.pmname || select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div>
       </div>
@@ -36,7 +36,7 @@
           ">
 
           <div class="option selected">
-              <div class="visual"><img :src="`/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_')}.png`" /></div>
+              <div class="visual"><img :src="`/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_').toLowerCase()}.png`" /></div>
               <div class="info"><strong>{{ option.pmname || option.pmsubName }}</strong><em class="desc">{{ option.desc }}</em></div>
           </div>
       </li>
