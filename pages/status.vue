@@ -61,7 +61,7 @@
 import {defineComponent,toRef,onMounted, watch} from 'vue';
 import { state, actions } from '../store/reactives';
 import CryptoJS from "crypto-js";
-import { _ } from "vue-underscore";
+import {_} from "vue-underscore";
 import { useIntervalFn } from '@vueuse/core';
 
 

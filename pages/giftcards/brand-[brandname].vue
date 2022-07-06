@@ -3,8 +3,6 @@
 </template>
 
 <script lang="ts">
-import {_} from 'vue-underscore';
-
 import { state, actions } from '../../store/reactives';
 import {defineComponent, toRef, watch} from 'vue';
 

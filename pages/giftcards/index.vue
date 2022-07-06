@@ -18,7 +18,6 @@ import { onBeforeRouteUpdate } from 'vue-router'
   import gsap from "gsap";
   import { state, actions, methods } from '../../store/reactives'
   import { ref, toRef } from 'vue'
-  import {_} from 'vue-underscore';
 
   export default defineNuxtComponent({
     methods: {

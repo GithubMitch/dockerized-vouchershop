@@ -237,15 +237,12 @@
 	</NuxtLayout>
 </template>
 
-<script setup>
-</script>
-
 <script lang="ts">
 import MySelect from "../components/MySelect.vue";
 import { state, actions } from "../store/reactives";
 import {reactive,onMounted,toRef,ref} from "vue";
 import CryptoJS from "crypto-js";
-import { _ } from "vue-underscore";
+import {_} from "vue-underscore";
 
 export default defineComponent({
 	layout: false,

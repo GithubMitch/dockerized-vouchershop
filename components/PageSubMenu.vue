@@ -24,7 +24,6 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
-import {_} from 'vue-underscore';
 import { state , actions } from '../store/reactives';
 
 export default defineComponent({

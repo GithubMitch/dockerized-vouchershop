@@ -12,13 +12,10 @@
 </template>
 
 <script lang="ts">
-
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import {state , actions} from './store/reactives'
 import {
   defineComponent,
   toRef,
-  onMounted
   } from 'vue';
 
 

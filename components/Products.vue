@@ -1,6 +1,5 @@
 
 <template>
-
   <div v-if="!setupAppReady">
     <ProgressBar/>
   </div>
@@ -47,9 +46,6 @@
 import gsap from "gsap";
 import { state, actions } from '../store/reactives'
 import { defineComponent, ref, toRef } from 'vue'
-import {_} from 'vue-underscore';
-import { useIntervalFn } from '@vueuse/core';
-
 
 export default defineComponent({
   props: {

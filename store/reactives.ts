@@ -1,8 +1,7 @@
-import { ref, Ref, reactive, toRaw } from 'vue';
+import { ref, reactive, toRaw } from 'vue';
 import {_} from 'vue-underscore';
 
 const state = reactive ({
-
   // False = app still fetching stock
   setupAppReady : ref(false),
 
@@ -355,28 +354,19 @@ const methods = {
   },
 }
 
-  // * * * * * * * * * * * * ///
- // * * * *   TODO   * * * * ///
+//   * * * * * * * * * * * * ///
+//  * * * *   TODO   * * * * ///
 // * * * * ///* * * * * * * ///
 // RESPONSIVE DESIGN 
-//0 ****. CHECK SIDEMENU , CLICK ON LINKS > ROUTE TO CORRECT VIEWS / PARAMS ETC 
-
-//1. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
-//2. terug knop fixed maken scrolldown
-//3. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
-//4. Check empty lists , display msg nothing found or no products atm.
-
+// 1. CHECK ALL OUTGOING PARAMS  ( REMOVE DEFAULT VALUES LIKE MY OWN MAIL )
+// 3. GroupFilters for all categorys except beltegoed has brands ( if statement or categorie component render)
 // CHOICES
 // CHECK NOT IN STOCK BUTTON (adding product while not in stock) - disable button - needs safeguarding *?
-//1. Style GiftCards ? add-products (animation)
-//3 ** Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
-
-
+// 1. Style GiftCards ? add-products (animation)
+// 3 ** Maybe take instructions and put into brand/operator/list - array :: IF instructions are based on brand only & not specific products
 // *** SEO OPTIMIZATION 
-  // SET SEO TAGS
-  // CORRECT PAGETITLES 
-  // CHECK LAYOUTS
-
-// 
+//   SET SEO TAGS
+//   CORRECT PAGETITLES 
+//   CHECK LAYOUTS
 
 export  {state, actions, methods }

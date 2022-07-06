@@ -20,7 +20,6 @@ import { onBeforeRouteUpdate } from 'vue-router'
   import gsap from "gsap";
   import { state, actions } from '../../store/reactives'
   import { defineComponent, ref, toRef } from 'vue'
-  import {_} from 'vue-underscore';
 
   export default defineComponent({
     methods: {

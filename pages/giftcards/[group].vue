@@ -3,13 +3,10 @@
 </template>
 
 <script lang="ts">
-  import {_} from 'vue-underscore';
-
   import { state, actions } from '../../store/reactives';
   import {
     defineComponent,
     toRef,
-    onMounted,
     watch
   } from 'vue';
 
