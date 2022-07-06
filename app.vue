@@ -708,6 +708,10 @@ a {
   #hamburger,
   #mobileHamburger {top:35px;}
 
+  #ProductSelection {
+    padding: 0 1em;
+  }
+
   form#checkoutForm {
     flex-direction: column;
     .formControl {
