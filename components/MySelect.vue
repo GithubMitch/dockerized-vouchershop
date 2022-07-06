@@ -11,7 +11,10 @@
   
     <div class="select-styled"  :class="{active:isActive}" @click="toggleActive($event);">
       <div class="option selected">
-          <div class="visual"><img :src="`/logos/${optionType}${ !select.pmname && !options[0].pmname ? options[0].pmsubName.replace(/ /g, '_').toLowerCase() : !select.pmname && !options[0].pmsubName ? options[0].pmname.toLowerCase() : select.pmname.toLowerCase()}.png`" /></div>
+          <div class="visual">
+            <img :src="`/logos/${optionType}${ !select.pmname && !options[0].pmname ? select.pmsubName.replace(/ /g, '_') : !select.pmname && !options[0].pmsubName ? options[0].pmname : select.pmname}.png`" />
+            <!-- <img v-else  :src="`/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_')}.png`" /> -->
+          </div>
           <div class="info"><strong>{{ select.pmname || select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div>
       </div>
     </div>
@@ -34,7 +37,7 @@
           ">
 
           <div class="option selected">
-              <div class="visual"><img :src="`/logos/${optionType}${option.pmname.toLowerCase() || option.pmsubName.replace(/ /g, '_').toLowerCase()}.png`" /></div>
+              <div class="visual"><img :src="`/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_')}.png`" /></div>
               <div class="info"><strong>{{ option.pmname || option.pmsubName }}</strong><em class="desc">{{ option.desc }}</em></div>
           </div>
       </li>
@@ -74,11 +77,11 @@
     emits: {
       'selectChange' (payload) {
         if (payload) {
-          console.log("selectChange : Valid Payload", payload)
+          // console.log("selectChange : Valid Payload", payload)
           return true
         } else {
-          console.error('selectChange: Not a valid payload')
-          console.log('Payload : (empty)')
+          // console.error('selectChange: Not a valid payload')
+          // console.log('Payload : (empty)')
           return false 
         }
       },
@@ -86,14 +89,17 @@
     methods: {
       selectOption(index, selected) {
         let allRefs = this.$refs
+        console.log('allRefs', allRefs[index])
         let opt = this.$refs[index];
+        console.log(opt)
         for (const key in allRefs) {
           if (allRefs.hasOwnProperty.call(allRefs, key)) {
             const element = allRefs[key];
-            element.removeAttribute("selected")
+            element[0].removeAttribute("selected")
+            console.log('ELEMENT', element[0])
           }
         }
-        opt.setAttribute("selected", "selected");
+        opt[0].setAttribute("selected", "selected");
       },
 
     },
@@ -110,10 +116,10 @@
       }
       watch([select], (newValues, prevValues) => {
         console.log("OPEN & SELECTED=",prevValues, newValues)
-        // emit("selectChange", select.value)
+        emit("selectChange", select.value)
       })
       // STANDARD EMIT  () => SELECT FIRST OPTION
-      emit("selectChange", select.value)
+      // emit("selectChange", select)
 
       return {
         select, 

@@ -709,6 +709,18 @@ a {
   #Links {display:none;}
   #hamburger,
   #mobileHamburger {top:35px;}
+
+  form#checkoutForm {
+    .formControl label {
+      margin-right:0;
+    }
+    // #contactDelivery {
+    //   flex-wrap:column;
+    // }
+    #Payment {
+      padding-right:1em;
+    }
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */

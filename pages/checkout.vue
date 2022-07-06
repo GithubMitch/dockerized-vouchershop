@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-			<form :style="inputFormStyle" autocomplete="on" @submit.prevent="submit">
+			<form id="checkoutForm" :style="inputFormStyle" autocomplete="on" @submit.prevent="submit">
 				<div id="ContactDelivery">
 					<h1>Contactgegevens
             <span class="edit" v-if="preFilled & !editMode" @click="editMode = true">aanpassen</span>
@@ -131,7 +131,7 @@
 						<label> Kies betaalmethode </label>
 						<span class="input">
 
-								<MySelect v-if="setupAppReady"
+								<MySelect v-if="setupAppReady && paymentOptions.length != 0"
 									ref="mySelect"
 									:default="paymentOptions"
 									:tabindex="0"
@@ -139,7 +139,6 @@
 									:components="{ Deselect: null }"
 									:options="getPaymentOptions ? paymentOptions : paymentOptions"
 									:searchable="false"
-									:placeholder="'Maak een keuze'"
 									:disabled="loading"
 									:elementIndex="0"
 									@selectChange="setPaymethod"
@@ -159,37 +158,38 @@
 						</span>
 					</div>
 
-					<div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
-						{{selectedPaymethod.subSelect}}
-						<span	class="input" v-if="selectedPaymethod.pmsublist != undefined && selectedPaymethod.pmsublist.length > 0">
-							<label>Kies bank</label> 
-							<MySelect
-								id="SubSelector"
-								:default="subSelection"
-								:tabindex="1"
-								v-model="selectedSubPaymethod"
-								:components="{ Deselect: null }"
-								:options="subSelection"
-								:elementIndex="0"
-								:searchable="false"
-								:placeholder="'Kies een bank'"
-								disabled="loading"
-								:optionType="`banks/`"
-								@selectChange="setSubPaymethod"
-								:class="[{ static: preFilled && !editMode },{ errored: errors.subpaymethod.length > 0 },]"
-                >
-							</MySelect>
-                <span class="indicator" v-if="validated.subpaymethod == true">
-                  <img src="/ok.svg" />
-                </span>
-                <span class="indicator" v-else-if="errors.subpaymethod.length > 0">
-                  <img src="/warn.svg"/>
-                </span>
-                <div class="error" v-if="errors.subpaymethod.length > 0">
-                  {{ errors.subpaymethod[0] }}
-                </div>
-						</span>
-					</div>
+					<ClientOnly v-if="setupAppReady">
+						<div class="formControl" id="SubSelect" v-if="selectedPaymethod != null">
+							{{selectedPaymethod.subSelect}}
+							<span	class="input" v-if="selectedPaymethod.pmsublist != undefined && selectedPaymethod.pmsublist.length > 0">
+								<label>Kies bank</label> 
+								<MySelect
+									id="SubSelector"
+									:default="subSelection"
+									:tabindex="1"
+									v-model="selectedSubPaymethod"
+									:components="{ Deselect: null }"
+									:options="subSelection"
+									:elementIndex="0"
+									:searchable="false"
+									disabled="loading"
+									:optionType="`banks/`"
+									@selectChange="setSubPaymethod"
+									:class="[{ static: preFilled && !editMode },{ errored: errors.subpaymethod.length > 0 },]"
+									>
+								</MySelect>
+									<span class="indicator" v-if="validated.subpaymethod == true">
+										<img src="/ok.svg" />
+									</span>
+									<span class="indicator" v-else-if="errors.subpaymethod.length > 0">
+										<img src="/warn.svg"/>
+									</span>
+									<div class="error" v-if="errors.subpaymethod.length > 0">
+										{{ errors.subpaymethod[0] }}
+									</div>
+							</span>
+						</div>
+					</ClientOnly>
 
 					<div class="formControl">
 						<label for="" class="terms">
@@ -226,13 +226,10 @@
 						</span>
 					</div>
 				</div>
+				<div style="display:none">
+					{{validated}}
+				</div>
 			</form>
-        <div :style="`display:block;`">
-          <pre>
-						{{selectedSubPaymethod}}
-            {{validated}}
-          </pre> 
-        </div>
 		</template>
 	</NuxtLayout>
 </template>
@@ -321,16 +318,16 @@ export default defineComponent({
 
 		const setPaymethod = (option) => {
 			console.log('setPaymethod',option)
-			let opt = option ? option : option.option;
+			let opt = option.option ? option.option : option;
 			opt.pmsublist ? (subSelection.value = opt.pmsublist) : null;
-			console.log("setPaymethod - Subselection", subSelection.value);
+			// console.log("setPaymethod - Subselection", subSelection.value);
 			selectedPaymethod.value = option;
       checkPaymethods(option);
 		}
 		const setSubPaymethod = (option) => {
       let opt = option ? option : option.option;
 			selectedSubPaymethod.value = option;
-			console.log('setSubPaymethod - Subselection', option, selectedSubPaymethod.value);
+			// console.log('setSubPaymethod - Subselection', option, selectedSubPaymethod.value);
       checkPaymethods(option);
 		}
 
@@ -372,8 +369,8 @@ export default defineComponent({
     const checkPaymethods = (option) => {
       // validate
       console.log('checkPaymethods...');
-      console.log(selectedPaymethod.value);
-      console.log(selectedSubPaymethod.value);
+      // console.log(selectedPaymethod.value);
+      // console.log(selectedSubPaymethod.value);
 
       if(option.subSelect == undefined) {
 				errors.subpaymethod = []; // reset
@@ -843,13 +840,13 @@ export default defineComponent({
 		position:absolute;
 	}
 
-	form {
+	form#checkoutForm {
 		display: flex;
 		max-width: 900px;
 		margin: 2em auto;
 		justify-content: space-between;
-		flex-direction: column;
 		transition: opacity 0.84s ease-in-out;
+
 
 		h1 {
 			font-size: 22px;
@@ -858,6 +855,7 @@ export default defineComponent({
 	#ContactDelivery {
 		text-align: left;
 		flex: 1 1 50%;
+		min-width:430px;
 	}
 
 	#ProductSelection {

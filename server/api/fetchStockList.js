@@ -3,8 +3,10 @@ const config = useRuntimeConfig()
 let environment = process.env.NODE_ENV;
 let $endpoint = environment == 'development' ? 'http://hndxs.test.hand.local:8280/hndxs/' : 'http://www.handdev.nl:8280/hndxs/';
 
-console.log('ENVIRONMENT =', process.env.NODE_ENV)
-console.log('$ENDPOINTS =', $endpoint)
+if (environment !== 'development') {
+  console.log('ENVIRONMENT =', process.env.NODE_ENV)
+  console.log('$ENDPOINTS =', $endpoint)
+}
 
 export default defineEventHandler(async(event) => {
 
