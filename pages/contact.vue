@@ -330,12 +330,33 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 #content h1 {text-align:center;}
+form {
+  display:block;
+}
 .formControl{
-  display: flex;
-  justify-content: space-between;
+
   margin: 1em auto;
   max-width: 515px;
+  max-width: 478px;
   // background: #DDD;
+
+  &:last-child {
+    display:block;
+    > label {
+      display:none;
+    }
+    > span.input {
+      display:block;
+      margin:0;
+      button#Submit {
+        left:0;
+        margin: 0;
+        max-width: 100%;
+        min-width: 100%;
+        margin-right:2em;
+      }
+    }
+  }
 
   &.done{
     text-align: center;
@@ -350,7 +371,7 @@ export default defineComponent({
     display: inline-block;
     vertical-align: top;
     min-width: 100px;
-    text-align: right;
+    text-align: left;
     margin-right: 2em;
     margin-bottom: 0.3em;
     flex: 1 1 10%;
@@ -363,6 +384,7 @@ export default defineComponent({
     vertical-align: top;
     flex: 1 1 90%;
     position: relative;
+    display:flex;
 
   }
 
@@ -484,6 +506,7 @@ export default defineComponent({
   font-weight: bold;
 }
 .indicator{
+  min-width:25px;
   margin-left: 0.5em;
   opacity: 0.7;
   img{

@@ -21,9 +21,7 @@
           <ul style="display:block;" v-if="item.label === 'beltegoed'">
             <li v-for="brand in brands" v-bind:key="brand.key">
               <NuxtLink :to="{name: `category-brand-brandname` , params: {  category: $route.params.category !== undefined ? $route.params.category : 'beltegoed', brandname: brand.key }}"
-                @click="setGroup(`beltegoed`), setBrand(brand)"
-                
-                exact>
+                @click="setGroup(`beltegoed`), setBrand(brand)" exact>
                 {{brand.name}}
               </NuxtLink>
             </li>

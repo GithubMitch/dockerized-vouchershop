@@ -851,6 +851,7 @@ export default defineComponent({
 		max-width: 900px;
 		margin: 2em auto;
 		justify-content: space-between;
+		flex-direction: column;
 		transition: opacity 0.84s ease-in-out;
 
 		h1 {

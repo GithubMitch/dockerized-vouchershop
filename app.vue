@@ -620,7 +620,35 @@ a {
   .inner.sales {
     padding:0 1em;
   }
-
+  #Contact {
+    form {
+      padding:1em;
+      max-width:320px;
+      .formControl {
+        // flex-direction: column;
+        flex-wrap: wrap;
+        span.input {
+          // display:flex;
+          // flex:auto;
+          button#Submit {
+            min-width:280px;
+            max-width:320px;
+            width:100%;
+          }
+        }
+        span.chars {
+          left:200px;
+          right:auto;
+        }
+        textarea {
+          box-sizing:border-box;
+          min-width:280px;
+          max-width:320px;
+          width:100%;
+        }
+      }
+    }
+  }
 }
 
 // /* Small devices (portrait tablets and large phones, 600px and up) */
