@@ -14,8 +14,8 @@
     <template #content>
       <div class="inner sales" >
         <ClientOnly>
-          <!-- <RecentOrders :class="{fadein: setupAppReady}"/>
-          <TopThree :class="{fadein: setupAppReady}"/> -->
+          <RecentOrders :class="{fadein: setupAppReady}"/>
+          <TopThree :class="{fadein: setupAppReady}"/>
         </ClientOnly>
         </div>
     </template>

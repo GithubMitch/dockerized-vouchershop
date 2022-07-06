@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { _ } from "vue-underscore";
 import CryptoJS from "crypto-js";
 import { state, actions } from '../store/reactives'
 

@@ -27,7 +27,6 @@
 
 <script>
 import { actions, state } from '../store/reactives.ts'
-import { _ } from 'vue-underscore'
 
 export default defineComponent({
   async setup(props) {
