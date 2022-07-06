@@ -13,7 +13,6 @@
       <div class="option selected">
           <div class="visual">
             <img :src="`/logos/${optionType}${ !select.pmname && !options[0].pmname ? select.pmsubName.replace(/ /g, '_') : !select.pmname && !options[0].pmsubName ? options[0].pmname : select.pmname}.png`" />
-            <!-- <img v-else  :src="`/logos/${optionType}${option.pmname || option.pmsubName.replace(/ /g, '_')}.png`" /> -->
           </div>
           <div class="info"><strong>{{ select.pmname || select.pmsubName }}</strong><em class="desc">{{ !select.pmname ? options[0].desc : select.desc }}</em></div>
       </div>
@@ -91,17 +90,14 @@
         let allRefs = this.$refs
         console.log('allRefs', allRefs[index])
         let opt = this.$refs[index];
-        console.log(opt)
         for (const key in allRefs) {
           if (allRefs.hasOwnProperty.call(allRefs, key)) {
             const element = allRefs[key];
             element[0].removeAttribute("selected")
-            console.log('ELEMENT', element[0])
           }
         }
         opt[0].setAttribute("selected", "selected");
       },
-
     },
     async setup(props, {emit}) {
       const options = ref(toRaw(props.options))

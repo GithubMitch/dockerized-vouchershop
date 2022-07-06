@@ -8,7 +8,6 @@
     </div>
     <SideMenu  :class="{open: activeSideMenu}"/>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -17,7 +16,6 @@ import {
   defineComponent,
   toRef,
   } from 'vue';
-
 
 export default defineComponent({
   head() {
@@ -711,9 +709,16 @@ a {
   #mobileHamburger {top:35px;}
 
   form#checkoutForm {
-    .formControl label {
-      margin-right:0;
+    flex-direction: column;
+    .formControl {
+      label {
+        margin-right:0;
+      }
+      .select {
+        // width:100%;
+      }
     }
+
     // #contactDelivery {
     //   flex-wrap:column;
     // }
