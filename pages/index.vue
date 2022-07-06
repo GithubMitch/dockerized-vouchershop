@@ -13,9 +13,9 @@
     </template>
     <template #content>
       <div class="inner sales" >
-        <ClientOnly>
-          <!-- <RecentOrders :class="{fadein: setupAppReady}"/>
-          <TopThree :class="{fadein: setupAppReady}"/> -->
+        <ClientOnly v-if="setupAppReady">
+          <RecentOrders :class="{fadein: setupAppReady}"/>
+          <TopThree :class="{fadein: setupAppReady}"/>
         </ClientOnly>
         </div>
     </template>
@@ -28,11 +28,11 @@ export default defineComponent({
   layout: "home",
   name: "home",
   async setup() {
-    useMeta({
-        title: "Home",
-        meta: [
-            { name: "Home", content: "width=device-width, initial-scale=1, maximum-scale=1" }
-        ]
+    useHead({
+      title: "Home",
+      meta: [
+          { name: "Home", content: "width=device-width, initial-scale=1, maximum-scale=1" }
+      ]
     });
     const setupAppReady = toRef(state, 'setupAppReady')
     return {setupAppReady};
