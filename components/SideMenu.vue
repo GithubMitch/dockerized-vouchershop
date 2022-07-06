@@ -9,24 +9,30 @@
             @click="item === activeItem ? activeItem = item : activeItem = activeItem" exact>
               {{item.label}} 
           </NuxtLink>
-          <i v-if="item.subItems" @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i>
-          <ul v-if="item.subItems">
-            <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
-              <NuxtLink :to="{ name: 'giftcards', params: { category: 'giftcards' } , replace: false }">
-                {{subItem.label}}
-              </NuxtLink>
-            </li>
-          </ul>
+            <i v-if="item.subItems" @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i>
+            <ul v-if="item.subItems">
+              <li v-for="subItem in item.subItems" v-bind:key="subItem.url">
+                <NuxtLink v-if="item.label !== 'giftcards'" :to="{name: `category-group` , params: { category: item.label !== 'giftcards' ? item.label : 'giftcards' , group: subItem.url} , replace: true}"
+                    @click="setGroup(`${item.label}`)" exact>
+                    {{subItem.label}}
+                </NuxtLink>
+                <NuxtLink v-else :to="{name: `giftcards-group` , params: { category: item.label !== 'giftcards' ? item.label : 'giftcards' , group: subItem.url} , replace: true}"
+                    @click="setGroup(`${item.label}`)" exact>
+                    {{subItem.label}}
+                </NuxtLink>
+              </li>
+            </ul>
           <span v-if="item.label === 'beltegoed'" class="title" >Brands <i @click="dropDownSubMenu($event)" class="i simple-line-icons:arrow-down"></i></span>
           <ul style="display:block;" v-if="item.label === 'beltegoed'">
             <li v-for="brand in brands" v-bind:key="brand.key">
-              <NuxtLink :to="{name: `category-brand-brandname` , params: {  category: $route.params.category !== undefined ? $route.params.category : 'beltegoed', brandname: brand.key }}"
+              <NuxtLink :to="{name: `category-brand-brandname` , params: {  category: 'beltegoed', brandname: brand.key }}"
                 @click="setGroup(`beltegoed`), setBrand(brand)" exact>
                 {{brand.name}}
               </NuxtLink>
             </li>
           </ul>
         </li>
+
         <li>
           <NuxtLink  class="category" to="/about">Over VoucherShop</NuxtLink>
         </li>  
@@ -66,15 +72,15 @@ export default defineComponent({
         subItems: ref([
           {          
             label: 'bellen',
-            url:'/bellen',
+            url:'bellen',
           },
           {          
             label: 'data',
-            url:'/data'
+            url:'data'
           },
           {          
             label: 'bundels',
-            url:'/bundels'
+            url:'bundels'
           },
         ])
       },
@@ -84,11 +90,11 @@ export default defineComponent({
         subItems: [
           {          
             label: 'console',
-            url:'/console'
+            url:'console'
           },
           {          
             label: 'PC',
-            url:'/pc'
+            url:'pc'
           }
         ]
       },
@@ -98,19 +104,19 @@ export default defineComponent({
         subItems: [
           {          
             label: 'Paysafe',
-            url:'/paysafe'
+            url:'paysafe'
           },
           {          
             label: 'Apple Itunes',
-            url:'/appleitunes'
+            url:'appleitunes'
           },
           {          
             label: 'Google Play',
-            url:'/googleplay'
+            url:'googleplay'
           },
           {          
             label: 'Tony'+`'s`,
-            url:'/tonys'
+            url:'tonys'
           },
         ]
       },
@@ -120,19 +126,19 @@ export default defineComponent({
         subItems: [
           {          
             label: 'hem',
-            url:'/hem'
+            url:'hem'
           },
           {          
             label: 'haar',
-            url:'/haar'
+            url:'haar'
           },
           {          
             label: 'kids',
-            url:'/kids'
+            url:'kids'
           },
           {          
             label: 'elkaar',
-            url:'/elkaar'
+            url:'elkaar'
           },
         ]
       },
@@ -142,19 +148,19 @@ export default defineComponent({
         subItems: [
           {          
             label: 'Erop Uit',
-            url:'/eropuit'
+            url:'eropuit'
           },
           {          
             label: 'Home Voordeel',
-            url:'/homevoordeel'
+            url:'homevoordeel'
           },
           {          
             label: 'Gezond & Fit',
-            url:'/gezondfit'
+            url:'gezondfit'
           },
           {          
             label: 'Smaakvoordeel',
-            url:'/smaakvoordeel'
+            url:'smaakvoordeel'
           },
         ]
       },
