@@ -5,6 +5,13 @@ import { defineNuxtConfig } from 'nuxt'
     // "@vueuse/core": "^7.7.0",
 
 export default defineNuxtConfig({
+  router: {
+    extendRoutes (routes) {
+      for (let key in routes) {
+        routes[key]['caseSensitive'] = true
+      }
+    }
+  },
   css: ["~/assets/iconfont/iconfont.css"],
   // env: {
   //   baseUrl: process.env.BASE_URL || 'http://localhost'+process.env.PORT,

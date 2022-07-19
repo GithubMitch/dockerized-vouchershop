@@ -32,7 +32,7 @@ export default defineComponent({
       }
     )
     onBeforeMount(() => {
-      router.push({ params: { category: 'giftcards' } })
+      // router.push({ params: { category: 'giftcards' } })
     })
     return{ stockProducts};
   }

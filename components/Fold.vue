@@ -1,6 +1,5 @@
 <template>
   <div v-if="$props.productPage" class="fold">
-           
     <NuxtLink :to="$props.productPage" @click="setProductPage($props.product)" id="productPageprop" >
       <svg class="foldHolder" :height="height" :width="width">
         <polygon :points="'0,0 '+ height+ ',0 '+ width + ',' + width"  
@@ -57,10 +56,9 @@
 </template>
 
 <script lang="ts">
-  import { state, actions } from '../store/reactives';
+  import { actions } from '../store/reactives';
   import {
     defineComponent,
-    toRef,
     onMounted
     } from 'vue';
 

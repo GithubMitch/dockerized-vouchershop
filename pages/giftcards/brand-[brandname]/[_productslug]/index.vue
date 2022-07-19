@@ -6,7 +6,9 @@
   <div v-else>
     <h1>
       {{product.name}}
-      <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:$route.params.category} })"></i>
+      <!-- <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `category-brand-brandname`, params: {category:$route.params.category , brandname: $route.params. brandname } })"></i> -->
+
+      <i class="i simple-line-icons:close" @click="setBrand(product.brand), $router.push({ name: `giftcards`, params: {category:`giftcards`} , replace: false})"></i>
     </h1>
     <div class="description">
       <img v-if="product.brand !== undefined" class="product-img" style="display:inline-block;" :src="`/logos/${product.brand}.png`" />
